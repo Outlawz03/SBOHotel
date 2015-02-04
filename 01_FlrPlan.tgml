@@ -2,16 +2,149 @@
 
 <!--[DocumentInformation]
 Created: 2014-07-09 07:45
-Modified: 2015-02-03 10:33
+Modified: 2015-02-04 15:53
 -->
 <?tgml version="1.21"?><Tgml ComponentCounter="109" GridSize="5"
     Height="900.0" LayerCounter="3" Width="1710.0">
+    <Layer Name="Libraries">
+        <Script Name="underscore" OnDocumentLoad="load"><![CDATA[_ = global._;(function() {
+	var root = global;
+	
+	var nativeKeys		= Object.keys;
+		
+	var _ = function(obj) {
+		if(obj instanceof _) return obj;
+   		 if(!(this instanceof _)) return new _(obj);
+		this._wrapped = obj;
+	};
+	
+	root._ = _;
+		
+	_.VERSION = '0.1.0';
+	
+	var createCallback = function(func, context, argCount) {
+	    if (context === void 0) return func;
+	    switch (argCount == null ? 3 : argCount) {
+	    case 1:
+	    	return function(value) {
+	    		return func.call(context, value);
+	    	};
+	    case 2: 
+	    	return function(value, other) {
+	        	return func.call(context, value, other);
+	    	};
+	    case 3: 
+	    	return function(value, index, collection) {
+	        	return func.call(context, value, index, collection);
+	      	};
+	    case 4: 
+	    	return function(accumulator, value, index, collection) {
+	        	return func.call(context, accumulator, value, index, collection);
+	      	};
+	    }
+	    return function() {
+	    	return func.apply(context, arguments);
+	   	};
+	};
+	
+	_.iteratee = function(value, context, argCount) {
+		if(value === null) return _.identity;
+		if(_.isFunction(value)) return createCallback(value, context, argCount);
+		if(_.isObject(value)) return _.matches(value);
+		return _.property(value);
+	};
+	
+	_.each = _.forEach = function(obj, iteratee, context) {
+		if(obj === null) return obj;
+		iteratee = createCallback(iteratee, context);
+		var i, length = obj.length;
+		if(length === +length) {
+			if(obj.item === undefined) {
+				for(i = 0; i < length; i += 1) {
+					iteratee(obj[i], i, obj);
+				}
+			} else {
+				for(i = 0; i < length; i += 1) {
+					iteratee(obj.item(i), i, obj);
+				}
+			}
+		} else {
+			var keys = _.keys(obj);
+			for(i = 0, length = keys.length; i < length; i += 1) {
+				iteratee(obj[keys[i]], keys[i], obj);
+			}
+		}
+		return obj;
+	};
+	
+	_.map = _.collect = function(obj, iteratee, context) {
+		if(obj === null) return [];
+		iteratee = _.iteratee(iteratee, context);
+		var keys = obj.length !== +obj.length && _.keys(obj),
+			length = (keys || obj).length,
+			results = Array(length),
+			currentKey;
+		for(var index = 0; index < length; index++) {
+			currentKey = keys ? keys[index] : index;
+			if(obj.item === undefined) {
+				results[index] = iteratee(obj[currentKey], currentKey, obj);
+			} else {
+				results[index] = iteratee(obj.item(currentKey), currentKey, obj);
+			}
+		}
+		return results;
+	};
+	
+	_.object = function(list, values) {
+		if(list === null) return {};
+		var result = {};
+		for(var i = 0, length = list.length; i < length; i += 1) {
+			if(values) {
+				result[list[i]] = values[i];
+			} else {
+				result[list[i][0]] = list[i][1];
+			}
+		}
+		return result;
+	};	
+	
+	_.keys = function(obj) {
+		if(!_.isObject(obj)) return [];
+		if(nativeKeys) return nativeKeys(obj);
+		var keys = [];
+		for(var key in obj) if(_.has(obj, key)) keys.push(key);
+		return keys;
+	};
+
+	_.isObject = function(obj) {
+		var type = typeof obj;
+		return type === 'function' || type === 'object' && !!obj;
+	};
+	
+	_.each(['Arguments', 'Function', 'String', 'Number', 'Date', 'RegExp'], function(name) {
+		_['is' + name] = function(obj) {
+			return toString.call(obj) === '[object ' + name + ']';
+		};
+	});
+	
+	_.has = function(obj, key) {
+		return obj !== null && hasOwnProperty.call(obj, key);
+	};
+	
+}.call(global));
+
+_ = global._;
+
+function load(evt){
+}]]></Script>
+    </Layer>
     <Script Name="GS" OnDocumentLoad="load" OnMouseClick="click"
         OnMouseDown="" OnMouseMove="" OnMouseOut="" OnMouseOver=""
         OnMouseUp="" OnSignalChange="change"><![CDATA[//NameSpace
 global.TGMLAPI = {}
 
 var MYAPI = global.TGMLAPI;
+var _ = global._;
 
 
 /**==========================================================================================
@@ -59,15 +192,15 @@ var Main = {
 		this.dm.init(display);
 		
 		// Create Bind Manager
-		this.bm = Object.create(MYAPI.BindManager);
-		this.bm.init(binds);				
+//		this.bm = Object.create(MYAPI.BindManager);
+//		this.bm.init(binds);				
 	},
 	
 	// change event handler
 	change: function(e) {
 		e.preventDefault();
 		this.dm.update(e);
-		this.bm.update(e);		
+//		this.bm.update(e);		
 	},
 	
 	// mouse click event handler
@@ -93,11 +226,8 @@ MYAPI.DisplayManager = {
 		this.activeContainer = 0;	
 		
 		var containerList = rcView.getChildNodes();
-		for(var i = 0, max = containerList.length; i < max; i += 1) {
-			var child = containerList.item(i);
-			this.containers.push(Object.create(MYAPI.Container));
-			this.containers[i].init(child);
-		}
+		this.containers = _.map(containerList, function(){return Object.create(MYAPI.Container);});
+		_.each(this.containers, function(node, index){node.init(containerList.item(index));});
 		
 		this.lower = node.getChild("Lower");
 		this.higher = node.getChild("Higher");
@@ -121,7 +251,7 @@ MYAPI.DisplayManager = {
 		if(RCName.slice(0,2) === "RC") {
 			// check if the RC exists
 			var rcNum = +RCName.slice(-2);
-			if(!this.rcs.hasOwnProperty(RCName)) {
+			if(!_.has(this.rcs, rcNum)) {
 				this.rcs[rcNum] = Object.create(MYAPI.RCObject);					
 				this.rcs[rcNum].init({	model: this.template, 
 										num: rcNum,
@@ -189,12 +319,27 @@ MYAPI.RCObject = {
 		this.node.setAttribute("Top", cellTop + (rowHeight - height) / 2);
 		this.node.setAttribute("Left", cellLeft + (colWidth - width) / 2);
 		
-		// Room Title initial
-		this.rmName = Object.create(MYAPI.Text);
-		this.rmName.init(this.node.getChildByName("Room"));
-		this.rmName.setContent("RC" + props.num);
+		this.widgets = {};
+		var children = this.node.getChildNodes();
+		for(var i = 0, max = children.length; i < max; i += 1) {
+			var child = children.item(i);
+			if(child.hasAttribute("Model")) {
+				var model = String(child.getAttribute("Model")),
+					ctrl = String(child.getAttribute("Ctrl"));
+				this.widgets[model] = Object.create(eval("MYAPI." + ctrl));
+				this.widgets[model].init(child);
+			}
+		}
 	},
 	update: function(e) {
+		var name = String(e.getTarget().getAttribute("Name"));		
+		if(_.has(this.widgets, name)) {
+			this.widgets[name].update(e);
+		}
+		
+		this.widgets["Setpoint"].update(e);
+		this.widgets["Occupancy"].update(e);
+		this.widgets["Header"].update(e);
 	}	
 };
 
@@ -256,32 +401,157 @@ MYAPI.BindManager = {
 };
 
 /**==========================================================================================
+ * SptCtrl Object
+ */
+MYAPI.SptCtrl = {
+	init: function(node) {
+		this.node = node;
+		this.values = {
+			"EffectiveOcc"			: {value: 0, units: null},
+			"SystemMode"			: {value: 0, units: null},
+			"PICoolDemand"			: {value: 0, units: null},
+			"PIHeatDemand"			: {value: 0, units: null},
+			"UnoccCoolSetpoint"		: {value: 0, units: null},
+			"UnoccHeatSetpoint"		: {value: 0, units: null},
+			"StandbyCoolSetpoint"	: {value: 0, units: null},
+			"StandbyHeatSetpoint"	: {value: 0, units: null},
+			"OccCoolSetpoint"		: {value: 0, units: null},
+			"OccHeatSetpoint"		: {value: 0, units: null}
+		};
+
+		this.txt = Object.create(MYAPI.Text);
+		this.txt.init(this.node);
+	},
+	update: function(e) {
+		var name = String(e.getTarget().getAttribute("Name"));
+		if(_.has(this.values, name)) {		
+			this.values[name].value = +e.getValue();
+			this.values[name].units = String(e.getUnit());
+		
+			var content = "";
+			switch(this.values["EffectiveOcc"].value) {
+			case 1:
+			case 3:
+				if(this.values["PIHeatDemand"].value > 0 || this.values["SystemMode"].value === 4) {
+					content = this.values["OccHeatSetpoint"].value.toFixed(1) + " " + this.values["OccHeatSetpoint"].units;
+				} else {
+					content = this.values["OccCoolSetpoint"].value.toFixed(1) + " " + this.values["OccCoolSetpoint"].units;
+				}
+				break;
+			case 2:
+				if(this.values["PIHeatDemand"].value > 0  || this.values["SystemMode"].value === 4) {
+					content = this.values["UnoccHeatSetpoint"].value.toFixed(1) + " " + this.values["UnoccHeatSetpoint"].units;
+				} else {
+					content = this.values["UnoccCoolSetpoint"].value.toFixed(1) + " " + this.values["UnoccCoolSetpoint"].units;
+				}
+				break;
+			case 4:
+				if(this.values["PIHeatDemand"].value > 0  || this.values["SystemMode"].value === 4) {
+					content = this.values["StandbyHeatSetpoint"].value.toFixed(1) + " " + this.values["StandbyHeatSetpoint"].units;
+				} else {
+					content = this.values["StandbyCoolSetpoint"].value.toFixed(1) + " " + this.values["StandbyCoolSetpoint"].units;
+				}
+				break;
+			default:
+				content = "---°F";
+			}
+	
+			this.txt.setContent(content);
+		}
+	}
+};
+
+/**==========================================================================================
+ * OccCtrl Object
+ */
+MYAPI.OccCtrl = {
+	init: function(node) {
+		this.node = node;
+		this.values = {
+			"LowBattAlarm"	: 0,
+			"EffectiveOcc"	: 0,
+			"OccCommand"	: 0,
+		};
+		
+		this.fills = ["#FFD100", "#339999", "#87D300", "#4FA600", "#42B4E6"];
+		this.strokes = ["#404040", "#FFFFFF", "#404040", "#FFFFFF", "#FFFFFF"];
+		this.contents = ["Low Battery", "Rented/Occupied", "Unrented/Unoccupied", "Unrented/Occupied", "Rented/Unoccupied"];
+
+		this.bgd = Object.create(MYAPI.Rectangle);
+		this.bgd.init(this.node.getChildByName("background"));
+		
+		this.fgd = Object.create(MYAPI.Rectangle);
+		this.fgd.init(this.node.getChildByName("innerline"));
+		
+		this.txt = Object.create(MYAPI.Text);
+		this.txt.init(this.node.getChildByName("Text"));		
+	},
+	update: function(e) {
+		var name = String(e.getTarget().getAttribute("Name"));
+		if(_.has(this.values, name)) {		
+			this.values[name] = +e.getValue();
+		
+			var content = "";
+			var fill = "#404040";
+			var stroke = "#FFFFFF";
+			if(this.values["LowBattAlarm"] === 1) {
+				fill = this.fills[0];
+				content = this.contents[0];
+				stroke = this.strokes[0];
+			} else {
+				fill = this.fills[this.values["EffectiveOcc"]];
+				content = this.contents[this.values["EffectiveOcc"]];
+				stroke = this.strokes[this.values["EffectiveOcc"]];
+			}
+	
+			this.txt.setContent(content);
+			this.txt.setStroke(stroke);
+			this.bgd.setFill(fill);
+			this.fgd.setFill(fill);
+		}
+	}
+};
+
+/**==========================================================================================
+ * Header Object
+ */
+MYAPI.HeaderCtrl = {
+	init: function(node) {
+		this.values = {
+			"LowBattAlarm"	: 0,
+			"EffectiveOcc"	: 0,
+			"OccCommand"	: 0,
+		};
+		
+		this.fills = ["#FFD100", "#339999", "#87D300", "#4FA600", "#42B4E6"];
+		
+		this.bgd = Object.create(MYAPI.Rectangle);
+		this.bgd.init(node);		
+	},
+	update: function(e) {
+		var name = String(e.getTarget().getAttribute("Name"));
+		if(_.has(this.values, name)) {		
+			this.values[name] = +e.getValue();
+		
+			var fill = "#404040";
+			if(this.values["LowBattAlarm"] === 1) {
+				fill = this.fills[0];
+			} else {
+				fill = this.fills[this.values["EffectiveOcc"]];
+			}
+			this.bgd.setFill(fill);
+		}
+	}
+};
+
+/**==========================================================================================
  * SE8 Manager Object
  */
 MYAPI.SE8Manager = {
 	binds: {},
 	init: function(node) {
-		var bindList = node.getElementsByTagName("Bind");
-		for(var i = 0, max = bindList.length; i < max; i += 1) {
-			var bind = bindList.item(i),
-				name = String(bind.getAttribute("Name")),
-				parentName = String(bind.getParentNode().getAttribute("Name"));
-			
-			if(!this.binds.hasOwnProperty(parentName)) {
-				this.binds[parentName] = {};
-			}
-			this.binds[parentName][name] = Object.create(MYAPI.Bind);
-			this.binds[parentName][name].init(bind);
-		}
-	},
-	
+	},	
 	update: function(e) {
-		var bind = e.getTarget(),
-			parentName = String(bind.getParentNode().getAttribute("Name")),
-			name = String(bind.getAttribute("Name")),
-			value = e.getValue();
-		
-		this.binds[parentName][name].value = value;
 	}
 };
 
@@ -289,29 +559,9 @@ MYAPI.SE8Manager = {
  * Status Manager Object
  */
 MYAPI.StatusManager = {
-	binds: {},
 	init: function(node) {
-		var bindList = node.getElementsByTagName("Bind");
-		for(var i = 0, max = bindList.length; i < max; i += 1) {
-			var bind = bindList.item(i),
-				name = String(bind.getAttribute("Name")),
-				parentName = String(bind.getParentNode().getAttribute("Name"));
-			
-			if(!this.binds.hasOwnProperty(parentName)) {
-				this.binds[parentName] = {};
-			}
-			this.binds[parentName][name] = Object.create(MYAPI.Bind);
-			this.binds[parentName][name].init(bind);
-		}
-	},
-	
+	},	
 	update: function(e) {
-		var bind = e.getTarget(),
-			parentName = String(bind.getParentNode().getAttribute("Name")),
-			name = String(bind.getAttribute("Name")),
-			value = e.getValue();
-		
-		this.binds[parentName][name].value = value;
 	}
 };
 
@@ -382,156 +632,143 @@ MYAPI.Bind = {
  */
 MYAPI.Text = {
 	init: function(node) {
-		this.content = "---";
 		this.node = node;		
 	},
 	setContent: function(s) {
-		this.content = String(s);
 		if(this.node) {
-			this.node.setAttribute("Content", this.content);
+			this.node.setAttribute("Content", s);
+		}
+	},
+	setStroke: function(s) {
+		if(this.node) {
+			this.node.setAttribute("Stroke", s);
+		}
+	},
+	setVisibility: function(b) {
+		if(this.node) {
+			this.node.setAttribute("Visibility", b ? "Visible" : "Hidden");
 		}
 	}
 };
 
 /**==========================================================================================
- * TextBox Object
+ * Rectangle Object
  */
-MYAPI.TextBox = {
+MYAPI.Rectangle = {
 	init: function(node) {
-		this.content = "---";
 		this.node = node;		
 	},
-	update: function(val) {
-		this.content = val;
-		this.render();
-	},
-	render: function() {
-		if(this.node) {		
-			this.node.setAttribute("Content", this.content);
-		}
-	}
-};
-
-/**==========================================================================================
- * Filter Object
- */
-var Filter = {
-	init: function(node) {
-		this.txtValue = node.getChild("Value");
-		this.value = 0;
-		
-		this.fill = node.getChild("Background").getAttribute("Fill");
-		this.title = node.getChild("Title").getAttribute("Content");		
-		
-		this.render();
-	},
-	click: function() {
-	},
-	update: function(val) {
-		this.value = val;
-		this.render();
-	},
-	render: function() {
-		this.txtValue.setAttribute("Content",this.value);
-	}
-};
-
-/**==========================================================================================
- * RC Object
- */
-var RC = {
-	init: function(node, rcbinds, index) {
-		this.node = node;
-		this.height = +this.node.getAttribute("Height");
-		this.width = +this.node.getAttribute("Width");
-		this.node.setAttribute("Top", Math.floor(index / 4) * (this.height + 10));
-		this.node.setAttribute("Left", (index % 4) * (this.width + 10));
-		this.active = false;
-		
-		var bindList = rcbinds.getElementsByTagName("Bind");
-		this.keys = [];
-		this.binds = {};
-		for(var i = 0, l = bindList.length; i < l; i++) {
-			var child = bindList.item(i);
-			var name = String(child.getAttribute("Name"));
-			this.keys.push(name);
-			this.binds[name] = Object.construct(global.TGMLAPI.Bind, child);
-		}
-		
-		this.header = this.node.getChildByName("Header");
-		this.status = this.node.getChildByName("Status");
-		this.room = this.node.getChildByName("Room");
-		
-		this.rmTmp = this.node.getChildByName("RmTmp");
-		this.rmTmpSpt = this.node.getChildByName("RmTmpSpt");
-		
-		this.fill = "#9FA0A4";
-		this.rmStatus = "undefined";
-		
-		this.render();
-	},
-	activate: function() {
-		this.active = true;	
-		this.render();	
-	},
-	deactivate: function() {
-		this.active = false;
-		this.render();
-	},
-	update: function(props) {
-		if(this.header) {
-			this.header.setAttribute("Fill", props.hasOwnProperty("fill") ? props.fill : this.fill);
-		}
-		if(this.status) {
-			this.status.setAttribute("Content", props.hasOwnProperty("status") ? props.status : this.rmStatus);
-		}		
-		if(this.room && !global.TGMLAPI.isUndefined(this.binds["NOTE1"].value)) {
-			this.room.setAttribute("Content", String(this.binds["NOTE1"].value) === "" ? "Click Here" : this.binds["NOTE1"].value);
-		}
-		if(this.rmTmp && !global.TGMLAPI.isUndefined(this.binds["RmTmp"].value)) {
-			this.rmTmp.setAttribute("Content", this.binds["RmTmp"].value + " °F");
-		}
-		if(this.rmTmpSpt && !global.TGMLAPI.isUndefined(this.binds["RmTmpSpt"].value)) {
-			this.rmTmpSpt.setAttribute("Content", this.binds["RmTmpSpt"].value + " °F");
-		}
-		
-	},
-	render: function() {
+	setFill: function(s) {
 		if(this.node) {
-			this.node.setAttribute("Visibility", this.active ? "Visible" : "Hidden");
+			this.node.setAttribute("Fill", s);
 		}
 	}
 };
 
 /**==========================================================================================
- * SE8000 Object
+ * Pie Object
  */
-var SE8000 = {
+MYAPI.Pie = {
 	init: function(node) {
-		this.rmTmp = node.getChildByName("RmTmp");
-		this.rmTmpSpt = node.getChildByName("RmTmpSpt");
-		this.rmName = node.getChildByName("RmName");
-		this.rmOcc = node.getChildByName("RmOcc");
-		this.heating = node.getChildByName("Heating");
-		this.cooling = node.getChildByName("Cooling");
-		this.fan = node.getChildByName("Fan");
-		this.rmUnit = node.getChildByName("RmUnit");
-		this.oaHum = node.getChildByName("OaHum");
-		this.oaTmp = node.getChildByName("OaTmp");
-		
-		this.name = "";
+		this.node = node;		
 	},
-	update: function(rc) {
-		this.name = rc.rmNode;
-		if(this.rmTmp) {
-			this.rmTmp.setAttribute("Content", rc.hasOwnProperty("rmTmp") ? rc.rmTmp + "°" : "--.-°"); 
+	setFill: function(s) {
+		if(this.node) {
+			this.node.setAttribute("Fill", s);
 		}
-		if(this.rmTmpSpt) {
-			this.rmTmpSpt.setAttribute("Content", rc.hasOwnProperty("rmTmpSpt") ? rc.rmTmpSpt : "--.-"); 
+	}
+};
+
+/**==========================================================================================
+ * Component Object
+ */
+MYAPI.Component = {
+	init: function(node) {
+		this.node = node;		
+	},
+	setVisibility: function(b) {
+		if(this.node) {
+			this.node.setAttribute("Visibility", b ? "Visible" : "Hidden");
 		}
-		if(this.rmName) {
-			this.rmName.setAttribute("Content", rc.hasOwnProperty("rmName") ? rc.rmName : "Room Name"); 
+	}
+};
+
+/**==========================================================================================
+ * Simple Analog Value Object
+ */
+MYAPI.AnalogValue = {
+	init: function(node) {
+		this.node = node;
+				
+		this.decimals = 1;
+		if(this.node.hasAttribute("Decimals")) {
+			this.decimals = +this.node.getAttribute("Decimals");
 		}
+	},
+	
+	update: function(e) {
+		var value = +e.getValue();
+		var unit = e.getUnit();
+		
+		this.node.setAttribute("Content", value.toFixed(this.decimals) + " " + unit);
+	}
+};
+
+/**==========================================================================================
+ * System Mode Control
+ */
+MYAPI.SystemModeCtrl = {
+	init: function(node) {
+		var children = node.getChildNodes();
+		this.icons = _.map(children, function(){return Object.create(MYAPI.Component);});
+		_.each(this.icons, function(obj, i){obj.init(children.item(i));});
+	},
+	
+	update: function(e) {
+		var value = +e.getValue();
+		_.each(this.icons, function(obj, i){obj.setVisibility(false);});
+		this.icons[value - 1].setVisibility(true);
+	}
+};
+
+/**==========================================================================================
+ * Fan Mode Control
+ */
+MYAPI.FanModeCtrl = {
+	init: function(node) {
+		this.txt = Object.create(MYAPI.Text);
+		this.txt.init(node.getChild("autoTxt"));
+		var children = node.getChild("Speeds").getChildNodes();
+		
+		this.spds = _.map(children, function(){return Object.create(MYAPI.Pie);});
+		_.each(this.spds, function(obj, i){obj.init(children.item(i));});
+	},
+	
+	update: function(e) {
+		var value = +e.getValue();
+		
+		_.each(this.spds, function(node, i){node.setFill(value > i ? "#626469" : "#9FA0A4");});
+		
+		this.txt.setVisibility(value > 3 ? true : false);
+		this.txt.setContent(value === 5 ? "On" : "Auto");
+	}
+};
+
+/**==========================================================================================
+ * NOTE1 Control
+ */
+MYAPI.NOTE1Ctrl = {
+	init: function(node) {
+		this.txt = Object.create(MYAPI.Text);
+		this.txt.init(node);
+	},
+	
+	update: function(e) {
+		var content = String(e.getValue());
+		if(content === "") {
+			content = "Click Here";
+		}
+		this.txt.setContent(content);
 	}
 };
 
@@ -622,52 +859,203 @@ function click(evt) {
         <Component Clip="False" ContentHeight="200.0"
             ContentWidth="330.0" Height="110.0" Left="10.0"
             Name="RoomController" Top="270.0" Visibility="Hidden" Width="181.5">
-            <Rectangle Fill="#F0F0F0" Height="200.0" Left="0"
+            <Rectangle Ctrl="HeaderCtrl" Fill="#C0C0C0" Height="200.0"
+                Left="0.0" Model="Header" Name="Header" RadiusX="15"
+                RadiusY="15" Stroke="#9FA0A4" StrokeDashArray="0.0"
+                StrokeWidth="1.0" Top="0.0" Width="330.0005593234304">
+                <Expose ExposedAttribute="Fill" Name="BackingColour"/>
+            </Rectangle>
+            <Rectangle Fill="#F0F0F0" Height="190.0" Left="65.0"
                 RadiusX="15" RadiusY="15" Stroke="#9FA0A4"
-                StrokeDashArray="0.0" StrokeWidth="1.0" Top="0" Width="330.0">
+                StrokeDashArray="0.0" StrokeWidth="1.0" Top="5.0"
+                Visibility="Visible" Width="260.0">
                 <LinearGradient EndPoint="0.0,1.0">
                     <GradientStop Color="#F0F0F0" Offset="0"/>
                     <GradientStop Color="#E0E0E0" Offset="1"/>
                 </LinearGradient>
             </Rectangle>
-            <Rectangle Fill="#C0C0C0" Height="110.0" Left="0.0"
-                Name="Header" RadiusX="15" RadiusY="15" Stroke="#9FA0A4"
-                StrokeDashArray="0.0" StrokeWidth="1.0" Top="0.0" Width="330.00053580291535">
-                <Expose ExposedAttribute="Fill" Name="BackingColour"/>
-            </Rectangle>
-            <Text FontFamily="Arial" FontSize="50" FontStyle="Normal"
-                FontWeight="Bold" HorizontalAlign="Center" Left="165.0"
-                Name="Room" Stroke="#FFFFFF" TextDecoration="None"
-                Top="32.92997900799293"
-                    VerticalAlign="Middle"><![CDATA[RC1]]><Expose
-                    ExposedAttribute="Content" Name="RoomName"/>
+            <Text Ctrl="SptCtrl" FontFamily="Arial" FontSize="60"
+                FontStyle="Normal" FontWeight="Normal"
+                HorizontalAlign="Left" Id="" Left="83.99841594696045"
+                Model="Setpoint" Name="Setpoint" Opacity="1.0"
+                Stroke="#626469" TextDecoration="None" Top="84.0" VerticalAlign="Top"><![CDATA[--.-]]></Text>
+            <Text Ctrl="AnalogValue" FontFamily="Arial" FontSize="28"
+                FontStyle="Normal" FontWeight="Normal"
+                HorizontalAlign="Left" Id="" Left="88.99841594696045"
+                Model="RoomTemp" Name="RoomTemp" Opacity="1.0"
+                Stroke="#626469" TextDecoration="None"
+                Top="149.0968837738037" VerticalAlign="Top"><![CDATA[--.- °]]></Text>
+            <Text FontFamily="Arial" FontSize="16.0" FontStyle="Normal"
+                FontWeight="Normal" HorizontalAlign="Left"
+                Left="203.99841594696045" Opacity="1.0" Stroke="#626469"
+                TextDecoration="None" Top="159.0968837738037" VerticalAlign="Top"><![CDATA[Indoor Temp]]></Text>
+            <Text FontFamily="Arial" FontSize="20" FontStyle="Normal"
+                FontWeight="Normal" HorizontalAlign="Left"
+                Left="91.99841594696045" Opacity="1.0" Stroke="#626469"
+                TextDecoration="None" Top="53.09688377380371" VerticalAlign="Top"><![CDATA[Setpoint]]></Text>
+            <Component Clip="False" ContentHeight="30.0"
+                ContentWidth="225.0" Ctrl="OccCtrl" EffectiveOcc="0"
+                Height="30.0" Id="RentedOccupied"
+                Left="81.99841594696045" LowBattAlarm="0"
+                Model="Occupancy" OccCommand="0"
+                Top="10.096883773803711" Width="225.0">
+                <Rectangle Fill="#4FA600" Height="30.0" Left="0.0"
+                    Name="background" RadiusX="5" RadiusY="5"
+                    Stroke="#626469" StrokeDashArray="0.0"
+                    StrokeWidth="1.0" Top="0.0" Width="225.0"/>
+                <Rectangle Fill="None" Height="30.0" Left="0.0" Name=""
+                    RadiusX="5" RadiusY="5" Stroke="#626469"
+                    StrokeDashArray="0.0" StrokeWidth="1.0" Top="0.0" Width="225.0">
+                    <LinearGradient EndPoint="0,1">
+                        <GradientStop Color="#70FFFFFF" Name="Stop1" Offset="0"/>
+                        <GradientStop Color="None" Offset=".35"/>
+                        <GradientStop Color="None" Offset=".65"/>
+                        <GradientStop Color="#30000000" Name="Stop2" Offset="1.0"/>
+                    </LinearGradient>
+                </Rectangle>
+                <Rectangle Fill="None" Height="28.0" Left="1.0"
+                    Name="innerline" RadiusX="4" RadiusY="4"
+                    Stroke="#FFFFFF" StrokeDashArray="0.0"
+                    StrokeWidth=".8" Top="1.0" Width="223.0"/>
+                <TextBox FontFamily="Arial" FontSize="15"
+                    FontStyle="Normal" FontWeight="Normal" Height="30.0"
+                    HorizontalAlign="Center" Left="0.0" Name="Text"
+                    Opacity="1.0" Stroke="#FFFFFF" TextDecoration="None"
+                    Top="0.0" VerticalAlign="Middle" Width="225.0"><![CDATA[...]]></TextBox>
+            </Component>
+            <Component Clip="False" ContentHeight="40" ContentWidth="40"
+                Ctrl="SystemModeCtrl" Height="40.0" Id="SystemMode"
+                Left="230.0" Model="SystemMode" Top="50.0" Width="40.0">
+                <Component Clip="False" ContentHeight="50"
+                    ContentWidth="50" Height="40" Left="0.0" Name="Off"
+                    Top="0.0" Visibility="Hidden" Width="40">
+                    <Component Clip="False" ContentHeight="50"
+                        ContentWidth="50" GridSize="10" Height="25.0"
+                        Left="21.0" Name="Cooling_Icon_Green_461"
+                        Top="3.0" Width="25.0">
+                        <Path Fill="#C0C0C0"
+                            PathData="M41.939999,27.869003199999995 c-0.17900000000000205,-0.5849999980000007 -0.7999999989999935,-0.9149999990000026 -1.3839999799999987,-0.7359999990000006 l-5.647999970000001,1.7280000399999977 -7.334000000000003,-3.899999980000004 6.1839999999999975,-4.3289999999999935 6.206999999999994,1.094000010000002 c0.6740000019999997,0.11900000299999647 1.3180000199999995,-0.3319999990000042 1.438000009999996,-1.007999979999994 0.013000000100007014,-0.07299999970000215 0.020000000099997806,-0.14499999699999933 0.020000000099997806,-0.21699999700000205 0.0,-0.590999999999994 -0.42499999999999716,-1.1149999999999949 -1.0259999999999962,-1.2210000000000036 0.0,0.0 -2.024000000000001,-0.3569999989999957 -3.760999979999994,-0.6629999989999931 l2.5220000099999993,-1.7669999700000005 c0.5620000029999943,-0.39400000000000546 0.6990000029999948,-1.1669999899999937 0.3060000029999941,-1.7289999700000038 s-1.1680000000000064,-0.6979999980000002 -1.7289999999999992,-0.3050000000000068 l-2.5129999899999973,1.7590000299999957 c0.3060000029999941,-1.7319999900000056 0.6599999999999966,-3.7420000000000044 0.6599999999999966,-3.7420000000000044 0.014000000099997578,-0.07299999980000393 0.020000000099997806,-0.14499999800000296 0.020000000099997806,-0.21699999700000205 0.0,-0.590999999999994 -0.42399999900000296,-1.1149999999999949 -1.0249999899999978,-1.2219999800000068 -0.6769999990000031,-0.11899999899999614 -1.3199999899999995,0.33200000099999727 -1.4389999899999992,1.0080000100000035 l-1.091999990000005,6.188000000000002 -5.813999989999999,4.072000029999998 0.0,-7.068999989999995 4.481999999999999,-4.481999990000006 c0.4850000029999961,-0.48599999900000057 0.4850000029999961,-1.271999969999996 0.0,-1.757000000000005 -0.48399999900000523,-0.4849999989999958 -1.2709999799999991,-0.4849999989999958 -1.7560000000000002,0.0 0.0,0.0 -1.474999969999999,1.475000019999996 -2.726999989999996,2.7280000399999977 l0.0,-3.191999999999993 c0.0,-0.6859999960000067 -0.5569999970000055,-1.2419999899999965 -1.2419999800000028,-1.2419999899999965 s-1.2419999899999965,0.5559999999999974 -1.2419999899999965,1.242000020000006 l0.0,3.1230000099999984 c-1.2359999800000026,-1.2369999999999948 -2.6579999799999996,-2.6589999600000027 -2.6579999799999996,-2.6589999600000027 -0.4849999989999958,-0.48499999999999943 -1.2709999899999929,-0.48499999999999943 -1.7560000000000002,0.0 -0.4849999989999958,0.4850000020000067 -0.4849999989999958,1.2710000200000025 0.0,1.757000039999994 l4.414000009999995,4.415000019999994 0.0,7.560000029999998 -7.237999979999998,-3.8489999600000004 -1.8479999900000053,-6.043000000000006 c-0.20099999800000035,-0.6559999990000023 -0.8949999990000066,-1.0259999900000025 -1.5509999800000003,-0.8249999970000061 -0.534999998999993,0.1630000029999934 -0.8789999990000013,0.6560000009999953 -0.8789999990000013,1.187000040000001 0.0,0.12000000099999397 0.01800000020000425,0.242999999999995 0.055000000099994395,0.3640000000000043 0.0,0.0 0.6050000009999934,1.9789999999999992 1.1210000199999968,3.6680000399999955 l-2.192999990000004,-1.16699998 c-0.6059999990000051,-0.32200000000000273 -1.358000000000004,-0.09199999979999518 -1.6809999900000037,0.5140000009999994 -0.3209999989999943,0.605000001999997 -0.09199999989999696,1.357000009999993 0.5150000010000042,1.679000000000002 l2.1599999999999966,1.1480000199999978 c-1.679000000000002,0.5130000009999947 -3.616999980000003,1.1050000299999994 -3.616999980000003,1.1050000299999994 -0.5339999990000024,0.1640000010000051 -0.8789999990000013,0.6560000009999953 -0.8789999990000013,1.1880000000000024 0.0,0.12000000199999761 0.01800000020000425,0.24200000300000113 0.055000000099994395,0.36299999999999955 0.20100000099999704,0.656000001999999 0.8950000009999997,1.0250000099999994 1.5510000099999957,0.8250000010000065 l5.991000009999993,-1.8319999600000045 7.2240000099999975,3.8410000399999973 -6.569999980000006,4.600000010000002 -6.216999990000005,-1.0959999899999957 c-0.6759999970000052,-0.11899999899999614 -1.3199999800000057,0.33199999999999363 -1.4379999800000007,1.007000039999994 -0.01300000000000523,0.07299999999999329 -0.019000000000005457,0.14600000199999386 -0.019000000000005457,0.21699999999999875 0.0,0.5919999999999987 0.424000000999996,1.1159999999999997 1.025000030000001,1.2219999999999942 0.0,0.0 2.033000009999995,0.35700000399999965 3.7710000099999945,0.6650000019999993 l-2.0449999899999938,1.4309999999999974 c-0.5609999990000034,0.3930000010000043 -0.6970000000000027,1.1670000099999953 -0.3049999990000032,1.729000009999993 0.39500000099999966,0.5620000020000049 1.1680000199999938,0.6979999999999933 1.7300000099999977,0.30500000099999625 l2.020000010000004,-1.413999970000006 c-0.30400000000000205,1.7289999999999992 -0.6559999990000023,3.7309999999999945 -0.6559999990000023,3.7309999999999945 -0.013999999999995794,0.07300000009999508 -0.020999999799997227,0.14500000099999966 -0.020999999799997227,0.21699999999999875 0.0,0.5910000009999976 0.42400000199999965,1.1150000300000045 1.026000019999998,1.221000029999999 0.6760000010000056,0.11900000299999647 1.3190000099999963,-0.3319999980000006 1.4390000100000009,-1.006999989999997 l1.0889999999999986,-6.1769999999999925 6.384000009999994,-4.4719999799999925 0.0,7.611000009999998 -4.4699999700000035,4.469000010000002 c-0.4849999989999958,0.4850000020000067 -0.4849999989999958,1.2720000000000056 0.0,1.757000039999994 s1.2710000099999945,0.4850000020000067 1.7560000299999956,0.0 c0.0,0.0 1.4660000199999956,-1.4649999899999955 2.7139999999999986,-2.7139999700000033 l0.0,2.5559999999999974 c0.0,0.6860000009999965 0.5570000010000058,1.2420000299999998 1.2420000099999982,1.2420000299999998 s1.2420000000000044,-0.5559999980000043 1.2420000000000044,-1.2419999899999965 l0.0,-2.514999970000005 c1.2400000199999965,1.2400000300000045 2.672000010000005,2.673000029999997 2.672000010000005,2.673000029999997 0.4850000020000067,0.4850000020000067 1.2710000099999945,0.4850000020000067 1.7580000199999972,0.0 0.4840000009999983,-0.48499999999999943 0.4840000009999983,-1.271999969999996 0.0,-1.757000000000005 l-4.430000000000007,-4.42899998 0.0,-7.864999999999995 6.8960000099999945,3.6680000399999955 1.875,6.132000039999994 c0.18000000199999988,0.5850000009999974 0.7990000019999997,0.9159999999999968 1.3850000099999988,0.7360000000000042 0.4770000009999933,-0.14599999899999716 0.7849999999999966,-0.5849999980000007 0.7849999999999966,-1.0600000000000023 0.0,-0.10699999899999568 -0.016999999899994123,-0.21699999700000205 -0.049000000000006594,-0.32399999899999443 0.0,0.0 -0.6929999989999942,-2.264999970000005 -1.2279999999999944,-4.0120000000000005 l2.600999999999999,1.382000039999994 c0.6050000009999934,0.32200000100000636 1.3569999999999993,0.09199999999999875 1.6800000199999943,-0.5129999969999943 0.32200000100000636,-0.6059999990000051 0.09200000020000232,-1.358000000000004 -0.5139999999999958,-1.6800000000000068 l-2.284999979999995,-1.2139999599999953 c1.6540000100000043,-0.5059999970000035 3.5280000099999995,-1.0789999999999935 3.5280000099999995,-1.0789999999999935 0.47800000099999806,-0.1460000000000008 0.7849999999999966,-0.5849999980000007 0.7849999999999966,-1.0599999899999943 C41.98899900000001,28.0860031 41.971999,27.9770032 41.939999,27.869003199999995" Stroke="None">
+                            <Expose ExposedAttribute="Fill" Name="IconSymbolFill"/>
+                        </Path>
+                    </Component>
+                    <Component Clip="False" ContentHeight="50"
+                        ContentWidth="50" GridSize="10" Height="25.0"
+                        Left="3.0" Name="Heating_Icon_Green_462"
+                        Top="21.0" Width="25.0">
+                        <Path Fill="#C0C0C0"
+                            PathData="M41.361,42.378 L8.638,42.378 C7.954,42.378 7.4,41.823 7.4,41.138 C7.4,40.454 7.955,39.9 8.638,39.9 L41.361,39.9 C42.045,39.9 42.599,40.455 42.599,41.138 C42.599,41.823 42.045,42.378 41.361,42.378 M24.536,37.004 C24.354,37.004 24.17,36.963 23.994,36.878 C23.379,36.578 23.123,35.837 23.424,35.221 C26.629,28.643 24.565,24.995 22.379,21.133 C20.381,17.601 18.316,13.948 20.818,8.517 C21.104,7.895 21.839,7.622 22.463,7.91 C23.084,8.196 23.357,8.933 23.069,9.554 C21.097,13.833 22.616,16.516 24.537,19.912 C26.83,23.964 29.428,28.556 25.651,36.308 C25.436,36.748 24.995,37.004 24.536,37.004 M33.443,37.004 C33.261,37.004 33.076,36.963 32.901,36.878 C32.285,36.578 32.03,35.836 32.33,35.221 C35.536,28.642 33.473,24.995 31.287,21.133 C29.289,17.601 27.221,13.95 29.723,8.517 C30.008,7.896 30.745,7.623 31.367,7.91 C31.989,8.196 32.261,8.932 31.975,9.554 C30.004,13.833 31.523,16.516 33.445,19.912 C35.738,23.964 38.337,28.556 34.559,36.308 C34.343,36.748 33.902,37.004 33.443,37.004 M15.628,37.004 C15.445,37.004 15.262,36.963 15.086,36.878 C14.471,36.578 14.215,35.837 14.516,35.221 C17.721,28.641 15.662,24.993 13.483,21.131 C11.492,17.599 9.432,13.947 11.932,8.517 C12.219,7.896 12.954,7.622 13.577,7.91 C14.199,8.196 14.47,8.932 14.184,9.554 C12.213,13.833 13.727,16.516 15.643,19.913 C17.928,23.965 20.52,28.558 16.744,36.308 C16.529,36.748 16.087,37.004 15.628,37.004"
+                            Stroke="None" StrokeDashArray="0.0" StrokeWidth="1.0">
+                            <Expose ExposedAttribute="Fill" Name="IconSymbolFill"/>
+                        </Path>
+                    </Component>
+                    <Arc Center="45.0,5.0" Opacity="1.0" RadiusX="30.0"
+                        RadiusY="30.0" StartAngle="90.0"
+                        Stroke="#C0C0C0" StrokeDashArray="0.0"
+                        StrokeWidth="1.0" SweepAngle="90.0">
+                        <Expose ExposedAttribute="Stroke" Name="IconSymbolFill"/>
+                    </Arc>
+                </Component>
+                <Component Clip="False" ContentHeight="50"
+                    ContentWidth="50" Height="40" Left="0.0" Name="Auto"
+                    Top="0.0" Visibility="Hidden" Width="40">
+                    <Component Clip="False" ContentHeight="50"
+                        ContentWidth="50" GridSize="10" Height="25.0"
+                        Left="21.0" Name="Cooling_Icon_Green_461"
+                        Top="3.0" Width="25.0">
+                        <Path Fill="#808080"
+                            PathData="M41.939999,27.869003199999995 c-0.17900000000000205,-0.5849999980000007 -0.7999999989999935,-0.9149999990000026 -1.3839999799999987,-0.7359999990000006 l-5.647999970000001,1.7280000399999977 -7.334000000000003,-3.899999980000004 6.1839999999999975,-4.3289999999999935 6.206999999999994,1.094000010000002 c0.6740000019999997,0.11900000299999647 1.3180000199999995,-0.3319999990000042 1.438000009999996,-1.007999979999994 0.013000000100007014,-0.07299999970000215 0.020000000099997806,-0.14499999699999933 0.020000000099997806,-0.21699999700000205 0.0,-0.590999999999994 -0.42499999999999716,-1.1149999999999949 -1.0259999999999962,-1.2210000000000036 0.0,0.0 -2.024000000000001,-0.3569999989999957 -3.760999979999994,-0.6629999989999931 l2.5220000099999993,-1.7669999700000005 c0.5620000029999943,-0.39400000000000546 0.6990000029999948,-1.1669999899999937 0.3060000029999941,-1.7289999700000038 s-1.1680000000000064,-0.6979999980000002 -1.7289999999999992,-0.3050000000000068 l-2.5129999899999973,1.7590000299999957 c0.3060000029999941,-1.7319999900000056 0.6599999999999966,-3.7420000000000044 0.6599999999999966,-3.7420000000000044 0.014000000099997578,-0.07299999980000393 0.020000000099997806,-0.14499999800000296 0.020000000099997806,-0.21699999700000205 0.0,-0.590999999999994 -0.42399999900000296,-1.1149999999999949 -1.0249999899999978,-1.2219999800000068 -0.6769999990000031,-0.11899999899999614 -1.3199999899999995,0.33200000099999727 -1.4389999899999992,1.0080000100000035 l-1.091999990000005,6.188000000000002 -5.813999989999999,4.072000029999998 0.0,-7.068999989999995 4.481999999999999,-4.481999990000006 c0.4850000029999961,-0.48599999900000057 0.4850000029999961,-1.271999969999996 0.0,-1.757000000000005 -0.48399999900000523,-0.4849999989999958 -1.2709999799999991,-0.4849999989999958 -1.7560000000000002,0.0 0.0,0.0 -1.474999969999999,1.475000019999996 -2.726999989999996,2.7280000399999977 l0.0,-3.191999999999993 c0.0,-0.6859999960000067 -0.5569999970000055,-1.2419999899999965 -1.2419999800000028,-1.2419999899999965 s-1.2419999899999965,0.5559999999999974 -1.2419999899999965,1.242000020000006 l0.0,3.1230000099999984 c-1.2359999800000026,-1.2369999999999948 -2.6579999799999996,-2.6589999600000027 -2.6579999799999996,-2.6589999600000027 -0.4849999989999958,-0.48499999999999943 -1.2709999899999929,-0.48499999999999943 -1.7560000000000002,0.0 -0.4849999989999958,0.4850000020000067 -0.4849999989999958,1.2710000200000025 0.0,1.757000039999994 l4.414000009999995,4.415000019999994 0.0,7.560000029999998 -7.237999979999998,-3.8489999600000004 -1.8479999900000053,-6.043000000000006 c-0.20099999800000035,-0.6559999990000023 -0.8949999990000066,-1.0259999900000025 -1.5509999800000003,-0.8249999970000061 -0.534999998999993,0.1630000029999934 -0.8789999990000013,0.6560000009999953 -0.8789999990000013,1.187000040000001 0.0,0.12000000099999397 0.01800000020000425,0.242999999999995 0.055000000099994395,0.3640000000000043 0.0,0.0 0.6050000009999934,1.9789999999999992 1.1210000199999968,3.6680000399999955 l-2.192999990000004,-1.16699998 c-0.6059999990000051,-0.32200000000000273 -1.358000000000004,-0.09199999979999518 -1.6809999900000037,0.5140000009999994 -0.3209999989999943,0.605000001999997 -0.09199999989999696,1.357000009999993 0.5150000010000042,1.679000000000002 l2.1599999999999966,1.1480000199999978 c-1.679000000000002,0.5130000009999947 -3.616999980000003,1.1050000299999994 -3.616999980000003,1.1050000299999994 -0.5339999990000024,0.1640000010000051 -0.8789999990000013,0.6560000009999953 -0.8789999990000013,1.1880000000000024 0.0,0.12000000199999761 0.01800000020000425,0.24200000300000113 0.055000000099994395,0.36299999999999955 0.20100000099999704,0.656000001999999 0.8950000009999997,1.0250000099999994 1.5510000099999957,0.8250000010000065 l5.991000009999993,-1.8319999600000045 7.2240000099999975,3.8410000399999973 -6.569999980000006,4.600000010000002 -6.216999990000005,-1.0959999899999957 c-0.6759999970000052,-0.11899999899999614 -1.3199999800000057,0.33199999999999363 -1.4379999800000007,1.007000039999994 -0.01300000000000523,0.07299999999999329 -0.019000000000005457,0.14600000199999386 -0.019000000000005457,0.21699999999999875 0.0,0.5919999999999987 0.424000000999996,1.1159999999999997 1.025000030000001,1.2219999999999942 0.0,0.0 2.033000009999995,0.35700000399999965 3.7710000099999945,0.6650000019999993 l-2.0449999899999938,1.4309999999999974 c-0.5609999990000034,0.3930000010000043 -0.6970000000000027,1.1670000099999953 -0.3049999990000032,1.729000009999993 0.39500000099999966,0.5620000020000049 1.1680000199999938,0.6979999999999933 1.7300000099999977,0.30500000099999625 l2.020000010000004,-1.413999970000006 c-0.30400000000000205,1.7289999999999992 -0.6559999990000023,3.7309999999999945 -0.6559999990000023,3.7309999999999945 -0.013999999999995794,0.07300000009999508 -0.020999999799997227,0.14500000099999966 -0.020999999799997227,0.21699999999999875 0.0,0.5910000009999976 0.42400000199999965,1.1150000300000045 1.026000019999998,1.221000029999999 0.6760000010000056,0.11900000299999647 1.3190000099999963,-0.3319999980000006 1.4390000100000009,-1.006999989999997 l1.0889999999999986,-6.1769999999999925 6.384000009999994,-4.4719999799999925 0.0,7.611000009999998 -4.4699999700000035,4.469000010000002 c-0.4849999989999958,0.4850000020000067 -0.4849999989999958,1.2720000000000056 0.0,1.757000039999994 s1.2710000099999945,0.4850000020000067 1.7560000299999956,0.0 c0.0,0.0 1.4660000199999956,-1.4649999899999955 2.7139999999999986,-2.7139999700000033 l0.0,2.5559999999999974 c0.0,0.6860000009999965 0.5570000010000058,1.2420000299999998 1.2420000099999982,1.2420000299999998 s1.2420000000000044,-0.5559999980000043 1.2420000000000044,-1.2419999899999965 l0.0,-2.514999970000005 c1.2400000199999965,1.2400000300000045 2.672000010000005,2.673000029999997 2.672000010000005,2.673000029999997 0.4850000020000067,0.4850000020000067 1.2710000099999945,0.4850000020000067 1.7580000199999972,0.0 0.4840000009999983,-0.48499999999999943 0.4840000009999983,-1.271999969999996 0.0,-1.757000000000005 l-4.430000000000007,-4.42899998 0.0,-7.864999999999995 6.8960000099999945,3.6680000399999955 1.875,6.132000039999994 c0.18000000199999988,0.5850000009999974 0.7990000019999997,0.9159999999999968 1.3850000099999988,0.7360000000000042 0.4770000009999933,-0.14599999899999716 0.7849999999999966,-0.5849999980000007 0.7849999999999966,-1.0600000000000023 0.0,-0.10699999899999568 -0.016999999899994123,-0.21699999700000205 -0.049000000000006594,-0.32399999899999443 0.0,0.0 -0.6929999989999942,-2.264999970000005 -1.2279999999999944,-4.0120000000000005 l2.600999999999999,1.382000039999994 c0.6050000009999934,0.32200000100000636 1.3569999999999993,0.09199999999999875 1.6800000199999943,-0.5129999969999943 0.32200000100000636,-0.6059999990000051 0.09200000020000232,-1.358000000000004 -0.5139999999999958,-1.6800000000000068 l-2.284999979999995,-1.2139999599999953 c1.6540000100000043,-0.5059999970000035 3.5280000099999995,-1.0789999999999935 3.5280000099999995,-1.0789999999999935 0.47800000099999806,-0.1460000000000008 0.7849999999999966,-0.5849999980000007 0.7849999999999966,-1.0599999899999943 C41.98899900000001,28.0860031 41.971999,27.9770032 41.939999,27.869003199999995" Stroke="None">
+                            <Expose ExposedAttribute="Fill" Name="IconSymbolFill"/>
+                        </Path>
+                    </Component>
+                    <Component Clip="False" ContentHeight="50"
+                        ContentWidth="50" GridSize="10" Height="25.0"
+                        Left="3.0" Name="Heating_Icon_Green_462"
+                        Top="21.0" Width="25.0">
+                        <Path Fill="#808080"
+                            PathData="M41.361,42.378 L8.638,42.378 C7.954,42.378 7.4,41.823 7.4,41.138 C7.4,40.454 7.955,39.9 8.638,39.9 L41.361,39.9 C42.045,39.9 42.599,40.455 42.599,41.138 C42.599,41.823 42.045,42.378 41.361,42.378 M24.536,37.004 C24.354,37.004 24.17,36.963 23.994,36.878 C23.379,36.578 23.123,35.837 23.424,35.221 C26.629,28.643 24.565,24.995 22.379,21.133 C20.381,17.601 18.316,13.948 20.818,8.517 C21.104,7.895 21.839,7.622 22.463,7.91 C23.084,8.196 23.357,8.933 23.069,9.554 C21.097,13.833 22.616,16.516 24.537,19.912 C26.83,23.964 29.428,28.556 25.651,36.308 C25.436,36.748 24.995,37.004 24.536,37.004 M33.443,37.004 C33.261,37.004 33.076,36.963 32.901,36.878 C32.285,36.578 32.03,35.836 32.33,35.221 C35.536,28.642 33.473,24.995 31.287,21.133 C29.289,17.601 27.221,13.95 29.723,8.517 C30.008,7.896 30.745,7.623 31.367,7.91 C31.989,8.196 32.261,8.932 31.975,9.554 C30.004,13.833 31.523,16.516 33.445,19.912 C35.738,23.964 38.337,28.556 34.559,36.308 C34.343,36.748 33.902,37.004 33.443,37.004 M15.628,37.004 C15.445,37.004 15.262,36.963 15.086,36.878 C14.471,36.578 14.215,35.837 14.516,35.221 C17.721,28.641 15.662,24.993 13.483,21.131 C11.492,17.599 9.432,13.947 11.932,8.517 C12.219,7.896 12.954,7.622 13.577,7.91 C14.199,8.196 14.47,8.932 14.184,9.554 C12.213,13.833 13.727,16.516 15.643,19.913 C17.928,23.965 20.52,28.558 16.744,36.308 C16.529,36.748 16.087,37.004 15.628,37.004"
+                            Stroke="None" StrokeDashArray="0.0" StrokeWidth="1.0">
+                            <Expose ExposedAttribute="Fill" Name="IconSymbolFill"/>
+                        </Path>
+                    </Component>
+                    <Arc Center="45.0,5.0" Opacity="1.0" RadiusX="30.0"
+                        RadiusY="30.0" StartAngle="90.0"
+                        Stroke="#808080" StrokeDashArray="0.0"
+                        StrokeWidth="1.0" SweepAngle="90.0">
+                        <Expose ExposedAttribute="Stroke" Name="IconSymbolFill"/>
+                    </Arc>
+                </Component>
+                <Component Clip="False" ContentHeight="50"
+                    ContentWidth="50" GridSize="10" Height="40"
+                    Left="0.0" Name="Cool" Top="0.0" Visibility="Hidden" Width="40">
+                    <Path Fill="#0000FF"
+                        PathData="M41.939999,27.869003199999995 c-0.17900000000000205,-0.5849999980000007 -0.7999999989999935,-0.9149999990000026 -1.3839999799999987,-0.7359999990000006 l-5.647999970000001,1.7280000399999977 -7.334000000000003,-3.899999980000004 6.1839999999999975,-4.3289999999999935 6.206999999999994,1.094000010000002 c0.6740000019999997,0.11900000299999647 1.3180000199999995,-0.3319999990000042 1.438000009999996,-1.007999979999994 0.013000000100007014,-0.07299999970000215 0.020000000099997806,-0.14499999699999933 0.020000000099997806,-0.21699999700000205 0.0,-0.590999999999994 -0.42499999999999716,-1.1149999999999949 -1.0259999999999962,-1.2210000000000036 0.0,0.0 -2.024000000000001,-0.3569999989999957 -3.760999979999994,-0.6629999989999931 l2.5220000099999993,-1.7669999700000005 c0.5620000029999943,-0.39400000000000546 0.6990000029999948,-1.1669999899999937 0.3060000029999941,-1.7289999700000038 s-1.1680000000000064,-0.6979999980000002 -1.7289999999999992,-0.3050000000000068 l-2.5129999899999973,1.7590000299999957 c0.3060000029999941,-1.7319999900000056 0.6599999999999966,-3.7420000000000044 0.6599999999999966,-3.7420000000000044 0.014000000099997578,-0.07299999980000393 0.020000000099997806,-0.14499999800000296 0.020000000099997806,-0.21699999700000205 0.0,-0.590999999999994 -0.42399999900000296,-1.1149999999999949 -1.0249999899999978,-1.2219999800000068 -0.6769999990000031,-0.11899999899999614 -1.3199999899999995,0.33200000099999727 -1.4389999899999992,1.0080000100000035 l-1.091999990000005,6.188000000000002 -5.813999989999999,4.072000029999998 0.0,-7.068999989999995 4.481999999999999,-4.481999990000006 c0.4850000029999961,-0.48599999900000057 0.4850000029999961,-1.271999969999996 0.0,-1.757000000000005 -0.48399999900000523,-0.4849999989999958 -1.2709999799999991,-0.4849999989999958 -1.7560000000000002,0.0 0.0,0.0 -1.474999969999999,1.475000019999996 -2.726999989999996,2.7280000399999977 l0.0,-3.191999999999993 c0.0,-0.6859999960000067 -0.5569999970000055,-1.2419999899999965 -1.2419999800000028,-1.2419999899999965 s-1.2419999899999965,0.5559999999999974 -1.2419999899999965,1.242000020000006 l0.0,3.1230000099999984 c-1.2359999800000026,-1.2369999999999948 -2.6579999799999996,-2.6589999600000027 -2.6579999799999996,-2.6589999600000027 -0.4849999989999958,-0.48499999999999943 -1.2709999899999929,-0.48499999999999943 -1.7560000000000002,0.0 -0.4849999989999958,0.4850000020000067 -0.4849999989999958,1.2710000200000025 0.0,1.757000039999994 l4.414000009999995,4.415000019999994 0.0,7.560000029999998 -7.237999979999998,-3.8489999600000004 -1.8479999900000053,-6.043000000000006 c-0.20099999800000035,-0.6559999990000023 -0.8949999990000066,-1.0259999900000025 -1.5509999800000003,-0.8249999970000061 -0.534999998999993,0.1630000029999934 -0.8789999990000013,0.6560000009999953 -0.8789999990000013,1.187000040000001 0.0,0.12000000099999397 0.01800000020000425,0.242999999999995 0.055000000099994395,0.3640000000000043 0.0,0.0 0.6050000009999934,1.9789999999999992 1.1210000199999968,3.6680000399999955 l-2.192999990000004,-1.16699998 c-0.6059999990000051,-0.32200000000000273 -1.358000000000004,-0.09199999979999518 -1.6809999900000037,0.5140000009999994 -0.3209999989999943,0.605000001999997 -0.09199999989999696,1.357000009999993 0.5150000010000042,1.679000000000002 l2.1599999999999966,1.1480000199999978 c-1.679000000000002,0.5130000009999947 -3.616999980000003,1.1050000299999994 -3.616999980000003,1.1050000299999994 -0.5339999990000024,0.1640000010000051 -0.8789999990000013,0.6560000009999953 -0.8789999990000013,1.1880000000000024 0.0,0.12000000199999761 0.01800000020000425,0.24200000300000113 0.055000000099994395,0.36299999999999955 0.20100000099999704,0.656000001999999 0.8950000009999997,1.0250000099999994 1.5510000099999957,0.8250000010000065 l5.991000009999993,-1.8319999600000045 7.2240000099999975,3.8410000399999973 -6.569999980000006,4.600000010000002 -6.216999990000005,-1.0959999899999957 c-0.6759999970000052,-0.11899999899999614 -1.3199999800000057,0.33199999999999363 -1.4379999800000007,1.007000039999994 -0.01300000000000523,0.07299999999999329 -0.019000000000005457,0.14600000199999386 -0.019000000000005457,0.21699999999999875 0.0,0.5919999999999987 0.424000000999996,1.1159999999999997 1.025000030000001,1.2219999999999942 0.0,0.0 2.033000009999995,0.35700000399999965 3.7710000099999945,0.6650000019999993 l-2.0449999899999938,1.4309999999999974 c-0.5609999990000034,0.3930000010000043 -0.6970000000000027,1.1670000099999953 -0.3049999990000032,1.729000009999993 0.39500000099999966,0.5620000020000049 1.1680000199999938,0.6979999999999933 1.7300000099999977,0.30500000099999625 l2.020000010000004,-1.413999970000006 c-0.30400000000000205,1.7289999999999992 -0.6559999990000023,3.7309999999999945 -0.6559999990000023,3.7309999999999945 -0.013999999999995794,0.07300000009999508 -0.020999999799997227,0.14500000099999966 -0.020999999799997227,0.21699999999999875 0.0,0.5910000009999976 0.42400000199999965,1.1150000300000045 1.026000019999998,1.221000029999999 0.6760000010000056,0.11900000299999647 1.3190000099999963,-0.3319999980000006 1.4390000100000009,-1.006999989999997 l1.0889999999999986,-6.1769999999999925 6.384000009999994,-4.4719999799999925 0.0,7.611000009999998 -4.4699999700000035,4.469000010000002 c-0.4849999989999958,0.4850000020000067 -0.4849999989999958,1.2720000000000056 0.0,1.757000039999994 s1.2710000099999945,0.4850000020000067 1.7560000299999956,0.0 c0.0,0.0 1.4660000199999956,-1.4649999899999955 2.7139999999999986,-2.7139999700000033 l0.0,2.5559999999999974 c0.0,0.6860000009999965 0.5570000010000058,1.2420000299999998 1.2420000099999982,1.2420000299999998 s1.2420000000000044,-0.5559999980000043 1.2420000000000044,-1.2419999899999965 l0.0,-2.514999970000005 c1.2400000199999965,1.2400000300000045 2.672000010000005,2.673000029999997 2.672000010000005,2.673000029999997 0.4850000020000067,0.4850000020000067 1.2710000099999945,0.4850000020000067 1.7580000199999972,0.0 0.4840000009999983,-0.48499999999999943 0.4840000009999983,-1.271999969999996 0.0,-1.757000000000005 l-4.430000000000007,-4.42899998 0.0,-7.864999999999995 6.8960000099999945,3.6680000399999955 1.875,6.132000039999994 c0.18000000199999988,0.5850000009999974 0.7990000019999997,0.9159999999999968 1.3850000099999988,0.7360000000000042 0.4770000009999933,-0.14599999899999716 0.7849999999999966,-0.5849999980000007 0.7849999999999966,-1.0600000000000023 0.0,-0.10699999899999568 -0.016999999899994123,-0.21699999700000205 -0.049000000000006594,-0.32399999899999443 0.0,0.0 -0.6929999989999942,-2.264999970000005 -1.2279999999999944,-4.0120000000000005 l2.600999999999999,1.382000039999994 c0.6050000009999934,0.32200000100000636 1.3569999999999993,0.09199999999999875 1.6800000199999943,-0.5129999969999943 0.32200000100000636,-0.6059999990000051 0.09200000020000232,-1.358000000000004 -0.5139999999999958,-1.6800000000000068 l-2.284999979999995,-1.2139999599999953 c1.6540000100000043,-0.5059999970000035 3.5280000099999995,-1.0789999999999935 3.5280000099999995,-1.0789999999999935 0.47800000099999806,-0.1460000000000008 0.7849999999999966,-0.5849999980000007 0.7849999999999966,-1.0599999899999943 C41.98899900000001,28.0860031 41.971999,27.9770032 41.939999,27.869003199999995" Stroke="None">
+                        <Expose ExposedAttribute="Fill" Name="IconSymbolFill"/>
+                    </Path>
+                </Component>
+                <Component Clip="False" ContentHeight="50"
+                    ContentWidth="50" GridSize="10" Height="40"
+                    Left="0.0" Name="Heat" Top="0.0" Visibility="Hidden" Width="40">
+                    <Path Fill="#FF0000"
+                        PathData="M41.361,42.378 L8.638,42.378 C7.954,42.378 7.4,41.823 7.4,41.138 C7.4,40.454 7.955,39.9 8.638,39.9 L41.361,39.9 C42.045,39.9 42.599,40.455 42.599,41.138 C42.599,41.823 42.045,42.378 41.361,42.378 M24.536,37.004 C24.354,37.004 24.17,36.963 23.994,36.878 C23.379,36.578 23.123,35.837 23.424,35.221 C26.629,28.643 24.565,24.995 22.379,21.133 C20.381,17.601 18.316,13.948 20.818,8.517 C21.104,7.895 21.839,7.622 22.463,7.91 C23.084,8.196 23.357,8.933 23.069,9.554 C21.097,13.833 22.616,16.516 24.537,19.912 C26.83,23.964 29.428,28.556 25.651,36.308 C25.436,36.748 24.995,37.004 24.536,37.004 M33.443,37.004 C33.261,37.004 33.076,36.963 32.901,36.878 C32.285,36.578 32.03,35.836 32.33,35.221 C35.536,28.642 33.473,24.995 31.287,21.133 C29.289,17.601 27.221,13.95 29.723,8.517 C30.008,7.896 30.745,7.623 31.367,7.91 C31.989,8.196 32.261,8.932 31.975,9.554 C30.004,13.833 31.523,16.516 33.445,19.912 C35.738,23.964 38.337,28.556 34.559,36.308 C34.343,36.748 33.902,37.004 33.443,37.004 M15.628,37.004 C15.445,37.004 15.262,36.963 15.086,36.878 C14.471,36.578 14.215,35.837 14.516,35.221 C17.721,28.641 15.662,24.993 13.483,21.131 C11.492,17.599 9.432,13.947 11.932,8.517 C12.219,7.896 12.954,7.622 13.577,7.91 C14.199,8.196 14.47,8.932 14.184,9.554 C12.213,13.833 13.727,16.516 15.643,19.913 C17.928,23.965 20.52,28.558 16.744,36.308 C16.529,36.748 16.087,37.004 15.628,37.004"
+                        Stroke="None" StrokeDashArray="0.0" StrokeWidth="1.0">
+                        <Expose ExposedAttribute="Fill" Name="IconSymbolFill"/>
+                    </Path>
+                </Component>
+            </Component>
+            <Component Clip="False" ContentHeight="50" ContentWidth="40"
+                Ctrl="FanModeCtrl" Height="50.0" Id="FanMode"
+                Left="270.0" Model="FanMode" Name="" Top="50.0" Width="40.0">
+                <Group Name="Speeds">
+                    <Pie Center="20.555581092834473,18.003326416015625"
+                        Fill="#626469" Name="Speed1" Opacity="1.0"
+                        RadiusX="18.0" RadiusY="18.0" StartAngle="270.0"
+                        Stroke="#F0F0F0" StrokeDashArray="0.0"
+                        StrokeWidth="2.0" SweepAngle="120.0"/>
+                    <Pie Center="20.555581092834473,18.003326416015625"
+                        Fill="#9FA0A4" Name="Speed2" Opacity="1.0"
+                        RadiusX="18.0" RadiusY="18.0" StartAngle="30.0"
+                        Stroke="#F0F0F0" StrokeDashArray="0.0"
+                        StrokeWidth="2.0" SweepAngle="120.0"/>
+                    <Pie Center="20.555581092834473,18.003326416015625"
+                        Fill="#9FA0A4" Name="Speed3" Opacity="1.0"
+                        RadiusX="18.0" RadiusY="18.0" StartAngle="150.0"
+                        Stroke="#F0F0F0" StrokeDashArray="0.0"
+                        StrokeWidth="2.0" SweepAngle="120.0"/>
+                </Group>
+                <Ellipse Fill="#F0F0F0" Height="25.0"
+                    Left="7.99658203125" Opacity="1.0" Stroke="None"
+                    StrokeDashArray="0.0" StrokeWidth="1.0"
+                    Top="5.503326416015625" Width="25.0"/>
+                <Component Clip="False" ComponentCounter="2"
+                    ContentHeight="60.0" ContentWidth="60.0"
+                    GridSize="10" Height="19.0" Left="10.99658203125"
+                    Name="FanSts" Top="8.003326416015625" Width="19.0">
+                    <Ellipse Fill="None" Height="60.0" Left="0.0"
+                        Opacity="1.0" Stroke="None"
+                        StrokeDashArray="0.0" StrokeWidth="0.0"
+                        Top="0.0" Width="60.0">
+                        <Expose ExposedAttribute="Fill" Name="Fan_FillColor"/>
+                    </Ellipse>
+                    <Path Fill="#9FA0A4"
+                        PathData="M45.617564,31.0588937 c-2.7054054000000036,-0.8325165990000016 -5.385135230000003,-1.1690370900000033 -7.029729840000002,-1.305537380000004 -0.1621621609999977,-1.3082403599999992 -0.6067567650000001,-2.4137575000000027 -1.1013513700000033,-3.2814127900000045 l14.489190300000004,-4.1828553 c0.7959459679999981,-0.2297529509999947 1.309459529999998,-1.0014525600000042 1.2121622199999962,-1.8258602300000035 -0.017567567200003964,-0.15406962900000565 -0.4581081110000014,-3.8003842100000043 -2.1540540299999975,-7.492649399999998 -2.3932432200000022,-5.21404064 -6.105405480000002,-7.971076160000003 -10.729729800000001,-7.971076160000003 -9.312162299999997,0.0 -11.3743245,12.694526999999994 -11.812162200000003,17.212552000000002 -0.49189189700000213,0.09460415979999937 -0.9581081270000027,0.24326784500000542 -1.3783783300000039,0.40950086499999827 l-4.837837870000001,-15.509675899999998 c-0.24324324399999853,-0.7771055950000019 -1.0054054000000008,-1.2731016800000035 -1.8162161999999995,-1.1784975200000005 -0.15270270300000277,0.01756934459999826 -3.7986486700000057,0.45545146100000267 -7.4918919800000054,2.151568949999998 -5.210810859999995,2.3948367699999977 -7.967567689999996,6.10872578 -7.967567689999996,10.736221200000003 0.0,3.2922247999999996 1.650000079999998,7.754838199999995 9.517567900000003,10.317259899999996 2.639189310000006,0.8608978599999944 5.25405422,1.26499278 6.941892089999996,1.4514981399999982 -0.01891891889999897,1.3258097399999969 0.3121621730000044,2.5110647700000044 0.705405423000002,3.447645890000004 l-14.094594700000002,3.6652355100000023 c-0.8202702840000029,0.2121836209999941 -1.3567567399999945,0.9960466529999934 -1.2581081200000028,1.8353207899999973 0.017567568399996958,0.15406963499999904 0.4567567739999987,3.8017357599999997 2.152702849999997,7.494000999999997 2.393243339999998,5.2126892 6.106756930000003,7.968373249999999 10.732432899999992,7.968373249999999 3.277027149999995,0.0 7.73783804,-1.554211170000002 10.375676099999993,-8.967122810000006 1.4635135999999989,-4.108523450000007 1.682432520000006,-8.15352704 1.6918919999999957,-8.323814470000002 0.0472972991999967,-0.9352296849999959 -0.6729729860000049,-1.7326075400000036 -1.6067567300000007,-1.7799095999999963 -0.9351351530000045,-0.04730207929999608 -1.7324324100000013,0.6730410239999998 -1.7797297500000013,1.606919259999998 0.0,-0.0013514879800027302 0.0,0.0 0.0,-0.0013514879800027302 -0.006756756840005096,0.1405547549999966 -0.8283783920000047,14.073044999999993 -8.679729910000006,14.073044999999993 -6.317567650000001,0.0 -8.587837960000002,-7.734565750000002 -9.267567740000004,-11.018681400000006 L25.1581013,36.767578900000004 c0.559459474999997,-0.14460920800000565 1.0081081600000061,-0.5676249509999991 1.1864865299999963,-1.1190320399999933 0.1783783839999984,-0.5500556119999942 0.06351351569999508,-1.1555222199999946 -0.30675675700000227,-1.6028647400000011 -0.010810810600005993,-0.012163391800001477 -1.7162161699999956,-2.1691381699999965 -1.027027000000004,-4.515321369999995 0.1459459529999947,-0.5014020370000054 0.05675675839999883,-1.0419972400000006 -0.24864864900000327,-1.4663644500000004 -0.30675675700000227,-0.42436722700000473 -0.790540551999996,-0.6852044120000045 -1.3121621800000014,-0.7068282160000052 -0.1486486470000017,-0.00405446393999398 -15.060810599999996,-0.6973677990000056 -15.060810599999996,-8.531943670000004 0.0,-6.362805449999996 7.848648859999997,-8.62384489 11.087838500000004,-9.284722510000002 l5.0094596,16.048920599999995 c0.16351351999999508,0.5216743699999995 0.5662162339999952,0.9338782089999995 1.0905405799999954,1.1055172199999959 0.5202702819999985,0.17028749000000687 1.0905405799999954,0.07973779179999951 1.5324325499999958,-0.24597080600000254 0.3945946059999983,-0.28516395699999464 1.7554054999999948,-1.0811903700000016 2.724324469999999,-0.9433386150000018 0.4756756879999955,0.06622291230000599 0.9581081329999961,-0.07162886300000082 1.3243243699999994,-0.37841663800000447 0.3662162309999957,-0.30949074199999416 0.5891892049999967,-0.7568332740000017 0.605405422000004,-1.2366114900000014 0.008108108360005417,-0.15271813900000097 0.8243243499999977,-15.500215499999996 8.537838069999992,-15.500215499999996 6.340540759999996,0.0 8.605405669999996,7.800788749999995 9.272973219999997,11.061929800000001 l-15.4337838,4.455856019999999 c-0.6027027100000026,0.17299046799999473 -1.0567567500000052,0.6635806129999935 -1.187837860000002,1.2758046699999994 -0.13243243200000165,0.6135755579999937 0.08783784029999708,1.2474234499999994 0.5675675869999992,1.6515183799999988 0.06891892069999983,0.05946547230000476 1.9351352599999956,1.7150383500000004 1.7229730399999994,4.3882815799999975 -0.03783783820000508,0.46761485199999697 0.1202702759999994,0.9298237459999967 0.43648649899999725,1.2758046699999994 0.31351352599999416,0.3459809309999997 0.7594594819999969,0.5460011570000063 1.2270270599999975,0.554110086999998 0.14459460199999796,0.0013514880500054005 14.695946399999997,0.33246605099999726 14.695946399999997,8.130551789999998 0.0,6.331721299999998 -7.76891904,8.599518119999999 -11.0378379,9.271207709999999 l-4.182432480000003,-15.1245021 c-0.25000000400000033,-0.9027939770000017 -1.1837838000000005,-1.4312257299999942 -2.085135170000001,-1.1825519899999932 -0.9040540700000008,0.24867379399999834 -1.4337837399999955,1.1825520299999965 -1.1837838000000005,2.0853460299999966 l4.589189399999995,16.603030599999997 c0.2256756849999988,0.8068383340000054 1.001351409999998,1.3298642099999967 1.8310811799999982,1.2325570699999986 0.15405406099999652,-0.01756934360000173 3.800000109999999,-0.45545145100000184 7.4918920799999995,-2.152920359999996 5.210810969999997,-2.394836650000002 7.968919139999997,-6.106022679999995 7.968919139999997,-10.733517300000003 C54.999998000000005,37.882556699999995 53.370266,33.44427 45.617564,31.0588937" Stroke="None">
+                        <Expose ExposedAttribute="Fill" Name="Fan_IconColor"/>
+                    </Path>
+                </Component>
+                <Text FontFamily="Arial" FontSize="10"
+                    FontStyle="Normal" FontWeight="Normal"
+                    HorizontalAlign="Center" Left="20" Name="autoTxt"
+                    Opacity="1.0" Stroke="#626469" TextDecoration="None"
+                    Top="37.11572265625" VerticalAlign="Top"><![CDATA[Auto]]></Text>
+            </Component>
+            <Text Ctrl="NOTE1Ctrl" FontFamily="Arial" FontSize="32"
+                FontStyle="Normal" FontWeight="Normal"
+                HorizontalAlign="Center" Left="36.099998474121094"
+                Model="NOTE1" Name="NOTE1" Opacity="1.0"
+                Stroke="#FFFFFF" TextDecoration="None" Top="87.0"
+                VerticalAlign="Top"
+                    Visibility="Visible"><![CDATA[...]]><Rotate
+                    Angle="-90.0" Center="0.5,0.5"/>
             </Text>
-            <Text FontFamily="Arial" FontSize="32.0" FontStyle="Normal"
-                FontWeight="Normal" HorizontalAlign="Center"
-                Left="165.0" Name="Status" Stroke="#FFFFFF"
-                TextDecoration="None" Top="79.55099272727966" VerticalAlign="Middle"><![CDATA[Unrented/Unoccupied]]></Text>
-            <TargetArea Height="50.0" Left="0.0" Name="RoomName"
-                Top="0.0" Width="330.0"/>
-            <Group Name="Values">
-                <Text FontFamily="Arial" FontSize="25"
-                    FontStyle="Normal" FontWeight="Normal"
-                    HorizontalAlign="Left" Left="16" Name=""
-                    Stroke="#626469" TextDecoration="None" Top="120">
-                    <Expose ExposedAttribute="Stroke" Name="ColourFooterLabel"/><![CDATA[Temperature]]></Text>
-                <Text FontFamily="Arial" FontSize="25"
-                    FontStyle="Normal" FontWeight="Normal"
-                    HorizontalAlign="Left" Left="16" Name=""
-                    Stroke="#626469" TextDecoration="None" Top="150">
-                    <Expose ExposedAttribute="Stroke" Name="ColourFooterLabel"/><![CDATA[Setpoint]]></Text>
-                <Text Fill="None" FontFamily="Arial" FontSize="25.0"
-                    FontWeight="Bold" HorizontalAlign="Right" Id=""
-                    Left="300.0" Name="RmTmp" Stroke="#626469" Top="120.0"><![CDATA[--- °F]]></Text>
-                <Text Fill="None" FontFamily="Arial" FontSize="25.0"
-                    FontWeight="Bold" HorizontalAlign="Right" Id=""
-                    Left="300.0" Name="RmTmpSpt" Stroke="#626469" Top="150.0"><![CDATA[--- °F]]></Text>
-            </Group>
-            <Expose ExposedAttribute="Name" Name="RoomName"/>
-            <TargetArea Height="150.0" Name="Update8000" Top="50.0" Width="330.0"/>
         </Component>
         <Component ContentHeight="620.0" ContentWidth="1350.0"
             Height="620.0" Left="10.0" Name="RCView" Top="270.0" Width="1350.0">
@@ -9858,7 +10246,7 @@ evt.getCurrentTarget().getChildByName("Settings").setAttribute("Visibility","Hid
             <Component Clip="False" ContentHeight="150.0"
                 ContentWidth="280.0" Height="150.0" Id="" Left="0.0"
                 Name="UU" Top="0.0" Width="280.0">
-                <Rectangle Fill="#00C000" Height="150.0" Left="0"
+                <Rectangle Fill="#87D300" Height="150.0" Left="0"
                     Name="Background" RadiusX="15" RadiusY="15"
                     Stroke="#9FA0A4" StrokeDashArray="0.0"
                     StrokeWidth="1.0" Top="0" Width="280.0">
@@ -9882,7 +10270,7 @@ evt.getCurrentTarget().getChildByName("Settings").setAttribute("Visibility","Hid
             <Component Clip="False" ContentHeight="150.0"
                 ContentWidth="280.0" Height="150.0" Id="" Left="340.0"
                 Name="RU" Top="0.0" Width="280.0">
-                <Rectangle Fill="#E47F00" Height="150.0" Left="0.0"
+                <Rectangle Fill="#42B4E6" Height="150.0" Left="0.0"
                     Name="Background" RadiusX="15" RadiusY="15"
                     Stroke="#9FA0A4" StrokeDashArray="0.0"
                     StrokeWidth="1.0" Top="0.0" Width="280.0">
@@ -9906,7 +10294,7 @@ evt.getCurrentTarget().getChildByName("Settings").setAttribute("Visibility","Hid
             <Component Clip="False" ContentHeight="150.0"
                 ContentWidth="280.0" Height="150.0" Id="" Left="680.0"
                 Name="UO" Top="0.0" Width="280.0">
-                <Rectangle Fill="#B10043" Height="150.0" Left="0.0"
+                <Rectangle Fill="#4FA600" Height="150.0" Left="0.0"
                     Name="Background" RadiusX="15" RadiusY="15"
                     Stroke="#9FA0A4" StrokeDashArray="0.0"
                     StrokeWidth="1.0" Top="0.0" Width="280.0">
@@ -9930,7 +10318,7 @@ evt.getCurrentTarget().getChildByName("Settings").setAttribute("Visibility","Hid
             <Component Clip="False" ContentHeight="150.0"
                 ContentWidth="280.0" Height="150.0" Id="" Left="1020.0"
                 Name="RO" Top="0.0" Width="280.0">
-                <Rectangle Fill="#006699" Height="150.0" Left="0.0"
+                <Rectangle Fill="#339999" Height="150.0" Left="0.0"
                     Name="Background" RadiusX="15" RadiusY="15"
                     Stroke="#9FA0A4" StrokeDashArray="0.0"
                     StrokeWidth="1.0" Top="0.0" Width="280.0">
@@ -10017,6 +10405,8 @@ evt.getCurrentTarget().getChildByName("Settings").setAttribute("Visibility","Hid
                 <Bind Name="OccCommand"/>
                 <Bind Name="SystemMode"/>
                 <Bind Name="NOTE1"/>
+                <Bind Name="LowBattAlarm"/>
+                <Bind Name="FanMode"/>
             </Component>
             <Component Height="1.0" Left="10.0" Name="RC_02" Top="10.0" Width="1.0">
                 <Bind Name="RoomTemp"/>
@@ -10032,6 +10422,8 @@ evt.getCurrentTarget().getChildByName("Settings").setAttribute("Visibility","Hid
                 <Bind Name="OccCommand"/>
                 <Bind Name="SystemMode"/>
                 <Bind Name="NOTE1"/>
+                <Bind Name="LowBattAlarm"/>
+                <Bind Name="FanMode"/>
             </Component>
             <Component Height="1.0" Left="20.0" Name="RC_03" Top="20.0" Width="1.0">
                 <Bind Name="RoomTemp"/>
@@ -10047,6 +10439,8 @@ evt.getCurrentTarget().getChildByName("Settings").setAttribute("Visibility","Hid
                 <Bind Name="OccCommand"/>
                 <Bind Name="SystemMode"/>
                 <Bind Name="NOTE1"/>
+                <Bind Name="LowBattAlarm"/>
+                <Bind Name="FanMode"/>
             </Component>
             <Component Height="1.0" Left="30.0" Name="RC_04" Top="30.0" Width="1.0">
                 <Bind Name="RoomTemp"/>
@@ -10062,6 +10456,8 @@ evt.getCurrentTarget().getChildByName("Settings").setAttribute("Visibility","Hid
                 <Bind Name="OccCommand"/>
                 <Bind Name="SystemMode"/>
                 <Bind Name="NOTE1"/>
+                <Bind Name="LowBattAlarm"/>
+                <Bind Name="FanMode"/>
             </Component>
             <Component Height="1.0" Left="40.0" Name="RC_05" Top="40.0" Width="1.0">
                 <Bind Name="RoomTemp"/>
@@ -10077,6 +10473,8 @@ evt.getCurrentTarget().getChildByName("Settings").setAttribute("Visibility","Hid
                 <Bind Name="OccCommand"/>
                 <Bind Name="SystemMode"/>
                 <Bind Name="NOTE1"/>
+                <Bind Name="LowBattAlarm"/>
+                <Bind Name="FanMode"/>
             </Component>
             <Component Height="1.0" Left="50.0" Name="RC_06" Top="50.0" Width="1.0">
                 <Bind Name="RoomTemp"/>
@@ -10092,6 +10490,8 @@ evt.getCurrentTarget().getChildByName("Settings").setAttribute("Visibility","Hid
                 <Bind Name="OccCommand"/>
                 <Bind Name="SystemMode"/>
                 <Bind Name="NOTE1"/>
+                <Bind Name="LowBattAlarm"/>
+                <Bind Name="FanMode"/>
             </Component>
             <Component Height="1.0" Left="60.0" Name="RC_07" Top="60.0" Width="1.0">
                 <Bind Name="RoomTemp"/>
@@ -10107,6 +10507,8 @@ evt.getCurrentTarget().getChildByName("Settings").setAttribute("Visibility","Hid
                 <Bind Name="OccCommand"/>
                 <Bind Name="SystemMode"/>
                 <Bind Name="NOTE1"/>
+                <Bind Name="LowBattAlarm"/>
+                <Bind Name="FanMode"/>
             </Component>
             <Component Height="1.0" Left="70.0" Name="RC_08" Top="70.0" Width="1.0">
                 <Bind Name="RoomTemp"/>
@@ -10122,6 +10524,8 @@ evt.getCurrentTarget().getChildByName("Settings").setAttribute("Visibility","Hid
                 <Bind Name="OccCommand"/>
                 <Bind Name="SystemMode"/>
                 <Bind Name="NOTE1"/>
+                <Bind Name="LowBattAlarm"/>
+                <Bind Name="FanMode"/>
             </Component>
             <Component Height="1.0" Left="80.0" Name="RC_09" Top="80.0" Width="1.0">
                 <Bind Name="RoomTemp"/>
@@ -10137,6 +10541,8 @@ evt.getCurrentTarget().getChildByName("Settings").setAttribute("Visibility","Hid
                 <Bind Name="OccCommand"/>
                 <Bind Name="SystemMode"/>
                 <Bind Name="NOTE1"/>
+                <Bind Name="LowBattAlarm"/>
+                <Bind Name="FanMode"/>
             </Component>
             <Component Height="1.0" Left="90.0" Name="RC_10" Top="90.0" Width="1.0">
                 <Bind Name="RoomTemp"/>
@@ -10152,6 +10558,8 @@ evt.getCurrentTarget().getChildByName("Settings").setAttribute("Visibility","Hid
                 <Bind Name="OccCommand"/>
                 <Bind Name="SystemMode"/>
                 <Bind Name="NOTE1"/>
+                <Bind Name="LowBattAlarm"/>
+                <Bind Name="FanMode"/>
             </Component>
             <Component Height="1.0" Left="100.0" Name="RC_11"
                 Top="100.0" Width="1.0">
@@ -10168,6 +10576,8 @@ evt.getCurrentTarget().getChildByName("Settings").setAttribute("Visibility","Hid
                 <Bind Name="OccCommand"/>
                 <Bind Name="SystemMode"/>
                 <Bind Name="NOTE1"/>
+                <Bind Name="LowBattAlarm"/>
+                <Bind Name="FanMode"/>
             </Component>
             <Component Height="1.0" Left="110.0" Name="RC_12"
                 Top="110.0" Width="1.0">
@@ -10184,6 +10594,8 @@ evt.getCurrentTarget().getChildByName("Settings").setAttribute("Visibility","Hid
                 <Bind Name="OccCommand"/>
                 <Bind Name="SystemMode"/>
                 <Bind Name="NOTE1"/>
+                <Bind Name="LowBattAlarm"/>
+                <Bind Name="FanMode"/>
             </Component>
             <Component Height="1.0" Left="120.0" Name="RC_13"
                 Top="120.0" Width="1.0">
@@ -10200,6 +10612,8 @@ evt.getCurrentTarget().getChildByName("Settings").setAttribute("Visibility","Hid
                 <Bind Name="OccCommand"/>
                 <Bind Name="SystemMode"/>
                 <Bind Name="NOTE1"/>
+                <Bind Name="LowBattAlarm"/>
+                <Bind Name="FanMode"/>
             </Component>
             <Component Height="1.0" Left="130.0" Name="RC_14"
                 Top="130.0" Width="1.0">
@@ -10216,6 +10630,8 @@ evt.getCurrentTarget().getChildByName("Settings").setAttribute("Visibility","Hid
                 <Bind Name="OccCommand"/>
                 <Bind Name="SystemMode"/>
                 <Bind Name="NOTE1"/>
+                <Bind Name="LowBattAlarm"/>
+                <Bind Name="FanMode"/>
             </Component>
             <Component Height="1.0" Left="140.0" Name="RC_15"
                 Top="140.0" Width="1.0">
@@ -10232,6 +10648,8 @@ evt.getCurrentTarget().getChildByName("Settings").setAttribute("Visibility","Hid
                 <Bind Name="OccCommand"/>
                 <Bind Name="SystemMode"/>
                 <Bind Name="NOTE1"/>
+                <Bind Name="LowBattAlarm"/>
+                <Bind Name="FanMode"/>
             </Component>
             <Component Height="1.0" Left="150.0" Name="RC_16"
                 Top="150.0" Width="1.0">
@@ -10248,6 +10666,8 @@ evt.getCurrentTarget().getChildByName("Settings").setAttribute("Visibility","Hid
                 <Bind Name="OccCommand"/>
                 <Bind Name="SystemMode"/>
                 <Bind Name="NOTE1"/>
+                <Bind Name="LowBattAlarm"/>
+                <Bind Name="FanMode"/>
             </Component>
             <Component Height="1.0" Left="160.0" Name="RC_17"
                 Top="160.0" Width="1.0">
@@ -10264,6 +10684,8 @@ evt.getCurrentTarget().getChildByName("Settings").setAttribute("Visibility","Hid
                 <Bind Name="OccCommand"/>
                 <Bind Name="SystemMode"/>
                 <Bind Name="NOTE1"/>
+                <Bind Name="LowBattAlarm"/>
+                <Bind Name="FanMode"/>
             </Component>
             <Component Height="1.0" Left="170.0" Name="RC_18"
                 Top="170.0" Width="1.0">
@@ -10280,6 +10702,8 @@ evt.getCurrentTarget().getChildByName("Settings").setAttribute("Visibility","Hid
                 <Bind Name="OccCommand"/>
                 <Bind Name="SystemMode"/>
                 <Bind Name="NOTE1"/>
+                <Bind Name="LowBattAlarm"/>
+                <Bind Name="FanMode"/>
             </Component>
             <Component Height="1.0" Left="180.0" Name="RC_19"
                 Top="180.0" Width="1.0">
@@ -10296,6 +10720,8 @@ evt.getCurrentTarget().getChildByName("Settings").setAttribute("Visibility","Hid
                 <Bind Name="OccCommand"/>
                 <Bind Name="SystemMode"/>
                 <Bind Name="NOTE1"/>
+                <Bind Name="LowBattAlarm"/>
+                <Bind Name="FanMode"/>
             </Component>
             <Component Height="1.0" Left="190.0" Name="RC_20"
                 Top="190.0" Width="1.0">
@@ -10312,6 +10738,8 @@ evt.getCurrentTarget().getChildByName("Settings").setAttribute("Visibility","Hid
                 <Bind Name="OccCommand"/>
                 <Bind Name="SystemMode"/>
                 <Bind Name="NOTE1"/>
+                <Bind Name="LowBattAlarm"/>
+                <Bind Name="FanMode"/>
             </Component>
             <Component Height="1.0" Left="200.0" Name="RC_21"
                 Top="200.0" Width="1.0">
@@ -10328,6 +10756,8 @@ evt.getCurrentTarget().getChildByName("Settings").setAttribute("Visibility","Hid
                 <Bind Name="OccCommand"/>
                 <Bind Name="SystemMode"/>
                 <Bind Name="NOTE1"/>
+                <Bind Name="LowBattAlarm"/>
+                <Bind Name="FanMode"/>
             </Component>
             <Component Height="1.0" Left="210.0" Name="RC_22"
                 Top="210.0" Width="1.0">
@@ -10344,6 +10774,8 @@ evt.getCurrentTarget().getChildByName("Settings").setAttribute("Visibility","Hid
                 <Bind Name="OccCommand"/>
                 <Bind Name="SystemMode"/>
                 <Bind Name="NOTE1"/>
+                <Bind Name="LowBattAlarm"/>
+                <Bind Name="FanMode"/>
             </Component>
             <Component Height="1.0" Left="220.0" Name="RC_23"
                 Top="220.0" Width="1.0">
@@ -10360,6 +10792,8 @@ evt.getCurrentTarget().getChildByName("Settings").setAttribute("Visibility","Hid
                 <Bind Name="OccCommand"/>
                 <Bind Name="SystemMode"/>
                 <Bind Name="NOTE1"/>
+                <Bind Name="LowBattAlarm"/>
+                <Bind Name="FanMode"/>
             </Component>
             <Component Height="1.0" Left="230.0" Name="RC_24"
                 Top="230.0" Width="1.0">
@@ -10376,6 +10810,8 @@ evt.getCurrentTarget().getChildByName("Settings").setAttribute("Visibility","Hid
                 <Bind Name="OccCommand"/>
                 <Bind Name="SystemMode"/>
                 <Bind Name="NOTE1"/>
+                <Bind Name="LowBattAlarm"/>
+                <Bind Name="FanMode"/>
             </Component>
             <Component Height="1.0" Left="240.0" Name="RC_25"
                 Top="240.0" Width="1.0">
@@ -10392,6 +10828,8 @@ evt.getCurrentTarget().getChildByName("Settings").setAttribute("Visibility","Hid
                 <Bind Name="OccCommand"/>
                 <Bind Name="SystemMode"/>
                 <Bind Name="NOTE1"/>
+                <Bind Name="LowBattAlarm"/>
+                <Bind Name="FanMode"/>
             </Component>
             <Component Height="1.0" Left="250.0" Name="RC_26"
                 Top="250.0" Width="1.0">
@@ -10408,6 +10846,8 @@ evt.getCurrentTarget().getChildByName("Settings").setAttribute("Visibility","Hid
                 <Bind Name="OccCommand"/>
                 <Bind Name="SystemMode"/>
                 <Bind Name="NOTE1"/>
+                <Bind Name="LowBattAlarm"/>
+                <Bind Name="FanMode"/>
             </Component>
             <Component Height="1.0" Left="260.0" Name="RC_27"
                 Top="260.0" Width="1.0">
@@ -10424,6 +10864,8 @@ evt.getCurrentTarget().getChildByName("Settings").setAttribute("Visibility","Hid
                 <Bind Name="OccCommand"/>
                 <Bind Name="SystemMode"/>
                 <Bind Name="NOTE1"/>
+                <Bind Name="LowBattAlarm"/>
+                <Bind Name="FanMode"/>
             </Component>
             <Component Height="1.0" Left="270.0" Name="RC_28"
                 Top="270.0" Width="1.0">
@@ -10440,6 +10882,8 @@ evt.getCurrentTarget().getChildByName("Settings").setAttribute("Visibility","Hid
                 <Bind Name="OccCommand"/>
                 <Bind Name="SystemMode"/>
                 <Bind Name="NOTE1"/>
+                <Bind Name="LowBattAlarm"/>
+                <Bind Name="FanMode"/>
             </Component>
             <Component Height="1.0" Left="280.0" Name="RC_29"
                 Top="280.0" Width="1.0">
@@ -10456,6 +10900,8 @@ evt.getCurrentTarget().getChildByName("Settings").setAttribute("Visibility","Hid
                 <Bind Name="OccCommand"/>
                 <Bind Name="SystemMode"/>
                 <Bind Name="NOTE1"/>
+                <Bind Name="LowBattAlarm"/>
+                <Bind Name="FanMode"/>
             </Component>
             <Component Height="1.0" Left="290.0" Name="RC_30"
                 Top="290.0" Width="1.0">
@@ -10472,6 +10918,8 @@ evt.getCurrentTarget().getChildByName("Settings").setAttribute("Visibility","Hid
                 <Bind Name="OccCommand"/>
                 <Bind Name="SystemMode"/>
                 <Bind Name="NOTE1"/>
+                <Bind Name="LowBattAlarm"/>
+                <Bind Name="FanMode"/>
             </Component>
             <Component Height="1.0" Left="300.0" Name="RC_31"
                 Top="300.0" Width="1.0">
@@ -10488,6 +10936,8 @@ evt.getCurrentTarget().getChildByName("Settings").setAttribute("Visibility","Hid
                 <Bind Name="OccCommand"/>
                 <Bind Name="SystemMode"/>
                 <Bind Name="NOTE1"/>
+                <Bind Name="LowBattAlarm"/>
+                <Bind Name="FanMode"/>
             </Component>
             <Component Height="1.0" Left="310.0" Name="RC_32"
                 Top="310.0" Width="1.0">
@@ -10504,6 +10954,8 @@ evt.getCurrentTarget().getChildByName("Settings").setAttribute("Visibility","Hid
                 <Bind Name="OccCommand"/>
                 <Bind Name="SystemMode"/>
                 <Bind Name="NOTE1"/>
+                <Bind Name="LowBattAlarm"/>
+                <Bind Name="FanMode"/>
             </Component>
             <Component Height="1.0" Left="320.0" Name="RC_33"
                 Top="320.0" Width="1.0">
@@ -10520,6 +10972,8 @@ evt.getCurrentTarget().getChildByName("Settings").setAttribute("Visibility","Hid
                 <Bind Name="OccCommand"/>
                 <Bind Name="SystemMode"/>
                 <Bind Name="NOTE1"/>
+                <Bind Name="LowBattAlarm"/>
+                <Bind Name="FanMode"/>
             </Component>
             <Component Height="1.0" Left="330.0" Name="RC_34"
                 Top="330.0" Width="1.0">
@@ -10536,6 +10990,8 @@ evt.getCurrentTarget().getChildByName("Settings").setAttribute("Visibility","Hid
                 <Bind Name="OccCommand"/>
                 <Bind Name="SystemMode"/>
                 <Bind Name="NOTE1"/>
+                <Bind Name="LowBattAlarm"/>
+                <Bind Name="FanMode"/>
             </Component>
             <Component Height="1.0" Left="340.0" Name="RC_35"
                 Top="340.0" Width="1.0">
@@ -10552,6 +11008,8 @@ evt.getCurrentTarget().getChildByName("Settings").setAttribute("Visibility","Hid
                 <Bind Name="OccCommand"/>
                 <Bind Name="SystemMode"/>
                 <Bind Name="NOTE1"/>
+                <Bind Name="LowBattAlarm"/>
+                <Bind Name="FanMode"/>
             </Component>
             <Component Height="1.0" Left="350.0" Name="RC_36"
                 Top="350.0" Width="1.0">
@@ -10568,6 +11026,8 @@ evt.getCurrentTarget().getChildByName("Settings").setAttribute("Visibility","Hid
                 <Bind Name="OccCommand"/>
                 <Bind Name="SystemMode"/>
                 <Bind Name="NOTE1"/>
+                <Bind Name="LowBattAlarm"/>
+                <Bind Name="FanMode"/>
             </Component>
             <Component Height="1.0" Left="360.0" Name="RC_37"
                 Top="360.0" Width="1.0">
@@ -10584,6 +11044,8 @@ evt.getCurrentTarget().getChildByName("Settings").setAttribute("Visibility","Hid
                 <Bind Name="OccCommand"/>
                 <Bind Name="SystemMode"/>
                 <Bind Name="NOTE1"/>
+                <Bind Name="LowBattAlarm"/>
+                <Bind Name="FanMode"/>
             </Component>
             <Component Height="1.0" Left="370.0" Name="RC_38"
                 Top="370.0" Width="1.0">
@@ -10600,6 +11062,8 @@ evt.getCurrentTarget().getChildByName("Settings").setAttribute("Visibility","Hid
                 <Bind Name="OccCommand"/>
                 <Bind Name="SystemMode"/>
                 <Bind Name="NOTE1"/>
+                <Bind Name="LowBattAlarm"/>
+                <Bind Name="FanMode"/>
             </Component>
             <Component Height="1.0" Left="380.0" Name="RC_39"
                 Top="380.0" Width="1.0">
@@ -10616,6 +11080,8 @@ evt.getCurrentTarget().getChildByName("Settings").setAttribute("Visibility","Hid
                 <Bind Name="OccCommand"/>
                 <Bind Name="SystemMode"/>
                 <Bind Name="NOTE1"/>
+                <Bind Name="LowBattAlarm"/>
+                <Bind Name="FanMode"/>
             </Component>
             <Component Height="1.0" Left="390.0" Name="RC_40"
                 Top="390.0" Width="1.0">
@@ -10632,6 +11098,8 @@ evt.getCurrentTarget().getChildByName("Settings").setAttribute("Visibility","Hid
                 <Bind Name="OccCommand"/>
                 <Bind Name="SystemMode"/>
                 <Bind Name="NOTE1"/>
+                <Bind Name="LowBattAlarm"/>
+                <Bind Name="FanMode"/>
             </Component>
             <Component Height="1.0" Left="400.0" Name="RC_41"
                 Top="400.0" Width="1.0">
@@ -10648,6 +11116,8 @@ evt.getCurrentTarget().getChildByName("Settings").setAttribute("Visibility","Hid
                 <Bind Name="OccCommand"/>
                 <Bind Name="SystemMode"/>
                 <Bind Name="NOTE1"/>
+                <Bind Name="LowBattAlarm"/>
+                <Bind Name="FanMode"/>
             </Component>
             <Component Height="1.0" Left="410.0" Name="RC_42"
                 Top="410.0" Width="1.0">
@@ -10664,6 +11134,8 @@ evt.getCurrentTarget().getChildByName("Settings").setAttribute("Visibility","Hid
                 <Bind Name="OccCommand"/>
                 <Bind Name="SystemMode"/>
                 <Bind Name="NOTE1"/>
+                <Bind Name="LowBattAlarm"/>
+                <Bind Name="FanMode"/>
             </Component>
             <Component Height="1.0" Left="420.0" Name="RC_43"
                 Top="420.0" Width="1.0">
@@ -10680,6 +11152,8 @@ evt.getCurrentTarget().getChildByName("Settings").setAttribute("Visibility","Hid
                 <Bind Name="OccCommand"/>
                 <Bind Name="SystemMode"/>
                 <Bind Name="NOTE1"/>
+                <Bind Name="LowBattAlarm"/>
+                <Bind Name="FanMode"/>
             </Component>
             <Component Height="1.0" Left="430.0" Name="RC_44"
                 Top="430.0" Width="1.0">
@@ -10696,6 +11170,8 @@ evt.getCurrentTarget().getChildByName("Settings").setAttribute("Visibility","Hid
                 <Bind Name="OccCommand"/>
                 <Bind Name="SystemMode"/>
                 <Bind Name="NOTE1"/>
+                <Bind Name="LowBattAlarm"/>
+                <Bind Name="FanMode"/>
             </Component>
             <Component Height="1.0" Left="440.0" Name="RC_45"
                 Top="440.0" Width="1.0">
@@ -10712,6 +11188,8 @@ evt.getCurrentTarget().getChildByName("Settings").setAttribute("Visibility","Hid
                 <Bind Name="OccCommand"/>
                 <Bind Name="SystemMode"/>
                 <Bind Name="NOTE1"/>
+                <Bind Name="LowBattAlarm"/>
+                <Bind Name="FanMode"/>
             </Component>
             <Component Height="1.0" Left="450.0" Name="RC_46"
                 Top="450.0" Width="1.0">
@@ -10728,6 +11206,8 @@ evt.getCurrentTarget().getChildByName("Settings").setAttribute("Visibility","Hid
                 <Bind Name="OccCommand"/>
                 <Bind Name="SystemMode"/>
                 <Bind Name="NOTE1"/>
+                <Bind Name="LowBattAlarm"/>
+                <Bind Name="FanMode"/>
             </Component>
             <Component Height="1.0" Left="460.0" Name="RC_47"
                 Top="460.0" Width="1.0">
@@ -10744,6 +11224,8 @@ evt.getCurrentTarget().getChildByName("Settings").setAttribute("Visibility","Hid
                 <Bind Name="OccCommand"/>
                 <Bind Name="SystemMode"/>
                 <Bind Name="NOTE1"/>
+                <Bind Name="LowBattAlarm"/>
+                <Bind Name="FanMode"/>
             </Component>
             <Component Height="1.0" Left="470.0" Name="RC_48"
                 Top="470.0" Width="1.0">
@@ -10760,6 +11242,8 @@ evt.getCurrentTarget().getChildByName("Settings").setAttribute("Visibility","Hid
                 <Bind Name="OccCommand"/>
                 <Bind Name="SystemMode"/>
                 <Bind Name="NOTE1"/>
+                <Bind Name="LowBattAlarm"/>
+                <Bind Name="FanMode"/>
             </Component>
             <Component Height="1.0" Left="480.0" Name="RC_49"
                 Top="480.0" Width="1.0">
@@ -10776,6 +11260,8 @@ evt.getCurrentTarget().getChildByName("Settings").setAttribute("Visibility","Hid
                 <Bind Name="OccCommand"/>
                 <Bind Name="SystemMode"/>
                 <Bind Name="NOTE1"/>
+                <Bind Name="LowBattAlarm"/>
+                <Bind Name="FanMode"/>
             </Component>
             <Component Height="1.0" Left="490.0" Name="RC_50"
                 Top="490.0" Width="1.0">
@@ -10792,6 +11278,8 @@ evt.getCurrentTarget().getChildByName("Settings").setAttribute("Visibility","Hid
                 <Bind Name="OccCommand"/>
                 <Bind Name="SystemMode"/>
                 <Bind Name="NOTE1"/>
+                <Bind Name="LowBattAlarm"/>
+                <Bind Name="FanMode"/>
             </Component>
         </Component>
     </Layer>
