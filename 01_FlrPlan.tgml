@@ -2,7 +2,7 @@
 
 <!--[DocumentInformation]
 Created: 2014-07-09 07:45
-Modified: 2015-02-04 15:53
+Modified: 2015-02-04 16:02
 -->
 <?tgml version="1.21"?><Tgml ComponentCounter="109" GridSize="5"
     Height="900.0" LayerCounter="3" Width="1710.0">
@@ -727,7 +727,9 @@ MYAPI.SystemModeCtrl = {
 	update: function(e) {
 		var value = +e.getValue();
 		_.each(this.icons, function(obj, i){obj.setVisibility(false);});
-		this.icons[value - 1].setVisibility(true);
+		if(_.has(this.icons, value - 1)) {
+			this.icons[value - 1].setVisibility(true);
+		}
 	}
 };
 
