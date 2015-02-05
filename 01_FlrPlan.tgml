@@ -2,7 +2,7 @@
 
 <!--[DocumentInformation]
 Created: 2014-07-09 07:45
-Modified: 2015-02-05 12:57
+Modified: 2015-02-05 13:01
 -->
 <?tgml version="1.21"?><Tgml ComponentCounter="109" GridSize="5"
     Height="900.0" LayerCounter="3" Width="1710.0">
@@ -860,7 +860,7 @@ function click(evt) {
     <Layer Name="Display" Visibility="Visible">
         <Component Clip="False" ContentHeight="200.0"
             ContentWidth="330.0" Height="110.0" Left="10.0"
-            Name="RoomController" Top="270.0" Visibility="Hidden" Width="181.5">
+            Name="RoomController" Top="270.0" Visibility="Visible" Width="181.5">
             <Rectangle Ctrl="HeaderCtrl" Fill="#C0C0C0" Height="200.0"
                 Left="0.0" Model="Header" Name="Header" RadiusX="15"
                 RadiusY="15" Stroke="#9FA0A4" StrokeDashArray="0.0"
@@ -1058,6 +1058,8 @@ function click(evt) {
                     Visibility="Visible"><![CDATA[...]]><Rotate
                     Angle="-90.0" Center="0.5,0.5"/>
             </Text>
+            <TargetArea Height="200.0" Name="Room" Width="65.0"/>
+            <TargetArea Height="200.0" Left="65.0" Name="SE8" Top="0.0" Width="265.0"/>
         </Component>
         <Component ContentHeight="620.0" ContentWidth="1350.0"
             Height="620.0" Left="10.0" Name="RCView" Top="270.0" Width="1350.0">
