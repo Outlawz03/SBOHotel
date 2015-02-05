@@ -2,7 +2,7 @@
 
 <!--[DocumentInformation]
 Created: 2014-07-09 07:45
-Modified: 2015-02-05 13:01
+Modified: 2015-02-05 13:16
 -->
 <?tgml version="1.21"?><Tgml ComponentCounter="109" GridSize="5"
     Height="900.0" LayerCounter="3" Width="1710.0">
@@ -192,21 +192,21 @@ var Main = {
 		this.dm.init(display);
 		
 		// Create Bind Manager
-//		this.bm = Object.create(MYAPI.BindManager);
-//		this.bm.init(binds);				
+		this.bm = Object.create(MYAPI.BindManager);
+		this.bm.init(binds);				
 	},
 	
 	// change event handler
 	change: function(e) {
 		e.preventDefault();
 		this.dm.update(e);
-//		this.bm.update(e);		
+		this.bm.update(e);		
 	},
 	
 	// mouse click event handler
 	click: function(e) {
 		this.dm.click(e);
-//		this.bm.click(e);
+		this.bm.click(e);
 	}
 };
 
@@ -361,32 +361,25 @@ MYAPI.Container = {
  * Bind Manager Object
  */
 MYAPI.BindManager = {
-	binds: {},
 	init: function(node) {
-		var bindList = node.getElementsByTagName("Bind");
-		for(var i = 0, max = bindList.length; i < max; i += 1) {
-			var bind = bindList.item(i),
-				name = String(bind.getAttribute("Name")),
-				parentName = String(bind.getParentNode().getAttribute("Name"));
-			
-			if(!this.binds.hasOwnProperty(parentName)) {
-				this.binds[parentName] = {};
-			}
-			this.binds[parentName][name] = Object.create(MYAPI.Bind);
-			this.binds[parentName][name].init(bind);
-		}
+		this.binds = {};
 	},
 	
 	update: function(e) {
 		var bind = e.getTarget(),
 			parentName = String(bind.getParentNode().getAttribute("Name")),
-			name = String(bind.getAttribute("Name")),
-			value = e.getValue();
+			name = String(bind.getAttribute("Name"));
+			
+		if(!_.has(this.binds, parentName)) {
+			this.binds[parentName] = {};
+		}
 		
-//		this.binds[parentName][name].value = value;
+		if(!_.has(this.binds[parentName], name)) {
+			this.bins[parentName][name] = Object.create(MYAPI.Bind);
+		}
 	},
 	
-	click: function(container) {
+	click: function(e) {
 //		for(var key in this.binds) {
 //			if(this.binds.hasOwnProperty(key)) {
 //				var bind = this.bind[key],
@@ -396,7 +389,22 @@ MYAPI.BindManager = {
 //				}
 //				bind.setUpdates(updates);
 //			}
-//		}		
+//		}
+		var bind = e.getTarget(),
+			parent = bind.getParentNode(),
+			name = String(bind.getAttribute("Name")),
+			parentName = String(parent.getAttribute("Name"));
+			
+		switch(name) {
+			case "Higher":
+				break;
+			case "Lower":
+				break;
+			case "Room":
+				this.binds[parentName][name].editProperties();
+				break;
+			default:
+		}
 	}
 };
 
