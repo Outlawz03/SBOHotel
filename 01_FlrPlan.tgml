@@ -2,7 +2,7 @@
 
 <!--[DocumentInformation]
 Created: 2014-07-09 07:45
-Modified: 2015-02-04 16:02
+Modified: 2015-02-05 12:57
 -->
 <?tgml version="1.21"?><Tgml ComponentCounter="109" GridSize="5"
     Height="900.0" LayerCounter="3" Width="1710.0">
@@ -270,21 +270,21 @@ MYAPI.DisplayManager = {
 	click: function(e) {
 		var name = String(e.getTarget().getAttribute("Name"));
 		
-		if(name === "Lower") {
-			this.activeContainer = Math.max(this.activeContainer - 1, 0);	
-		} else if(name === "Higher") {
-			this.activeContainer = Math.min(this.activeContainer + 1, this.containers.length - 1);				
-		}		
-		
-		this.lower.setAttribute("Visibility", this.activeContainer === 0 ? "Hidden" : "Visible");
-		this.higher.setAttribute("Visibility", this.activeContainer === (this.containers.length - 1) ? "Hidden" : "Visible");
-		
-		for(var i = 0, max = this.containers.length; i < max; i += 1) {
-			this.containers[i].update(false);
+		if(name === "Lower" || name === "Higher") {
+			if(name === "Lower") {
+				this.activeContainer = Math.max(this.activeContainer - 1, 0);	
+			} else if(name === "Higher") {
+				this.activeContainer = Math.min(this.activeContainer + 1, this.containers.length - 1);				
+			}		
+			
+			this.lower.setAttribute("Visibility", this.activeContainer === 0 ? "Hidden" : "Visible");
+			this.higher.setAttribute("Visibility", this.activeContainer === (this.containers.length - 1) ? "Hidden" : "Visible");
+			
+			for(var i = 0, max = this.containers.length; i < max; i += 1) {
+				this.containers[i].update(false);
+			}
+			this.containers[this.activeContainer].update(true);
 		}
-		this.containers[this.activeContainer].update(true);
-		
-//		this.bm.click(this.activeContainer);
 	}
 };
 
