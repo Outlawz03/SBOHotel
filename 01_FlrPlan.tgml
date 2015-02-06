@@ -2,7 +2,7 @@
 
 <!--[DocumentInformation]
 Created: 2014-07-09 07:45
-Modified: 2015-02-05 21:06
+Modified: 2015-02-05 21:57
 -->
 <?tgml version="1.21"?><Tgml ComponentCounter="109" GridSize="5"
     Height="900.0" LayerCounter="3" Width="1710.0">
@@ -238,7 +238,9 @@ MYAPI.DisplayManager = {
 		// get Template
 		this.template = node.getChildByName("RoomController");
 		
-		// get Filters
+		// get Occupancy boxes
+		this.occBoxes = Object.create(MYAPI.OccBoxesCtrl);
+		this.occBoxes.init(node.getChild("OccBoxes"));
 		
 		// get SE8000
 		
@@ -246,7 +248,8 @@ MYAPI.DisplayManager = {
 	},
 	
 	update: function(e) {
-		var RCName = String(e.getTarget().getParentNode().getAttribute("Name"));
+		var RCName = String(e.getTarget().getParentNode().getAttribute("Name")),
+			name = String(e.getTarget().getAttribute("Name"));
 		
 		if(RCName.slice(0,2) === "RC") {
 			// check if the RC exists
@@ -264,6 +267,10 @@ MYAPI.DisplayManager = {
 			
 			// update rc display
 			this.rcs[rcNum].update(e);
+		}
+		
+		if(name === "EffectiveOcc") {
+			this.occBoxes.update(e);
 		}
 	},
 	
@@ -559,6 +566,57 @@ MYAPI.HeaderCtrl = {
 			}
 			this.bgd.setFill(fill);
 		}
+	}
+};
+
+/**==========================================================================================
+ * OccBoxes Control
+ */
+MYAPI.OccBoxesCtrl = {
+	init: function(node) {
+		this.values = {};
+		this.txtUU = node.getChild("UU").getChild("Value");
+		this.txtRU = node.getChild("RU").getChild("Value");
+		this.txtUO = node.getChild("UO").getChild("Value");
+		this.txtRO = node.getChild("RO").getChild("Value");
+		this.txtTotal = node.getChild("Total").getChild("Value");
+	},
+	update: function(e) {
+		var parentName = String(e.getTarget().getParentNode().getAttribute("Name"));
+		
+		this.values[parentName] = +e.getValue();
+		
+		var total = 0,
+			uu = 0,
+			uo = 0,
+			ru = 0,
+			ro = 0;
+			
+		for(var key in this.values) {
+			var val = this.values[key];
+			total += 1;
+			switch(val) {
+			case 1:
+				ro += 1;
+				break;
+			case 2:
+				uu += 1;
+				break;
+			case 3:
+				uo += 1;
+				break;
+			case 4:
+				ru += 1;
+				break;
+			default:
+			}
+		}
+		
+		this.txtUU.setAttribute("Content", uu);
+		this.txtRU.setAttribute("Content", ru);
+		this.txtUO.setAttribute("Content", uo);
+		this.txtRO.setAttribute("Content", ro);
+		this.txtTotal.setAttribute("Content", total);
 	}
 };
 
@@ -10264,7 +10322,7 @@ evt.getCurrentTarget().getChildByName("Settings").setAttribute("Visibility","Hid
         </Component>
         <Component Clip="False" ContentHeight="150.0"
             ContentWidth="1640.0" Height="150.0" Left="35.0"
-            Name="Filters" Top="100.0" Width="1640.0">
+            Name="OccBoxes" Top="100.0" Width="1640.0">
             <Component Clip="False" ContentHeight="150.0"
                 ContentWidth="280.0" Height="150.0" Id="" Left="0.0"
                 Name="UU" Top="0.0" Width="280.0">
@@ -10362,8 +10420,8 @@ evt.getCurrentTarget().getChildByName("Settings").setAttribute("Visibility","Hid
                 </TextBox>
             </Component>
             <Component Clip="False" ContentHeight="150.0"
-                ContentWidth="280.0" Height="150.0" Id="Total"
-                Left="1360.0" Name="" Top="0.0" Width="280.0">
+                ContentWidth="280.0" Height="150.0" Id="" Left="1360.0"
+                Name="Total" Top="0.0" Width="280.0">
                 <Rectangle Fill="#9FA0A4" Height="150.0" Left="0.0"
                     Name="Background" RadiusX="15" RadiusY="15"
                     Stroke="#9FA0A4" StrokeDashArray="0.0"
