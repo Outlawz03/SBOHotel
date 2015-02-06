@@ -2,7 +2,7 @@
 
 <!--[DocumentInformation]
 Created: 2014-07-09 07:45
-Modified: 2015-02-05 20:13
+Modified: 2015-02-05 21:06
 -->
 <?tgml version="1.21"?><Tgml ComponentCounter="109" GridSize="5"
     Height="900.0" LayerCounter="3" Width="1710.0">
@@ -200,13 +200,13 @@ var Main = {
 	change: function(e) {
 		e.preventDefault();
 		this.dm.update(e);
-		this.bm.update(e);		
+		this.bm.update(e,this.dm.activeContainer, this.dm.per);		
 	},
 	
 	// mouse click event handler
 	click: function(e) {
 		this.dm.click(e);
-		this.bm.click(e);
+		this.bm.click(e, this.dm.activeContainer, this.dm.per);
 	}
 };
 
@@ -368,7 +368,7 @@ MYAPI.BindManager = {
 		this.binds = {};
 	},
 	
-	update: function(e) {
+	update: function(e, active, per) {
 		var bind = e.getTarget(),
 			parentName = String(bind.getParentNode().getAttribute("Name")),
 			name = String(bind.getAttribute("Name"));
@@ -381,33 +381,39 @@ MYAPI.BindManager = {
 			this.binds[parentName][name] = Object.create(MYAPI.Bind);
 			this.binds[parentName][name].init(bind);
 		}
+		
+		var num = name.slice(-2);
+		if(num <= (per * active) || num > (per * (active + 1))) {
+			this.binds[parentName][name].disableUpdates();
+		}
 	},
 	
-	click: function(e) {
-//		for(var key in this.binds) {
-//			if(this.binds.hasOwnProperty(key)) {
-//				var bind = this.bind[key],
-//					updates = false;				
-//				if(bind.container === container) {
-//					updates = true;
-//				}
-//				bind.setUpdates(updates);
-//			}
-//		}
+	click: function(e, active, per) {
 		var bind = e.getTarget(),
 			parent = bind.getParentNode(),
 			name = String(bind.getAttribute("Name")),
 			parentName = String(parent.getAttribute("Name"));
 			
-		switch(name) {
-			case "Higher":
-				break;
-			case "Lower":
-				break;
-			case "NOTE1":
-				this.binds[parentName][name].displayProperties();
-				break;
-			default:
+		if(name === "Higher" || name === "Lower") {
+			for(var key in this.binds) {
+				var rc = this.binds[key],
+					num = key.slice(-2);
+				if(num <= (per * active) || num > (per * (active + 1))) {
+					for(var p in rc) {
+						var bind = rc[p];
+						bind.disableUpdates();
+					}
+				} else {
+					for(var p in rc) {
+						var bind = rc[p];
+						bind.enableUpdates();
+					}
+				}
+			}
+		}
+		
+		if(_.has(this.binds[parentName], name)) {
+			this.binds[parentName][name].displayProperties();
 		}
 	}
 };
