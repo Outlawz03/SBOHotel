@@ -2,7 +2,7 @@
 
 <!--[DocumentInformation]
 Created: 2014-07-09 07:45
-Modified: 2015-02-05 13:16
+Modified: 2015-02-05 20:05
 -->
 <?tgml version="1.21"?><Tgml ComponentCounter="109" GridSize="5"
     Height="900.0" LayerCounter="3" Width="1710.0">
@@ -299,6 +299,9 @@ MYAPI.RCObject = {
 		// attach to correct container
 		props.parent.appendChild(this.node);
 		
+		//set RC Name for click events
+		this.node.setAttribute("Name", "RC_" + (props.num < 10 ? "0" : "") + props.num);
+		
 		// make clone visible
 		this.node.setAttribute("Visibility", "Visible");
 		
@@ -375,7 +378,7 @@ MYAPI.BindManager = {
 		}
 		
 		if(!_.has(this.binds[parentName], name)) {
-			this.bins[parentName][name] = Object.create(MYAPI.Bind);
+			this.binds[parentName][name] = Object.create(MYAPI.Bind);
 		}
 	},
 	
@@ -401,7 +404,7 @@ MYAPI.BindManager = {
 			case "Lower":
 				break;
 			case "Room":
-				this.binds[parentName][name].editProperties();
+				this.binds[parentName]["NOTE1"].displayProperties();
 				break;
 			default:
 		}
@@ -868,7 +871,7 @@ function click(evt) {
     <Layer Name="Display" Visibility="Visible">
         <Component Clip="False" ContentHeight="200.0"
             ContentWidth="330.0" Height="110.0" Left="10.0"
-            Name="RoomController" Top="270.0" Visibility="Visible" Width="181.5">
+            Name="RoomController" Top="270.0" Visibility="Hidden" Width="181.5">
             <Rectangle Ctrl="HeaderCtrl" Fill="#C0C0C0" Height="200.0"
                 Left="0.0" Model="Header" Name="Header" RadiusX="15"
                 RadiusY="15" Stroke="#9FA0A4" StrokeDashArray="0.0"
