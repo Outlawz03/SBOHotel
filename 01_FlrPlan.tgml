@@ -2,7 +2,7 @@
 
 <!--[DocumentInformation]
 Created: 2014-07-09 07:45
-Modified: 2015-02-05 21:57
+Modified: 2015-02-06 09:05
 -->
 <?tgml version="1.21"?><Tgml ComponentCounter="109" GridSize="5"
     Height="900.0" LayerCounter="3" Width="1710.0">
@@ -243,6 +243,8 @@ MYAPI.DisplayManager = {
 		this.occBoxes.init(node.getChild("OccBoxes"));
 		
 		// get SE8000
+		this.se8 = Object.create(MYAPI.SE8Manager);
+		this.se8.init(node.getChild("SE8000"));
 		
 		this.rcs = {};		
 	},
@@ -342,14 +344,15 @@ MYAPI.RCObject = {
 		}
 	},
 	update: function(e) {
-		var name = String(e.getTarget().getAttribute("Name"));		
-		if(_.has(this.widgets, name)) {
-			this.widgets[name].update(e);
+		var bindName = String(e.getTarget().getAttribute("Name")),
+			signal = {value: e.getValue(), units: e.getUnit(), name: bindName};	
+		if(_.has(this.widgets, bindName)) {
+			this.widgets[bindName].update(signal);
 		}
 		
-		this.widgets["Setpoint"].update(e);
-		this.widgets["Occupancy"].update(e);
-		this.widgets["Header"].update(e);
+		this.widgets["Setpoint"].update(signal);
+		this.widgets["Occupancy"].update(signal);
+		this.widgets["Header"].update(signal);
 	}	
 };
 
@@ -447,11 +450,11 @@ MYAPI.SptCtrl = {
 		this.txt = Object.create(MYAPI.Text);
 		this.txt.init(this.node);
 	},
-	update: function(e) {
-		var name = String(e.getTarget().getAttribute("Name"));
+	update: function(sig) {
+		var name = String(sig.name);
 		if(_.has(this.values, name)) {		
-			this.values[name].value = +e.getValue();
-			this.values[name].units = String(e.getUnit());
+			this.values[name].value = +sig.value;
+			this.values[name].units = String(sig.units);
 		
 			var content = "";
 			switch(this.values["EffectiveOcc"].value) {
@@ -511,10 +514,10 @@ MYAPI.OccCtrl = {
 		this.txt = Object.create(MYAPI.Text);
 		this.txt.init(this.node.getChildByName("Text"));		
 	},
-	update: function(e) {
-		var name = String(e.getTarget().getAttribute("Name"));
+	update: function(sig) {
+		var name = String(sig.name);
 		if(_.has(this.values, name)) {		
-			this.values[name] = +e.getValue();
+			this.values[name] = +sig.value;
 		
 			var content = "";
 			var fill = "#404040";
@@ -553,10 +556,10 @@ MYAPI.HeaderCtrl = {
 		this.bgd = Object.create(MYAPI.Rectangle);
 		this.bgd.init(node);		
 	},
-	update: function(e) {
-		var name = String(e.getTarget().getAttribute("Name"));
+	update: function(sig) {
+		var name = String(sig.name);
 		if(_.has(this.values, name)) {		
-			this.values[name] = +e.getValue();
+			this.values[name] = +sig.value;
 		
 			var fill = "#404040";
 			if(this.values["LowBattAlarm"] === 1) {
@@ -624,20 +627,49 @@ MYAPI.OccBoxesCtrl = {
  * SE8 Manager Object
  */
 MYAPI.SE8Manager = {
-	binds: {},
 	init: function(node) {
+		this.widgets = {};
+		var children = node.getChildNodes();
+		for(var i = 0, max = children.length; i < max; i += 1) {
+			var child = children.item(i);
+			if(child.hasAttribute("Model")) {
+				var model = String(child.getAttribute("Model")),
+					ctrl = String(child.getAttribute("Ctrl"));
+				this.widgets[model] = Object.create(eval("MYAPI." + ctrl));
+				this.widgets[model].init(child);
+			}
+		}
+		
+		this.active = null;
 	},	
 	update: function(e) {
-	}
-};
-
-/**==========================================================================================
- * Status Manager Object
- */
-MYAPI.StatusManager = {
-	init: function(node) {
-	},	
-	update: function(e) {
+		var bind = e.getTarget(),
+			parentName = String(bind.getParentNode().getAttribute("Name")),
+			bindName = String(bind.getAttribute("Name"));
+		
+		if(!_.has(this.binds, parentName)) {
+			this.values[parentName] = {};
+		}
+		
+		if(!_.has(this.values[parentName], bindName)) {
+			this.values[parentName][bindName] = {values: e.getValue(), units: e.getUnit(), name: bindName};
+		}
+		
+		var name = String(e.getTarget().getAttribute("Name"));		
+		if(_.has(this.widgets, bindName)) {
+			this.widgets[bindName].update(this.values);
+		}
+		
+		if(_.has(this.widgets, "Setpoint")) {
+			this.widgets["Setpoint"].update(this.values);
+		}
+		
+		if(_.has(this.widgets, "Occupancy")) {
+			this.widgets["Occupancy"].update(this.values);
+		}		
+	},
+	click: function(e) {
+		
 	}
 };
 
@@ -782,9 +814,9 @@ MYAPI.AnalogValue = {
 		}
 	},
 	
-	update: function(e) {
-		var value = +e.getValue();
-		var unit = e.getUnit();
+	update: function(sig) {
+		var value = +sig.value;
+		var unit = sig.units;
 		
 		this.node.setAttribute("Content", value.toFixed(this.decimals) + " " + unit);
 	}
@@ -841,8 +873,8 @@ MYAPI.NOTE1Ctrl = {
 		this.txt.init(node);
 	},
 	
-	update: function(e) {
-		var content = String(e.getValue());
+	update: function(sig) {
+		var content = String(sig.Value);
 		if(content === "") {
 			content = "Click Here";
 		}
