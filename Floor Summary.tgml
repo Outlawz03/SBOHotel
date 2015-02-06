@@ -2,7 +2,7 @@
 
 <!--[DocumentInformation]
 Created: 2014-07-09 07:45
-Modified: 2015-02-03 10:32
+Modified: 2015-02-06 11:59
 -->
 <?tgml version="1.21"?><Tgml ComponentCounter="586" GridSize="5"
     Height="930.0" LayerCounter="5" Width="1620.0">
@@ -184,6 +184,18 @@ MYAPI.TextBox = {
 };
 
 /**==========================================================================================
+ * Rectangle Object
+ */
+MYAPI.Rectangle = {
+	init: function(node) {
+		this.node = node;		
+	},
+	setFill: function(s) {
+		this.node.setAttribute("Fill", s);
+	}
+};
+
+/**==========================================================================================
  * Pie Object
  */
 MYAPI.Pie = {
@@ -316,6 +328,9 @@ MYAPI.Floor = {
 		
 		this.pie = Object.create(MYAPI.Pie);
 		this.pie.init(this.node.getChild("PieChart"));
+		
+		this.header = Object.create(MYAPI.Rectangle);
+		this.header.init(this.node.getChild("Header"));
 	},
 	
 	getName: function(num) {
@@ -370,7 +385,8 @@ MYAPI.Floor = {
 			UUsum = 0,
 			RUsum = 0,
 			UOsum = 0,
-			ROsum = 0;
+			ROsum = 0,
+			alarm = false;
 		for(var key in this.RCs) {
 			if(this.RCs.hasOwnProperty(key)) {
 				var RC = this.RCs[key];
@@ -450,6 +466,30 @@ MYAPI.Floor = {
 						ROsum += 1;
 					}					
 				}
+				
+				if(RC.hasOwnProperty("LowBattAlarm")) {
+					if(MYAPI.getBool(RC["LowBattAlarm"])) {
+						alarm = true;
+					}
+				}
+				
+				if(RC.hasOwnProperty("FilterAlarm")) {
+					if(MYAPI.getBool(RC["FilterAlarm"])) {
+						alarm = true;
+					}
+				}
+				
+				if(RC.hasOwnProperty("ServiceAlarm")) {
+					if(MYAPI.getBool(RC["ServiceAlarm"])) {
+						alarm = true;
+					}
+				}
+				
+				if(RC.hasOwnProperty("WindowAlarm")) {
+					if(MYAPI.getBool(RC["WindowAlarm"])) {
+						alarm = true;
+					}
+				}
 			}
 		}
 		
@@ -471,6 +511,8 @@ MYAPI.Floor = {
 		}
 		
 		this.pie.update([UUsum / total, RUsum / total, UOsum / total, ROsum / total]);
+		
+		this.header.setFill(alarm ? "#FF0000" : "#4FA600");
 	}
 };
 
