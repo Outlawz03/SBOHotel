@@ -2,7 +2,7 @@
 
 <!--[DocumentInformation]
 Created: 2014-07-09 07:45
-Modified: 2015-02-06 09:05
+Modified: 2015-02-06 09:08
 -->
 <?tgml version="1.21"?><Tgml ComponentCounter="109" GridSize="5"
     Height="900.0" LayerCounter="3" Width="1710.0">
@@ -832,8 +832,8 @@ MYAPI.SystemModeCtrl = {
 		_.each(this.icons, function(obj, i){obj.init(children.item(i));});
 	},
 	
-	update: function(e) {
-		var value = +e.getValue();
+	update: function(sig) {
+		var value = +sig.value;
 		_.each(this.icons, function(obj, i){obj.setVisibility(false);});
 		if(_.has(this.icons, value - 1)) {
 			this.icons[value - 1].setVisibility(true);
@@ -854,8 +854,8 @@ MYAPI.FanModeCtrl = {
 		_.each(this.spds, function(obj, i){obj.init(children.item(i));});
 	},
 	
-	update: function(e) {
-		var value = +e.getValue();
+	update: function(sig) {
+		var value = +sig.value;
 		
 		_.each(this.spds, function(node, i){node.setFill(value > i ? "#626469" : "#9FA0A4");});
 		
@@ -874,7 +874,7 @@ MYAPI.NOTE1Ctrl = {
 	},
 	
 	update: function(sig) {
-		var content = String(sig.Value);
+		var content = String(sig.value);
 		if(content === "") {
 			content = "Click Here";
 		}
