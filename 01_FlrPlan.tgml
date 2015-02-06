@@ -2,7 +2,7 @@
 
 <!--[DocumentInformation]
 Created: 2014-07-09 07:45
-Modified: 2015-02-06 14:21
+Modified: 2015-02-06 14:27
 -->
 <?tgml version="1.21"?><Tgml ComponentCounter="109" GridSize="5"
     Height="900.0" LayerCounter="3" Width="1710.0">
@@ -741,11 +741,11 @@ MYAPI.SE8Manager = {
 			}
 			
 			if(_.has(this.widgets, "Setpoint")) {
-				this.widgets["Setpoint"].updateAll(this.values[this.active][bindName]);
+				this.widgets["Setpoint"].update(this.values[this.active][bindName]);
 			}
 				
 			if(_.has(this.widgets, "Occupancy")) {
-				this.widgets["Occupancy"].updateAll(this.values[this.active][bindName]);
+				this.widgets["Occupancy"].update(this.values[this.active][bindName]);
 			}			
 		}
 	},
