@@ -2,7 +2,7 @@
 
 <!--[DocumentInformation]
 Created: 2014-07-09 07:45
-Modified: 2015-02-06 13:03
+Modified: 2015-02-06 13:39
 -->
 <?tgml version="1.21"?><Tgml ComponentCounter="109" GridSize="5"
     Height="900.0" LayerCounter="3" Width="1710.0">
@@ -334,9 +334,9 @@ MYAPI.DisplayManager = {
 				this.containers[i].update(false);
 			}
 			this.containers[this.activeContainer].update(true);
-		} else if(name === "SE8"){
-			this.se8.click(e);
-		}		
+		}
+		
+		this.se8.click(e);		
 	}
 };
 
@@ -712,6 +712,17 @@ MYAPI.SE8Manager = {
 		
 		this.values = {};
 		this.active = null;
+		
+		this.views = {};
+		var viewChildren = node.getChild("Views").getChildNodes();
+		for(var i = 0, max = viewChildren.length; i < max; i += 1) {
+			var child = viewChildren.item(i),
+				name = child.getAttribute("Name");
+			this.views[name] = Object.create(MYAPI.Component);
+			this.views[name].init(child);
+		}
+		
+		this.showView("Monitor");
 	},	
 	update: function(e) {
 		var bind = e.getTarget(),
@@ -748,6 +759,9 @@ MYAPI.SE8Manager = {
 			this.active = parentName;
 			this.sendValues();
 		}
+		if(_.has(this.views, targetName)) {
+			this.showView(targetName);
+		}
 	},
 	sendValues: function() {
 		for(var key in this.widgets) {
@@ -761,6 +775,15 @@ MYAPI.SE8Manager = {
 				widget.updateAll(this.values[this.active]);
 			}
 		}
+	},
+	showView: function(sName) {
+		for(var key in this.views) {
+			if(_.has(this.views, key)) {
+				var view = this.views[key];
+				view.setVisibility(false);
+			}
+		}
+		this.views[sName].setVisibility(true);
 	}
 };
 
@@ -903,13 +926,28 @@ MYAPI.AnalogValue = {
 		if(this.node.hasAttribute("Decimals")) {
 			this.decimals = +this.node.getAttribute("Decimals");
 		}
+		
+		this.prefix = "";
+		if(this.node.hasAttribute("Prefix")) {
+			this.prefix = String(this.node.getAttribute("Prefix"));
+		}
+		
+		this.suffix = "";
+		if(this.node.hasAttribute("Suffix")) {
+			this.suffix = String(this.node.getAttribute("Suffix"));
+		}
+		
+		this.showUnits = true;
+		if(this.node.hasAttribute("ShowUnits")) {
+			this.showUnits = String(this.node.getAttribute("ShowUnits"));
+		}
 	},
 	
 	update: function(sig) {
 		var value = +sig.value;
 		var unit = sig.units;
 		
-		this.node.setAttribute("Content", value.toFixed(this.decimals) + " " + unit);
+		this.node.setAttribute("Content", this.prefix + value.toFixed(this.decimals) + (this.showUnits ? (" " + unit) : "") + this.suffix);
 	}
 };
 
@@ -970,6 +1008,24 @@ MYAPI.NOTE1Ctrl = {
 			content = "Click Here";
 		}
 		this.txt.setContent(content);
+	}
+};
+
+/**==========================================================================================
+ * Show AV Control
+ */
+MYAPI.ShowAVCtrl = {
+	init: function(node) {
+		this.grp = Object.create(MYAPI.Component);
+		this.grp.init(node);
+		
+		this.txt = Object.create(MYAPI.AnalogValue);
+		this.txt.init(node.getChild("Value"));
+	},
+	
+	update: function(sig) {		
+		this.node.setVisibility(true);
+		this.txt.update({value: sig.value, units: sig.units});
 	}
 };
 
@@ -1490,17 +1546,19 @@ function click(evt) {
                         Name="RoomTemp" Opacity="1.0" Prefix=""
                         ShowUnits="true" Stroke="#626469" Suffix=""
                         TextDecoration="None" Top="244.0968837738037" VerticalAlign="Top"><![CDATA[88.8°C]]></Text>
-                    <Group Name="Fix Me" Visibility="Hidden">
+                    <Group Ctrl="ShowAVCtrl" Model="OutdoorHumidity"
+                        Name="OutdoorHumidity" Visibility="Hidden">
                         <Text FontFamily="Arial" FontSize="16.0"
                             FontStyle="Normal" FontWeight="Normal"
                             HorizontalAlign="Left"
-                            Left="129.89841747283936" Opacity="1.0"
-                            Stroke="#626469" TextDecoration="None"
+                            Left="129.89841747283936" Name="Label"
+                            Opacity="1.0" Stroke="#626469"
+                            TextDecoration="None"
                             Top="289.0968837738037" VerticalAlign="Top"><![CDATA[Humidity]]></Text>
                         <Text FontFamily="Arial" FontSize="28.0"
                             FontStyle="Normal" FontWeight="Normal"
                             HorizontalAlign="Left"
-                            Left="14.898417472839355" Name="OaHum"
+                            Left="14.898417472839355" Name="Value"
                             Opacity="1.0" Stroke="#626469"
                             TextDecoration="None"
                             Top="284.0968837738037" VerticalAlign="Top" Visibility="Visible"><![CDATA[45%]]></Text>
