@@ -2,7 +2,7 @@
 
 <!--[DocumentInformation]
 Created: 2014-07-09 07:45
-Modified: 2015-02-06 13:39
+Modified: 2015-02-06 14:21
 -->
 <?tgml version="1.21"?><Tgml ComponentCounter="109" GridSize="5"
     Height="900.0" LayerCounter="3" Width="1710.0">
@@ -741,12 +741,12 @@ MYAPI.SE8Manager = {
 			}
 			
 			if(_.has(this.widgets, "Setpoint")) {
-				this.widgets["Setpoint"].update(this.values[this.active]);
+				this.widgets["Setpoint"].updateAll(this.values[this.active][bindName]);
 			}
-			
+				
 			if(_.has(this.widgets, "Occupancy")) {
-				this.widgets["Occupancy"].update(this.values[this.active]);
-			}		
+				this.widgets["Occupancy"].updateAll(this.values[this.active][bindName]);
+			}			
 		}
 	},
 	click: function(e) {
@@ -1024,7 +1024,7 @@ MYAPI.ShowAVCtrl = {
 	},
 	
 	update: function(sig) {		
-		this.node.setVisibility(true);
+		this.grp.setVisibility(true);
 		this.txt.update({value: sig.value, units: sig.units});
 	}
 };
@@ -1555,9 +1555,9 @@ function click(evt) {
                             Opacity="1.0" Stroke="#626469"
                             TextDecoration="None"
                             Top="289.0968837738037" VerticalAlign="Top"><![CDATA[Humidity]]></Text>
-                        <Text FontFamily="Arial" FontSize="28.0"
-                            FontStyle="Normal" FontWeight="Normal"
-                            HorizontalAlign="Left"
+                        <Text Decimals="0" FontFamily="Arial"
+                            FontSize="28.0" FontStyle="Normal"
+                            FontWeight="Normal" HorizontalAlign="Left"
                             Left="14.898417472839355" Name="Value"
                             Opacity="1.0" Stroke="#626469"
                             TextDecoration="None"
@@ -5055,6 +5055,7 @@ function click(evt) {
                 <Bind Name="NOTE1"/>
                 <Bind Name="LowBattAlarm"/>
                 <Bind Name="FanMode"/>
+                <Bind Name="OutdoorHumidity"/>
             </Component>
             <Component Height="1.0" Left="10.0" Name="RC_02" Top="10.0" Width="1.0">
                 <Bind Name="RoomTemp"/>
@@ -5072,6 +5073,7 @@ function click(evt) {
                 <Bind Name="NOTE1"/>
                 <Bind Name="LowBattAlarm"/>
                 <Bind Name="FanMode"/>
+                <Bind Name="OutdoorHumidity"/>
             </Component>
             <Component Height="1.0" Left="20.0" Name="RC_03" Top="20.0" Width="1.0">
                 <Bind Name="RoomTemp"/>
@@ -5089,6 +5091,7 @@ function click(evt) {
                 <Bind Name="NOTE1"/>
                 <Bind Name="LowBattAlarm"/>
                 <Bind Name="FanMode"/>
+                <Bind Name="OutdoorHumidity"/>
             </Component>
             <Component Height="1.0" Left="30.0" Name="RC_04" Top="30.0" Width="1.0">
                 <Bind Name="RoomTemp"/>
@@ -5106,6 +5109,7 @@ function click(evt) {
                 <Bind Name="NOTE1"/>
                 <Bind Name="LowBattAlarm"/>
                 <Bind Name="FanMode"/>
+                <Bind Name="OutdoorHumidity"/>
             </Component>
             <Component Height="1.0" Left="40.0" Name="RC_05" Top="40.0" Width="1.0">
                 <Bind Name="RoomTemp"/>
@@ -5123,6 +5127,7 @@ function click(evt) {
                 <Bind Name="NOTE1"/>
                 <Bind Name="LowBattAlarm"/>
                 <Bind Name="FanMode"/>
+                <Bind Name="OutdoorHumidity"/>
             </Component>
             <Component Height="1.0" Left="50.0" Name="RC_06" Top="50.0" Width="1.0">
                 <Bind Name="RoomTemp"/>
@@ -5140,6 +5145,7 @@ function click(evt) {
                 <Bind Name="NOTE1"/>
                 <Bind Name="LowBattAlarm"/>
                 <Bind Name="FanMode"/>
+                <Bind Name="OutdoorHumidity"/>
             </Component>
             <Component Height="1.0" Left="60.0" Name="RC_07" Top="60.0" Width="1.0">
                 <Bind Name="RoomTemp"/>
@@ -5157,6 +5163,7 @@ function click(evt) {
                 <Bind Name="NOTE1"/>
                 <Bind Name="LowBattAlarm"/>
                 <Bind Name="FanMode"/>
+                <Bind Name="OutdoorHumidity"/>
             </Component>
             <Component Height="1.0" Left="70.0" Name="RC_08" Top="70.0" Width="1.0">
                 <Bind Name="RoomTemp"/>
@@ -5174,6 +5181,7 @@ function click(evt) {
                 <Bind Name="NOTE1"/>
                 <Bind Name="LowBattAlarm"/>
                 <Bind Name="FanMode"/>
+                <Bind Name="OutdoorHumidity"/>
             </Component>
             <Component Height="1.0" Left="80.0" Name="RC_09" Top="80.0" Width="1.0">
                 <Bind Name="RoomTemp"/>
@@ -5191,6 +5199,7 @@ function click(evt) {
                 <Bind Name="NOTE1"/>
                 <Bind Name="LowBattAlarm"/>
                 <Bind Name="FanMode"/>
+                <Bind Name="OutdoorHumidity"/>
             </Component>
             <Component Height="1.0" Left="90.0" Name="RC_10" Top="90.0" Width="1.0">
                 <Bind Name="RoomTemp"/>
@@ -5208,6 +5217,7 @@ function click(evt) {
                 <Bind Name="NOTE1"/>
                 <Bind Name="LowBattAlarm"/>
                 <Bind Name="FanMode"/>
+                <Bind Name="OutdoorHumidity"/>
             </Component>
             <Component Height="1.0" Left="100.0" Name="RC_11"
                 Top="100.0" Width="1.0">
@@ -5226,6 +5236,7 @@ function click(evt) {
                 <Bind Name="NOTE1"/>
                 <Bind Name="LowBattAlarm"/>
                 <Bind Name="FanMode"/>
+                <Bind Name="OutdoorHumidity"/>
             </Component>
             <Component Height="1.0" Left="110.0" Name="RC_12"
                 Top="110.0" Width="1.0">
@@ -5244,6 +5255,7 @@ function click(evt) {
                 <Bind Name="NOTE1"/>
                 <Bind Name="LowBattAlarm"/>
                 <Bind Name="FanMode"/>
+                <Bind Name="OutdoorHumidity"/>
             </Component>
             <Component Height="1.0" Left="120.0" Name="RC_13"
                 Top="120.0" Width="1.0">
@@ -5262,6 +5274,7 @@ function click(evt) {
                 <Bind Name="NOTE1"/>
                 <Bind Name="LowBattAlarm"/>
                 <Bind Name="FanMode"/>
+                <Bind Name="OutdoorHumidity"/>
             </Component>
             <Component Height="1.0" Left="130.0" Name="RC_14"
                 Top="130.0" Width="1.0">
@@ -5280,6 +5293,7 @@ function click(evt) {
                 <Bind Name="NOTE1"/>
                 <Bind Name="LowBattAlarm"/>
                 <Bind Name="FanMode"/>
+                <Bind Name="OutdoorHumidity"/>
             </Component>
             <Component Height="1.0" Left="140.0" Name="RC_15"
                 Top="140.0" Width="1.0">
@@ -5298,6 +5312,7 @@ function click(evt) {
                 <Bind Name="NOTE1"/>
                 <Bind Name="LowBattAlarm"/>
                 <Bind Name="FanMode"/>
+                <Bind Name="OutdoorHumidity"/>
             </Component>
             <Component Height="1.0" Left="150.0" Name="RC_16"
                 Top="150.0" Width="1.0">
@@ -5316,6 +5331,7 @@ function click(evt) {
                 <Bind Name="NOTE1"/>
                 <Bind Name="LowBattAlarm"/>
                 <Bind Name="FanMode"/>
+                <Bind Name="OutdoorHumidity"/>
             </Component>
             <Component Height="1.0" Left="160.0" Name="RC_17"
                 Top="160.0" Width="1.0">
@@ -5334,6 +5350,7 @@ function click(evt) {
                 <Bind Name="NOTE1"/>
                 <Bind Name="LowBattAlarm"/>
                 <Bind Name="FanMode"/>
+                <Bind Name="OutdoorHumidity"/>
             </Component>
             <Component Height="1.0" Left="170.0" Name="RC_18"
                 Top="170.0" Width="1.0">
@@ -5352,6 +5369,7 @@ function click(evt) {
                 <Bind Name="NOTE1"/>
                 <Bind Name="LowBattAlarm"/>
                 <Bind Name="FanMode"/>
+                <Bind Name="OutdoorHumidity"/>
             </Component>
             <Component Height="1.0" Left="180.0" Name="RC_19"
                 Top="180.0" Width="1.0">
@@ -5370,6 +5388,7 @@ function click(evt) {
                 <Bind Name="NOTE1"/>
                 <Bind Name="LowBattAlarm"/>
                 <Bind Name="FanMode"/>
+                <Bind Name="OutdoorHumidity"/>
             </Component>
             <Component Height="1.0" Left="190.0" Name="RC_20"
                 Top="190.0" Width="1.0">
@@ -5388,6 +5407,7 @@ function click(evt) {
                 <Bind Name="NOTE1"/>
                 <Bind Name="LowBattAlarm"/>
                 <Bind Name="FanMode"/>
+                <Bind Name="OutdoorHumidity"/>
             </Component>
             <Component Height="1.0" Left="200.0" Name="RC_21"
                 Top="200.0" Width="1.0">
@@ -5406,6 +5426,7 @@ function click(evt) {
                 <Bind Name="NOTE1"/>
                 <Bind Name="LowBattAlarm"/>
                 <Bind Name="FanMode"/>
+                <Bind Name="OutdoorHumidity"/>
             </Component>
             <Component Height="1.0" Left="210.0" Name="RC_22"
                 Top="210.0" Width="1.0">
@@ -5424,6 +5445,7 @@ function click(evt) {
                 <Bind Name="NOTE1"/>
                 <Bind Name="LowBattAlarm"/>
                 <Bind Name="FanMode"/>
+                <Bind Name="OutdoorHumidity"/>
             </Component>
             <Component Height="1.0" Left="220.0" Name="RC_23"
                 Top="220.0" Width="1.0">
@@ -5442,6 +5464,7 @@ function click(evt) {
                 <Bind Name="NOTE1"/>
                 <Bind Name="LowBattAlarm"/>
                 <Bind Name="FanMode"/>
+                <Bind Name="OutdoorHumidity"/>
             </Component>
             <Component Height="1.0" Left="230.0" Name="RC_24"
                 Top="230.0" Width="1.0">
@@ -5460,6 +5483,7 @@ function click(evt) {
                 <Bind Name="NOTE1"/>
                 <Bind Name="LowBattAlarm"/>
                 <Bind Name="FanMode"/>
+                <Bind Name="OutdoorHumidity"/>
             </Component>
             <Component Height="1.0" Left="240.0" Name="RC_25"
                 Top="240.0" Width="1.0">
@@ -5478,6 +5502,7 @@ function click(evt) {
                 <Bind Name="NOTE1"/>
                 <Bind Name="LowBattAlarm"/>
                 <Bind Name="FanMode"/>
+                <Bind Name="OutdoorHumidity"/>
             </Component>
             <Component Height="1.0" Left="250.0" Name="RC_26"
                 Top="250.0" Width="1.0">
@@ -5496,6 +5521,7 @@ function click(evt) {
                 <Bind Name="NOTE1"/>
                 <Bind Name="LowBattAlarm"/>
                 <Bind Name="FanMode"/>
+                <Bind Name="OutdoorHumidity"/>
             </Component>
             <Component Height="1.0" Left="260.0" Name="RC_27"
                 Top="260.0" Width="1.0">
@@ -5514,6 +5540,7 @@ function click(evt) {
                 <Bind Name="NOTE1"/>
                 <Bind Name="LowBattAlarm"/>
                 <Bind Name="FanMode"/>
+                <Bind Name="OutdoorHumidity"/>
             </Component>
             <Component Height="1.0" Left="270.0" Name="RC_28"
                 Top="270.0" Width="1.0">
@@ -5532,6 +5559,7 @@ function click(evt) {
                 <Bind Name="NOTE1"/>
                 <Bind Name="LowBattAlarm"/>
                 <Bind Name="FanMode"/>
+                <Bind Name="OutdoorHumidity"/>
             </Component>
             <Component Height="1.0" Left="280.0" Name="RC_29"
                 Top="280.0" Width="1.0">
@@ -5550,6 +5578,7 @@ function click(evt) {
                 <Bind Name="NOTE1"/>
                 <Bind Name="LowBattAlarm"/>
                 <Bind Name="FanMode"/>
+                <Bind Name="OutdoorHumidity"/>
             </Component>
             <Component Height="1.0" Left="290.0" Name="RC_30"
                 Top="290.0" Width="1.0">
@@ -5568,6 +5597,7 @@ function click(evt) {
                 <Bind Name="NOTE1"/>
                 <Bind Name="LowBattAlarm"/>
                 <Bind Name="FanMode"/>
+                <Bind Name="OutdoorHumidity"/>
             </Component>
             <Component Height="1.0" Left="300.0" Name="RC_31"
                 Top="300.0" Width="1.0">
@@ -5586,6 +5616,7 @@ function click(evt) {
                 <Bind Name="NOTE1"/>
                 <Bind Name="LowBattAlarm"/>
                 <Bind Name="FanMode"/>
+                <Bind Name="OutdoorHumidity"/>
             </Component>
             <Component Height="1.0" Left="310.0" Name="RC_32"
                 Top="310.0" Width="1.0">
@@ -5604,6 +5635,7 @@ function click(evt) {
                 <Bind Name="NOTE1"/>
                 <Bind Name="LowBattAlarm"/>
                 <Bind Name="FanMode"/>
+                <Bind Name="OutdoorHumidity"/>
             </Component>
             <Component Height="1.0" Left="320.0" Name="RC_33"
                 Top="320.0" Width="1.0">
@@ -5622,6 +5654,7 @@ function click(evt) {
                 <Bind Name="NOTE1"/>
                 <Bind Name="LowBattAlarm"/>
                 <Bind Name="FanMode"/>
+                <Bind Name="OutdoorHumidity"/>
             </Component>
             <Component Height="1.0" Left="330.0" Name="RC_34"
                 Top="330.0" Width="1.0">
@@ -5640,6 +5673,7 @@ function click(evt) {
                 <Bind Name="NOTE1"/>
                 <Bind Name="LowBattAlarm"/>
                 <Bind Name="FanMode"/>
+                <Bind Name="OutdoorHumidity"/>
             </Component>
             <Component Height="1.0" Left="340.0" Name="RC_35"
                 Top="340.0" Width="1.0">
@@ -5658,6 +5692,7 @@ function click(evt) {
                 <Bind Name="NOTE1"/>
                 <Bind Name="LowBattAlarm"/>
                 <Bind Name="FanMode"/>
+                <Bind Name="OutdoorHumidity"/>
             </Component>
             <Component Height="1.0" Left="350.0" Name="RC_36"
                 Top="350.0" Width="1.0">
@@ -5676,6 +5711,7 @@ function click(evt) {
                 <Bind Name="NOTE1"/>
                 <Bind Name="LowBattAlarm"/>
                 <Bind Name="FanMode"/>
+                <Bind Name="OutdoorHumidity"/>
             </Component>
             <Component Height="1.0" Left="360.0" Name="RC_37"
                 Top="360.0" Width="1.0">
@@ -5694,6 +5730,7 @@ function click(evt) {
                 <Bind Name="NOTE1"/>
                 <Bind Name="LowBattAlarm"/>
                 <Bind Name="FanMode"/>
+                <Bind Name="OutdoorHumidity"/>
             </Component>
             <Component Height="1.0" Left="370.0" Name="RC_38"
                 Top="370.0" Width="1.0">
@@ -5712,6 +5749,7 @@ function click(evt) {
                 <Bind Name="NOTE1"/>
                 <Bind Name="LowBattAlarm"/>
                 <Bind Name="FanMode"/>
+                <Bind Name="OutdoorHumidity"/>
             </Component>
             <Component Height="1.0" Left="380.0" Name="RC_39"
                 Top="380.0" Width="1.0">
@@ -5730,6 +5768,7 @@ function click(evt) {
                 <Bind Name="NOTE1"/>
                 <Bind Name="LowBattAlarm"/>
                 <Bind Name="FanMode"/>
+                <Bind Name="OutdoorHumidity"/>
             </Component>
             <Component Height="1.0" Left="390.0" Name="RC_40"
                 Top="390.0" Width="1.0">
@@ -5748,6 +5787,7 @@ function click(evt) {
                 <Bind Name="NOTE1"/>
                 <Bind Name="LowBattAlarm"/>
                 <Bind Name="FanMode"/>
+                <Bind Name="OutdoorHumidity"/>
             </Component>
             <Component Height="1.0" Left="400.0" Name="RC_41"
                 Top="400.0" Width="1.0">
@@ -5766,6 +5806,7 @@ function click(evt) {
                 <Bind Name="NOTE1"/>
                 <Bind Name="LowBattAlarm"/>
                 <Bind Name="FanMode"/>
+                <Bind Name="OutdoorHumidity"/>
             </Component>
             <Component Height="1.0" Left="410.0" Name="RC_42"
                 Top="410.0" Width="1.0">
@@ -5784,6 +5825,7 @@ function click(evt) {
                 <Bind Name="NOTE1"/>
                 <Bind Name="LowBattAlarm"/>
                 <Bind Name="FanMode"/>
+                <Bind Name="OutdoorHumidity"/>
             </Component>
             <Component Height="1.0" Left="420.0" Name="RC_43"
                 Top="420.0" Width="1.0">
@@ -5802,6 +5844,7 @@ function click(evt) {
                 <Bind Name="NOTE1"/>
                 <Bind Name="LowBattAlarm"/>
                 <Bind Name="FanMode"/>
+                <Bind Name="OutdoorHumidity"/>
             </Component>
             <Component Height="1.0" Left="430.0" Name="RC_44"
                 Top="430.0" Width="1.0">
@@ -5820,6 +5863,7 @@ function click(evt) {
                 <Bind Name="NOTE1"/>
                 <Bind Name="LowBattAlarm"/>
                 <Bind Name="FanMode"/>
+                <Bind Name="OutdoorHumidity"/>
             </Component>
             <Component Height="1.0" Left="440.0" Name="RC_45"
                 Top="440.0" Width="1.0">
@@ -5838,6 +5882,7 @@ function click(evt) {
                 <Bind Name="NOTE1"/>
                 <Bind Name="LowBattAlarm"/>
                 <Bind Name="FanMode"/>
+                <Bind Name="OutdoorHumidity"/>
             </Component>
             <Component Height="1.0" Left="450.0" Name="RC_46"
                 Top="450.0" Width="1.0">
@@ -5856,6 +5901,7 @@ function click(evt) {
                 <Bind Name="NOTE1"/>
                 <Bind Name="LowBattAlarm"/>
                 <Bind Name="FanMode"/>
+                <Bind Name="OutdoorHumidity"/>
             </Component>
             <Component Height="1.0" Left="460.0" Name="RC_47"
                 Top="460.0" Width="1.0">
@@ -5874,6 +5920,7 @@ function click(evt) {
                 <Bind Name="NOTE1"/>
                 <Bind Name="LowBattAlarm"/>
                 <Bind Name="FanMode"/>
+                <Bind Name="OutdoorHumidity"/>
             </Component>
             <Component Height="1.0" Left="470.0" Name="RC_48"
                 Top="470.0" Width="1.0">
@@ -5892,6 +5939,7 @@ function click(evt) {
                 <Bind Name="NOTE1"/>
                 <Bind Name="LowBattAlarm"/>
                 <Bind Name="FanMode"/>
+                <Bind Name="OutdoorHumidity"/>
             </Component>
             <Component Height="1.0" Left="480.0" Name="RC_49"
                 Top="480.0" Width="1.0">
@@ -5910,6 +5958,7 @@ function click(evt) {
                 <Bind Name="NOTE1"/>
                 <Bind Name="LowBattAlarm"/>
                 <Bind Name="FanMode"/>
+                <Bind Name="OutdoorHumidity"/>
             </Component>
             <Component Height="1.0" Left="490.0" Name="RC_50"
                 Top="490.0" Width="1.0">
@@ -5928,6 +5977,7 @@ function click(evt) {
                 <Bind Name="NOTE1"/>
                 <Bind Name="LowBattAlarm"/>
                 <Bind Name="FanMode"/>
+                <Bind Name="OutdoorHumidity"/>
             </Component>
         </Component>
     </Layer>
