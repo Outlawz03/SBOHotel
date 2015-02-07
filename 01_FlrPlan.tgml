@@ -2,9 +2,9 @@
 
 <!--[DocumentInformation]
 Created: 2014-07-09 07:45
-Modified: 2015-02-06 14:27
+Modified: 2015-02-06 15:17
 -->
-<?tgml version="1.21"?><Tgml ComponentCounter="109" GridSize="5"
+<?tgml version="1.21"?><Tgml ComponentCounter="111" GridSize="5"
     Height="900.0" LayerCounter="3" Width="1710.0">
     <Layer Name="Libraries">
         <Script Name="underscore" OnDocumentLoad="load"><![CDATA[_ = global._;(function() {
@@ -253,7 +253,7 @@ var Main = {
  * Display Manager Object
  */
 MYAPI.DisplayManager = {
-	per: 25,
+	per: 20,
 	init: function(node) {
 		// get containers
 		this.containers = [];
@@ -362,8 +362,8 @@ MYAPI.RCObject = {
 		// position clone
 		var width = +this.node.getAttribute("Width"),
 			height = +this.node.getAttribute("Height"),
-			col = Math.floor(Math.sqrt(props.perScreen)),
-			row = Math.floor(props.perScreen / col),
+			row = Math.floor(Math.sqrt(props.perScreen)),
+			col = Math.floor(props.perScreen / row),
 			colWidth = props.canvasWidth / col,
 			rowHeight = props.canvasHeight / row,
 			cellRow = Math.floor((this.screenNum - 1) / col),
@@ -1047,7 +1047,7 @@ function click(evt) {
     <Layer Name="Title Bar" Visibility="Visible">
         <Rectangle Fill="#42B4E6" Height="85.0" Left="0.0" Opacity="1.0"
             RadiusX="0.0" RadiusY="0.0" Stroke="None"
-            StrokeDashArray="0.0" StrokeWidth="1.0" Top="0.0" Width="1710.0"/>
+            StrokeDashArray="0.0" StrokeWidth="1.0" Top="0.0" Width="5000.0"/>
         <Line Opacity="0.5" Stroke="#FFFFFF" StrokeDashArray="0.0"
             StrokeWidth="4" X1="250.0" X2="250.0" Y1="14.17968937754631" Y2="71.67968940734863"/>
         <Component Clip="False" ContentHeight="29.59"
@@ -1114,8 +1114,8 @@ function click(evt) {
     </Layer>
     <Layer Name="Display" Visibility="Visible">
         <Component Clip="False" ContentHeight="200.0"
-            ContentWidth="330.0" Height="110.0" Left="10.0"
-            Name="RoomController" Top="270.0" Visibility="Hidden" Width="181.5">
+            ContentWidth="330.0" Height="140.0" Left="10.0"
+            Name="RoomController" Top="270.0" Visibility="Hidden" Width="231.0">
             <Rectangle Ctrl="HeaderCtrl" Fill="#C0C0C0" Height="200.0"
                 Left="0.0" Model="Header" Name="Header" RadiusX="15"
                 RadiusY="15" Stroke="#9FA0A4" StrokeDashArray="0.0"
@@ -1323,6 +1323,9 @@ function click(evt) {
                 Visibility="Visible" Width="1350.0"/>
             <Component ContentHeight="620.0" ContentWidth="1350.0"
                 Height="620.0" Left="0.0" Name="RCContainer2" Top="0.0"
+                Visibility="Hidden" Width="1350.0"/>
+            <Component ContentHeight="620.0" ContentWidth="1350.0"
+                Height="620.0" Left="0.0" Name="RCContainer3" Top="0.0"
                 Visibility="Hidden" Width="1350.0"/>
         </Component>
         <Component Clip="False" ContentHeight="500.0"

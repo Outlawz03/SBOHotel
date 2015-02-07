@@ -2,7 +2,7 @@
 
 <!--[DocumentInformation]
 Created: 2014-07-09 07:45
-Modified: 2015-02-06 11:59
+Modified: 2015-02-06 14:48
 -->
 <?tgml version="1.21"?><Tgml ComponentCounter="586" GridSize="5"
     Height="930.0" LayerCounter="5" Width="1620.0">
@@ -715,11 +715,7 @@ function onClick(evt) {
     <Layer Name="Title Bar" Visibility="Visible">
         <Rectangle Fill="#42B4E6" Height="110.0" Left="0.0"
             Opacity="1.0" RadiusX="0.0" RadiusY="0.0" Stroke="None"
-            StrokeDashArray="0.0" StrokeWidth="1.0" Top="0.0" Width="1620.0">
-            <Script OnDocumentLoad="onLoad"><![CDATA[function onLoad(evt) {
-	evt.getCurrentTarget().setAttribute("Width", +evt.getCurrentTarget().getOwnerDocument().getDocumentElement().getAttribute("Width"));
-}]]></Script>
-        </Rectangle>
+            StrokeDashArray="0.0" StrokeWidth="1.0" Top="0.0" Width="5000.0"/>
         <Line Opacity="0.5" Stroke="#FFFFFF" StrokeDashArray="0.0"
             StrokeWidth="2.0" X1="225.0" X2="225.0" Y1="20.0" Y2="85.0"/>
         <Component Clip="False" ContentHeight="29.59"
