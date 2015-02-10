@@ -2,7 +2,7 @@
 
 <!--[DocumentInformation]
 Created: 2014-07-09 07:45
-Modified: 2015-02-10 12:56
+Modified: 2015-02-10 15:37
 -->
 <?tgml version="1.21"?><Tgml ComponentCounter="111" GridSize="5"
     Height="900.0" LayerCounter="4" UseGlobalScripts="True" Width="1710.0">
@@ -136,97 +136,6 @@ Modified: 2015-02-10 12:56
 _ = global._;
 
 function load(evt){
-}]]></Script>
-        <Script Name="DisplayManager" OnDocumentLoad="load"><![CDATA[global.DisplayManager = {
-	init: function(node) {
-		this.per = 20;
-		// get containers
-		this.containers = [];
-		var rcView = node.getChildByName("RCView");
-		
-		this.canvasWidth = +rcView.getAttribute("Width");
-		this.canvasHeight = +rcView.getAttribute("Height");
-			
-		this.activeContainer = 0;	
-		
-		var containerList = rcView.getChildNodes();
-		this.containers = _.map(containerList, function(){return Object.create(global.Container);});
-		_.each(this.containers, function(node, index){node.init(containerList.item(index));});
-		
-		this.lower = node.getChild("Lower");
-		this.higher = node.getChild("Higher");
-		
-		this.lower.setAttribute("Visibility", "Hidden");
-		this.higher.setAttribute("Visibility", this.containers.length > 1 ? "Visible" : "Hidden");
-		
-		// get Template
-		this.template = node.getChildByName("RoomController");
-		
-		// get Occupancy boxes
-//		this.occBoxes = Object.create(MYAPI.OccBoxesCtrl);
-//		this.occBoxes.init(node.getChild("OccBoxes"));
-		
-		// get SE8000
-//		this.se8 = Object.create(global.SE8Manager);
-//		this.se8.init(node.getChild("SE8000"));
-		
-		this.rcs = {};		
-	},
-	
-	update: function(e) {
-		var RCName = String(e.getTarget().getParentNode().getAttribute("Name")),
-			name = String(e.getTarget().getAttribute("Name"));
-		
-		if(RCName.slice(0,2) === "RC") {
-			// check if the RC exists
-			var rcNum = +RCName.slice(-2);
-			if(!_.has(this.rcs, rcNum)) {
-				this.rcs[rcNum] = Object.create(global.RCObject);					
-				this.rcs[rcNum].init({	model: this.template, 
-										num: rcNum,
-										perScreen: this.per,
-										parent: this.containers[Math.floor((rcNum - 1) / this.per)].node, 
-										canvasWidth: this.canvasWidth,
-										canvasHeight: this.canvasHeight
-									});
-			}
-			
-			// update rc display
-			this.rcs[rcNum].update(e);
-		}
-		
-		if(name === "EffectiveOcc") {
-			this.occBoxes.update(e);
-		}
-		
-//		this.se8.update(e);
-	},
-	
-	click: function(e) {
-		var name = String(e.getTarget().getAttribute("Name"));
-		
-		if(name === "Lower" || name === "Higher") {
-			if(name === "Lower") {
-				this.activeContainer = Math.max(this.activeContainer - 1, 0);	
-			} else if(name === "Higher") {
-				this.activeContainer = Math.min(this.activeContainer + 1, this.containers.length - 1);				
-			}		
-			
-			this.lower.setAttribute("Visibility", this.activeContainer === 0 ? "Hidden" : "Visible");
-			this.higher.setAttribute("Visibility", this.activeContainer === (this.containers.length - 1) ? "Hidden" : "Visible");
-			
-			for(var i = 0, max = this.containers.length; i < max; i += 1) {
-				this.containers[i].update(false);
-			}
-			this.containers[this.activeContainer].update(true);
-		}
-		
-		this.se8.click(e);		
-	}
-};
-
-function load(evt)
-{
 }]]></Script>
         <Script Name="BindManager" OnDocumentLoad="load"><![CDATA[global.BindManager = {
 	init: function(node) {
@@ -421,17 +330,100 @@ function load(evt) {
 
 function load(evt) {
 }]]></Script>
-        <Script Name="SE8Ctrl" OnDocumentLoad="load"><![CDATA[global.SE8Ctrl = {
+        <Script Name="RCManager" OnDocumentLoad="load"><![CDATA[global.RCManager = {
 	init: function(node) {
-//		this.widgets = {};
-//		var children = global.getChildrenByAttribute(node, "Model");
-//		for(var i = 0, max = children.length; i < max; i += 1) {
-//			var child = children[i];
-//				var model = String(child.getAttribute("Model")),
-//					ctrl = String(child.getAttribute("Ctrl"));
-//				this.widgets[model] = Object.create(eval("MYAPI." + ctrl));
-//				this.widgets[model].init(child);
-//		}
+		this.per = 20;
+		// get containers
+		this.containers = [];
+		var rcView = node.getChildByName("RCView");
+		
+		this.canvasWidth = +rcView.getAttribute("Width");
+		this.canvasHeight = +rcView.getAttribute("Height");
+			
+		this.activeContainer = 0;	
+		
+		var containerList = rcView.getChildNodes();
+		this.containers = _.map(containerList, function(){return Object.create(global.Container);});
+		_.each(this.containers, function(node, index){node.init(containerList.item(index));});
+		
+		this.lower = node.getChild("Lower");
+		this.higher = node.getChild("Higher");
+		
+		this.lower.setAttribute("Visibility", "Hidden");
+		this.higher.setAttribute("Visibility", this.containers.length > 1 ? "Visible" : "Hidden");
+		
+		// get Template
+		this.template = node.getChildByName("RoomController");
+		
+		this.rcs = {};		
+	},
+	
+	update: function(e) {
+		var RCName = String(e.getTarget().getParentNode().getAttribute("Name")),
+			name = String(e.getTarget().getAttribute("Name"));
+		
+		if(RCName.slice(0,2) === "RC") {
+			// check if the RC exists
+			var rcNum = +RCName.slice(-2);
+			if(!_.has(this.rcs, rcNum)) {
+				this.rcs[rcNum] = Object.create(global.RCObject);					
+				this.rcs[rcNum].init({	model: this.template, 
+										num: rcNum,
+										perScreen: this.per,
+										parent: this.containers[Math.floor((rcNum - 1) / this.per)].node, 
+										canvasWidth: this.canvasWidth,
+										canvasHeight: this.canvasHeight
+									});
+			}
+			
+			// update rc display
+			this.rcs[rcNum].update(e);
+		}
+	},
+	
+	click: function(e) {
+		var target = e.getTarget(),
+			parent = target.getParentNode(),
+			name = String(target.getAttribute("Name")),
+			parentName = String(parent.getAttribute("Name"));
+		
+		if(name === "Lower" || name === "Higher") {
+			if(name === "Lower") {
+				this.activeContainer = Math.max(this.activeContainer - 1, 0);	
+			} else if(name === "Higher") {
+				this.activeContainer = Math.min(this.activeContainer + 1, this.containers.length - 1);				
+			}		
+			
+			this.lower.setAttribute("Visibility", this.activeContainer === 0 ? "Hidden" : "Visible");
+			this.higher.setAttribute("Visibility", this.activeContainer === (this.containers.length - 1) ? "Hidden" : "Visible");
+			
+			for(var i = 0, max = this.containers.length; i < max; i += 1) {
+				this.containers[i].update(false);
+			}
+			this.containers[this.activeContainer].update(true);
+		}	
+		
+		this.rcs[+parentName.slice(-2)].click(e);
+	}
+};
+
+function load(evt)
+{
+}]]></Script>
+        <Script Name="SE8Manager" OnDocumentLoad="load"><![CDATA[global.SE8Manager = {
+	init: function(node) {		
+		var children = global.getChildrenByAttribute(node, "SubModel");
+			
+		this.models = {};
+		for(var i = 0, max = children.length; i < max; i += 1) {
+			var child = children[i];
+			if(child.hasAttribute("SubModel")) {
+				var model = String(child.getAttribute("SubModel")),
+					ctrl = String(child.getAttribute("Ctrl"));
+				this.models[model] = Object.create(eval("global." + ctrl));
+				this.models[model].init(child);
+			}
+		}
 		
 		this.values = {};
 		this.active = null;
@@ -450,26 +442,22 @@ function load(evt) {
 	update: function(e) {
 		var bind = e.getTarget(),
 			parentName = String(bind.getParentNode().getAttribute("Name")),
-			bindName = String(bind.getAttribute("Name"));
-		
+			bindName = String(bind.getAttribute("Name")),
+			attbList = bind.attributes;
+			
 		if(!_.has(this.values, parentName)) {
 			this.values[parentName] = {};
 		}
 		
-		this.values[parentName][bindName] = {value: e.getValue(), units: e.getUnit(), name: bindName};
+		this.values[parentName][bindName] = {value: e.getValue(), units: e.getUnit(), name: bindName, attbs: attbList};
 			
-		if(parentName === this.active) {		
-			if(_.has(this.widgets, bindName)) {
-				this.widgets[bindName].update(this.values[this.active][bindName]);
+		if(parentName === this.active) {	
+			for(var i = 0, max = attbList.length; i < max; i += 1) {
+				var attb = attbList.item(i).nodeName;
+				if(this.models.hasOwnProperty(attb)) {
+					this.models[attb].update(this.values[parentName][bindName]);
+				}
 			}
-			
-			if(_.has(this.widgets, "Setpoint")) {
-				this.widgets["Setpoint"].update(this.values[this.active][bindName]);
-			}
-				
-			if(_.has(this.widgets, "Occupancy")) {
-				this.widgets["Occupancy"].update(this.values[this.active][bindName]);
-			}			
 		}
 	},
 	click: function(e) {
@@ -477,7 +465,7 @@ function load(evt) {
 			parentNode = target.getParentNode(),
 			targetName = String(target.getAttribute("Name")),
 			parentName = String(parentNode.getAttribute("Name"));
-		
+
 		if(_.has(this.values, parentName)) {
 			this.active = parentName;
 			this.sendValues();
@@ -487,15 +475,14 @@ function load(evt) {
 		}
 	},
 	sendValues: function() {
-		for(var key in this.widgets) {
-			var widget = this.widgets[key];
-			
-			if(_.has(this.values[this.active], key)) {
-				widget.update(this.values[this.active][key]);
-			}			
+		for(var key in this.values[this.active]) {
+			var value = this.values[this.active][key];
+			for(var i = 0, max = value.attbs.length; i < max; i += 1) {
+				var attb = value.attbs.item(i).nodeName;
 				
-			if(key === "Setpoint" || key === "Occupancy") {
-				widget.updateAll(this.values[this.active]);
+				if(_.has(this.models, attb)) {
+					this.models[attb].update(value);
+				}
 			}
 		}
 	},
@@ -512,7 +499,7 @@ function load(evt) {
 
 function load(evt) {
 }]]></Script>
-        <Script Name="RCCtrl" OnDocumentLoad="load"><![CDATA[global.RCCtrl = {
+        <Script Name="RCObject" OnDocumentLoad="load"><![CDATA[global.RCObject = {
 	init: function(props) {
 		// create clone
 		this.node = props.model.cloneNode(true);
@@ -543,35 +530,49 @@ function load(evt) {
 		this.node.setAttribute("Top", cellTop + (rowHeight - height) / 2);
 		this.node.setAttribute("Left", cellLeft + (colWidth - width) / 2);
 		
-		this.widgets = {};
+		this.models = {};
 		var children = this.node.getChildNodes();
 		for(var i = 0, max = children.length; i < max; i += 1) {
 			var child = children.item(i);
-			if(child.hasAttribute("Model")) {
-				var model = String(child.getAttribute("Model")),
+			if(child.hasAttribute("SubModel")) {
+				var model = String(child.getAttribute("SubModel")),
 					ctrl = String(child.getAttribute("Ctrl"));
-				this.widgets[model] = Object.create(eval("MYAPI." + ctrl));
-				this.widgets[model].init(child);
+				this.models[model] = Object.create(eval("global." + ctrl));
+				this.models[model].init(child);
+			}
+		}
+		
+		this.binds = {};
+	},
+	update: function(e) {
+		var bindNode = e.getTarget(),
+			bindName = bindNode.getAttribute("Name"),
+			attbList = bindNode.attributes,
+			signal = {value: e.getValue(), units: e.getUnit(), name: bindName};
+			
+		this.binds[bindName] = Object.create(global.Bind);
+		this.binds[bindName].init(bindNode);
+		
+		for(var i = 0, max = attbList.length; i < max; i += 1) {
+			var attb = attbList.item(i).nodeName;
+			if(this.models.hasOwnProperty(attb)) {
+				this.models[attb].update(signal);
 			}
 		}
 	},
-	update: function(e) {
-		var bindName = String(e.getTarget().getAttribute("Name")),
-			signal = {value: e.getValue(), units: e.getUnit(), name: bindName};	
-		if(_.has(this.widgets, bindName)) {
-			this.widgets[bindName].update(signal);
-		}
+	click: function(e) {
+		var target = e.getTarget(),
+			name = target.getAttribute("Name"),
+			attbList = target.attributes;
 		
-		if(_.has(this.widgets, "Setpoint")) {
-			this.widgets["Setpoint"].update(signal);
+		for(var i = 0, max = attbList.length; i < max; i += 1) {
+			var attb = attbList.item(i).nodeName;
+			
+			if(this.models.hasOwnProperty(attb) && this.binds.hasOwnProperty(name)) {
+				this.models[attb].click(this.binds[name]);
+			}
 		}
-		if(_.has(this.widgets, "Occupancy")) {
-			this.widgets["Occupancy"].update(signal);
-		}
-		if(_.has(this.widgets, "Header")) {
-			this.widgets["Header"].update(signal);
-		}
-	}	
+	}
 };
 
 function load(evt) {
@@ -589,9 +590,9 @@ function load(evt) {
 		}
 	},
 	
-	update: function(e) {		
-		this.node.setAttribute("Fill", global.getBool(e.getValue()) ? this.colors[1] : this.colors[0]);
-		this.node.setAttribute("Stroke", global.getBool(e.getValue()) ? this.colors[1] : this.colors[0]);
+	update: function(sig) {		
+		this.node.setAttribute("Fill", global.getBool(sig.value) ? this.colors[1] : this.colors[0]);
+		this.node.setAttribute("Stroke", global.getBool(sig.value) ? this.colors[1] : this.colors[0]);
 	}
 };
 
@@ -631,17 +632,14 @@ function load(evt) {
 function load(evt) {
 }]]></Script>
         <Script Name="ShowAVCtrl" OnDocumentLoad="load"><![CDATA[global.ShowAVCtrl = {
-	init: function(node) {
-		this.grp = Object.create(global.Component);
-		this.grp.init(node);
-		
-//		this.txt = Object.create(global.AnalogValue);
-//		this.txt.init(node.getChild("Value"));
+	init: function(node) {		
+		this.txt = Object.create(global.AnalogValueCtrl);
+		this.txt.init(node);
 	},
 	
 	update: function(sig) {		
-		this.grp.setVisibility(true);
-//		this.txt.update({value: sig.value, units: sig.units});
+		this.txt.setVisibility(true);
+		this.txt.update({value: sig.value, units: sig.units});
 	}
 };
 
@@ -659,6 +657,10 @@ function load(evt) {
 			content = "Click Here";
 		}
 		this.txt.setContent(content);
+	},
+	
+	click: function(bind) {
+		bind.displayProperties();
 	}
 };
 
@@ -732,8 +734,12 @@ function load(evt) {
 	update: function(sig) {
 		var value = +sig.value;
 		var unit = sig.units;
-		
+
 		this.node.setAttribute("Content", this.prefix + value.toFixed(this.decimals) + (this.showUnits ? (" " + unit) : "") + this.suffix);
+	},
+	
+	setVisibility: function(b) {
+		this.node.setAttribute("Visibility", b ? "Visible" : "Hidden");
 	}
 };
 
@@ -953,23 +959,14 @@ function load(evt) {
 
 function load(evt) {
 }]]></Script>
-        <Script Name="ViewCtrl" OnDocumentLoad="load"><![CDATA[global.ViewCtrl = {
-	init: function() {
-	},
-	update: function() {
-	},
-	trigger: function() {
-	}
-};
-
-function load(evt) {
-}]]></Script>
         <Script Name="HideTextCtrl" OnDocumentLoad="load"><![CDATA[global.HideTextCtrl = {
-	init: function() {
+	init: function(node) {		
+		this.txt = Object.create(global.Text);
+		this.txt.init(node);
 	},
-	update: function() {
-	},
-	trigger: function() {
+	
+	update: function(sig) {		
+		this.txt.setVisibility(true);
 	}
 };
 
@@ -981,27 +978,30 @@ function load(evt) {
             ContentWidth="491.0" Height="491.0" Left="0.0"
             Name="Floor_01" Top="0.0" Width="491.0">
             <Component Height="1.0" Left="0.0" Name="RC_01" Top="0.0" Width="1.0">
-                <Bind Name="RoomTemp" RoomTemp=""/>
-                <Bind Name="OccCoolSetpoint" SE8Setpoint="" Setpoint=""/>
-                <Bind Name="OccHeatSetpoint" SE8Setpoint="" Setpoint=""/>
-                <Bind Name="UnoccCoolSetpoint" SE8Setpoint="" Setpoint=""/>
-                <Bind Name="UnoccHeatSetpoint" SE8Setpoint="" Setpoint=""/>
-                <Bind Name="StandbyCoolSetpoint" SE8Setpoint="" Setpoint=""/>
-                <Bind Name="StandbyHeatSetpoint" SE8Setpoint="" Setpoint=""/>
+                <Bind Name="RoomTemp" RCManager="" RoomTemp="" SE8=""/>
+                <Bind Name="OccCoolSetpoint" RCManager="" SE8="" Setpoint=""/>
+                <Bind Name="OccHeatSetpoint" RCManager="" SE8="" Setpoint=""/>
+                <Bind Name="UnoccCoolSetpoint" RCManager="" SE8="" Setpoint=""/>
+                <Bind Name="UnoccHeatSetpoint" RCManager="" SE8="" Setpoint=""/>
+                <Bind Name="StandbyCoolSetpoint" RCManager="" SE8="" Setpoint=""/>
+                <Bind Name="StandbyHeatSetpoint" RCManager="" SE8="" Setpoint=""/>
                 <Bind Header="" Name="EffectiveOcc" OccBoxes=""
-                    Occupancy="" SE8Occupancy="" SE8Setpoint="" Setpoint=""/>
-                <Bind Name="PICoolDemand" SE8Setpoint="" Setpoint=""/>
-                <Bind Name="PIHeatDemand" SE8Setpoint="" Setpoint=""/>
-                <Bind Header="" Name="OccCommand" OccBoxes=""
-                    Occupancy="" SE8Occupancy="" SE8Setpoint="" Setpoint=""/>
-                <Bind Name="SystemMode" SE8Setpoint="" Setpoint=""/>
-                <Bind NOTE1="" Name="NOTE1"/>
-                <Bind Name="LowBattAlarm" Occupancy="" SE8Occupancy=""/>
-                <Bind FanMode="" Name="FanMode" SE8FanMode=""/>
-                <Bind Name="OutdoorHumidity" SE8HumidityText="" SE8OutdoorHumidity=""/>
-                <Bind Id="" Name="WirelessWindowSwitchStatus" WirelessWindowSwitchStatus=""/>
-                <Bind Id="" Name="WirelessDoorSwitchStatus" WirelessDoorSwitchStatus=""/>
-                <Bind Id="" LocalMotion="" Name="LocalMotion"/>
+                    Occupancy="" RCManager="" SE8="" Setpoint=""/>
+                <Bind Name="PICoolDemand" RCManager="" SE8="" Setpoint=""/>
+                <Bind Name="PIHeatDemand" RCManager="" SE8="" Setpoint=""/>
+                <Bind Header="" Name="OccCommand" Occupancy=""
+                    RCManager="" SE8="" Setpoint=""/>
+                <Bind Name="SystemMode" RCManager="" SE8="" Setpoint="" SystemMode=""/>
+                <Bind NOTE1="" Name="NOTE1" RCManager="" SE8=""/>
+                <Bind Header="" Name="LowBattAlarm" Occupancy=""
+                    RCManager="" SE8=""/>
+                <Bind FanMode="" Name="FanMode" RCManager="" SE8=""/>
+                <Bind Humidity="" HumidityLabel=""
+                    Name="OutdoorHumidity" SE8=""/>
+                <Bind Id="" Name="WirelessWindowSwitchStatus" SE8="" WirelessWindowSwitchStatus=""/>
+                <Bind Attribute="" Id="" Name="WirelessDoorSwitchStatus"
+                    SE8="" WirelessDoorSwitchStatus=""/>
+                <Bind Id="" LocalMotion="" Name="LocalMotion" SE8=""/>
             </Component>
         </Component>
     </Layer>
@@ -1073,14 +1073,14 @@ function load(evt) {
                 Attribute="Content" Name="Graphic"/>
         </Text>
     </Layer>
-    <Layer Ctrl="DisplayManager" Id="Display" Model="Display" Name="" Visibility="Visible">
+    <Layer Ctrl="RCManager" Id="Display" Model="RCManager" Name="" Visibility="Visible">
         <Component Clip="False" ContentHeight="200.0"
             ContentWidth="330.0" Height="140.0" Left="10.0"
             Name="RoomController" Top="270.0" Visibility="Hidden" Width="231.0">
             <Rectangle Ctrl="HeaderCtrl" Fill="#C0C0C0" Height="200.0"
-                Left="0.0" Model="Header" Name="Header" RadiusX="15"
-                RadiusY="15" Stroke="#9FA0A4" StrokeDashArray="0.0"
-                StrokeWidth="1.0" Top="0.0" Width="330.0005593234304">
+                Left="0.0" Name="Header" RadiusX="15" RadiusY="15"
+                Stroke="#9FA0A4" StrokeDashArray="0.0" StrokeWidth="1.0"
+                SubModel="Header" Top="0.0" Width="330.0005593234304">
                 <Expose ExposedAttribute="Fill" Name="BackingColour"/>
             </Rectangle>
             <Rectangle Fill="#F0F0F0" Height="190.0" Left="65.0"
@@ -1095,13 +1095,13 @@ function load(evt) {
             <Text Ctrl="SptCtrl" FontFamily="Arial" FontSize="60"
                 FontStyle="Normal" FontWeight="Normal"
                 HorizontalAlign="Left" Id="" Left="83.99841594696045"
-                Model="Setpoint" Name="Setpoint" Opacity="1.0"
-                Stroke="#626469" TextDecoration="None" Top="84.0" VerticalAlign="Top"><![CDATA[--.-]]></Text>
+                Name="Setpoint" Opacity="1.0" Stroke="#626469"
+                SubModel="Setpoint" TextDecoration="None" Top="84.0" VerticalAlign="Top"><![CDATA[--.-]]></Text>
             <Text Ctrl="AnalogValueCtrl" FontFamily="Arial"
                 FontSize="28" FontStyle="Normal" FontWeight="Normal"
                 HorizontalAlign="Left" Id="" Left="88.99841594696045"
-                Model="RoomTemp" Name="RoomTemp" Opacity="1.0"
-                Stroke="#626469" TextDecoration="None"
+                Name="RoomTemp" Opacity="1.0" Stroke="#626469"
+                SubModel="RoomTemp" TextDecoration="None"
                 Top="149.0968837738037" VerticalAlign="Top"><![CDATA[--.- °]]></Text>
             <Text FontFamily="Arial" FontSize="16.0" FontStyle="Normal"
                 FontWeight="Normal" HorizontalAlign="Left"
@@ -1112,11 +1112,9 @@ function load(evt) {
                 Left="91.99841594696045" Opacity="1.0" Stroke="#626469"
                 TextDecoration="None" Top="53.09688377380371" VerticalAlign="Top"><![CDATA[Setpoint]]></Text>
             <Component Clip="False" ContentHeight="30.0"
-                ContentWidth="225.0" Ctrl="OccCtrl" EffectiveOcc="0"
-                Height="30.0" Id="RentedOccupied"
-                Left="81.99841594696045" LowBattAlarm="0"
-                Model="Occupancy" OccCommand="0"
-                Top="10.096883773803711" Width="225.0">
+                ContentWidth="225.0" Ctrl="OccCtrl" Height="30.0"
+                Id="RentedOccupied" Left="81.99841594696045"
+                SubModel="Occupancy" Top="10.096883773803711" Width="225.0">
                 <Rectangle Fill="#4FA600" Height="30.0" Left="0.0"
                     Name="background" RadiusX="5" RadiusY="5"
                     Stroke="#626469" StrokeDashArray="0.0"
@@ -1143,7 +1141,7 @@ function load(evt) {
             </Component>
             <Component Clip="False" ContentHeight="40" ContentWidth="40"
                 Ctrl="SystemModeCtrl" Height="40.0" Id="SystemMode"
-                Left="230.0" Model="SystemMode" Top="50.0" Width="40.0">
+                Left="230.0" SubModel="SystemMode" Top="50.0" Width="40.0">
                 <Component Clip="False" ContentHeight="50"
                     ContentWidth="50" Height="40" Left="0.0" Name="Off"
                     Top="0.0" Visibility="Hidden" Width="40">
@@ -1222,7 +1220,7 @@ function load(evt) {
             </Component>
             <Component Clip="False" ContentHeight="50" ContentWidth="40"
                 Ctrl="FanModeCtrl" Height="50.0" Id="FanMode"
-                Left="270.0" Model="FanMode" Name="" Top="50.0" Width="40.0">
+                Left="270.0" Name="" SubModel="FanMode" Top="50.0" Width="40.0">
                 <Group Name="Speeds">
                     <Pie Center="20.555581092834473,18.003326416015625"
                         Fill="#626469" Name="Speed1" Opacity="1.0"
@@ -1268,18 +1266,19 @@ function load(evt) {
             <Text Ctrl="NOTE1Ctrl" FontFamily="Arial" FontSize="32"
                 FontStyle="Normal" FontWeight="Normal"
                 HorizontalAlign="Center" Left="36.099998474121094"
-                Model="NOTE1" Name="NOTE1" Opacity="1.0"
-                Stroke="#FFFFFF" TextDecoration="None" Top="87.0"
+                Name="NOTE1" Opacity="1.0" Stroke="#FFFFFF"
+                SubModel="NOTE1" TextDecoration="None" Top="87.0"
                 VerticalAlign="Top"
                     Visibility="Visible"><![CDATA[...]]><Rotate
                     Angle="-90.0" Center="0.5,0.5"/>
             </Text>
-            <TargetArea Height="200.0" Name="NOTE1" Width="65.0"/>
-            <TargetArea Height="200.0" Left="65.0" Name="SE8" Top="0.0" Width="265.0"/>
+            <TargetArea Height="200.0" NOTE1="" Name="NOTE1"
+                RCManager="" Width="65.0"/>
+            <TargetArea Height="200.0" Left="65.0" Name="SE8" SE8=""
+                Top="0.0" Width="265.0"/>
         </Component>
         <Component ContentHeight="620.0" ContentWidth="1350.0"
-            Ctrl="ViewCtrl" Height="620.0" Left="10.0" Model="RCView"
-            Name="RCView" Top="270.0" Width="1350.0">
+            Height="620.0" Left="10.0" Name="RCView" Top="270.0" Width="1350.0">
             <Component ContentHeight="620.0" ContentWidth="1350.0"
                 Height="620.0" Left="0.0" Name="RCContainer1" Top="0.0"
                 Visibility="Visible" Width="1350.0"/>
@@ -1291,7 +1290,7 @@ function load(evt) {
                 Visibility="Hidden" Width="1350.0"/>
         </Component>
         <Component Clip="False" ContentHeight="500.0"
-            ContentWidth="320.0" Ctrl="SE8Ctrl" Height="500.0" Id=""
+            ContentWidth="320.0" Ctrl="SE8Manager" Height="500.0" Id=""
             Left="1370.0" Model="SE8" Name="SE8000" Top="280.0" Width="320.0">
             <Rectangle Fill="#87D300" Height="60.0" Left="0.0"
                 Name="TabBgd" Opacity="1.0" RadiusX="15.0"
@@ -1303,8 +1302,8 @@ function load(evt) {
                 StrokeWidth="1.0" Top="50.0" Visibility="Visible" Width="320.0"/>
             <Text Ctrl="NOTE1Ctrl" FontFamily="Arial" FontSize="19.0"
                 FontStyle="Normal" FontWeight="Normal"
-                HorizontalAlign="Left" Left="19.0" Model="SE8NOTE1"
-                Name="RmName" Opacity="1.0" Stroke="#626469"
+                HorizontalAlign="Left" Left="19.0" Name="RmName"
+                Opacity="1.0" Stroke="#626469" SubModel="NOTE1"
                 TextDecoration="None" Top="55.0" VerticalAlign="Top" Visibility="Visible"><![CDATA[...]]></Text>
             <Rectangle Fill="None" Height="500" Left="0.0"
                 Name="Outline" Opacity="1.0" RadiusX="15.0"
@@ -1333,7 +1332,7 @@ function load(evt) {
                     <Component Clip="False" ContentHeight="40"
                         ContentWidth="40" Ctrl="SystemModeCtrl"
                         Height="40.0" Id="SystemMode"
-                        Left="234.89841747283936" Model="SE8SystemMode"
+                        Left="234.89841747283936" SubModel="SystemMode"
                         Top="89.09688377380371" Width="40.0">
                         <Component Clip="False" ContentHeight="50"
                             ContentWidth="50" Height="40" Left="0.0"
@@ -1417,8 +1416,8 @@ function load(evt) {
                         ContentWidth="225.0" Ctrl="OccCtrl"
                         EffectiveOcc="0" Height="30.0"
                         Id="RentedOccupied" Left="4.898417472839356"
-                        LowBattAlarm="0" Model="SE8Occupancy"
-                        OccCommand="0" Top="94.09688377380371" Width="225.0">
+                        LowBattAlarm="0" OccCommand="0"
+                        SubModel="Occupancy" Top="94.09688377380371" Width="225.0">
                         <Rectangle Fill="#4FA600" Height="30.0"
                             Left="0.0" Name="background" RadiusX="5"
                             RadiusY="5" Stroke="#626469"
@@ -1451,8 +1450,8 @@ function load(evt) {
                     <Component Clip="False" ContentHeight="50"
                         ContentWidth="40" Ctrl="FanModeCtrl"
                         Height="50.0" Id="Fan Mode"
-                        Left="274.89841747283936" Model="SE8FanMode"
-                        Name="" Top="89.09688377380371" Width="40.0">
+                        Left="274.89841747283936" Name=""
+                        SubModel="FanMode" Top="89.09688377380371" Width="40.0">
                         <Group Name="Speeds">
                             <Pie
                                 Center="20.555581092834473,18.003326416015625"
@@ -1507,40 +1506,42 @@ function load(evt) {
                         FontFamily="Arial" FontSize="28"
                         FontStyle="Normal" FontWeight="Normal"
                         HorizontalAlign="Left" Id=""
-                        Left="14.898417472839355" Model="SE8RoomTemp"
-                        Name="RoomTemp" Opacity="1.0" Prefix=""
-                        ShowUnits="true" Stroke="#626469" Suffix=""
+                        Left="14.898417472839355" Name="RoomTemp"
+                        Opacity="1.0" Prefix="" ShowUnits="true"
+                        Stroke="#626469" SubModel="RoomTemp" Suffix=""
                         TextDecoration="None" Top="244.0968837738037" VerticalAlign="Top"><![CDATA[88.8°C]]></Text>
                     <Text Ctrl="HideTextCtrl" FontFamily="Arial"
                         FontSize="16.0" FontStyle="Normal"
                         FontWeight="Normal" HorizontalAlign="Left"
-                        Left="129.89841747283936" Model="HumidityLabel"
-                        Name="Humidity Label" Opacity="1.0"
-                        Stroke="#626469" TextDecoration="None"
-                        Top="289.0968837738037" VerticalAlign="Top"><![CDATA[Humidity]]></Text>
+                        Left="129.89841747283936" Name="Humidity Label"
+                        Opacity="1.0" Stroke="#626469"
+                        SubModel="HumidityLabel" TextDecoration="None"
+                        Top="289.0968837738037" VerticalAlign="Top" Visibility="Hidden"><![CDATA[Humidity]]></Text>
                     <Text Ctrl="ShowAVCtrl" Decimals="0"
                         FontFamily="Arial" FontSize="28.0"
                         FontStyle="Normal" FontWeight="Normal"
                         HorizontalAlign="Left" Left="14.898417472839355"
                         Name="Humidity Value" Opacity="1.0"
-                        Stroke="#626469" TextDecoration="None"
-                        Top="284.0968837738037" VerticalAlign="Top" Visibility="Visible"><![CDATA[45%]]></Text>
+                        Stroke="#626469" SubModel="Humidity"
+                        TextDecoration="None" Top="284.0968837738037"
+                        VerticalAlign="Top" Visibility="Hidden"><![CDATA[45%]]></Text>
                     <Path ColorFalse="#C0C0C0" ColorTrue="#009530"
                         Ctrl="DigitalPathColorCtrl" Fill="#E0E0E0" Id=""
-                        Model="LocalMotion" Name="LocalMotion"
+                        Name="LocalMotion"
                         PathData="M249.11811,416.04002 c-8.554809330000012,-17.37695580000002 -8.554809330000012,-17.37695580000002 -8.554809330000012,-17.37695580000002 -3.7427289400000063,8.688478509999982 -3.7427289400000063,8.688478509999982 -3.7427289400000063,8.688478509999982 -0.2673377730000084,0.6683444999999892 -0.9356822670000042,1.069351279999978 -1.6040266200000133,1.069351279999978 -15.77292890000001,0.1336688999999751 -15.77292890000001,0.1336688999999751 -15.77292890000001,0.1336688999999751 -2.5397088800000063,0.0 -4.544742420000006,-2.0050332800000206 -4.544742420000006,-4.544742410000026 0.0,-2.4060400800000252 2.0050336399999935,-4.411073590000001 4.544742759999991,-4.411073590000001 10.426175,-0.401006682000002 10.426175,-0.401006682000002 10.426175,-0.401006682000002 2.539709249999987,-10.559842300000014 2.539709249999987,-10.559842300000014 2.539709249999987,-10.559842300000014 0.0,-0.13366889700000684 0.13366890399998965,-0.13366889700000684 0.13366890399998965,-0.2673377950000031 4.277404929999989,-9.089484930000026 4.277404929999989,-9.089484930000026 4.277404929999989,-9.089484930000026 -3.4753910800000085,-0.13366889700000684 -3.4753910800000085,-0.13366889700000684 -3.4753910800000085,-0.13366889700000684 -3.341722290000007,5.213087289999976 -3.341722290000007,5.213087289999976 -3.341722290000007,5.213087289999976 l0.0,0.0 c-0.9356822670000042,1.3366890199999943 -2.2723710200000085,2.005033659999981 -3.7427289400000063,2.005033659999981 -0.802013364000004,0.0 -1.7376955400000043,-0.2673377940000137 -2.5397088800000063,-0.8020133850000093 -1.2030200000000093,-0.8020133850000093 -2.005033300000008,-2.2723710700000197 -2.005033300000008,-3.742728960000022 0.0,-0.8020133850000093 0.2673378169999978,-1.7376954200000228 0.8020134079999934,-2.4060400800000252 5.0794183399999895,-8.020133690000023 5.0794183399999895,-8.020133690000023 5.0794183399999895,-8.020133690000023 0.2673378169999978,-0.401006682000002 0.6683445289999952,-0.8020133850000093 1.0693512699999985,-1.069351050000023 0.40100671799999077,-0.13366889700000684 0.9356822999999963,-0.2673377950000031 1.336689089999993,-0.2673377950000031 0.13366890399998965,0.0 0.13366890399998965,0.0 0.13366890399998965,0.0 13.500560699999994,0.40100670499998614 13.500560699999994,0.40100670499998614 13.500560699999994,0.40100670499998614 0.9356822999999963,0.0 1.737695819999999,0.8020134079999934 1.6040268799999922,1.8713647199999741 0.0,0.9356822959999818 -0.802013364000004,1.7376959299999726 -1.7376955400000043,1.7376959299999726 -13.099551200000008,-0.5346755900000062 -13.099551200000008,-0.5346755900000062 -13.099551200000008,-0.5346755900000062 -4.945749070000005,7.752796279999984 -4.945749070000005,7.752796279999984 -4.945749070000005,7.752796279999984 l0.0,0.0 c-0.13366889200000287,0.2673378069999899 -0.13366889200000287,0.4010067039999967 -0.13366889200000287,0.534675601999993 0.0,0.4010067039999967 0.13366890599999692,0.6683444989999998 0.40100671799999077,0.8020134079999934 0.13366890099999296,0.1336688999999751 0.4010067149999941,0.1336688999999751 0.5346756129999903,0.1336688999999751 0.2673378249999985,0.0 0.5346756149999976,-0.13366889700000684 0.8020134109999901,-0.401006682000002 3.341722589999989,-5.346755840000014 3.341722589999989,-5.346755840000014 3.341722589999989,-5.346755840000014 l0.0,0.0 c0.13366890599999692,-0.2673377950000031 0.26733781799998724,-0.4010066810000126 0.5346756129999903,-0.8020133850000093 0.40100671799999077,-0.2673377950000031 0.8020134139999868,-0.5346755900000062 1.3366890499999897,-0.5346755900000062 0.26733782799999517,-0.13366889700000684 0.5346756179999943,-0.13366889700000684 0.8020134129999974,-0.13366889700000684 0.13366890399998965,0.0 0.13366890399998965,0.0 0.2673378229999912,0.0 l0.0,0.0 c6.2824385099999915,0.40100670499998614 6.2824385099999915,0.40100670499998614 6.2824385099999915,0.40100670499998614 0.6683445269999879,0.0 1.2030202299999928,0.40100670499998614 1.4703579799999886,0.9356822959999818 s0.2673378169999978,1.069351279999978 0.0,1.6040268599999763 c-5.21308676000001,11.228188199999977 -5.21308676000001,11.228188199999977 -5.21308676000001,11.228188199999977 -2.9407155000000103,11.629194999999982 -2.9407155000000103,11.629194999999982 -2.9407155000000103,11.629194999999982 -0.13366889200000287,0.8020134079999934 -0.802013364000004,1.3366891399999759 -1.6040266200000133,1.3366891399999759 -11.896530600000006,0.4010067039999967 -11.896530600000006,0.4010067039999967 -11.896530600000006,0.4010067039999967 l0.0,0.0 c-0.5346755790000088,0.0 -0.9356822830000056,0.4010067039999967 -0.9356822830000056,0.9356822949999923 s0.4010067149999941,0.9356822949999923 0.9356822949999923,0.9356822949999923 c14.569910899999996,0.0 14.569910899999996,0.0 14.569910899999996,0.0 4.6784116199999914,-11.228186800000003 4.6784116199999914,-11.228186800000003 4.6784116199999914,-11.228186800000003 0.2673378229999912,-0.5346755900000062 0.935682302999993,-1.069351050000023 1.6040268799999922,-1.069351050000023 s1.3366891599999917,0.4010067039999967 1.737695809999991,1.069351279999978 C252.32603,414.43604 252.32603,414.43604 252.32603,414.43604 c0.13366890899999362,0.2673378069999899 0.13366890899999362,0.2673378069999899 0.13366890899999362,0.2673378069999899 0.13366890599999692,0.2673378069999899 0.4010067149999941,0.534675601999993 0.8020134079999934,0.534675601999993 0.13366890899999362,0.0 0.2673378229999912,0.0 0.40100671999999804,-0.13366889700000684 0.26733782799999517,-0.13366889700000684 0.534675620999991,-0.4010066810000126 0.534675620999991,-0.8020133850000093 0.0,-0.13366889700000684 0.0,-0.2673377950000031 -0.13366889700000684,-0.2673377950000031 -10.426173500000004,-23.65939450000002 -10.426173500000004,-23.65939450000002 -10.426173500000004,-23.65939450000002 -0.2673377730000084,-0.5346755900000062 -0.2673377730000084,-1.069351050000023 0.0,-1.6040266300000212 C247.51398,381.15255 247.51398,381.15255 247.51398,381.15255 c0.26733781799998724,-0.401006682000002 0.8020134079999934,-0.8020133850000093 1.3366891599999917,-0.9356822720000082 0.6683445109999866,0.0 1.2030202599999882,0.1336688999999751 1.6040270199999895,0.6683444999999892 0.0,0.0 2.2723715399999946,2.4060402999999724 3.47539162999999,3.876398119999976 0.534675620999991,0.4010067039999967 0.8020134139999868,0.8020134079999934 0.935682302999993,0.9356822949999923 s0.4010067149999941,0.40100670499998614 0.6683445159999906,0.534675601999993 0.534675620999991,0.2673378069999899 0.8020134109999901,0.2673378069999899 c7.351789489999987,0.0 7.351789489999987,0.0 7.351789489999987,0.0 0.1336688999999751,0.0 0.4010067149999941,-0.13366889700000684 0.5346756129999903,-0.401006682000002 0.26733781799998724,-0.13366889700000684 0.4010067149999941,-0.401006682000002 0.4010067149999941,-0.5346755900000062 0.0,-0.5346755900000062 -0.5346755790000088,-0.9356822720000082 -0.9356822830000056,-0.9356822720000082 -0.9356822710000188,0.0 -2.2723711500000263,0.0 -3.4753911000000244,0.0 -1.069351050000023,0.0 -2.0050332800000206,0.0 -2.1387022100000195,0.0 -0.4010066810000126,0.0 -0.9356822830000056,-0.2673377940000137 -1.3366889100000208,-0.6683444760000157 -6.817113639999974,-7.886464950000004 -6.817113639999974,-7.886464950000004 -6.817113639999974,-7.886464950000004 -1.3366889000000128,-1.4703578500000276 -1.3366889000000128,-1.4703578500000276 -1.3366889000000128,-1.4703578500000276 -0.5346755790000088,-0.6683444760000157 -0.6683444720000011,-1.4703578500000276 -0.2673377730000084,-2.1387022200000274 1.470358019999992,-2.2723711200000025 1.470358019999992,-2.2723711200000025 1.470358019999992,-2.2723711200000025 0.26733781799998724,-0.5346755900000062 0.8020134109999901,-0.8020133850000093 1.3366891699999996,-0.8020133850000093 0.935682302999993,-0.13366889700000684 1.871364749999998,-0.5346755900000062 2.5397093299999938,-1.2030199800000219 s0.935682307999997,-1.3366889100000208 0.935682307999997,-2.2723710600000118 c0.0,-1.7376954200000228 -1.4703578300000117,-3.2080535200000213 -3.20805335,-3.2080535200000213 s-3.208053360000008,1.4703579299999774 -3.208053360000008,3.2080537499999764 c0.0,0.6683445049999932 0.13366890599999692,1.3366890199999943 0.5346756129999903,1.8713647199999741 l0.0,0.0 c0.5346756099999936,0.8020134079999934 0.26733781799998724,1.8713647199999741 -0.5346755840000128,2.4060403099999803 s-1.871364480000011,0.40100670499998614 -2.4060400600000094,-0.5346755900000062 c-0.802013359,-1.069351050000023 -1.203019970000014,-2.4060400800000252 -1.203019970000014,-3.742728960000022 0.0,-3.742728960000022 3.0743849899999987,-6.817113670000026 6.81711408999999,-6.817113670000026 S258.20753,362.17147 258.20753,365.91418 c0.0,1.8713647199999741 -0.802013364000004,3.6090603999999757 -2.0050332700000126,4.812080379999998 -1.069351030000007,0.9356822949999923 -2.4060400600000094,1.7376958899999977 -3.876397880000013,2.005033649999973 -0.2673377730000084,0.40100670599997557 -0.2673377730000084,0.40100670599997557 -0.2673377730000084,0.40100670599997557 0.5346756129999903,0.534675601999993 0.5346756129999903,0.534675601999993 0.5346756129999903,0.534675601999993 0.0,0.1336688999999751 0.0,0.1336688999999751 0.0,0.1336688999999751 6.416107269999998,7.218120689999978 6.416107269999998,7.218120689999978 6.416107269999998,7.218120689999978 1.203020209999977,0.0 3.475391469999977,0.0 4.678411559999972,0.0 2.4060402999999724,0.0 4.411073709999982,2.005033649999973 4.411073709999982,4.544742779999979 0.0,2.4060402999999724 -2.0050332800000206,4.411073839999972 -4.4110734500000035,4.411073839999972 -7.351789250000024,0.0 -7.351789250000024,0.0 -7.351789250000024,0.0 -0.9356822619999718,0.0 -1.7376955099999805,-0.2673377940000137 -2.406040049999973,-0.5346755900000062 -0.6683444690000044,-0.4010066810000126 -1.203019970000014,-0.8020133850000093 -1.7376955400000043,-1.3366889100000208 -0.13366889700000684,-0.13366889700000684 -0.40100667100000464,-0.5346755900000062 -0.802013359,-0.9356822710000188 -0.5346755790000088,-0.5346755900000062 -1.069351030000007,-1.069351050000023 -1.6040266200000133,-1.7376954200000228 0.0,0.0 -0.13366889100001345,-0.13366889700000684 -0.2673377730000084,-0.2673377950000031 -2.2723711300000105,4.544742779999979 -2.2723711300000105,4.544742779999979 -2.2723711300000105,4.544742779999979 10.158838400000008,22.857383099999993 10.158838400000008,22.857383099999993 10.158838400000008,22.857383099999993 0.0,0.1336688999999751 0.0,0.1336688999999751 0.0,0.1336688999999751 0.26733781899997666,0.534675601999993 0.4010067149999941,1.069351279999978 0.4010067149999941,1.6040268599999763 0.0,1.7376958899999977 -1.069351049999966,3.4753915699999993 -2.9407155000000103,4.143735979999974 -0.5346755820000055,0.2673378069999899 -1.069351030000007,0.4010067039999967 -1.6040266200000133,0.4010067039999967 l0.0,0.0 C251.52413,418.84715 249.78641,417.77789 249.11811,416.04002"
-                        Stroke="#E0E0E0" StrokeWidth="1"/>
+                        Stroke="#E0E0E0" StrokeWidth="1" SubModel="LocalMotion"/>
                     <Text Ctrl="SptCtrl" FontFamily="Arial"
                         FontSize="80" FontStyle="Normal"
                         FontWeight="Normal" HorizontalAlign="Left" Id=""
-                        Left="9.898417472839355" Model="Setpoint"
-                        Name="Setpoint" Opacity="1.0" Stroke="#626469"
-                        TextDecoration="None" Top="154.0968837738037" VerticalAlign="Top"><![CDATA[88.8]]></Text>
+                        Left="9.898417472839355" Name="Setpoint"
+                        Opacity="1.0" Stroke="#626469"
+                        SubModel="Setpoint" TextDecoration="None"
+                        Top="154.0968837738037" VerticalAlign="Top"><![CDATA[88.8]]></Text>
                     <Path ColorFalse="#009530" ColorTrue="#FF0000"
                         Ctrl="DigitalPathColorCtrl" Fill="#E0E0E0" Id=""
-                        Model="WirelessWindowSwitchStatus"
                         Name="WirelessWindowSwitchStatus"
-                        PathData="M98.739521,418.526228 L34.036035,418.526228 c-1.195796889999997,0.0 -2.17417618,-0.9783793110000261 -2.17417618,-2.1741761800000177 l0.0,-6.9356222100000195 c0.0,-1.1957969200000207 0.9783793219999986,-2.1741761800000177 2.174176399999997,-2.1741761800000177 L36.8189809,407.24225 l0.0,-46.24472860000003 c0.0,-1.1957969200000207 0.9783793189999983,-2.1741761800000177 2.174176359999997,-2.1741761800000177 l53.528220600000004,0.0 c1.1957969599999956,0.0 2.174176299999999,0.9783793189999983 2.174176299999999,2.174176339999974 l0.0,48.54935619999998 c0.0,1.1957969499999876 -0.9783793130000049,2.174176339999974 -2.1741762200000068,2.174176339999974 s-2.1741762200000068,-0.9783793110000261 -2.1741762200000068,-2.1741761800000177 L90.3472028,363.19344 41.167333,363.19344 l0.0,44.070553099999984 44.26622999999999,0.0 c1.1957969599999956,0.0 2.174176299999999,0.9783793189999983 2.174176299999999,2.174176339999974 s-0.9783793130000049,2.174176339999974 -2.1741762200000068,2.174176339999974 L36.210211,411.612348 l0.0,2.5872697799999855 60.355133699999996,0.0 0.0,-3.696099580000009 c0.0,-1.1957969200000207 0.9783793189999983,-2.1741761800000177 2.174176299999999,-2.1741761800000177 s2.174176299999999,0.9783793189999983 2.174176299999999,2.174176339999974 l0.0,5.870275979999974 C100.913698,417.56959 99.9353189,418.526228 98.739521,418.526228 z M85.433565,404.78543 l-39.2873647,0.0 c-1.1957969300000002,0.0 -2.1741761800000035,-0.9783793110000261 -2.1741761800000035,-2.1741761800000177 l0.0,-18.219596500000023 c0.0,-0.5870275830000082 0.23915938999999753,-1.1305716400000279 0.6305111209999978,-1.5436650600000235 0.4130934929999981,-0.413093487000026 0.9566375599999972,-0.630511112000022 1.5436652599999974,-0.630511112000022 l33.156189,0.0 c1.1957969599999956,0.0 2.174176299999999,0.9783793189999983 2.174176299999999,2.174176339999974 s-0.9783793130000049,2.174176339999974 -2.1741762200000068,2.174176339999974 l-30.982011200000002,0.0 0.0,13.871244699999977 34.939013,0.0 L83.2593859,370.47693 48.6464999,370.47693 l0.0,4.8918965899999876 30.5036943,0.0 c1.1957969599999956,0.0 2.174176299999999,0.9783793189999983 2.174176299999999,2.174176339999974 s-0.9783793130000049,2.174176339999974 -2.1741762200000068,2.174176339999974 l-32.677869,0.0 c-1.1957969300000002,0.0 -2.1741761800000035,-0.9783793110000261 -2.1741761800000035,-2.1741761800000177 L44.298147,368.30275 c0.0,-1.1957969200000207 0.9783793189999983,-2.1741761800000177 2.174176359999997,-2.1741761800000177 l38.96124,0.0 c1.1957969599999956,0.0 2.174176299999999,0.9783793189999983 2.174176299999999,2.174176339999974 l0.0,34.30850179999999 c0.0,0.587027594999995 -0.2391593800000038,1.1305716599999869 -0.6305111110000041,1.543665209999972 C86.564134,404.54627 85.998849,404.78543 85.433565,404.78543 z" Stroke="None"/>
+                        PathData="M98.739521,418.526228 L34.036035,418.526228 c-1.195796889999997,0.0 -2.17417618,-0.9783793110000261 -2.17417618,-2.1741761800000177 l0.0,-6.9356222100000195 c0.0,-1.1957969200000207 0.9783793219999986,-2.1741761800000177 2.174176399999997,-2.1741761800000177 L36.8189809,407.24225 l0.0,-46.24472860000003 c0.0,-1.1957969200000207 0.9783793189999983,-2.1741761800000177 2.174176359999997,-2.1741761800000177 l53.528220600000004,0.0 c1.1957969599999956,0.0 2.174176299999999,0.9783793189999983 2.174176299999999,2.174176339999974 l0.0,48.54935619999998 c0.0,1.1957969499999876 -0.9783793130000049,2.174176339999974 -2.1741762200000068,2.174176339999974 s-2.1741762200000068,-0.9783793110000261 -2.1741762200000068,-2.1741761800000177 L90.3472028,363.19344 41.167333,363.19344 l0.0,44.070553099999984 44.26622999999999,0.0 c1.1957969599999956,0.0 2.174176299999999,0.9783793189999983 2.174176299999999,2.174176339999974 s-0.9783793130000049,2.174176339999974 -2.1741762200000068,2.174176339999974 L36.210211,411.612348 l0.0,2.5872697799999855 60.355133699999996,0.0 0.0,-3.696099580000009 c0.0,-1.1957969200000207 0.9783793189999983,-2.1741761800000177 2.174176299999999,-2.1741761800000177 s2.174176299999999,0.9783793189999983 2.174176299999999,2.174176339999974 l0.0,5.870275979999974 C100.913698,417.56959 99.9353189,418.526228 98.739521,418.526228 z M85.433565,404.78543 l-39.2873647,0.0 c-1.1957969300000002,0.0 -2.1741761800000035,-0.9783793110000261 -2.1741761800000035,-2.1741761800000177 l0.0,-18.219596500000023 c0.0,-0.5870275830000082 0.23915938999999753,-1.1305716400000279 0.6305111209999978,-1.5436650600000235 0.4130934929999981,-0.413093487000026 0.9566375599999972,-0.630511112000022 1.5436652599999974,-0.630511112000022 l33.156189,0.0 c1.1957969599999956,0.0 2.174176299999999,0.9783793189999983 2.174176299999999,2.174176339999974 s-0.9783793130000049,2.174176339999974 -2.1741762200000068,2.174176339999974 l-30.982011200000002,0.0 0.0,13.871244699999977 34.939013,0.0 L83.2593859,370.47693 48.6464999,370.47693 l0.0,4.8918965899999876 30.5036943,0.0 c1.1957969599999956,0.0 2.174176299999999,0.9783793189999983 2.174176299999999,2.174176339999974 s-0.9783793130000049,2.174176339999974 -2.1741762200000068,2.174176339999974 l-32.677869,0.0 c-1.1957969300000002,0.0 -2.1741761800000035,-0.9783793110000261 -2.1741761800000035,-2.1741761800000177 L44.298147,368.30275 c0.0,-1.1957969200000207 0.9783793189999983,-2.1741761800000177 2.174176359999997,-2.1741761800000177 l38.96124,0.0 c1.1957969599999956,0.0 2.174176299999999,0.9783793189999983 2.174176299999999,2.174176339999974 l0.0,34.30850179999999 c0.0,0.587027594999995 -0.2391593800000038,1.1305716599999869 -0.6305111110000041,1.543665209999972 C86.564134,404.54627 85.998849,404.78543 85.433565,404.78543 z"
+                        Stroke="None" SubModel="WirelessWindowSwitchStatus"/>
                     <Text FontFamily="Arial" FontSize="20"
                         FontStyle="Normal" FontWeight="Normal"
                         HorizontalAlign="Left" Left="9.898417472839355"
@@ -1581,10 +1582,10 @@ function load(evt) {
                         TextDecoration="None" Top="14.096883773803711" VerticalAlign="Top"><![CDATA[Monitor]]></Text>
                     <Path ColorFalse="#009530" ColorTrue="#FF0000"
                         Ctrl="DigitalPathColorCtrl" Fill="#E0E0E0" Id=""
-                        Model="WirelessDoorSwitchStatus"
                         Name="WirelessDoorSwitchStatus"
                         PathData="M169.01566657226562,422.54654402734377 c-0.23507675400000494,0.0 -0.47015351600001054,-0.03917945910001208 -0.7052302689999976,-0.13712810700002365 l-16.905936800000006,-6.523380009999983 c-1.0186659400000053,-0.3917945960000111 -1.5084091600000136,-1.527998910000008 -1.116614559999988,-2.5270750899999825 0.3917945999999972,-1.0186659400000053 1.5279989599999908,-1.5084091499999772 2.5270752099999925,-1.1166145700000243 l14.241733799999992,5.504714139999976 L167.05669357226563,381.3101610273437 148.89701357226562,376.6673970273437 l0.0,36.201820999999995 c0.0,1.0774351499999852 -0.8815378420000002,1.9589730000000145 -1.9589729699999907,1.9589730000000145 L140.55178857226562,414.82819002734374 c-1.0774351199999899,0.0 -1.9589729699999907,-0.8815378420000002 -1.9589729699999907,-1.9589729499999748 L138.59281657226563,368.00873602734373 c0.0,-1.0774351200000183 0.8815378449999969,-1.9589729599999828 1.958972999999986,-1.9589729599999828 L174.6575085722656,366.0497630273438 c1.0774351599999932,0.0 1.958972999999986,0.8815378460000147 1.958972999999986,1.9589730299999815 l0.0,44.44909740000003 2.50748544999999,0.0 0.0,-48.77842700000002 -43.09740550000001,0.0 0.0,48.660889499999996 c0.0,1.0774351499999852 -0.8815378420000002,1.9589730000000145 -1.9589729699999907,1.9589730000000145 s-1.9589729699999907,-0.8815378420000002 -1.9589729699999907,-1.9589729499999748 L132.10861557226562,361.72043302734374 c0.0,-1.0774351200000183 0.8815378449999969,-1.9589729599999828 1.958972999999986,-1.9589729599999828 l47.0153521,0.0 c1.0774351599999932,0.0 1.958972999999986,0.8815378460000147 1.958972999999986,1.9589730000000145 l0.0,52.69637349999999 c0.0,1.0774351499999852 -0.8815378420000002,1.9589730000000145 -1.9589729699999907,1.9589730000000145 L174.6575085722656,416.37577802734376 c-1.0774351199999899,0.0 -1.9589729699999907,-0.8815378420000002 -1.9589729699999907,-1.9589729499999748 L172.69853557226563,369.96770802734375 142.51076057226564,369.96770802734375 l0.0,40.96212539999999 2.487895729999991,0.0 L144.9986585722656,374.15991102734375 c0.0,-0.6072816189999912 0.2742562219999911,-1.1753837800000042 0.763999468999998,-1.5475886500000229 0.4701535209999861,-0.37220486600000413 1.0970248799999922,-0.5093329740000172 1.6847167900000102,-0.3526151340000183 l22.077626199999997,5.62225251000001 c0.8619481199999939,0.21548703199999864 1.4692297599999904,0.9990762489999838 1.4692297599999904,1.9002038099999936 l0.0,40.80540789999998 c0.0,0.6464610909999919 -0.3134356710000077,1.253742750000015 -0.8423583830000041,1.6063578499999949 C169.79925557226562,422.42900502734375 169.40746057226562,422.54654402734377 169.01566657226562,422.54654402734377 z"
-                        State0Color="#009530" State1Color="#FF0000" Stroke="#E0E0E0"/>
+                        State0Color="#009530" State1Color="#FF0000"
+                        Stroke="#E0E0E0" SubModel="WirelessDoorSwitchStatus"/>
                     <Text FontFamily="Arial" FontSize="10"
                         FontStyle="Normal" FontWeight="Bold"
                         HorizontalAlign="Left" Id="windowstate"
@@ -1613,8 +1614,8 @@ function load(evt) {
                     <Component Clip="False" ContentHeight="22.0"
                         ContentWidth="40.0" Ctrl="SwitchCtrl"
                         Height="22.0" Id="Units"
-                        Left="43.34064042568207" LeftValue="1"
-                        Model="UnitSwitch" Name="" RightValue="2"
+                        Left="43.34064042568207" LeftValue="1" Name=""
+                        RightValue="2" SubModel="UnitSwitch"
                         Top="114.99894714355469" Width="40.0">
                         <Expose ExposedAttribute="LeftValue" Name="Left Value"/>
                         <Expose ExposedAttribute="RightValue" Name="Right Value"/>
@@ -4848,18 +4849,18 @@ function load(evt) {
                 StrokeWidth="1.0" Visibility="Visible" X1="215.0"
                 X2="215.0" Y1="5.0" Y2="45.0"/>
             <Group Name="TargetAreas">
-                <TargetArea Height="49.0" Name="Monitor" Width="104.0"/>
+                <TargetArea Height="49.0" Name="Monitor" SE8="" Width="104.0"/>
                 <TargetArea Height="49.0" Left="106.0" Name="Control"
-                    Top="0.0" Width="108.0"/>
+                    SE8="" Top="0.0" Width="108.0"/>
                 <TargetArea Height="49.0" Left="215.0" Name="Settings"
-                    Top="0.0" Width="103.0"/>
+                    SE8="" Top="0.0" Width="103.0"/>
                 <TargetArea Height="30.0" Left="20.0"
-                    Name="Temperature Scale" Top="110.0" Width="85.0"/>
+                    Name="Temperature Scale" SE8="" Top="110.0" Units="" Width="85.0"/>
             </Group>
         </Component>
         <Component Clip="False" ContentHeight="150.0"
-            ContentWidth="1640.0" Height="150.0" Left="35.0"
-            Name="OccBoxes" Top="100.0" Width="1640.0">
+            ContentWidth="1640.0" Ctrl="OccBoxesCtrl" Height="150.0"
+            Left="35.0" Model="OccBoxes" Name="OccBoxes" Top="100.0" Width="1640.0">
             <Component Clip="False" ContentHeight="150.0"
                 ContentWidth="280.0" Height="150.0" Id="" Left="0.0"
                 Name="UU" Top="0.0" Width="280.0">
@@ -4990,7 +4991,7 @@ function load(evt) {
                 <Path Fill="#FFFFFF"
                     PathData="M35.5,52.600006103515625 c14.100000000000023,-6.899999999999977 27.100000000000023,-13.199999999999989 40.0,-19.69999999999999 5.300000000000011,-2.5999999999999943 10.5,-5.400000000000006 15.399999999999977,-8.599999999999994 6.2999999999999545,-4.0 7.2999999999999545,-9.099999999999994 3.8999999999999773,-15.800000000000011 -3.2000000000000455,-6.300000000000011 -8.200000000000045,-8.5 -15.199999999999989,-5.800000000000011 -5.300000000000011,2.0999999999999943 -10.300000000000011,5.0 -15.300000000000011,7.699999999999989 -16.600000000000023,8.900000000000006 -33.0,18.099999999999994 -49.69999999999999,26.700000000000017 -14.600000000000023,7.600000000000023 -12.600000000000023,25.30000000000001 -1.0,31.19999999999999 8.199999999999989,4.199999999999989 16.100000000000023,8.899999999999977 24.30000000000001,13.199999999999989 12.899999999999977,6.899999999999977 26.0,13.5 38.80000000000001,20.600000000000023 11.099999999999966,6.199999999999989 17.500000000000057,-0.10000000000002274 20.599999999999966,-9.300000000000011 1.2999999999999545,-3.8000000000000114 -0.7999999999999545,-7.0 -3.6000000000000227,-9.199999999999989 -3.0,-2.3999999999999773 -6.600000000000023,-4.399999999999977 -10.100000000000023,-6.199999999999989 -14.399999999999977,-7.300000000000011 -28.899999999999977,-14.5 -43.39999999999998,-21.80000000000001 C38.89999999999998,54.900006103515636 37.69999999999999,54.0000061035156 35.5,52.600006103515625 z" Stroke="None"/>
             </Component>
-            <TargetArea Height="110.0" Name="Lower" Width="110.0"/>
+            <TargetArea Height="110.0" Name="Lower" RCManager="" Width="110.0"/>
         </Component>
         <Component Clip="False" ContentHeight="110.0"
             ContentWidth="110.0" Height="50.0" Left="1625.0"
@@ -5001,7 +5002,7 @@ function load(evt) {
                     PathData="M64.10001220703123,52.9999938964844 c-5.600000000000023,2.8999999999999773 -10.199999999999989,5.300000000000011 -14.800000000000011,7.600000000000023 -12.899999999999977,6.5 -26.0,12.800000000000011 -38.80000000000001,19.5 -4.800000000000011,2.5 -9.699999999999989,5.800000000000011 -8.699999999999989,12.199999999999989 0.8000000000000114,5.199999999999989 2.8000000000000114,10.399999999999977 8.699999999999989,11.600000000000023 3.3000000000000114,0.6999999999999886 7.600000000000023,0.30000000000001137 10.600000000000023,-1.1999999999999886 21.80000000000001,-11.300000000000011 43.39999999999998,-23.0 65.10000000000002,-34.69999999999999 10.600000000000023,-5.699999999999989 11.799999999999955,-21.69999999999999 1.6000000000000227,-28.0 -11.399999999999977,-7.100000000000023 -23.30000000000001,-13.400000000000006 -35.19999999999999,-19.80000000000001 -10.5,-5.699999999999989 -21.19999999999999,-11.099999999999994 -31.899999999999977,-16.599999999999994 -7.100000000000023,-3.5999999999999943 -12.199999999999989,-2.4000000000000057 -16.100000000000023,3.6999999999999886 -4.600000000000023,7.0 -4.300000000000011,12.099999999999994 2.8999999999999773,16.69999999999999 8.899999999999977,5.599999999999994 18.600000000000023,10.200000000000017 28.100000000000023,14.999999999999972 C44.70001220703125,43.599993896484364 53.80001220703127,47.9999938964844 64.10001220703123,52.9999938964844 z" Stroke="None"/>
             </Component>
             <TargetArea Height="110.0" Left="0.0" Name="Higher"
-                Top="0.0" Width="110.0"/>
+                RCManager="" Top="0.0" Width="110.0"/>
         </Component>
     </Layer>
     <Script Name="GS" OnDocumentLoad="load" OnMouseClick="click"
@@ -5089,7 +5090,6 @@ var main = {
 			var child = children[i],
 				model = child.getAttribute("Model"),
 				ctrl = child.getAttribute("Ctrl");
-
 			this.models[model] = Object.create(eval("global." + ctrl));
 			this.models[model].init(child);				
 		}
@@ -5113,11 +5113,11 @@ var main = {
 	up: function(e) {
 		var trigger = e.getTarget(),
 			attbList = trigger.attributes;
-			
+		
 		for(var i = 0, max = attbList.length; i < max; i += 1) {
 			var attb = attbList.item(i).nodeName;
 			if(this.models.hasOwnProperty(attb)) {
-				this.models[attb].trigger(e);
+				this.models[attb].click(e);
 			}
 		}
 	},
