@@ -1,0 +1,2010 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ObjectSet ExportMode="Standard" Version="1.6.0.250" Note="TypesFirst">
+  <Types>
+    <PropertyType Name="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" DisplayName="Custom enumeration" Description="Custom enumeration" Icon="" Base="system.pt.Boolean" RegExp=".*" Translate="1" EnumType="Strict" Abstract="0">
+      <Enum Name="Inactive" Value="0" />
+      <Enum Name="Active" Value="1" />
+    </PropertyType>
+  </Types>
+  <MetaInformation>
+    <ExportMode Value="Standard" />
+    <RuntimeVersion Value="1.6.0.250" />
+    <SourceVersion Value="1.6.0.250" />
+  </MetaInformation>
+  <ExportedObjects>
+    <OI DESCR=" " NAME="RC_01_01" TYPE="bacnet.DeviceProxy">
+      <PI Name="ApplicationVersion" Value="0.5.2" />
+      <PI Name="DaylightSavingsStatus" Value="0" />
+      <PI Name="FirmwareRevision" Value="2.13.0.3" />
+      <PI Name="MaxApduLengthAccepted" Value="1476" />
+      <PI Name="ModelName" Value="SmartStruxure" />
+      <PI Name="NOTE1" Value="Room 101" />
+      <PI Name="NOTE2" Value="Think it's good" />
+      <PI Name="ObjectTypesSupported" Value="273304387584" />
+      <PI Name="ProtocolRevision" Value="10" />
+      <PI Name="ProtocolVersion" Value="1" />
+      <PI Name="SegmentationSupported" Value="3" />
+      <PI Name="ServicesSupported" Value="188756216" />
+      <PI Name="UTCOffset" Value="-360" />
+      <PI Name="VendorIdentifier" Value="335" />
+      <PI Name="VendorName" Value="Schneider" />
+      <OI NAME="Application" TYPE="bacnet.BACnetApplicationProxy" declared="1">
+        <OI DESCR="1 = None;&#xA;2 = Door Dry;&#xA;3 = Override" NAME="BI2Config" TYPE="bacnet.pointproxy.analog.Value">
+          <PI Name="BACnetName" Value="BI2Config" />
+          <PI Name="ForeignAddress" Value="&lt;analog-value,     120&gt;" />
+          <PI Name="Priority1" RefNull="1" />
+          <PI Name="Priority10" RefNull="1" />
+          <PI Name="Priority11" RefNull="1" />
+          <PI Name="Priority12" RefNull="1" />
+          <PI Name="Priority13" RefNull="1" />
+          <PI Name="Priority14" RefNull="1" />
+          <PI Name="Priority15" RefNull="1" />
+          <PI Name="Priority16" RefNull="1" />
+          <PI Name="Priority2" RefNull="1" />
+          <PI Name="Priority3" RefNull="1" />
+          <PI Name="Priority4" RefNull="1" />
+          <PI Name="Priority5" RefNull="1" />
+          <PI Name="Priority6" RefNull="1" />
+          <PI Name="Priority7" RefNull="1" />
+          <PI Name="Priority8" RefNull="1" />
+          <PI Name="Priority9" RefNull="1" />
+          <PI Name="RelinquishDefault" Value="0" />
+          <PI Name="TypeCode" Value="2" />
+        </OI>
+        <OI DESCR="1 = None;&#xA;2 = Rem NSB;&#xA;3 = Motion NO;&#xA;4 = Motion NC;&#xA;5 = Window" NAME="BI1Config" TYPE="bacnet.pointproxy.analog.Value">
+          <PI Name="BACnetName" Value="BI1Config" />
+          <PI Name="ForeignAddress" Value="&lt;analog-value,     121&gt;" />
+          <PI Name="Priority1" RefNull="1" />
+          <PI Name="Priority10" RefNull="1" />
+          <PI Name="Priority11" RefNull="1" />
+          <PI Name="Priority12" RefNull="1" />
+          <PI Name="Priority13" RefNull="1" />
+          <PI Name="Priority14" RefNull="1" />
+          <PI Name="Priority15" RefNull="1" />
+          <PI Name="Priority16" RefNull="1" />
+          <PI Name="Priority2" RefNull="1" />
+          <PI Name="Priority3" RefNull="1" />
+          <PI Name="Priority4" RefNull="1" />
+          <PI Name="Priority5" RefNull="1" />
+          <PI Name="Priority6" RefNull="1" />
+          <PI Name="Priority7" RefNull="1" />
+          <PI Name="Priority8" RefNull="1" />
+          <PI Name="Priority9" RefNull="1" />
+          <PI Name="RelinquishDefault" Value="0" />
+          <PI Name="TypeCode" Value="2" />
+        </OI>
+        <OI DESCR="1 = White;&#xA;2 = Green;&#xA;3 = Blue;&#xA;4 = Grey;&#xA;5 = Dark Grey" NAME="Colour" TYPE="bacnet.pointproxy.analog.Value">
+          <PI Name="BACnetName" Value="Colour" />
+          <PI Name="ForeignAddress" Value="&lt;analog-value,     122&gt;" />
+          <PI Name="Priority1" RefNull="1" />
+          <PI Name="Priority10" RefNull="1" />
+          <PI Name="Priority11" RefNull="1" />
+          <PI Name="Priority12" RefNull="1" />
+          <PI Name="Priority13" RefNull="1" />
+          <PI Name="Priority14" RefNull="1" />
+          <PI Name="Priority15" RefNull="1" />
+          <PI Name="Priority16" RefNull="1" />
+          <PI Name="Priority2" RefNull="1" />
+          <PI Name="Priority3" RefNull="1" />
+          <PI Name="Priority4" RefNull="1" />
+          <PI Name="Priority5" RefNull="1" />
+          <PI Name="Priority6" RefNull="1" />
+          <PI Name="Priority7" RefNull="1" />
+          <PI Name="Priority8" RefNull="1" />
+          <PI Name="Priority9" RefNull="1" />
+          <PI Name="RelinquishDefault" Value="0" />
+          <PI Name="TypeCode" Value="2" />
+        </OI>
+        <OI DESCR="Cooling CPH" NAME="CoolingCPH" TYPE="bacnet.pointproxy.analog.Value">
+          <PI Name="BACnetName" Value="CoolingCPH" />
+          <PI Name="ForeignAddress" Value="&lt;analog-value,     123&gt;" />
+          <PI Name="Priority1" RefNull="1" Unit="0x120003" />
+          <PI Name="Priority10" RefNull="1" Unit="0x120003" />
+          <PI Name="Priority11" RefNull="1" Unit="0x120003" />
+          <PI Name="Priority12" RefNull="1" Unit="0x120003" />
+          <PI Name="Priority13" RefNull="1" Unit="0x120003" />
+          <PI Name="Priority14" RefNull="1" Unit="0x120003" />
+          <PI Name="Priority15" RefNull="1" Unit="0x120003" />
+          <PI Name="Priority16" RefNull="1" Unit="0x120003" />
+          <PI Name="Priority2" RefNull="1" Unit="0x120003" />
+          <PI Name="Priority3" RefNull="1" Unit="0x120003" />
+          <PI Name="Priority4" RefNull="1" Unit="0x120003" />
+          <PI Name="Priority5" RefNull="1" Unit="0x120003" />
+          <PI Name="Priority6" RefNull="1" Unit="0x120003" />
+          <PI Name="Priority7" RefNull="1" Unit="0x120003" />
+          <PI Name="Priority8" RefNull="1" Unit="0x120003" />
+          <PI Name="Priority9" RefNull="1" Unit="0x120003" />
+          <PI Name="RelinquishDefault" Unit="0x120003" Value="0" />
+          <PI Name="TypeCode" Value="2" />
+          <PI Name="Value" RefNull="1" Unit="0x120003" />
+        </OI>
+        <OI DESCR="Cooling Demand Limit" NAME="CoolDemandLimit" TYPE="bacnet.pointproxy.analog.Value">
+          <PI Name="BACnetName" Value="CoolDemandLimit" />
+          <PI Name="ForeignAddress" Value="&lt;analog-value,     124&gt;" />
+          <PI Name="Priority1" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority10" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority11" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority12" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority13" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority14" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority15" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority16" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority2" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority3" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority4" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority5" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority6" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority7" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority8" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority9" RefNull="1" Unit="0x200001" />
+          <PI Name="RelinquishDefault" Unit="0x200001" Value="0" />
+          <PI Name="TypeCode" Value="2" />
+          <PI Name="Value" RefNull="1" Unit="0x200001" />
+        </OI>
+        <OI DESCR="Default Heat Setpoint" NAME="DefaultHeat" TYPE="bacnet.pointproxy.analog.Value">
+          <PI Name="BACnetName" Value="DefaultHeat" />
+          <PI Name="ForeignAddress" Value="&lt;analog-value,     125&gt;" />
+          <PI Name="Priority1" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority10" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority11" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority12" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority13" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority14" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority15" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority16" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority2" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority3" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority4" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority5" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority6" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority7" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority8" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority9" RefNull="1" Unit="0x280001" />
+          <PI Name="RelinquishDefault" Unit="0x280001" Value="0" />
+          <PI Name="TypeCode" Value="2" />
+          <PI Name="Value" RefNull="1" Unit="0x280001" />
+        </OI>
+        <OI DESCR="Dehumidification Hysteresis" NAME="DehHysteresis" TYPE="bacnet.pointproxy.analog.Value">
+          <PI Name="BACnetName" Value="DehHysteresis" />
+          <PI Name="ForeignAddress" Value="&lt;analog-value,     126&gt;" />
+          <PI Name="Priority1" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority10" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority11" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority12" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority13" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority14" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority15" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority16" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority2" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority3" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority4" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority5" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority6" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority7" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority8" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority9" RefNull="1" Unit="0x200001" />
+          <PI Name="RelinquishDefault" Unit="0x200001" Value="0" />
+          <PI Name="TypeCode" Value="2" />
+          <PI Name="Value" RefNull="1" Unit="0x200001" />
+        </OI>
+        <OI DESCR="Dehumidification Max Cooling" NAME="DehumMaxCooling" TYPE="bacnet.pointproxy.analog.Value">
+          <PI Name="BACnetName" Value="DehumMaxCooling" />
+          <PI Name="ForeignAddress" Value="&lt;analog-value,     127&gt;" />
+          <PI Name="Priority1" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority10" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority11" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority12" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority13" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority14" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority15" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority16" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority2" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority3" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority4" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority5" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority6" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority7" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority8" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority9" RefNull="1" Unit="0x200001" />
+          <PI Name="RelinquishDefault" Unit="0x200001" Value="0" />
+          <PI Name="TypeCode" Value="2" />
+          <PI Name="Value" RefNull="1" Unit="0x200001" />
+        </OI>
+        <OI DESCR="Dehumidification RH Setpoint" NAME="Dehumidify" TYPE="bacnet.pointproxy.analog.Value">
+          <PI Name="BACnetName" Value="Dehumidify" />
+          <PI Name="ForeignAddress" Value="&lt;analog-value,     128&gt;" />
+          <PI Name="Priority1" RefNull="1" Unit="0x170001" />
+          <PI Name="Priority10" RefNull="1" Unit="0x170001" />
+          <PI Name="Priority11" RefNull="1" Unit="0x170001" />
+          <PI Name="Priority12" RefNull="1" Unit="0x170001" />
+          <PI Name="Priority13" RefNull="1" Unit="0x170001" />
+          <PI Name="Priority14" RefNull="1" Unit="0x170001" />
+          <PI Name="Priority15" RefNull="1" Unit="0x170001" />
+          <PI Name="Priority16" RefNull="1" Unit="0x170001" />
+          <PI Name="Priority2" RefNull="1" Unit="0x170001" />
+          <PI Name="Priority3" RefNull="1" Unit="0x170001" />
+          <PI Name="Priority4" RefNull="1" Unit="0x170001" />
+          <PI Name="Priority5" RefNull="1" Unit="0x170001" />
+          <PI Name="Priority6" RefNull="1" Unit="0x170001" />
+          <PI Name="Priority7" RefNull="1" Unit="0x170001" />
+          <PI Name="Priority8" RefNull="1" Unit="0x170001" />
+          <PI Name="Priority9" RefNull="1" Unit="0x170001" />
+          <PI Name="RelinquishDefault" Unit="0x170001" Value="0" />
+          <PI Name="TypeCode" Value="2" />
+          <PI Name="Value" RefNull="1" Unit="0x170001" />
+        </OI>
+        <OI DESCR="1 = English;&#xA;2 = French;&#xA;3 = Spanish;&#xA;4 = Chinese;&#xA;5 = Russian" NAME="DisplayLanguage" TYPE="bacnet.pointproxy.analog.Value">
+          <PI Name="BACnetName" Value="DisplayLanguage" />
+          <PI Name="ForeignAddress" Value="&lt;analog-value,     129&gt;" />
+          <PI Name="Priority1" RefNull="1" />
+          <PI Name="Priority10" RefNull="1" />
+          <PI Name="Priority11" RefNull="1" />
+          <PI Name="Priority12" RefNull="1" />
+          <PI Name="Priority13" RefNull="1" />
+          <PI Name="Priority14" RefNull="1" />
+          <PI Name="Priority15" RefNull="1" />
+          <PI Name="Priority16" RefNull="1" />
+          <PI Name="Priority2" RefNull="1" />
+          <PI Name="Priority3" RefNull="1" />
+          <PI Name="Priority4" RefNull="1" />
+          <PI Name="Priority5" RefNull="1" />
+          <PI Name="Priority6" RefNull="1" />
+          <PI Name="Priority7" RefNull="1" />
+          <PI Name="Priority8" RefNull="1" />
+          <PI Name="Priority9" RefNull="1" />
+          <PI Name="RelinquishDefault" Value="0" />
+          <PI Name="TypeCode" Value="2" />
+        </OI>
+        <OI DESCR="1 = Occupied;&#xA;2 = Unoccupied;&#xA;3 = Temporary Occupied;&#xA;4 = Stand-by" NAME="EffectiveOcc" TYPE="bacnet.pointproxy.analog.Value">
+          <PI Name="BACnetName" Value="EffectiveOcc" />
+          <PI Name="ForeignAddress" Value="&lt;analog-value,     130&gt;" />
+          <PI Name="Priority1" RefNull="1" />
+          <PI Name="Priority10" RefNull="1" />
+          <PI Name="Priority11" RefNull="1" />
+          <PI Name="Priority12" RefNull="1" />
+          <PI Name="Priority13" RefNull="1" />
+          <PI Name="Priority14" RefNull="1" />
+          <PI Name="Priority15" RefNull="1" />
+          <PI Name="Priority16" RefNull="1" />
+          <PI Name="Priority2" RefNull="1" />
+          <PI Name="Priority3" RefNull="1" />
+          <PI Name="Priority4" RefNull="1" />
+          <PI Name="Priority5" RefNull="1" />
+          <PI Name="Priority6" RefNull="1" />
+          <PI Name="Priority7" RefNull="1" />
+          <PI Name="Priority8" RefNull="1" />
+          <PI Name="Priority9" RefNull="1" />
+          <PI Name="RelinquishDefault" Value="0" />
+          <PI Name="TypeCode" Value="2" />
+        </OI>
+        <OI DESCR="1 = On;&#xA;2 = Off - Auto;&#xA;3 = Off - All" NAME="FanControlEnum" TYPE="bacnet.pointproxy.analog.Value">
+          <PI Name="BACnetName" Value="FanControlEnum" />
+          <PI Name="ForeignAddress" Value="&lt;analog-value,     131&gt;" />
+          <PI Name="Priority1" RefNull="1" />
+          <PI Name="Priority10" RefNull="1" />
+          <PI Name="Priority11" RefNull="1" />
+          <PI Name="Priority12" RefNull="1" />
+          <PI Name="Priority13" RefNull="1" />
+          <PI Name="Priority14" RefNull="1" />
+          <PI Name="Priority15" RefNull="1" />
+          <PI Name="Priority16" RefNull="1" />
+          <PI Name="Priority2" RefNull="1" />
+          <PI Name="Priority3" RefNull="1" />
+          <PI Name="Priority4" RefNull="1" />
+          <PI Name="Priority5" RefNull="1" />
+          <PI Name="Priority6" RefNull="1" />
+          <PI Name="Priority7" RefNull="1" />
+          <PI Name="Priority8" RefNull="1" />
+          <PI Name="Priority9" RefNull="1" />
+          <PI Name="RelinquishDefault" Value="0" />
+          <PI Name="TypeCode" Value="2" />
+        </OI>
+        <OI DESCR="1 = Low - Med - High;&#xA;2 = Low - High;&#xA;3 = Low - Med - High - Auto;&#xA;4 = Low - High - Auto;&#xA;5 = On - Auto" NAME="FanMenu" TYPE="bacnet.pointproxy.analog.Value">
+          <PI Name="BACnetName" Value="FanMenu" />
+          <PI Name="ForeignAddress" Value="&lt;analog-value,     132&gt;" />
+          <PI Name="Priority1" RefNull="1" />
+          <PI Name="Priority10" RefNull="1" />
+          <PI Name="Priority11" RefNull="1" />
+          <PI Name="Priority12" RefNull="1" />
+          <PI Name="Priority13" RefNull="1" />
+          <PI Name="Priority14" RefNull="1" />
+          <PI Name="Priority15" RefNull="1" />
+          <PI Name="Priority16" RefNull="1" />
+          <PI Name="Priority2" RefNull="1" />
+          <PI Name="Priority3" RefNull="1" />
+          <PI Name="Priority4" RefNull="1" />
+          <PI Name="Priority5" RefNull="1" />
+          <PI Name="Priority6" RefNull="1" />
+          <PI Name="Priority7" RefNull="1" />
+          <PI Name="Priority8" RefNull="1" />
+          <PI Name="Priority9" RefNull="1" />
+          <PI Name="RelinquishDefault" Value="0" />
+          <PI Name="TypeCode" Value="2" />
+        </OI>
+        <OI DESCR="1 = Low;&#xA;2 = Med;&#xA;3 = High;&#xA;4 = Auto;&#xA;5 = On" NAME="FanMode" TYPE="bacnet.pointproxy.analog.Value">
+          <PI Name="BACnetName" Value="FanMode" />
+          <PI Name="ForeignAddress" Value="&lt;analog-value,     133&gt;" />
+          <PI Name="Priority1" RefNull="1" />
+          <PI Name="Priority10" RefNull="1" />
+          <PI Name="Priority11" RefNull="1" />
+          <PI Name="Priority12" RefNull="1" />
+          <PI Name="Priority13" RefNull="1" />
+          <PI Name="Priority14" RefNull="1" />
+          <PI Name="Priority15" RefNull="1" />
+          <PI Name="Priority16" RefNull="1" />
+          <PI Name="Priority2" RefNull="1" />
+          <PI Name="Priority3" RefNull="1" />
+          <PI Name="Priority4" RefNull="1" />
+          <PI Name="Priority5" RefNull="1" />
+          <PI Name="Priority6" RefNull="1" />
+          <PI Name="Priority7" RefNull="1" />
+          <PI Name="Priority8" RefNull="1" />
+          <PI Name="Priority9" RefNull="1" />
+          <PI Name="RelinquishDefault" Value="0" />
+          <PI Name="TypeCode" Value="2" />
+        </OI>
+        <OI DESCR="Heating CPH" NAME="HeatingCPH" TYPE="bacnet.pointproxy.analog.Value">
+          <PI Name="BACnetName" Value="HeatingCPH" />
+          <PI Name="ForeignAddress" Value="&lt;analog-value,     134&gt;" />
+          <PI Name="Priority1" RefNull="1" Unit="0x120003" />
+          <PI Name="Priority10" RefNull="1" Unit="0x120003" />
+          <PI Name="Priority11" RefNull="1" Unit="0x120003" />
+          <PI Name="Priority12" RefNull="1" Unit="0x120003" />
+          <PI Name="Priority13" RefNull="1" Unit="0x120003" />
+          <PI Name="Priority14" RefNull="1" Unit="0x120003" />
+          <PI Name="Priority15" RefNull="1" Unit="0x120003" />
+          <PI Name="Priority16" RefNull="1" Unit="0x120003" />
+          <PI Name="Priority2" RefNull="1" Unit="0x120003" />
+          <PI Name="Priority3" RefNull="1" Unit="0x120003" />
+          <PI Name="Priority4" RefNull="1" Unit="0x120003" />
+          <PI Name="Priority5" RefNull="1" Unit="0x120003" />
+          <PI Name="Priority6" RefNull="1" Unit="0x120003" />
+          <PI Name="Priority7" RefNull="1" Unit="0x120003" />
+          <PI Name="Priority8" RefNull="1" Unit="0x120003" />
+          <PI Name="Priority9" RefNull="1" Unit="0x120003" />
+          <PI Name="RelinquishDefault" Unit="0x120003" Value="0" />
+          <PI Name="TypeCode" Value="2" />
+          <PI Name="Value" RefNull="1" Unit="0x120003" />
+        </OI>
+        <OI DESCR="Heating Demand Limit" NAME="HeatDemandLimit" TYPE="bacnet.pointproxy.analog.Value">
+          <PI Name="BACnetName" Value="HeatDemandLimit" />
+          <PI Name="ForeignAddress" Value="&lt;analog-value,     135&gt;" />
+          <PI Name="Priority1" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority10" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority11" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority12" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority13" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority14" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority15" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority16" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority2" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority3" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority4" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority5" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority6" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority7" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority8" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority9" RefNull="1" Unit="0x200001" />
+          <PI Name="RelinquishDefault" Unit="0x200001" Value="0" />
+          <PI Name="TypeCode" Value="2" />
+          <PI Name="Value" RefNull="1" Unit="0x200001" />
+        </OI>
+        <OI DESCR="Light Sensor Level" NAME="LightSensorLevel" TYPE="bacnet.pointproxy.analog.Value">
+          <PI Name="BACnetName" Value="LightSensorLevel" />
+          <PI Name="ForeignAddress" Value="&lt;analog-value,     136&gt;" />
+          <PI Name="Priority1" RefNull="1" />
+          <PI Name="Priority10" RefNull="1" />
+          <PI Name="Priority11" RefNull="1" />
+          <PI Name="Priority12" RefNull="1" />
+          <PI Name="Priority13" RefNull="1" />
+          <PI Name="Priority14" RefNull="1" />
+          <PI Name="Priority15" RefNull="1" />
+          <PI Name="Priority16" RefNull="1" />
+          <PI Name="Priority2" RefNull="1" />
+          <PI Name="Priority3" RefNull="1" />
+          <PI Name="Priority4" RefNull="1" />
+          <PI Name="Priority5" RefNull="1" />
+          <PI Name="Priority6" RefNull="1" />
+          <PI Name="Priority7" RefNull="1" />
+          <PI Name="Priority8" RefNull="1" />
+          <PI Name="Priority9" RefNull="1" />
+          <PI Name="RelinquishDefault" Value="0" />
+          <PI Name="TypeCode" Value="2" />
+        </OI>
+        <OI DESCR="Low Backlight" NAME="LowBacklight" TYPE="bacnet.pointproxy.analog.Value">
+          <PI Name="BACnetName" Value="LowBacklight" />
+          <PI Name="ForeignAddress" Value="&lt;analog-value,     137&gt;" />
+          <PI Name="Priority1" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority10" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority11" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority12" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority13" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority14" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority15" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority16" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority2" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority3" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority4" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority5" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority6" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority7" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority8" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority9" RefNull="1" Unit="0x200001" />
+          <PI Name="RelinquishDefault" Unit="0x200001" Value="0" />
+          <PI Name="TypeCode" Value="2" />
+          <PI Name="Value" RefNull="1" Unit="0x200001" />
+        </OI>
+        <OI DESCR="1 = Temperature;&#xA;2 = Setpoints" NAME="MainDisplay" TYPE="bacnet.pointproxy.analog.Value">
+          <PI Name="BACnetName" Value="MainDisplay" />
+          <PI Name="ForeignAddress" Value="&lt;analog-value,     138&gt;" />
+          <PI Name="Priority1" RefNull="1" />
+          <PI Name="Priority10" RefNull="1" />
+          <PI Name="Priority11" RefNull="1" />
+          <PI Name="Priority12" RefNull="1" />
+          <PI Name="Priority13" RefNull="1" />
+          <PI Name="Priority14" RefNull="1" />
+          <PI Name="Priority15" RefNull="1" />
+          <PI Name="Priority16" RefNull="1" />
+          <PI Name="Priority2" RefNull="1" />
+          <PI Name="Priority3" RefNull="1" />
+          <PI Name="Priority4" RefNull="1" />
+          <PI Name="Priority5" RefNull="1" />
+          <PI Name="Priority6" RefNull="1" />
+          <PI Name="Priority7" RefNull="1" />
+          <PI Name="Priority8" RefNull="1" />
+          <PI Name="Priority9" RefNull="1" />
+          <PI Name="RelinquishDefault" Value="0" />
+          <PI Name="TypeCode" Value="2" />
+        </OI>
+        <OI DESCR="Main Password" NAME="MainPassword" TYPE="bacnet.pointproxy.analog.Value">
+          <PI Name="BACnetName" Value="MainPassword" />
+          <PI Name="ForeignAddress" Value="&lt;analog-value,     139&gt;" />
+          <PI Name="Priority1" RefNull="1" />
+          <PI Name="Priority10" RefNull="1" />
+          <PI Name="Priority11" RefNull="1" />
+          <PI Name="Priority12" RefNull="1" />
+          <PI Name="Priority13" RefNull="1" />
+          <PI Name="Priority14" RefNull="1" />
+          <PI Name="Priority15" RefNull="1" />
+          <PI Name="Priority16" RefNull="1" />
+          <PI Name="Priority2" RefNull="1" />
+          <PI Name="Priority3" RefNull="1" />
+          <PI Name="Priority4" RefNull="1" />
+          <PI Name="Priority5" RefNull="1" />
+          <PI Name="Priority6" RefNull="1" />
+          <PI Name="Priority7" RefNull="1" />
+          <PI Name="Priority8" RefNull="1" />
+          <PI Name="Priority9" RefNull="1" />
+          <PI Name="RelinquishDefault" Value="0" />
+          <PI Name="TypeCode" Value="2" />
+        </OI>
+        <OI DESCR="Maximum Heating Setpoint" NAME="MaxHeating" TYPE="bacnet.pointproxy.analog.Value">
+          <PI Name="BACnetName" Value="MaxHeating" />
+          <PI Name="ForeignAddress" Value="&lt;analog-value,     140&gt;" />
+          <PI Name="Priority1" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority10" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority11" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority12" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority13" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority14" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority15" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority16" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority2" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority3" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority4" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority5" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority6" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority7" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority8" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority9" RefNull="1" Unit="0x280001" />
+          <PI Name="RelinquishDefault" Unit="0x280001" Value="0" />
+          <PI Name="TypeCode" Value="2" />
+          <PI Name="Value" RefNull="1" Unit="0x280001" />
+        </OI>
+        <OI DESCR="Min. deadband" NAME="MinDeadband" TYPE="bacnet.pointproxy.analog.Value">
+          <PI Name="BACnetName" Value="MinDeadband" />
+          <PI Name="ForeignAddress" Value="&lt;analog-value,     141&gt;" />
+          <PI Name="Priority1" RefNull="1" Unit="0xFA390001" />
+          <PI Name="Priority10" RefNull="1" Unit="0xFA390001" />
+          <PI Name="Priority11" RefNull="1" Unit="0xFA390001" />
+          <PI Name="Priority12" RefNull="1" Unit="0xFA390001" />
+          <PI Name="Priority13" RefNull="1" Unit="0xFA390001" />
+          <PI Name="Priority14" RefNull="1" Unit="0xFA390001" />
+          <PI Name="Priority15" RefNull="1" Unit="0xFA390001" />
+          <PI Name="Priority16" RefNull="1" Unit="0xFA390001" />
+          <PI Name="Priority2" RefNull="1" Unit="0xFA390001" />
+          <PI Name="Priority3" RefNull="1" Unit="0xFA390001" />
+          <PI Name="Priority4" RefNull="1" Unit="0xFA390001" />
+          <PI Name="Priority5" RefNull="1" Unit="0xFA390001" />
+          <PI Name="Priority6" RefNull="1" Unit="0xFA390001" />
+          <PI Name="Priority7" RefNull="1" Unit="0xFA390001" />
+          <PI Name="Priority8" RefNull="1" Unit="0xFA390001" />
+          <PI Name="Priority9" RefNull="1" Unit="0xFA390001" />
+          <PI Name="RelinquishDefault" Unit="0xFA390001" Value="0" />
+          <PI Name="TypeCode" Value="2" />
+          <PI Name="Value" RefNull="1" Unit="0xFA390001" />
+        </OI>
+        <OI DESCR="Minimum Cooling Setpoint" NAME="MinCooling" TYPE="bacnet.pointproxy.analog.Value">
+          <PI Name="BACnetName" Value="MinCooling" />
+          <PI Name="ForeignAddress" Value="&lt;analog-value,     142&gt;" />
+          <PI Name="Priority1" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority10" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority11" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority12" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority13" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority14" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority15" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority16" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority2" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority3" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority4" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority5" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority6" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority7" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority8" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority9" RefNull="1" Unit="0x280001" />
+          <PI Name="RelinquishDefault" Unit="0x280001" Value="0" />
+          <PI Name="TypeCode" Value="2" />
+          <PI Name="Value" RefNull="1" Unit="0x280001" />
+        </OI>
+        <OI DESCR="Night Backlight level" NAME="NightBacklightlevel" TYPE="bacnet.pointproxy.analog.Value">
+          <PI Name="BACnetName" Value="NightBacklightlevel" />
+          <PI Name="ForeignAddress" Value="&lt;analog-value,     143&gt;" />
+          <PI Name="Priority1" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority10" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority11" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority12" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority13" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority14" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority15" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority16" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority2" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority3" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority4" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority5" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority6" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority7" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority8" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority9" RefNull="1" Unit="0x200001" />
+          <PI Name="RelinquishDefault" Unit="0x200001" Value="0" />
+          <PI Name="TypeCode" Value="2" />
+          <PI Name="Value" RefNull="1" Unit="0x200001" />
+        </OI>
+        <OI DESCR="1 = Disabled;&#xA;2 = Enabled" NAME="NoActSlpMode" TYPE="bacnet.pointproxy.analog.Value">
+          <PI Name="BACnetName" Value="NoActSlpMode" />
+          <PI Name="ForeignAddress" Value="&lt;analog-value,     144&gt;" />
+          <PI Name="Priority1" RefNull="1" />
+          <PI Name="Priority10" RefNull="1" />
+          <PI Name="Priority11" RefNull="1" />
+          <PI Name="Priority12" RefNull="1" />
+          <PI Name="Priority13" RefNull="1" />
+          <PI Name="Priority14" RefNull="1" />
+          <PI Name="Priority15" RefNull="1" />
+          <PI Name="Priority16" RefNull="1" />
+          <PI Name="Priority2" RefNull="1" />
+          <PI Name="Priority3" RefNull="1" />
+          <PI Name="Priority4" RefNull="1" />
+          <PI Name="Priority5" RefNull="1" />
+          <PI Name="Priority6" RefNull="1" />
+          <PI Name="Priority7" RefNull="1" />
+          <PI Name="Priority8" RefNull="1" />
+          <PI Name="Priority9" RefNull="1" />
+          <PI Name="RelinquishDefault" Value="0" />
+          <PI Name="TypeCode" Value="2" />
+        </OI>
+        <OI DESCR="1 = Local Occupancy;&#xA;2 = Occupied;&#xA;3 = Unoccupied" NAME="OccCommand" TYPE="bacnet.pointproxy.analog.Value">
+          <PI Name="BACnetName" Value="OccCommand" />
+          <PI Name="ForeignAddress" Value="&lt;analog-value,     145&gt;" />
+          <PI Name="Priority1" RefNull="1" />
+          <PI Name="Priority10" RefNull="1" />
+          <PI Name="Priority11" RefNull="1" />
+          <PI Name="Priority12" RefNull="1" />
+          <PI Name="Priority13" RefNull="1" />
+          <PI Name="Priority14" RefNull="1" />
+          <PI Name="Priority15" RefNull="1" />
+          <PI Name="Priority16" RefNull="1" />
+          <PI Name="Priority2" RefNull="1" />
+          <PI Name="Priority3" RefNull="1" />
+          <PI Name="Priority4" RefNull="1" />
+          <PI Name="Priority5" RefNull="1" />
+          <PI Name="Priority6" RefNull="1" />
+          <PI Name="Priority7" RefNull="1" />
+          <PI Name="Priority8" RefNull="1" />
+          <PI Name="Priority9" RefNull="1" />
+          <PI Name="RelinquishDefault" Value="0" />
+          <PI Name="TypeCode" Value="2" />
+        </OI>
+        <OI DESCR="Occupied Cooling Setpoint" NAME="OccCoolSetpoint" TYPE="bacnet.pointproxy.analog.Value">
+          <PI Name="BACnetName" Value="OccCoolSetpoint" />
+          <PI Name="ForeignAddress" Value="&lt;analog-value,     146&gt;" />
+          <PI Name="Priority1" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority10" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority11" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority12" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority13" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority14" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority15" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority16" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority2" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority3" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority4" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority5" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority6" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority7" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority8" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority9" RefNull="1" Unit="0x280001" />
+          <PI Name="RelinquishDefault" Unit="0x280001" Value="0" />
+          <PI Name="TypeCode" Value="2" />
+          <PI Name="Value" RefNull="1" Unit="0x280001" />
+        </OI>
+        <OI DESCR="Occupied Heating Setpoint" NAME="OccHeatSetpoint" TYPE="bacnet.pointproxy.analog.Value">
+          <PI Name="BACnetName" Value="OccHeatSetpoint" />
+          <PI Name="ForeignAddress" Value="&lt;analog-value,     147&gt;" />
+          <PI Name="Priority1" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority10" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority11" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority12" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority13" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority14" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority15" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority16" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority2" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority3" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority4" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority5" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority6" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority7" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority8" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority9" RefNull="1" Unit="0x280001" />
+          <PI Name="RelinquishDefault" Unit="0x280001" Value="0" />
+          <PI Name="TypeCode" Value="2" />
+          <PI Name="Value" RefNull="1" Unit="0x280001" />
+        </OI>
+        <OI DESCR="Outdoor Temperature" NAME="OutdoorTemp" TYPE="bacnet.pointproxy.analog.Value">
+          <PI Name="BACnetName" Value="OutdoorTemp" />
+          <PI Name="ForeignAddress" Value="&lt;analog-value,     148&gt;" />
+          <PI Name="Priority1" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority10" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority11" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority12" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority13" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority14" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority15" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority16" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority2" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority3" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority4" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority5" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority6" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority7" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority8" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority9" RefNull="1" Unit="0x280001" />
+          <PI Name="RelinquishDefault" Unit="0x280001" Value="0" />
+          <PI Name="TypeCode" Value="2" />
+          <PI Name="Value" RefNull="1" Unit="0x280001" />
+        </OI>
+        <OI DESCR="1 = Off;&#xA;2 = On" NAME="PermitJoin" TYPE="bacnet.pointproxy.analog.Value">
+          <PI Name="BACnetName" Value="PermitJoin" />
+          <PI Name="ForeignAddress" Value="&lt;analog-value,     149&gt;" />
+          <PI Name="Priority1" RefNull="1" />
+          <PI Name="Priority10" RefNull="1" />
+          <PI Name="Priority11" RefNull="1" />
+          <PI Name="Priority12" RefNull="1" />
+          <PI Name="Priority13" RefNull="1" />
+          <PI Name="Priority14" RefNull="1" />
+          <PI Name="Priority15" RefNull="1" />
+          <PI Name="Priority16" RefNull="1" />
+          <PI Name="Priority2" RefNull="1" />
+          <PI Name="Priority3" RefNull="1" />
+          <PI Name="Priority4" RefNull="1" />
+          <PI Name="Priority5" RefNull="1" />
+          <PI Name="Priority6" RefNull="1" />
+          <PI Name="Priority7" RefNull="1" />
+          <PI Name="Priority8" RefNull="1" />
+          <PI Name="Priority9" RefNull="1" />
+          <PI Name="RelinquishDefault" Value="0" />
+          <PI Name="TypeCode" Value="2" />
+        </OI>
+        <OI DESCR="PI Cooling Demand" NAME="PICoolDemand" TYPE="bacnet.pointproxy.analog.Value">
+          <PI Name="BACnetName" Value="PICoolDemand" />
+          <PI Name="ForeignAddress" Value="&lt;analog-value,     150&gt;" />
+          <PI Name="Priority1" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority10" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority11" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority12" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority13" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority14" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority15" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority16" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority2" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority3" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority4" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority5" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority6" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority7" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority8" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority9" RefNull="1" Unit="0x200001" />
+          <PI Name="RelinquishDefault" Unit="0x200001" Value="0" />
+          <PI Name="TypeCode" Value="2" />
+          <PI Name="Value" RefNull="1" Unit="0x200001" />
+        </OI>
+        <OI DESCR="PI Heating Demand" NAME="PIHeatDemand" TYPE="bacnet.pointproxy.analog.Value">
+          <PI Name="BACnetName" Value="PIHeatDemand" />
+          <PI Name="ForeignAddress" Value="&lt;analog-value,     151&gt;" />
+          <PI Name="Priority1" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority10" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority11" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority12" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority13" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority14" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority15" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority16" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority2" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority3" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority4" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority5" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority6" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority7" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority8" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority9" RefNull="1" Unit="0x200001" />
+          <PI Name="RelinquishDefault" Unit="0x200001" Value="0" />
+          <PI Name="TypeCode" Value="2" />
+          <PI Name="Value" RefNull="1" Unit="0x200001" />
+        </OI>
+        <OI DESCR="Pipe Number" NAME="PipeNumber" TYPE="bacnet.pointproxy.analog.Value">
+          <PI Name="BACnetName" Value="PipeNumber" />
+          <PI Name="ForeignAddress" Value="&lt;analog-value,     152&gt;" />
+          <PI Name="Priority1" RefNull="1" />
+          <PI Name="Priority10" RefNull="1" />
+          <PI Name="Priority11" RefNull="1" />
+          <PI Name="Priority12" RefNull="1" />
+          <PI Name="Priority13" RefNull="1" />
+          <PI Name="Priority14" RefNull="1" />
+          <PI Name="Priority15" RefNull="1" />
+          <PI Name="Priority16" RefNull="1" />
+          <PI Name="Priority2" RefNull="1" />
+          <PI Name="Priority3" RefNull="1" />
+          <PI Name="Priority4" RefNull="1" />
+          <PI Name="Priority5" RefNull="1" />
+          <PI Name="Priority6" RefNull="1" />
+          <PI Name="Priority7" RefNull="1" />
+          <PI Name="Priority8" RefNull="1" />
+          <PI Name="Priority9" RefNull="1" />
+          <PI Name="RelinquishDefault" Value="0" />
+          <PI Name="TypeCode" Value="2" />
+        </OI>
+        <OI DESCR="Proportional Band" NAME="ProportionalBand" TYPE="bacnet.pointproxy.analog.Value">
+          <PI Name="BACnetName" Value="ProportionalBand" />
+          <PI Name="ForeignAddress" Value="&lt;analog-value,     153&gt;" />
+          <PI Name="Priority1" RefNull="1" />
+          <PI Name="Priority10" RefNull="1" />
+          <PI Name="Priority11" RefNull="1" />
+          <PI Name="Priority12" RefNull="1" />
+          <PI Name="Priority13" RefNull="1" />
+          <PI Name="Priority14" RefNull="1" />
+          <PI Name="Priority15" RefNull="1" />
+          <PI Name="Priority16" RefNull="1" />
+          <PI Name="Priority2" RefNull="1" />
+          <PI Name="Priority3" RefNull="1" />
+          <PI Name="Priority4" RefNull="1" />
+          <PI Name="Priority5" RefNull="1" />
+          <PI Name="Priority6" RefNull="1" />
+          <PI Name="Priority7" RefNull="1" />
+          <PI Name="Priority8" RefNull="1" />
+          <PI Name="Priority9" RefNull="1" />
+          <PI Name="RelinquishDefault" Value="0" />
+          <PI Name="TypeCode" Value="2" />
+        </OI>
+        <OI DESCR="1 = Off;&#xA;2 = On;&#xA;3 = Occupancy Output" NAME="PulsedHeat" TYPE="bacnet.pointproxy.analog.Value">
+          <PI Name="BACnetName" Value="PulsedHeat" />
+          <PI Name="ForeignAddress" Value="&lt;analog-value,     154&gt;" />
+          <PI Name="Priority1" RefNull="1" />
+          <PI Name="Priority10" RefNull="1" />
+          <PI Name="Priority11" RefNull="1" />
+          <PI Name="Priority12" RefNull="1" />
+          <PI Name="Priority13" RefNull="1" />
+          <PI Name="Priority14" RefNull="1" />
+          <PI Name="Priority15" RefNull="1" />
+          <PI Name="Priority16" RefNull="1" />
+          <PI Name="Priority2" RefNull="1" />
+          <PI Name="Priority3" RefNull="1" />
+          <PI Name="Priority4" RefNull="1" />
+          <PI Name="Priority5" RefNull="1" />
+          <PI Name="Priority6" RefNull="1" />
+          <PI Name="Priority7" RefNull="1" />
+          <PI Name="Priority8" RefNull="1" />
+          <PI Name="Priority9" RefNull="1" />
+          <PI Name="RelinquishDefault" Value="0" />
+          <PI Name="TypeCode" Value="2" />
+        </OI>
+        <OI DESCR="Pulsed Heat Demand" NAME="PulsedHeatDemand" TYPE="bacnet.pointproxy.analog.Value">
+          <PI Name="BACnetName" Value="PulsedHeatDemand" />
+          <PI Name="ForeignAddress" Value="&lt;analog-value,     155&gt;" />
+          <PI Name="Priority1" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority10" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority11" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority12" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority13" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority14" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority15" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority16" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority2" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority3" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority4" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority5" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority6" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority7" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority8" RefNull="1" Unit="0x200001" />
+          <PI Name="Priority9" RefNull="1" Unit="0x200001" />
+          <PI Name="RelinquishDefault" Unit="0x200001" Value="0" />
+          <PI Name="TypeCode" Value="2" />
+          <PI Name="Value" RefNull="1" Unit="0x200001" />
+        </OI>
+        <OI DESCR="Purge Open" NAME="PurgeOpen" TYPE="bacnet.pointproxy.analog.Value">
+          <PI Name="BACnetName" Value="PurgeOpen" />
+          <PI Name="ForeignAddress" Value="&lt;analog-value,     156&gt;" />
+          <PI Name="Priority1" RefNull="1" Unit="0x2E0006" />
+          <PI Name="Priority10" RefNull="1" Unit="0x2E0006" />
+          <PI Name="Priority11" RefNull="1" Unit="0x2E0006" />
+          <PI Name="Priority12" RefNull="1" Unit="0x2E0006" />
+          <PI Name="Priority13" RefNull="1" Unit="0x2E0006" />
+          <PI Name="Priority14" RefNull="1" Unit="0x2E0006" />
+          <PI Name="Priority15" RefNull="1" Unit="0x2E0006" />
+          <PI Name="Priority16" RefNull="1" Unit="0x2E0006" />
+          <PI Name="Priority2" RefNull="1" Unit="0x2E0006" />
+          <PI Name="Priority3" RefNull="1" Unit="0x2E0006" />
+          <PI Name="Priority4" RefNull="1" Unit="0x2E0006" />
+          <PI Name="Priority5" RefNull="1" Unit="0x2E0006" />
+          <PI Name="Priority6" RefNull="1" Unit="0x2E0006" />
+          <PI Name="Priority7" RefNull="1" Unit="0x2E0006" />
+          <PI Name="Priority8" RefNull="1" Unit="0x2E0006" />
+          <PI Name="Priority9" RefNull="1" Unit="0x2E0006" />
+          <PI Name="RelinquishDefault" Unit="0x2E0006" Value="0" />
+          <PI Name="TypeCode" Value="2" />
+          <PI Name="Value" RefNull="1" Unit="0x2E0006" />
+        </OI>
+        <OI DESCR="Purge Sample" NAME="PurgeSample" TYPE="bacnet.pointproxy.analog.Value">
+          <PI Name="BACnetName" Value="PurgeSample" />
+          <PI Name="ForeignAddress" Value="&lt;analog-value,     157&gt;" />
+          <PI Name="Priority1" RefNull="1" Unit="0x2E0005" />
+          <PI Name="Priority10" RefNull="1" Unit="0x2E0005" />
+          <PI Name="Priority11" RefNull="1" Unit="0x2E0005" />
+          <PI Name="Priority12" RefNull="1" Unit="0x2E0005" />
+          <PI Name="Priority13" RefNull="1" Unit="0x2E0005" />
+          <PI Name="Priority14" RefNull="1" Unit="0x2E0005" />
+          <PI Name="Priority15" RefNull="1" Unit="0x2E0005" />
+          <PI Name="Priority16" RefNull="1" Unit="0x2E0005" />
+          <PI Name="Priority2" RefNull="1" Unit="0x2E0005" />
+          <PI Name="Priority3" RefNull="1" Unit="0x2E0005" />
+          <PI Name="Priority4" RefNull="1" Unit="0x2E0005" />
+          <PI Name="Priority5" RefNull="1" Unit="0x2E0005" />
+          <PI Name="Priority6" RefNull="1" Unit="0x2E0005" />
+          <PI Name="Priority7" RefNull="1" Unit="0x2E0005" />
+          <PI Name="Priority8" RefNull="1" Unit="0x2E0005" />
+          <PI Name="Priority9" RefNull="1" Unit="0x2E0005" />
+          <PI Name="RelinquishDefault" Unit="0x2E0005" Value="0" />
+          <PI Name="TypeCode" Value="2" />
+          <PI Name="Value" RefNull="1" Unit="0x2E0005" />
+        </OI>
+        <OI DESCR="1 = None;&#xA;2 = Filter;&#xA;3 = Service" NAME="RBI2Config" TYPE="bacnet.pointproxy.analog.Value">
+          <PI Name="BACnetName" Value="RBI2Config" />
+          <PI Name="ForeignAddress" Value="&lt;analog-value,     158&gt;" />
+          <PI Name="Priority1" RefNull="1" />
+          <PI Name="Priority10" RefNull="1" />
+          <PI Name="Priority11" RefNull="1" />
+          <PI Name="Priority12" RefNull="1" />
+          <PI Name="Priority13" RefNull="1" />
+          <PI Name="Priority14" RefNull="1" />
+          <PI Name="Priority15" RefNull="1" />
+          <PI Name="Priority16" RefNull="1" />
+          <PI Name="Priority2" RefNull="1" />
+          <PI Name="Priority3" RefNull="1" />
+          <PI Name="Priority4" RefNull="1" />
+          <PI Name="Priority5" RefNull="1" />
+          <PI Name="Priority6" RefNull="1" />
+          <PI Name="Priority7" RefNull="1" />
+          <PI Name="Priority8" RefNull="1" />
+          <PI Name="Priority9" RefNull="1" />
+          <PI Name="RelinquishDefault" Value="0" />
+          <PI Name="TypeCode" Value="2" />
+        </OI>
+        <OI DESCR="Room Humidity" NAME="RoomHumidity" TYPE="bacnet.pointproxy.analog.Value">
+          <PI Name="BACnetName" Value="RoomHumidity" />
+          <PI Name="ForeignAddress" Value="&lt;analog-value,     159&gt;" />
+          <PI Name="Priority1" RefNull="1" Unit="0x170001" />
+          <PI Name="Priority10" RefNull="1" Unit="0x170001" />
+          <PI Name="Priority11" RefNull="1" Unit="0x170001" />
+          <PI Name="Priority12" RefNull="1" Unit="0x170001" />
+          <PI Name="Priority13" RefNull="1" Unit="0x170001" />
+          <PI Name="Priority14" RefNull="1" Unit="0x170001" />
+          <PI Name="Priority15" RefNull="1" Unit="0x170001" />
+          <PI Name="Priority16" RefNull="1" Unit="0x170001" />
+          <PI Name="Priority2" RefNull="1" Unit="0x170001" />
+          <PI Name="Priority3" RefNull="1" Unit="0x170001" />
+          <PI Name="Priority4" RefNull="1" Unit="0x170001" />
+          <PI Name="Priority5" RefNull="1" Unit="0x170001" />
+          <PI Name="Priority6" RefNull="1" Unit="0x170001" />
+          <PI Name="Priority7" RefNull="1" Unit="0x170001" />
+          <PI Name="Priority8" RefNull="1" Unit="0x170001" />
+          <PI Name="Priority9" RefNull="1" Unit="0x170001" />
+          <PI Name="RelinquishDefault" Unit="0x170001" Value="0" />
+          <PI Name="TypeCode" Value="2" />
+          <PI Name="Value" RefNull="1" Unit="0x170001" />
+        </OI>
+        <OI DESCR="Room Temperature" NAME="RoomTemp" TYPE="bacnet.pointproxy.analog.Value">
+          <PI Name="BACnetName" Value="RoomTemp" />
+          <PI Name="ForeignAddress" Value="&lt;analog-value,     160&gt;" />
+          <PI Name="Priority1" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority10" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority11" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority12" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority13" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority14" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority15" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority16" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority2" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority3" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority4" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority5" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority6" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority7" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority8" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority9" RefNull="1" Unit="0x280001" />
+          <PI Name="RelinquishDefault" Unit="0x280001" Value="0" />
+          <PI Name="TypeCode" Value="2" />
+          <PI Name="Value" RefNull="1" Unit="0x280001" />
+        </OI>
+        <OI DESCR="RUI Temp" NAME="RUITemp" TYPE="bacnet.pointproxy.analog.Value">
+          <PI Name="BACnetName" Value="RUITemp" />
+          <PI Name="ForeignAddress" Value="&lt;analog-value,     161&gt;" />
+          <PI Name="Priority1" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority10" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority11" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority12" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority13" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority14" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority15" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority16" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority2" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority3" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority4" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority5" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority6" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority7" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority8" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority9" RefNull="1" Unit="0x280001" />
+          <PI Name="RelinquishDefault" Unit="0x280001" Value="0" />
+          <PI Name="TypeCode" Value="2" />
+          <PI Name="Value" RefNull="1" Unit="0x280001" />
+        </OI>
+        <OI DESCR="1 = None;&#xA;2 = Filter;&#xA;3 = Service;&#xA;4 = (COC/NH) Change over dry contact. Normally Heat;&#xA;5 = (COC/NC) Change over dry contact. Normally Cool;&#xA;6 = (COS) Change over analog sensor" NAME="RUI1Config" TYPE="bacnet.pointproxy.analog.Value">
+          <PI Name="BACnetName" Value="RUI1Config" />
+          <PI Name="ForeignAddress" Value="&lt;analog-value,     162&gt;" />
+          <PI Name="Priority1" RefNull="1" />
+          <PI Name="Priority10" RefNull="1" />
+          <PI Name="Priority11" RefNull="1" />
+          <PI Name="Priority12" RefNull="1" />
+          <PI Name="Priority13" RefNull="1" />
+          <PI Name="Priority14" RefNull="1" />
+          <PI Name="Priority15" RefNull="1" />
+          <PI Name="Priority16" RefNull="1" />
+          <PI Name="Priority2" RefNull="1" />
+          <PI Name="Priority3" RefNull="1" />
+          <PI Name="Priority4" RefNull="1" />
+          <PI Name="Priority5" RefNull="1" />
+          <PI Name="Priority6" RefNull="1" />
+          <PI Name="Priority7" RefNull="1" />
+          <PI Name="Priority8" RefNull="1" />
+          <PI Name="Priority9" RefNull="1" />
+          <PI Name="RelinquishDefault" Value="0" />
+          <PI Name="TypeCode" Value="2" />
+        </OI>
+        <OI DESCR="1 = Cooling only;&#xA;2 = Heating only;&#xA;3 = Cooling / Heating or Cooling With Electric Reheat;&#xA;4 = Heating With Electric Reheat;&#xA;5 = Electric Reheat Only" NAME="SequenceOperation" TYPE="bacnet.pointproxy.analog.Value">
+          <PI Name="BACnetName" Value="SequenceOperation" />
+          <PI Name="ForeignAddress" Value="&lt;analog-value,     163&gt;" />
+          <PI Name="Priority1" RefNull="1" />
+          <PI Name="Priority10" RefNull="1" />
+          <PI Name="Priority11" RefNull="1" />
+          <PI Name="Priority12" RefNull="1" />
+          <PI Name="Priority13" RefNull="1" />
+          <PI Name="Priority14" RefNull="1" />
+          <PI Name="Priority15" RefNull="1" />
+          <PI Name="Priority16" RefNull="1" />
+          <PI Name="Priority2" RefNull="1" />
+          <PI Name="Priority3" RefNull="1" />
+          <PI Name="Priority4" RefNull="1" />
+          <PI Name="Priority5" RefNull="1" />
+          <PI Name="Priority6" RefNull="1" />
+          <PI Name="Priority7" RefNull="1" />
+          <PI Name="Priority8" RefNull="1" />
+          <PI Name="Priority9" RefNull="1" />
+          <PI Name="RelinquishDefault" Value="0" />
+          <PI Name="TypeCode" Value="2" />
+        </OI>
+        <OI DESCR="Standby Cooling Setpoint" NAME="StandbyCoolSetpoint" TYPE="bacnet.pointproxy.analog.Value">
+          <PI Name="BACnetName" Value="StandbyCoolSetpoint" />
+          <PI Name="ForeignAddress" Value="&lt;analog-value,     164&gt;" />
+          <PI Name="Priority1" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority10" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority11" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority12" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority13" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority14" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority15" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority16" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority2" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority3" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority4" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority5" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority6" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority7" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority8" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority9" RefNull="1" Unit="0x280001" />
+          <PI Name="RelinquishDefault" Unit="0x280001" Value="0" />
+          <PI Name="TypeCode" Value="2" />
+          <PI Name="Value" RefNull="1" Unit="0x280001" />
+        </OI>
+        <OI DESCR="Standby Diff" NAME="StandbyDiff" TYPE="bacnet.pointproxy.analog.Value">
+          <PI Name="BACnetName" Value="StandbyDiff" />
+          <PI Name="ForeignAddress" Value="&lt;analog-value,     165&gt;" />
+          <PI Name="Priority1" RefNull="1" Unit="0xFA390001" />
+          <PI Name="Priority10" RefNull="1" Unit="0xFA390001" />
+          <PI Name="Priority11" RefNull="1" Unit="0xFA390001" />
+          <PI Name="Priority12" RefNull="1" Unit="0xFA390001" />
+          <PI Name="Priority13" RefNull="1" Unit="0xFA390001" />
+          <PI Name="Priority14" RefNull="1" Unit="0xFA390001" />
+          <PI Name="Priority15" RefNull="1" Unit="0xFA390001" />
+          <PI Name="Priority16" RefNull="1" Unit="0xFA390001" />
+          <PI Name="Priority2" RefNull="1" Unit="0xFA390001" />
+          <PI Name="Priority3" RefNull="1" Unit="0xFA390001" />
+          <PI Name="Priority4" RefNull="1" Unit="0xFA390001" />
+          <PI Name="Priority5" RefNull="1" Unit="0xFA390001" />
+          <PI Name="Priority6" RefNull="1" Unit="0xFA390001" />
+          <PI Name="Priority7" RefNull="1" Unit="0xFA390001" />
+          <PI Name="Priority8" RefNull="1" Unit="0xFA390001" />
+          <PI Name="Priority9" RefNull="1" Unit="0xFA390001" />
+          <PI Name="RelinquishDefault" Unit="0xFA390001" Value="0" />
+          <PI Name="TypeCode" Value="2" />
+          <PI Name="Value" RefNull="1" Unit="0xFA390001" />
+        </OI>
+        <OI DESCR="Standby Heating Setpoint" NAME="StandbyHeatSetpoint" TYPE="bacnet.pointproxy.analog.Value">
+          <PI Name="BACnetName" Value="StandbyHeatSetpoint" />
+          <PI Name="ForeignAddress" Value="&lt;analog-value,     166&gt;" />
+          <PI Name="Priority1" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority10" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority11" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority12" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority13" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority14" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority15" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority16" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority2" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority3" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority4" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority5" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority6" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority7" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority8" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority9" RefNull="1" Unit="0x280001" />
+          <PI Name="RelinquishDefault" Unit="0x280001" Value="0" />
+          <PI Name="TypeCode" Value="2" />
+          <PI Name="Value" RefNull="1" Unit="0x280001" />
+        </OI>
+        <OI DESCR="1 = Abs;&#xA;2 = Offset" NAME="StandbyMode" TYPE="bacnet.pointproxy.analog.Value">
+          <PI Name="BACnetName" Value="StandbyMode" />
+          <PI Name="ForeignAddress" Value="&lt;analog-value,     167&gt;" />
+          <PI Name="Priority1" RefNull="1" />
+          <PI Name="Priority10" RefNull="1" />
+          <PI Name="Priority11" RefNull="1" />
+          <PI Name="Priority12" RefNull="1" />
+          <PI Name="Priority13" RefNull="1" />
+          <PI Name="Priority14" RefNull="1" />
+          <PI Name="Priority15" RefNull="1" />
+          <PI Name="Priority16" RefNull="1" />
+          <PI Name="Priority2" RefNull="1" />
+          <PI Name="Priority3" RefNull="1" />
+          <PI Name="Priority4" RefNull="1" />
+          <PI Name="Priority5" RefNull="1" />
+          <PI Name="Priority6" RefNull="1" />
+          <PI Name="Priority7" RefNull="1" />
+          <PI Name="Priority8" RefNull="1" />
+          <PI Name="Priority9" RefNull="1" />
+          <PI Name="RelinquishDefault" Value="0" />
+          <PI Name="TypeCode" Value="2" />
+        </OI>
+        <OI DESCR="1 = No;&#xA;2 = Yes" NAME="StandbyScreen" TYPE="bacnet.pointproxy.analog.Value">
+          <PI Name="BACnetName" Value="StandbyScreen" />
+          <PI Name="ForeignAddress" Value="&lt;analog-value,     168&gt;" />
+          <PI Name="Priority1" RefNull="1" />
+          <PI Name="Priority10" RefNull="1" />
+          <PI Name="Priority11" RefNull="1" />
+          <PI Name="Priority12" RefNull="1" />
+          <PI Name="Priority13" RefNull="1" />
+          <PI Name="Priority14" RefNull="1" />
+          <PI Name="Priority15" RefNull="1" />
+          <PI Name="Priority16" RefNull="1" />
+          <PI Name="Priority2" RefNull="1" />
+          <PI Name="Priority3" RefNull="1" />
+          <PI Name="Priority4" RefNull="1" />
+          <PI Name="Priority5" RefNull="1" />
+          <PI Name="Priority6" RefNull="1" />
+          <PI Name="Priority7" RefNull="1" />
+          <PI Name="Priority8" RefNull="1" />
+          <PI Name="Priority9" RefNull="1" />
+          <PI Name="RelinquishDefault" Value="0" />
+          <PI Name="TypeCode" Value="2" />
+        </OI>
+        <OI DESCR="Standby Time" NAME="StandbyTime" TYPE="bacnet.pointproxy.analog.Value">
+          <PI Name="BACnetName" Value="StandbyTime" />
+          <PI Name="ForeignAddress" Value="&lt;analog-value,     169&gt;" />
+          <PI Name="Priority1" RefNull="1" Unit="0x2E0005" />
+          <PI Name="Priority10" RefNull="1" Unit="0x2E0005" />
+          <PI Name="Priority11" RefNull="1" Unit="0x2E0005" />
+          <PI Name="Priority12" RefNull="1" Unit="0x2E0005" />
+          <PI Name="Priority13" RefNull="1" Unit="0x2E0005" />
+          <PI Name="Priority14" RefNull="1" Unit="0x2E0005" />
+          <PI Name="Priority15" RefNull="1" Unit="0x2E0005" />
+          <PI Name="Priority16" RefNull="1" Unit="0x2E0005" />
+          <PI Name="Priority2" RefNull="1" Unit="0x2E0005" />
+          <PI Name="Priority3" RefNull="1" Unit="0x2E0005" />
+          <PI Name="Priority4" RefNull="1" Unit="0x2E0005" />
+          <PI Name="Priority5" RefNull="1" Unit="0x2E0005" />
+          <PI Name="Priority6" RefNull="1" Unit="0x2E0005" />
+          <PI Name="Priority7" RefNull="1" Unit="0x2E0005" />
+          <PI Name="Priority8" RefNull="1" Unit="0x2E0005" />
+          <PI Name="Priority9" RefNull="1" Unit="0x2E0005" />
+          <PI Name="RelinquishDefault" Unit="0x2E0005" Value="0" />
+          <PI Name="TypeCode" Value="2" />
+          <PI Name="Value" RefNull="1" Unit="0x2E0005" />
+        </OI>
+        <OI DESCR="Supply Temperature" NAME="SupplyTemp" TYPE="bacnet.pointproxy.analog.Value">
+          <PI Name="BACnetName" Value="SupplyTemp" />
+          <PI Name="ForeignAddress" Value="&lt;analog-value,     170&gt;" />
+          <PI Name="Priority1" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority10" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority11" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority12" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority13" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority14" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority15" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority16" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority2" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority3" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority4" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority5" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority6" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority7" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority8" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority9" RefNull="1" Unit="0x280001" />
+          <PI Name="RelinquishDefault" Unit="0x280001" Value="0" />
+          <PI Name="TypeCode" Value="2" />
+          <PI Name="Value" RefNull="1" Unit="0x280001" />
+        </OI>
+        <OI DESCR="1 = Off;&#xA;2 = Auto;&#xA;3 = Cool;&#xA;4 = Heat" NAME="SystemMode" TYPE="bacnet.pointproxy.analog.Value">
+          <PI Name="BACnetName" Value="SystemMode" />
+          <PI Name="ForeignAddress" Value="&lt;analog-value,     171&gt;" />
+          <PI Name="Priority1" RefNull="1" />
+          <PI Name="Priority10" RefNull="1" />
+          <PI Name="Priority11" RefNull="1" />
+          <PI Name="Priority12" RefNull="1" />
+          <PI Name="Priority13" RefNull="1" />
+          <PI Name="Priority14" RefNull="1" />
+          <PI Name="Priority15" RefNull="1" />
+          <PI Name="Priority16" RefNull="1" />
+          <PI Name="Priority2" RefNull="1" />
+          <PI Name="Priority3" RefNull="1" />
+          <PI Name="Priority4" RefNull="1" />
+          <PI Name="Priority5" RefNull="1" />
+          <PI Name="Priority6" RefNull="1" />
+          <PI Name="Priority7" RefNull="1" />
+          <PI Name="Priority8" RefNull="1" />
+          <PI Name="Priority9" RefNull="1" />
+          <PI Name="RelinquishDefault" Value="0" />
+          <PI Name="TypeCode" Value="2" />
+        </OI>
+        <OI DESCR="Temporary Occupancy Time" NAME="TempOccTime" TYPE="bacnet.pointproxy.analog.Value">
+          <PI Name="BACnetName" Value="TempOccTime" />
+          <PI Name="ForeignAddress" Value="&lt;analog-value,     172&gt;" />
+          <PI Name="Priority1" RefNull="1" Unit="0x2E0005" />
+          <PI Name="Priority10" RefNull="1" Unit="0x2E0005" />
+          <PI Name="Priority11" RefNull="1" Unit="0x2E0005" />
+          <PI Name="Priority12" RefNull="1" Unit="0x2E0005" />
+          <PI Name="Priority13" RefNull="1" Unit="0x2E0005" />
+          <PI Name="Priority14" RefNull="1" Unit="0x2E0005" />
+          <PI Name="Priority15" RefNull="1" Unit="0x2E0005" />
+          <PI Name="Priority16" RefNull="1" Unit="0x2E0005" />
+          <PI Name="Priority2" RefNull="1" Unit="0x2E0005" />
+          <PI Name="Priority3" RefNull="1" Unit="0x2E0005" />
+          <PI Name="Priority4" RefNull="1" Unit="0x2E0005" />
+          <PI Name="Priority5" RefNull="1" Unit="0x2E0005" />
+          <PI Name="Priority6" RefNull="1" Unit="0x2E0005" />
+          <PI Name="Priority7" RefNull="1" Unit="0x2E0005" />
+          <PI Name="Priority8" RefNull="1" Unit="0x2E0005" />
+          <PI Name="Priority9" RefNull="1" Unit="0x2E0005" />
+          <PI Name="RelinquishDefault" Unit="0x2E0005" Value="0" />
+          <PI Name="TypeCode" Value="2" />
+          <PI Name="Value" RefNull="1" Unit="0x2E0005" />
+        </OI>
+        <OI DESCR="Thermostat Model Number" NAME="TStatModelNumber" TYPE="bacnet.pointproxy.analog.Value">
+          <PI Name="BACnetName" Value="TStatModelNumber" />
+          <PI Name="ForeignAddress" Value="&lt;analog-value,     173&gt;" />
+          <PI Name="Priority1" RefNull="1" />
+          <PI Name="Priority10" RefNull="1" />
+          <PI Name="Priority11" RefNull="1" />
+          <PI Name="Priority12" RefNull="1" />
+          <PI Name="Priority13" RefNull="1" />
+          <PI Name="Priority14" RefNull="1" />
+          <PI Name="Priority15" RefNull="1" />
+          <PI Name="Priority16" RefNull="1" />
+          <PI Name="Priority2" RefNull="1" />
+          <PI Name="Priority3" RefNull="1" />
+          <PI Name="Priority4" RefNull="1" />
+          <PI Name="Priority5" RefNull="1" />
+          <PI Name="Priority6" RefNull="1" />
+          <PI Name="Priority7" RefNull="1" />
+          <PI Name="Priority8" RefNull="1" />
+          <PI Name="Priority9" RefNull="1" />
+          <PI Name="RelinquishDefault" Value="0" />
+          <PI Name="TypeCode" Value="2" />
+        </OI>
+        <OI DESCR="Unoccupied Cooling Setpoint" NAME="UnoccCoolSetpoint" TYPE="bacnet.pointproxy.analog.Value">
+          <PI Name="BACnetName" Value="UnoccCoolSetpoint" />
+          <PI Name="ForeignAddress" Value="&lt;analog-value,     174&gt;" />
+          <PI Name="Priority1" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority10" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority11" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority12" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority13" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority14" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority15" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority16" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority2" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority3" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority4" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority5" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority6" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority7" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority8" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority9" RefNull="1" Unit="0x280001" />
+          <PI Name="RelinquishDefault" Unit="0x280001" Value="0" />
+          <PI Name="TypeCode" Value="2" />
+          <PI Name="Value" RefNull="1" Unit="0x280001" />
+        </OI>
+        <OI DESCR="Unoccupied Heating Setpoint" NAME="UnoccHeatSetpoint" TYPE="bacnet.pointproxy.analog.Value">
+          <PI Name="BACnetName" Value="UnoccHeatSetpoint" />
+          <PI Name="ForeignAddress" Value="&lt;analog-value,     175&gt;" />
+          <PI Name="Priority1" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority10" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority11" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority12" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority13" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority14" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority15" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority16" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority2" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority3" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority4" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority5" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority6" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority7" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority8" RefNull="1" Unit="0x280001" />
+          <PI Name="Priority9" RefNull="1" Unit="0x280001" />
+          <PI Name="RelinquishDefault" Unit="0x280001" Value="0" />
+          <PI Name="TypeCode" Value="2" />
+          <PI Name="Value" RefNull="1" Unit="0x280001" />
+        </OI>
+        <OI DESCR="Unoccupied Time" NAME="UnoccTime" TYPE="bacnet.pointproxy.analog.Value">
+          <PI Name="BACnetName" Value="UnoccTime" />
+          <PI Name="ForeignAddress" Value="&lt;analog-value,     176&gt;" />
+          <PI Name="Priority1" RefNull="1" Unit="0x2E0005" />
+          <PI Name="Priority10" RefNull="1" Unit="0x2E0005" />
+          <PI Name="Priority11" RefNull="1" Unit="0x2E0005" />
+          <PI Name="Priority12" RefNull="1" Unit="0x2E0005" />
+          <PI Name="Priority13" RefNull="1" Unit="0x2E0005" />
+          <PI Name="Priority14" RefNull="1" Unit="0x2E0005" />
+          <PI Name="Priority15" RefNull="1" Unit="0x2E0005" />
+          <PI Name="Priority16" RefNull="1" Unit="0x2E0005" />
+          <PI Name="Priority2" RefNull="1" Unit="0x2E0005" />
+          <PI Name="Priority3" RefNull="1" Unit="0x2E0005" />
+          <PI Name="Priority4" RefNull="1" Unit="0x2E0005" />
+          <PI Name="Priority5" RefNull="1" Unit="0x2E0005" />
+          <PI Name="Priority6" RefNull="1" Unit="0x2E0005" />
+          <PI Name="Priority7" RefNull="1" Unit="0x2E0005" />
+          <PI Name="Priority8" RefNull="1" Unit="0x2E0005" />
+          <PI Name="Priority9" RefNull="1" Unit="0x2E0005" />
+          <PI Name="RelinquishDefault" Unit="0x2E0005" Value="0" />
+          <PI Name="TypeCode" Value="2" />
+          <PI Name="Value" RefNull="1" Unit="0x2E0005" />
+        </OI>
+        <OI DESCR="User HMI" NAME="UserHMI" TYPE="bacnet.pointproxy.analog.Value">
+          <PI Name="BACnetName" Value="UserHMI" />
+          <PI Name="ForeignAddress" Value="&lt;analog-value,     177&gt;" />
+          <PI Name="Priority1" RefNull="1" />
+          <PI Name="Priority10" RefNull="1" />
+          <PI Name="Priority11" RefNull="1" />
+          <PI Name="Priority12" RefNull="1" />
+          <PI Name="Priority13" RefNull="1" />
+          <PI Name="Priority14" RefNull="1" />
+          <PI Name="Priority15" RefNull="1" />
+          <PI Name="Priority16" RefNull="1" />
+          <PI Name="Priority2" RefNull="1" />
+          <PI Name="Priority3" RefNull="1" />
+          <PI Name="Priority4" RefNull="1" />
+          <PI Name="Priority5" RefNull="1" />
+          <PI Name="Priority6" RefNull="1" />
+          <PI Name="Priority7" RefNull="1" />
+          <PI Name="Priority8" RefNull="1" />
+          <PI Name="Priority9" RefNull="1" />
+          <PI Name="RelinquishDefault" Value="0" />
+          <PI Name="TypeCode" Value="2" />
+        </OI>
+        <OI DESCR="User Password" NAME="UserPassword" TYPE="bacnet.pointproxy.analog.Value">
+          <PI Name="BACnetName" Value="UserPassword" />
+          <PI Name="ForeignAddress" Value="&lt;analog-value,     178&gt;" />
+          <PI Name="Priority1" RefNull="1" />
+          <PI Name="Priority10" RefNull="1" />
+          <PI Name="Priority11" RefNull="1" />
+          <PI Name="Priority12" RefNull="1" />
+          <PI Name="Priority13" RefNull="1" />
+          <PI Name="Priority14" RefNull="1" />
+          <PI Name="Priority15" RefNull="1" />
+          <PI Name="Priority16" RefNull="1" />
+          <PI Name="Priority2" RefNull="1" />
+          <PI Name="Priority3" RefNull="1" />
+          <PI Name="Priority4" RefNull="1" />
+          <PI Name="Priority5" RefNull="1" />
+          <PI Name="Priority6" RefNull="1" />
+          <PI Name="Priority7" RefNull="1" />
+          <PI Name="Priority8" RefNull="1" />
+          <PI Name="Priority9" RefNull="1" />
+          <PI Name="RelinquishDefault" Value="0" />
+          <PI Name="TypeCode" Value="2" />
+        </OI>
+        <OI DESCR="1 = Deactivated;&#xA;0 = Activated" NAME="BI1Status" TYPE="bacnet.pointproxy.digital.Value">
+          <PI Name="BACnetName" Value="BI1Status" />
+          <PI Name="ForeignAddress" Value="&lt;binary-value,      54&gt;" />
+          <PI Name="Priority1" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority10" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority11" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority12" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority13" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority14" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority15" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority16" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority2" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority3" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority4" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority5" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority6" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority7" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority8" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority9" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="RelinquishDefault" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" Value="0" />
+          <PI Name="TypeCode" Value="5" />
+          <PI Name="Value" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+        </OI>
+        <OI DESCR="1 = Deactivated;&#xA;0 = Activated" NAME="BI2Status" TYPE="bacnet.pointproxy.digital.Value">
+          <PI Name="BACnetName" Value="BI2Status" />
+          <PI Name="ForeignAddress" Value="&lt;binary-value,      55&gt;" />
+          <PI Name="Priority1" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority10" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority11" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority12" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority13" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority14" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority15" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority16" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority2" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority3" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority4" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority5" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority6" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority7" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority8" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority9" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="RelinquishDefault" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" Value="0" />
+          <PI Name="TypeCode" Value="5" />
+          <PI Name="Value" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+        </OI>
+        <OI DESCR="0 = Normally Opened;&#xA;1 = Normally Closed" NAME="Cool_NO_NC" TYPE="bacnet.pointproxy.digital.Value">
+          <PI Name="BACnetName" Value="Cool_NO_NC" />
+          <PI Name="ForeignAddress" Value="&lt;binary-value,      56&gt;" />
+          <PI Name="Priority1" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority10" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority11" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority12" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority13" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority14" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority15" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority16" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority2" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority3" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority4" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority5" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority6" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority7" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority8" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority9" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="RelinquishDefault" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" Value="0" />
+          <PI Name="TypeCode" Value="5" />
+          <PI Name="Value" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+        </OI>
+        <OI DESCR="0 = Auto Speed;&#xA;1 = Auto Speed / Auto Demand" NAME="AutoFanFunc" TYPE="bacnet.pointproxy.digital.Value">
+          <PI Name="BACnetName" Value="AutoFanFunc" />
+          <PI Name="ForeignAddress" Value="&lt;binary-value,      57&gt;" />
+          <PI Name="Priority1" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority10" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority11" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority12" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority13" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority14" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority15" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority16" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority2" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority3" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority4" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority5" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority6" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority7" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority8" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority9" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="RelinquishDefault" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" Value="0" />
+          <PI Name="TypeCode" Value="5" />
+          <PI Name="Value" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+        </OI>
+        <OI DESCR="0 = Disabled;&#xA;1 = Enabled" NAME="AutoModeEnable" TYPE="bacnet.pointproxy.digital.Value">
+          <PI Name="BACnetName" Value="AutoModeEnable" />
+          <PI Name="ForeignAddress" Value="&lt;binary-value,      58&gt;" />
+          <PI Name="Priority1" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority10" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority11" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority12" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority13" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority14" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority15" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority16" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority2" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority3" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority4" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority5" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority6" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority7" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority8" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority9" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="RelinquishDefault" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" Value="0" />
+          <PI Name="TypeCode" Value="5" />
+          <PI Name="Value" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+        </OI>
+        <OI DESCR="0 = Off;&#xA;1 = On" NAME="CoolOutput" TYPE="bacnet.pointproxy.digital.Value">
+          <PI Name="BACnetName" Value="CoolOutput" />
+          <PI Name="ForeignAddress" Value="&lt;binary-value,      59&gt;" />
+          <PI Name="Priority1" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority10" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority11" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority12" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority13" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority14" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority15" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority16" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority2" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority3" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority4" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority5" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority6" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority7" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority8" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority9" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="RelinquishDefault" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" Value="0" />
+          <PI Name="TypeCode" Value="5" />
+          <PI Name="Value" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+        </OI>
+        <OI DESCR="0 = Disabled;&#xA;1 = Enabled" NAME="DehumLockout" TYPE="bacnet.pointproxy.digital.Value">
+          <PI Name="BACnetName" Value="DehumLockout" />
+          <PI Name="ForeignAddress" Value="&lt;binary-value,      60&gt;" />
+          <PI Name="Priority1" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority10" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority11" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority12" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority13" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority14" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority15" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority16" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority2" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority3" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority4" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority5" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority6" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority7" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority8" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority9" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="RelinquishDefault" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" Value="0" />
+          <PI Name="TypeCode" Value="5" />
+          <PI Name="Value" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+        </OI>
+        <OI DESCR="0 = Off;&#xA;1 = On" NAME="DehumStatus" TYPE="bacnet.pointproxy.digital.Value">
+          <PI Name="BACnetName" Value="DehumStatus" />
+          <PI Name="ForeignAddress" Value="&lt;binary-value,      61&gt;" />
+          <PI Name="Priority1" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority10" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority11" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority12" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority13" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority14" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority15" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority16" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority2" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority3" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority4" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority5" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority6" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority7" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority8" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority9" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="RelinquishDefault" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" Value="0" />
+          <PI Name="TypeCode" Value="5" />
+          <PI Name="Value" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+        </OI>
+        <OI DESCR="0 = ºC;&#xA;1 = ºF" NAME="Units" TYPE="bacnet.pointproxy.digital.Value">
+          <PI Name="BACnetName" Value="Units" />
+          <PI Name="ForeignAddress" Value="&lt;binary-value,      62&gt;" />
+          <PI Name="Priority1" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority10" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority11" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority12" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority13" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority14" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority15" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority16" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority2" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority3" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority4" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority5" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority6" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority7" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority8" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority9" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="RelinquishDefault" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" Value="0" />
+          <PI Name="TypeCode" Value="5" />
+          <PI Name="Value" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+        </OI>
+        <OI DESCR="0 = Off;&#xA;1 = On" NAME="FilterAlarm" TYPE="bacnet.pointproxy.digital.Value">
+          <PI Name="BACnetName" Value="FilterAlarm" />
+          <PI Name="ForeignAddress" Value="&lt;binary-value,      63&gt;" />
+          <PI Name="Priority1" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority10" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority11" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority12" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority13" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority14" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority15" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority16" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority2" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority3" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority4" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority5" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority6" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority7" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority8" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority9" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="RelinquishDefault" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" Value="0" />
+          <PI Name="TypeCode" Value="5" />
+          <PI Name="Value" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+        </OI>
+        <OI DESCR="0 = Off;&#xA;1 = On" NAME="ForceHighBacklight" TYPE="bacnet.pointproxy.digital.Value">
+          <PI Name="BACnetName" Value="ForceHighBacklight" />
+          <PI Name="ForeignAddress" Value="&lt;binary-value,      64&gt;" />
+          <PI Name="Priority1" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority10" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority11" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority12" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority13" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority14" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority15" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority16" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority2" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority3" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority4" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority5" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority6" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority7" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority8" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority9" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="RelinquishDefault" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" Value="0" />
+          <PI Name="TypeCode" Value="5" />
+          <PI Name="Value" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+        </OI>
+        <OI DESCR="0 = Normally Opened;&#xA;1 = Normally Closed" NAME="Heat_NO_NC" TYPE="bacnet.pointproxy.digital.Value">
+          <PI Name="BACnetName" Value="Heat_NO_NC" />
+          <PI Name="ForeignAddress" Value="&lt;binary-value,      65&gt;" />
+          <PI Name="Priority1" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority10" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority11" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority12" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority13" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority14" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority15" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority16" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority2" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority3" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority4" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority5" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority6" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority7" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority8" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority9" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="RelinquishDefault" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" Value="0" />
+          <PI Name="TypeCode" Value="5" />
+          <PI Name="Value" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+        </OI>
+        <OI DESCR="0 = Off;&#xA;1 = On" NAME="HeatOutput" TYPE="bacnet.pointproxy.digital.Value">
+          <PI Name="BACnetName" Value="HeatOutput" />
+          <PI Name="ForeignAddress" Value="&lt;binary-value,      66&gt;" />
+          <PI Name="Priority1" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority10" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority11" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority12" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority13" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority14" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority15" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority16" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority2" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority3" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority4" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority5" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority6" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority7" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority8" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority9" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="RelinquishDefault" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" Value="0" />
+          <PI Name="TypeCode" Value="5" />
+          <PI Name="Value" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+        </OI>
+        <OI DESCR="0 = Off;&#xA;1 = On" NAME="HighFanOutput" TYPE="bacnet.pointproxy.digital.Value">
+          <PI Name="BACnetName" Value="HighFanOutput" />
+          <PI Name="ForeignAddress" Value="&lt;binary-value,      67&gt;" />
+          <PI Name="Priority1" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority10" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority11" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority12" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority13" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority14" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority15" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority16" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority2" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority3" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority4" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority5" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority6" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority7" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority8" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority9" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="RelinquishDefault" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" Value="0" />
+          <PI Name="TypeCode" Value="5" />
+          <PI Name="Value" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+        </OI>
+        <OI DESCR="0 = No Motion;&#xA;1 = Motion" NAME="LocalMotion" TYPE="bacnet.pointproxy.digital.Value">
+          <PI Name="BACnetName" Value="LocalMotion" />
+          <PI Name="ForeignAddress" Value="&lt;binary-value,      68&gt;" />
+          <PI Name="Priority1" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority10" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority11" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority12" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority13" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority14" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority15" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority16" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority2" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority3" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority4" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority5" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority6" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority7" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority8" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority9" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="RelinquishDefault" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" Value="0" />
+          <PI Name="TypeCode" Value="5" />
+          <PI Name="Value" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+        </OI>
+        <OI DESCR="0 = Off;&#xA;1 = On" NAME="LowBattAlarm" TYPE="bacnet.pointproxy.digital.Value">
+          <PI Name="BACnetName" Value="LowBattAlarm" />
+          <PI Name="ForeignAddress" Value="&lt;binary-value,      69&gt;" />
+          <PI Name="Priority1" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority10" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority11" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority12" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority13" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority14" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority15" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority16" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority2" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority3" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority4" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority5" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority6" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority7" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority8" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority9" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="RelinquishDefault" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" Value="0" />
+          <PI Name="TypeCode" Value="5" />
+          <PI Name="Value" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+        </OI>
+        <OI DESCR="0 = Off;&#xA;1 = On" NAME="LowFanOutput" TYPE="bacnet.pointproxy.digital.Value">
+          <PI Name="BACnetName" Value="LowFanOutput" />
+          <PI Name="ForeignAddress" Value="&lt;binary-value,      70&gt;" />
+          <PI Name="Priority1" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority10" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority11" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority12" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority13" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority14" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority15" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority16" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority2" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority3" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority4" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority5" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority6" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority7" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority8" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority9" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="RelinquishDefault" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" Value="0" />
+          <PI Name="TypeCode" Value="5" />
+          <PI Name="Value" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+        </OI>
+        <OI DESCR="0 = Off;&#xA;1 = On" NAME="MediumFanOutput" TYPE="bacnet.pointproxy.digital.Value">
+          <PI Name="BACnetName" Value="MediumFanOutput" />
+          <PI Name="ForeignAddress" Value="&lt;binary-value,      71&gt;" />
+          <PI Name="Priority1" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority10" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority11" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority12" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority13" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority14" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority15" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority16" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority2" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority3" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority4" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority5" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority6" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority7" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority8" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority9" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="RelinquishDefault" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" Value="0" />
+          <PI Name="TypeCode" Value="5" />
+          <PI Name="Value" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+        </OI>
+        <OI DESCR="1 = Deactivated;&#xA;0 = Activated" NAME="RBI2Status" TYPE="bacnet.pointproxy.digital.Value">
+          <PI Name="BACnetName" Value="RBI2Status" />
+          <PI Name="ForeignAddress" Value="&lt;binary-value,      72&gt;" />
+          <PI Name="Priority1" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority10" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority11" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority12" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority13" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority14" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority15" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority16" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority2" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority3" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority4" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority5" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority6" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority7" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority8" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority9" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="RelinquishDefault" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" Value="0" />
+          <PI Name="TypeCode" Value="5" />
+          <PI Name="Value" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+        </OI>
+        <OI DESCR="0 = Normal;&#xA;1 = Override" NAME="ReleaseOverride" TYPE="bacnet.pointproxy.digital.Value">
+          <PI Name="BACnetName" Value="ReleaseOverride" />
+          <PI Name="ForeignAddress" Value="&lt;binary-value,      73&gt;" />
+          <PI Name="Priority1" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority10" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority11" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority12" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority13" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority14" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority15" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority16" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority2" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority3" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority4" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority5" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority6" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority7" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority8" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority9" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="RelinquishDefault" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" Value="0" />
+          <PI Name="TypeCode" Value="5" />
+          <PI Name="Value" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+        </OI>
+        <OI DESCR="0 = Disabled;&#xA;1 = Enabled" NAME="RHDisplay" TYPE="bacnet.pointproxy.digital.Value">
+          <PI Name="BACnetName" Value="RHDisplay" />
+          <PI Name="ForeignAddress" Value="&lt;binary-value,      74&gt;" />
+          <PI Name="Priority1" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority10" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority11" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority12" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority13" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority14" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority15" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority16" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority2" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority3" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority4" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority5" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority6" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority7" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority8" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority9" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="RelinquishDefault" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" Value="0" />
+          <PI Name="TypeCode" Value="5" />
+          <PI Name="Value" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+        </OI>
+        <OI DESCR="1 = Deactivated;&#xA;0 = Activated" NAME="RUI1Status" TYPE="bacnet.pointproxy.digital.Value">
+          <PI Name="BACnetName" Value="RUI1Status" />
+          <PI Name="ForeignAddress" Value="&lt;binary-value,      75&gt;" />
+          <PI Name="Priority1" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority10" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority11" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority12" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority13" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority14" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority15" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority16" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority2" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority3" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority4" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority5" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority6" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority7" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority8" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority9" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="RelinquishDefault" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" Value="0" />
+          <PI Name="TypeCode" Value="5" />
+          <PI Name="Value" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+        </OI>
+        <OI DESCR="0 = Off;&#xA;1 = On" NAME="ServiceAlarm" TYPE="bacnet.pointproxy.digital.Value">
+          <PI Name="BACnetName" Value="ServiceAlarm" />
+          <PI Name="ForeignAddress" Value="&lt;binary-value,      76&gt;" />
+          <PI Name="Priority1" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority10" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority11" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority12" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority13" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority14" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority15" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority16" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority2" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority3" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority4" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority5" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority6" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority7" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority8" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority9" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="RelinquishDefault" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" Value="0" />
+          <PI Name="TypeCode" Value="5" />
+          <PI Name="Value" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+        </OI>
+        <OI DESCR="0 = Off;&#xA;1 = On" NAME="WindowAlarm" TYPE="bacnet.pointproxy.digital.Value">
+          <PI Name="BACnetName" Value="WindowAlarm" />
+          <PI Name="ForeignAddress" Value="&lt;binary-value,      77&gt;" />
+          <PI Name="Priority1" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority10" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority11" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority12" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority13" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority14" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority15" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority16" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority2" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority3" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority4" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority5" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority6" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority7" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority8" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority9" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="RelinquishDefault" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" Value="0" />
+          <PI Name="TypeCode" Value="5" />
+          <PI Name="Value" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+        </OI>
+        <OI DESCR="0 = Closed;&#xA;1 = Opened" NAME="WirelessDoorSwitchStatus" TYPE="bacnet.pointproxy.digital.Value">
+          <PI Name="BACnetName" Value="WirelessDoorSwitchStatus" />
+          <PI Name="ForeignAddress" Value="&lt;binary-value,      78&gt;" />
+          <PI Name="Priority1" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority10" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority11" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority12" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority13" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority14" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority15" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority16" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority2" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority3" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority4" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority5" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority6" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority7" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority8" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority9" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="RelinquishDefault" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" Value="0" />
+          <PI Name="TypeCode" Value="5" />
+          <PI Name="Value" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+        </OI>
+        <OI DESCR="0 = Not Used;&#xA;1 = Used" NAME="WirelessDoorSwitchUsed" TYPE="bacnet.pointproxy.digital.Value">
+          <PI Name="BACnetName" Value="WirelessDoorSwitchUsed" />
+          <PI Name="ForeignAddress" Value="&lt;binary-value,      79&gt;" />
+          <PI Name="Priority1" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority10" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority11" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority12" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority13" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority14" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority15" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority16" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority2" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority3" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority4" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority5" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority6" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority7" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority8" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority9" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="RelinquishDefault" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" Value="0" />
+          <PI Name="TypeCode" Value="5" />
+          <PI Name="Value" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+        </OI>
+        <OI DESCR="0 = Closed;&#xA;1 = Opened" NAME="WirelessWindowSwitchStatus" TYPE="bacnet.pointproxy.digital.Value">
+          <PI Name="BACnetName" Value="WirelessWindowSwitchStatus" />
+          <PI Name="ForeignAddress" Value="&lt;binary-value,      80&gt;" />
+          <PI Name="Priority1" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority10" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority11" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority12" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority13" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority14" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority15" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority16" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority2" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority3" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority4" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority5" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority6" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority7" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority8" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority9" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="RelinquishDefault" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" Value="0" />
+          <PI Name="TypeCode" Value="5" />
+          <PI Name="Value" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+        </OI>
+        <OI DESCR="0 = Not Used;&#xA;1 = Used" NAME="WirelessWindowSwitchUsed" TYPE="bacnet.pointproxy.digital.Value">
+          <PI Name="BACnetName" Value="WirelessWindowSwitchUsed" />
+          <PI Name="ForeignAddress" Value="&lt;binary-value,      81&gt;" />
+          <PI Name="Priority1" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority10" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority11" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority12" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority13" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority14" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority15" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority16" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority2" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority3" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority4" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority5" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority6" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority7" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority8" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="Priority9" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+          <PI Name="RelinquishDefault" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" Value="0" />
+          <PI Name="TypeCode" Value="5" />
+          <PI Name="Value" RefNull="1" Type="public.aaaihpz6olyfbocedgzvl54434_aaaihpz6olyfbocedgzuapdv6z" />
+        </OI>
+      </OI>
+    </OI>
+  </ExportedObjects>
+</ObjectSet>
