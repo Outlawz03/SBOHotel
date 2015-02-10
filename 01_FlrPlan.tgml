@@ -2,12 +2,12 @@
 
 <!--[DocumentInformation]
 Created: 2014-07-09 07:45
-Modified: 2015-02-10 09:55
+Modified: 2015-02-10 11:33
 -->
 <?tgml version="1.21"?><Tgml ComponentCounter="111" GridSize="5"
-    Height="900.0" LayerCounter="3" Width="1710.0">
-    <Layer Name="Libraries">
-        <Script Name="underscore" OnDocumentLoad="load"><![CDATA[_ = global._;(function() {
+    Height="900.0" LayerCounter="4" UseGlobalScripts="True" Width="1710.0">
+    <Layer Name="Control">
+        <Script Name="underscore" OnDocumentLoad="load"><![CDATA[(function() {
 	var root = global;
 	
 	var nativeKeys		= Object.keys;
@@ -137,124 +137,9 @@ _ = global._;
 
 function load(evt){
 }]]></Script>
-    </Layer>
-    <Script Name="GS" OnDocumentLoad="load" OnMouseClick="click"
-        OnMouseDown="" OnMouseMove="" OnMouseOut="" OnMouseOver=""
-        OnMouseUp="" OnSignalChange="change"><![CDATA[//NameSpace
-global.TGMLAPI = {};
-
-var MYAPI = global.TGMLAPI;
-var _ = global._;
-
-
-/**==========================================================================================
- * Helper Functions
- */
-MYAPI.isUndefined = function(o) {
-	if(typeof(o) === "undefined") {
-		return true;			
-	}
-	return false;	
-};
-
-MYAPI.getBool = function(s) {
-	var trueEnum = ["yes", "y", "Yes", "Y", "1", "True", "true", "T", "t", "On", "active"];
-	var i = trueEnum.length;
-	while(i--) {
-		if(String(s) === trueEnum[i]) {
-			return true;
-		}
-	}
-	return false
-};
-
-//checks if object is of type undefined
-if (!Object.isUndefined) {
-	Object.isUndefined = function(object) {
-		return typeof object === "undefined";
-	};
-}
-
-//checks if object is part of DOM, should only be used on nodes (good to check against CDATA)
-if (!Object.isDOM) {
-	Object.isDOM = function(obj) {
-		if (!Object.isUndefined(obj) && obj.nodeName) {
-	    	switch (obj.nodeType) {
-	    		case 1: return 'element';
-	    		case 3: return (/\S/).test(obj.nodeValue) ? 'textnode' : 'whitespace';
-	    	}
-	    }
-	    return false;
-	};
-}
-
-//returns an array children nodes that have a defined attribute, ex: getChildrenByAttribute(view,"Model")
-MYAPI.getChildrenByAttribute = function(node, attb){
-	var v = [];
-	if (Object.isDOM(node)) {
-		if (node.hasAttribute(attb)) {
-			if (node.getAttribute(attb)!="") {			
-				v.push(node);
-			}
-		}
-		if (node.hasChildNodes()) {
-			var c = node.getChildNodes();			
-			for(var i = 0; i < c.length; i++) {
-				v = v.concat(MYAPI.getChildrenByAttribute(c.item(i), attb));
-			}
-		}
-	}
-	return v;
-}
-
-if (!Object.create) {
-	Object.create = function(base) {
-		function F () {};
-		F.prototype = base;
-		return new F();
-	};
-}
-
-/**==========================================================================================
- * Main Object
- */
-var Main = {		
-	load: function(e) {
-		//get filter buttons
-		var TGMLDoc = e.getCurrentTarget().getOwnerDocument(),
-			TGMLElem = TGMLDoc.getDocumentElement(),
-			display = TGMLElem.getChildByName("Display"),
-			binds = TGMLElem.getChildByName("Binds");
-		
-		// Create Display Manager
-		this.dm = Object.create(MYAPI.DisplayManager);
-		this.dm.init(display);
-		
-		// Create Bind Manager
-		this.bm = Object.create(MYAPI.BindManager);
-		this.bm.init(binds);				
-	},
-	
-	// change event handler
-	change: function(e) {
-		e.preventDefault();
-		this.dm.update(e);
-		this.bm.update(e,this.dm.activeContainer, this.dm.per);		
-	},
-	
-	// mouse click event handler
-	click: function(e) {
-		this.dm.click(e);
-		this.bm.click(e, this.dm.activeContainer, this.dm.per);
-	}
-};
-
-/**==========================================================================================
- * Display Manager Object
- */
-MYAPI.DisplayManager = {
-	per: 20,
+        <Script Name="DisplayManager" OnDocumentLoad="load"><![CDATA[global.DisplayManager = {
 	init: function(node) {
+		this.per = 20;
 		// get containers
 		this.containers = [];
 		var rcView = node.getChildByName("RCView");
@@ -265,7 +150,7 @@ MYAPI.DisplayManager = {
 		this.activeContainer = 0;	
 		
 		var containerList = rcView.getChildNodes();
-		this.containers = _.map(containerList, function(){return Object.create(MYAPI.Container);});
+		this.containers = _.map(containerList, function(){return Object.create(global.Container);});
 		_.each(this.containers, function(node, index){node.init(containerList.item(index));});
 		
 		this.lower = node.getChild("Lower");
@@ -278,12 +163,12 @@ MYAPI.DisplayManager = {
 		this.template = node.getChildByName("RoomController");
 		
 		// get Occupancy boxes
-		this.occBoxes = Object.create(MYAPI.OccBoxesCtrl);
-		this.occBoxes.init(node.getChild("OccBoxes"));
+//		this.occBoxes = Object.create(MYAPI.OccBoxesCtrl);
+//		this.occBoxes.init(node.getChild("OccBoxes"));
 		
 		// get SE8000
-		this.se8 = Object.create(MYAPI.SE8Manager);
-		this.se8.init(node.getChild("SE8000"));
+//		this.se8 = Object.create(global.SE8Manager);
+//		this.se8.init(node.getChild("SE8000"));
 		
 		this.rcs = {};		
 	},
@@ -296,7 +181,7 @@ MYAPI.DisplayManager = {
 			// check if the RC exists
 			var rcNum = +RCName.slice(-2);
 			if(!_.has(this.rcs, rcNum)) {
-				this.rcs[rcNum] = Object.create(MYAPI.RCObject);					
+				this.rcs[rcNum] = Object.create(global.RCObject);					
 				this.rcs[rcNum].init({	model: this.template, 
 										num: rcNum,
 										perScreen: this.per,
@@ -314,7 +199,7 @@ MYAPI.DisplayManager = {
 			this.occBoxes.update(e);
 		}
 		
-		this.se8.update(e);
+//		this.se8.update(e);
 	},
 	
 	click: function(e) {
@@ -340,89 +225,10 @@ MYAPI.DisplayManager = {
 	}
 };
 
-/**==========================================================================================
- * RCObject Object
- */
-MYAPI.RCObject = {
-	init: function(props) {
-		// create clone
-		this.node = props.model.cloneNode(true);
-		
-		// attach to correct container
-		props.parent.appendChild(this.node);
-		
-		//set RC Name for click events
-		this.node.setAttribute("Name", "RC_" + (props.num < 10 ? "0" : "") + props.num);
-		
-		// make clone visible
-		this.node.setAttribute("Visibility", "Visible");
-		
-		this.screenNum = props.num - (Math.floor((props.num - 1) / props.perScreen) * props.perScreen);		
-		
-		// position clone
-		var width = +this.node.getAttribute("Width"),
-			height = +this.node.getAttribute("Height"),
-			row = Math.floor(Math.sqrt(props.perScreen)),
-			col = Math.floor(props.perScreen / row),
-			colWidth = props.canvasWidth / col,
-			rowHeight = props.canvasHeight / row,
-			cellRow = Math.floor((this.screenNum - 1) / col),
-			cellColumn = (this.screenNum - 1) % col;
-			cellTop = cellRow * rowHeight,
-			cellLeft = cellColumn * colWidth;
-		
-		this.node.setAttribute("Top", cellTop + (rowHeight - height) / 2);
-		this.node.setAttribute("Left", cellLeft + (colWidth - width) / 2);
-		
-		this.widgets = {};
-		var children = this.node.getChildNodes();
-		for(var i = 0, max = children.length; i < max; i += 1) {
-			var child = children.item(i);
-			if(child.hasAttribute("Model")) {
-				var model = String(child.getAttribute("Model")),
-					ctrl = String(child.getAttribute("Ctrl"));
-				this.widgets[model] = Object.create(eval("MYAPI." + ctrl));
-				this.widgets[model].init(child);
-			}
-		}
-	},
-	update: function(e) {
-		var bindName = String(e.getTarget().getAttribute("Name")),
-			signal = {value: e.getValue(), units: e.getUnit(), name: bindName};	
-		if(_.has(this.widgets, bindName)) {
-			this.widgets[bindName].update(signal);
-		}
-		
-		if(_.has(this.widgets, "Setpoint")) {
-			this.widgets["Setpoint"].update(signal);
-		}
-		if(_.has(this.widgets, "Occupancy")) {
-			this.widgets["Occupancy"].update(signal);
-		}
-		if(_.has(this.widgets, "Header")) {
-			this.widgets["Header"].update(signal);
-		}
-	}	
-};
-
-/**==========================================================================================
- * Container Object
- */
-MYAPI.Container = {
-	init: function(node) {
-		this.node = node;
-		this.visible = false;
-	},
-	update: function(b) {
-		this.visible = b;
-		this.node.setAttribute("Visibility", this.visible ? "Visible" : "Hidden");
-	}
-};
-
-/**==========================================================================================
- * Bind Manager Object
- */
-MYAPI.BindManager = {
+function load(evt)
+{
+}]]></Script>
+        <Script Name="BindManager" OnDocumentLoad="load"><![CDATA[global.BindManager = {
 	init: function(node) {
 		this.binds = {};
 	},
@@ -477,238 +283,155 @@ MYAPI.BindManager = {
 	}
 };
 
-/**==========================================================================================
- * SptCtrl Object
- */
-MYAPI.SptCtrl = {
+function load(evt) {
+}]]></Script>
+        <Script Name="Bind" OnDocumentLoad="load"><![CDATA[global.Bind = {
 	init: function(node) {
 		this.node = node;
-		this.values = {
-			"EffectiveOcc"			: {value: 0, units: null},
-			"SystemMode"			: {value: 0, units: null},
-			"PICoolDemand"			: {value: 0, units: null},
-			"PIHeatDemand"			: {value: 0, units: null},
-			"UnoccCoolSetpoint"		: {value: 0, units: null},
-			"UnoccHeatSetpoint"		: {value: 0, units: null},
-			"StandbyCoolSetpoint"	: {value: 0, units: null},
-			"StandbyHeatSetpoint"	: {value: 0, units: null},
-			"OccCoolSetpoint"		: {value: 0, units: null},
-			"OccHeatSetpoint"		: {value: 0, units: null}
-		};
-
-		this.txt = Object.create(MYAPI.Text);
-		this.txt.init(this.node);
-	},
-	update: function(sig) {
-		var name = String(sig.name);
-		if(_.has(this.values, name)) {		
-			this.values[name].value = +sig.value;
-			this.values[name].units = String(sig.units);
-		
-			this.render();
+		if(this.node) {
+			this.fbn = this.node.getFullBindName();
 		}
 	},
-	updateAll: function(sigs) {
-		for(var key in this.values) {
-			if(_.has(sigs, key)) {
-				this.values[key].value = +sigs[key].value;
-				this.values[key].units = String(sigs[key].units);
+	enableUpdates: function(){
+		try {
+			if(this.node) {
+				this.node.setAttribute("DynamicUpdates", "Enable");
 			}
 		}
-		this.render();
+		catch(err) {
+		}
 	},
-	render: function() {
-		var content = "";
-		switch(this.values["EffectiveOcc"].value) {
-		case 1:
-		case 3:
-			if(this.values["PIHeatDemand"].value > 0 || this.values["SystemMode"].value === 4) {
-				content = this.values["OccHeatSetpoint"].value.toFixed(1) + " " + this.values["OccHeatSetpoint"].units;
-			} else {
-				content = this.values["OccCoolSetpoint"].value.toFixed(1) + " " + this.values["OccCoolSetpoint"].units;
+	disableUpdates: function() {
+		try {
+			if(this.node) {
+				this.node.setAttribute("DynamicUpdates", "Disable");
 			}
-			break;
-		case 2:
-			if(this.values["PIHeatDemand"].value > 0  || this.values["SystemMode"].value === 4) {
-				content = this.values["UnoccHeatSetpoint"].value.toFixed(1) + " " + this.values["UnoccHeatSetpoint"].units;
-			} else {
-				content = this.values["UnoccCoolSetpoint"].value.toFixed(1) + " " + this.values["UnoccCoolSetpoint"].units;
-			}
-			break;
-		case 4:
-			if(this.values["PIHeatDemand"].value > 0  || this.values["SystemMode"].value === 4) {
-				content = this.values["StandbyHeatSetpoint"].value.toFixed(1) + " " + this.values["StandbyHeatSetpoint"].units;
-			} else {
-				content = this.values["StandbyCoolSetpoint"].value.toFixed(1) + " " + this.values["StandbyCoolSetpoint"].units;
-			}
-			break;
-		default:
-			content = "---°F";
 		}
-
-		this.txt.setContent(content);
+		catch(err) {
+		}
+	},
+	setUpdates: function(b) {
+		try {
+			if(this.node) {
+				this.node.setAttribute("DynamicUpdates", b ? "Enable" : "Disable");
+			}
+		}
+		catch(err) {
+		}
+	},
+	displayProperties: function() {
+		if(this.fbn) {
+			invoke(this.fbn,"EditProperties");
+		}
+	},
+	relinquish: function() {
+		try {
+			if(this.fbn) {
+				setValue(this.fbn,null);	
+			}
+		}
+		catch(err) {
+		}
+	},
+	write: function(val) {
+		try {
+			if(this.fbn) {
+				setValue(this.fbn, val);
+			}
+		}
+		catch(err) {
+		}
 	}
 };
 
-/**==========================================================================================
- * OccCtrl Object
- */
-MYAPI.OccCtrl = {
+function load(evt) {
+}]]></Script>
+        <Script Name="Component" OnDocumentLoad="load"><![CDATA[global.Component = {
+	init: function(node) {
+		this.node = node;		
+	},
+	setVisibility: function(b) {
+		if(this.node) {
+			this.node.setAttribute("Visibility", b ? "Visible" : "Hidden");
+		}
+	}
+};
+
+function load(evt) {
+}]]></Script>
+        <Script Name="Rectangle" OnDocumentLoad="load"><![CDATA[global.Rectangle = {
+	init: function(node) {
+		this.node = node;		
+	},
+	setFill: function(s) {
+		if(this.node) {
+			this.node.setAttribute("Fill", s);
+		}
+	}
+};
+
+function load(evt) {
+}]]></Script>
+        <Script Name="Pie" OnDocumentLoad="load"><![CDATA[global.Pie = {
+	init: function(node) {
+		this.node = node;		
+	},
+	setFill: function(s) {
+		if(this.node) {
+			this.node.setAttribute("Fill", s);
+		}
+	}
+};
+
+function load(evt) {
+}]]></Script>
+        <Script Name="Text" OnDocumentLoad="load"><![CDATA[global.Text = {
+	init: function(node) {
+		this.node = node;		
+	},
+	setContent: function(s) {
+		if(this.node) {
+			this.node.setAttribute("Content", s);
+		}
+	},
+	setStroke: function(s) {
+		if(this.node) {
+			this.node.setAttribute("Stroke", s);
+		}
+	},
+	setVisibility: function(b) {
+		if(this.node) {
+			this.node.setAttribute("Visibility", b ? "Visible" : "Hidden");
+		}
+	}
+};
+
+function load(evt) {
+}]]></Script>
+        <Script Name="Container" OnDocumentLoad="load"><![CDATA[global.Container = {
 	init: function(node) {
 		this.node = node;
-		this.values = {
-			"LowBattAlarm"	: 0,
-			"EffectiveOcc"	: 0,
-			"OccCommand"	: 0,
-		};
-		
-		this.fills = ["#FFD100", "#339999", "#87D300", "#4FA600", "#42B4E6"];
-		this.strokes = ["#404040", "#FFFFFF", "#404040", "#FFFFFF", "#FFFFFF"];
-		this.contents = ["Low Battery", "Rented/Occupied", "Unrented/Unoccupied", "Unrented/Occupied", "Rented/Unoccupied"];
-
-		this.bgd = Object.create(MYAPI.Rectangle);
-		this.bgd.init(this.node.getChildByName("background"));
-		
-		this.fgd = Object.create(MYAPI.Rectangle);
-		this.fgd.init(this.node.getChildByName("innerline"));
-		
-		this.txt = Object.create(MYAPI.Text);
-		this.txt.init(this.node.getChildByName("Text"));		
+		this.visible = false;
 	},
-	update: function(sig) {
-		var name = String(sig.name);
-		if(_.has(this.values, name)) {		
-			this.values[name] = +sig.value;
-		
-			this.render();
-		}
-	},
-	updateAll: function(sigs) {
-		for(var key in this.values) {
-			if(_.has(sigs, key)) {
-				this.values[key] = +sigs[key].value;
-			}
-		}
-		this.render();
-	},
-	render: function() {
-		var content = "";
-		var fill = "#404040";
-		var stroke = "#FFFFFF";
-		if(this.values["LowBattAlarm"] === 1) {
-			fill = this.fills[0];
-			content = this.contents[0];
-			stroke = this.strokes[0];
-		} else {
-			fill = this.fills[this.values["EffectiveOcc"]];
-			content = this.contents[this.values["EffectiveOcc"]];
-			stroke = this.strokes[this.values["EffectiveOcc"]];
-		}
-
-		this.txt.setContent(content);
-		this.txt.setStroke(stroke);
-		this.bgd.setFill(fill);
-		this.fgd.setFill(fill);
+	update: function(b) {
+		this.visible = b;
+		this.node.setAttribute("Visibility", this.visible ? "Visible" : "Hidden");
 	}
 };
 
-/**==========================================================================================
- * Header Object
- */
-MYAPI.HeaderCtrl = {
+function load(evt) {
+}]]></Script>
+        <Script Name="SE8Ctrl" OnDocumentLoad="load"><![CDATA[global.SE8Ctrl = {
 	init: function(node) {
-		this.values = {
-			"LowBattAlarm"	: 0,
-			"EffectiveOcc"	: 0,
-			"OccCommand"	: 0,
-		};
-		
-		this.fills = ["#FFD100", "#339999", "#87D300", "#4FA600", "#42B4E6"];
-		
-		this.bgd = Object.create(MYAPI.Rectangle);
-		this.bgd.init(node);		
-	},
-	update: function(sig) {
-		var name = String(sig.name);
-		if(_.has(this.values, name)) {		
-			this.values[name] = +sig.value;
-		
-			var fill = "#404040";
-			if(this.values["LowBattAlarm"] === 1) {
-				fill = this.fills[0];
-			} else {
-				fill = this.fills[this.values["EffectiveOcc"]];
-			}
-			this.bgd.setFill(fill);
-		}
-	}
-};
-
-/**==========================================================================================
- * OccBoxes Control
- */
-MYAPI.OccBoxesCtrl = {
-	init: function(node) {
-		this.values = {};
-		this.txtUU = node.getChild("UU").getChild("Value");
-		this.txtRU = node.getChild("RU").getChild("Value");
-		this.txtUO = node.getChild("UO").getChild("Value");
-		this.txtRO = node.getChild("RO").getChild("Value");
-		this.txtTotal = node.getChild("Total").getChild("Value");
-	},
-	update: function(e) {
-		var parentName = String(e.getTarget().getParentNode().getAttribute("Name"));
-		
-		this.values[parentName] = +e.getValue();
-		
-		var total = 0,
-			uu = 0,
-			uo = 0,
-			ru = 0,
-			ro = 0;
-			
-		for(var key in this.values) {
-			var val = this.values[key];
-			total += 1;
-			switch(val) {
-			case 1:
-				ro += 1;
-				break;
-			case 2:
-				uu += 1;
-				break;
-			case 3:
-				uo += 1;
-				break;
-			case 4:
-				ru += 1;
-				break;
-			default:
-			}
-		}
-		
-		this.txtUU.setAttribute("Content", uu);
-		this.txtRU.setAttribute("Content", ru);
-		this.txtUO.setAttribute("Content", uo);
-		this.txtRO.setAttribute("Content", ro);
-		this.txtTotal.setAttribute("Content", total);
-	}
-};
-
-/**==========================================================================================
- * SE8 Manager Object
- */
-MYAPI.SE8Manager = {
-	init: function(node) {
-		this.widgets = {};
-		var children = MYAPI.getChildrenByAttribute(node, "Model");
-		for(var i = 0, max = children.length; i < max; i += 1) {
-			var child = children[i];
-				var model = String(child.getAttribute("Model")),
-					ctrl = String(child.getAttribute("Ctrl"));
-				this.widgets[model] = Object.create(eval("MYAPI." + ctrl));
-				this.widgets[model].init(child);
-		}
+//		this.widgets = {};
+//		var children = global.getChildrenByAttribute(node, "Model");
+//		for(var i = 0, max = children.length; i < max; i += 1) {
+//			var child = children[i];
+//				var model = String(child.getAttribute("Model")),
+//					ctrl = String(child.getAttribute("Ctrl"));
+//				this.widgets[model] = Object.create(eval("MYAPI." + ctrl));
+//				this.widgets[model].init(child);
+//		}
 		
 		this.values = {};
 		this.active = null;
@@ -718,7 +441,7 @@ MYAPI.SE8Manager = {
 		for(var i = 0, max = viewChildren.length; i < max; i += 1) {
 			var child = viewChildren.item(i),
 				name = child.getAttribute("Name");
-			this.views[name] = Object.create(MYAPI.Component);
+			this.views[name] = Object.create(global.Component);
 			this.views[name].init(child);
 		}
 		
@@ -787,138 +510,201 @@ MYAPI.SE8Manager = {
 	}
 };
 
-/**==========================================================================================
- * Bind Object
- */
-MYAPI.Bind = {
+function load(evt) {
+}]]></Script>
+        <Script Name="RCCtrl" OnDocumentLoad="load"><![CDATA[global.RCCtrl = {
+	init: function(props) {
+		// create clone
+		this.node = props.model.cloneNode(true);
+		
+		// attach to correct container
+		props.parent.appendChild(this.node);
+		
+		//set RC Name for click events
+		this.node.setAttribute("Name", "RC_" + (props.num < 10 ? "0" : "") + props.num);
+		
+		// make clone visible
+		this.node.setAttribute("Visibility", "Visible");
+		
+		this.screenNum = props.num - (Math.floor((props.num - 1) / props.perScreen) * props.perScreen);		
+		
+		// position clone
+		var width = +this.node.getAttribute("Width"),
+			height = +this.node.getAttribute("Height"),
+			row = Math.floor(Math.sqrt(props.perScreen)),
+			col = Math.floor(props.perScreen / row),
+			colWidth = props.canvasWidth / col,
+			rowHeight = props.canvasHeight / row,
+			cellRow = Math.floor((this.screenNum - 1) / col),
+			cellColumn = (this.screenNum - 1) % col;
+			cellTop = cellRow * rowHeight,
+			cellLeft = cellColumn * colWidth;
+		
+		this.node.setAttribute("Top", cellTop + (rowHeight - height) / 2);
+		this.node.setAttribute("Left", cellLeft + (colWidth - width) / 2);
+		
+		this.widgets = {};
+		var children = this.node.getChildNodes();
+		for(var i = 0, max = children.length; i < max; i += 1) {
+			var child = children.item(i);
+			if(child.hasAttribute("Model")) {
+				var model = String(child.getAttribute("Model")),
+					ctrl = String(child.getAttribute("Ctrl"));
+				this.widgets[model] = Object.create(eval("MYAPI." + ctrl));
+				this.widgets[model].init(child);
+			}
+		}
+	},
+	update: function(e) {
+		var bindName = String(e.getTarget().getAttribute("Name")),
+			signal = {value: e.getValue(), units: e.getUnit(), name: bindName};	
+		if(_.has(this.widgets, bindName)) {
+			this.widgets[bindName].update(signal);
+		}
+		
+		if(_.has(this.widgets, "Setpoint")) {
+			this.widgets["Setpoint"].update(signal);
+		}
+		if(_.has(this.widgets, "Occupancy")) {
+			this.widgets["Occupancy"].update(signal);
+		}
+		if(_.has(this.widgets, "Header")) {
+			this.widgets["Header"].update(signal);
+		}
+	}	
+};
+
+function load(evt) {
+}]]></Script>
+        <Script Name="DigitalPathColorCtrl" OnDocumentLoad="load"><![CDATA[global.DigitalPathColorCtrl = {
 	init: function(node) {
 		this.node = node;
-		if(this.node) {
-			this.fbn = this.node.getFullBindName();
+		this.colors = ["#009530", "#FF0000"];
+
+		if(this.node.hasAttribute("ColorFalse")) {
+			this.colors[0] = this.node.getAttribute("ColorFalse");
+		}
+		if(this.node.hasAttribute("ColorTrue")) {
+			this.colors[1] = this.node.getAttribute("ColorTrue");
 		}
 	},
-	enableUpdates: function(){
-		try {
-			if(this.node) {
-				this.node.setAttribute("DynamicUpdates", "Enable");
-			}
-		}
-		catch(err) {
-		}
-	},
-	disableUpdates: function() {
-		try {
-			if(this.node) {
-				this.node.setAttribute("DynamicUpdates", "Disable");
-			}
-		}
-		catch(err) {
-		}
-	},
-	setUpdates: function(b) {
-		try {
-			if(this.node) {
-				this.node.setAttribute("DynamicUpdates", b ? "Enable" : "Disable");
-			}
-		}
-		catch(err) {
-		}
-	},
-	displayProperties: function() {
-		if(this.fbn) {
-			invoke(this.fbn,"EditProperties");
-		}
-	},
-	relinquish: function() {
-		try {
-			if(this.fbn) {
-				setValue(this.fbn,null);	
-			}
-		}
-		catch(err) {
-		}
-	},
-	write: function(val) {
-		try {
-			if(this.fbn) {
-				setValue(this.fbn, val);
-			}
-		}
-		catch(err) {
-		}
+	
+	update: function(e) {		
+		this.node.setAttribute("Fill", global.getBool(e.getValue()) ? this.colors[1] : this.colors[0]);
+		this.node.setAttribute("Stroke", global.getBool(e.getValue()) ? this.colors[1] : this.colors[0]);
 	}
 };
 
-/**==========================================================================================
- * Text Object
- */
-MYAPI.Text = {
+function load(evt) {
+}]]></Script>
+        <Script Name="SwitchCtrl" OnDocumentLoad="load"><![CDATA[global.SwitchCtrl = {
 	init: function(node) {
-		this.node = node;		
+//		this.node = node;
+//		this.switchAnimate = Object.create(global.Animate);
+//		this.switchAnimate.init(this.node.getChildByName("SwAni"));
+		
+//		this.bgdAnimate = Object.create(global.Animate);
+//		this.bgdAnimate.init(this.node.getChildByName("BgAni"));
+
+//		this.rightValue = +this.node.getAttribute("RightValue");
+//		this.leftValue = +this.node.getAttribute("LeftValue");
+//		this.value = 0;
+		
+//		this.writeable = true;
 	},
-	setContent: function(s) {
-		if(this.node) {
-			this.node.setAttribute("Content", s);
-		}
+	
+	update: function(sig) {		
+//		this.value = +bind.value;
+//		this.switchAnimate.update(this.value === this.leftValue);
+//		this.bgdAnimate.update(this.value === this.leftValue);
 	},
-	setStroke: function(s) {
-		if(this.node) {
-			this.node.setAttribute("Stroke", s);
-		}
+	
+	click: function(bind) {
+//		this.write(bind, this.value === this.rightValue ? this.leftValue : this.rightValue);
 	},
-	setVisibility: function(b) {
-		if(this.node) {
-			this.node.setAttribute("Visibility", b ? "Visible" : "Hidden");
-		}
+	
+	write: function(bind, value) {
+//		bind.write(value);
 	}
 };
 
-/**==========================================================================================
- * Rectangle Object
- */
-MYAPI.Rectangle = {
+function load(evt) {
+}]]></Script>
+        <Script Name="ShowAVCtrl" OnDocumentLoad="load"><![CDATA[global.ShowAVCtrl = {
 	init: function(node) {
-		this.node = node;		
+		this.grp = Object.create(global.Component);
+		this.grp.init(node);
+		
+//		this.txt = Object.create(global.AnalogValue);
+//		this.txt.init(node.getChild("Value"));
 	},
-	setFill: function(s) {
-		if(this.node) {
-			this.node.setAttribute("Fill", s);
-		}
+	
+	update: function(sig) {		
+		this.grp.setVisibility(true);
+//		this.txt.update({value: sig.value, units: sig.units});
 	}
 };
 
-/**==========================================================================================
- * Pie Object
- */
-MYAPI.Pie = {
+function load(evt) {
+}]]></Script>
+        <Script Name="NOTE1Ctrl" OnDocumentLoad="load"><![CDATA[global.NOTE1Ctrl = {
 	init: function(node) {
-		this.node = node;		
+		this.txt = Object.create(global.Text);
+		this.txt.init(node);
 	},
-	setFill: function(s) {
-		if(this.node) {
-			this.node.setAttribute("Fill", s);
+	
+	update: function(sig) {
+		var content = String(sig.value);
+		if(content === "") {
+			content = "Click Here";
 		}
+		this.txt.setContent(content);
 	}
 };
 
-/**==========================================================================================
- * Component Object
- */
-MYAPI.Component = {
+function load(evt) {
+}]]></Script>
+        <Script Name="FanModeCtrl" OnDocumentLoad="load"><![CDATA[global.FanModeCtrl = {
 	init: function(node) {
-		this.node = node;		
+		this.txt = Object.create(global.Text);
+		this.txt.init(node.getChild("autoTxt"));
+		var children = node.getChild("Speeds").getChildNodes();
+		
+		this.spds = _.map(children, function(){return Object.create(global.Pie);});
+		_.each(this.spds, function(obj, i){obj.init(children.item(i));});
 	},
-	setVisibility: function(b) {
-		if(this.node) {
-			this.node.setAttribute("Visibility", b ? "Visible" : "Hidden");
+	
+	update: function(sig) {
+		var value = +sig.value;
+		
+		_.each(this.spds, function(node, i){node.setFill(value > i ? "#626469" : "#9FA0A4");});
+		
+		this.txt.setVisibility(value > 3 ? true : false);
+		this.txt.setContent(value === 5 ? "On" : "Auto");
+	}
+};
+
+function load(evt) {
+}]]></Script>
+        <Script Name="SystemModeCtrl" OnDocumentLoad="load"><![CDATA[global.SystemModeCtrl = {
+	init: function(node) {
+		var children = node.getChildNodes();
+		this.icons = _.map(children, function(){return Object.create(global.Component);});
+		_.each(this.icons, function(obj, i){obj.init(children.item(i));});
+	},
+	
+	update: function(sig) {
+		var value = +sig.value;
+		_.each(this.icons, function(obj, i){obj.setVisibility(false);});
+		if(_.has(this.icons, value - 1)) {
+			this.icons[value - 1].setVisibility(true);
 		}
 	}
 };
 
-/**==========================================================================================
- * Simple Analog Value Object
- */
-MYAPI.AnalogValue = {
+function load(evt) {
+}]]></Script>
+        <Script Name="AnalogValueCtrl" OnDocumentLoad="load"><![CDATA[global.AnalogValueCtrl = {
 	init: function(node) {
 		this.node = node;
 				
@@ -951,121 +737,274 @@ MYAPI.AnalogValue = {
 	}
 };
 
-/**==========================================================================================
- * System Mode Control
- */
-MYAPI.SystemModeCtrl = {
+function load(evt) {
+}]]></Script>
+        <Script Name="OccBoxesCtrl" OnDocumentLoad="load"><![CDATA[global.OccBoxesCtrl = {
 	init: function(node) {
-		var children = node.getChildNodes();
-		this.icons = _.map(children, function(){return Object.create(MYAPI.Component);});
-		_.each(this.icons, function(obj, i){obj.init(children.item(i));});
+		this.values = {};
+		this.txtUU = node.getChild("UU").getChild("Value");
+		this.txtRU = node.getChild("RU").getChild("Value");
+		this.txtUO = node.getChild("UO").getChild("Value");
+		this.txtRO = node.getChild("RO").getChild("Value");
+		this.txtTotal = node.getChild("Total").getChild("Value");
 	},
-	
-	update: function(sig) {
-		var value = +sig.value;
-		_.each(this.icons, function(obj, i){obj.setVisibility(false);});
-		if(_.has(this.icons, value - 1)) {
-			this.icons[value - 1].setVisibility(true);
+	update: function(e) {
+		var parentName = String(e.getTarget().getParentNode().getAttribute("Name"));
+		
+		this.values[parentName] = +e.getValue();
+		
+		var total = 0,
+			uu = 0,
+			uo = 0,
+			ru = 0,
+			ro = 0;
+			
+		for(var key in this.values) {
+			var val = this.values[key];
+			total += 1;
+			switch(val) {
+			case 1:
+				ro += 1;
+				break;
+			case 2:
+				uu += 1;
+				break;
+			case 3:
+				uo += 1;
+				break;
+			case 4:
+				ru += 1;
+				break;
+			default:
+			}
 		}
+		
+		this.txtUU.setAttribute("Content", uu);
+		this.txtRU.setAttribute("Content", ru);
+		this.txtUO.setAttribute("Content", uo);
+		this.txtRO.setAttribute("Content", ro);
+		this.txtTotal.setAttribute("Content", total);
 	}
 };
 
-/**==========================================================================================
- * Fan Mode Control
- */
-MYAPI.FanModeCtrl = {
+function load(evt) {
+}]]></Script>
+        <Script Name="SptCtrl" OnDocumentLoad="load"><![CDATA[global.SptCtrl = {
 	init: function(node) {
-		this.txt = Object.create(MYAPI.Text);
-		this.txt.init(node.getChild("autoTxt"));
-		var children = node.getChild("Speeds").getChildNodes();
-		
-		this.spds = _.map(children, function(){return Object.create(MYAPI.Pie);});
-		_.each(this.spds, function(obj, i){obj.init(children.item(i));});
-	},
-	
-	update: function(sig) {
-		var value = +sig.value;
-		
-		_.each(this.spds, function(node, i){node.setFill(value > i ? "#626469" : "#9FA0A4");});
-		
-		this.txt.setVisibility(value > 3 ? true : false);
-		this.txt.setContent(value === 5 ? "On" : "Auto");
-	}
-};
+		this.node = node;
+		this.values = {
+			"EffectiveOcc"			: {value: 0, units: null},
+			"SystemMode"			: {value: 0, units: null},
+			"PICoolDemand"			: {value: 0, units: null},
+			"PIHeatDemand"			: {value: 0, units: null},
+			"UnoccCoolSetpoint"		: {value: 0, units: null},
+			"UnoccHeatSetpoint"		: {value: 0, units: null},
+			"StandbyCoolSetpoint"	: {value: 0, units: null},
+			"StandbyHeatSetpoint"	: {value: 0, units: null},
+			"OccCoolSetpoint"		: {value: 0, units: null},
+			"OccHeatSetpoint"		: {value: 0, units: null}
+		};
 
-/**==========================================================================================
- * NOTE1 Control
- */
-MYAPI.NOTE1Ctrl = {
-	init: function(node) {
-		this.txt = Object.create(MYAPI.Text);
-		this.txt.init(node);
+		this.txt = Object.create(global.Text);
+		this.txt.init(this.node);
 	},
-	
 	update: function(sig) {
-		var content = String(sig.value);
-		if(content === "") {
-			content = "Click Here";
+		var name = String(sig.name);
+		if(_.has(this.values, name)) {		
+			this.values[name].value = +sig.value;
+			this.values[name].units = String(sig.units);
+		
+			this.render();
 		}
+	},
+	updateAll: function(sigs) {
+		for(var key in this.values) {
+			if(_.has(sigs, key)) {
+				this.values[key].value = +sigs[key].value;
+				this.values[key].units = String(sigs[key].units);
+			}
+		}
+		this.render();
+	},
+	render: function() {
+		var content = "";
+		switch(this.values["EffectiveOcc"].value) {
+		case 1:
+		case 3:
+			if(this.values["PIHeatDemand"].value > 0 || this.values["SystemMode"].value === 4) {
+				content = this.values["OccHeatSetpoint"].value.toFixed(1) + " " + this.values["OccHeatSetpoint"].units;
+			} else {
+				content = this.values["OccCoolSetpoint"].value.toFixed(1) + " " + this.values["OccCoolSetpoint"].units;
+			}
+			break;
+		case 2:
+			if(this.values["PIHeatDemand"].value > 0  || this.values["SystemMode"].value === 4) {
+				content = this.values["UnoccHeatSetpoint"].value.toFixed(1) + " " + this.values["UnoccHeatSetpoint"].units;
+			} else {
+				content = this.values["UnoccCoolSetpoint"].value.toFixed(1) + " " + this.values["UnoccCoolSetpoint"].units;
+			}
+			break;
+		case 4:
+			if(this.values["PIHeatDemand"].value > 0  || this.values["SystemMode"].value === 4) {
+				content = this.values["StandbyHeatSetpoint"].value.toFixed(1) + " " + this.values["StandbyHeatSetpoint"].units;
+			} else {
+				content = this.values["StandbyCoolSetpoint"].value.toFixed(1) + " " + this.values["StandbyCoolSetpoint"].units;
+			}
+			break;
+		default:
+			content = "---°F";
+		}
+
 		this.txt.setContent(content);
 	}
 };
 
-/**==========================================================================================
- * Show AV Control
- */
-MYAPI.ShowAVCtrl = {
-	init: function(node) {
-		this.grp = Object.create(MYAPI.Component);
-		this.grp.init(node);
-		
-		this.txt = Object.create(MYAPI.AnalogValue);
-		this.txt.init(node.getChild("Value"));
-	},
-	
-	update: function(sig) {		
-		this.grp.setVisibility(true);
-		this.txt.update({value: sig.value, units: sig.units});
-	}
-};
-
-/**==========================================================================================
- * Show AV Control
- */
-MYAPI.DigitalPathColorCtrl = {
+function load(evt) {
+}]]></Script>
+        <Script Name="OccCtrl" OnDocumentLoad="load"><![CDATA[global.OccCtrl = {
 	init: function(node) {
 		this.node = node;
-		this.colors = ["#009530", "#FF0000"];
+		this.values = {
+			"LowBattAlarm"	: 0,
+			"EffectiveOcc"	: 0,
+			"OccCommand"	: 0,
+		};
+		
+		this.fills = ["#FFD100", "#339999", "#87D300", "#4FA600", "#42B4E6"];
+		this.strokes = ["#404040", "#FFFFFF", "#404040", "#FFFFFF", "#FFFFFF"];
+		this.contents = ["Low Battery", "Rented/Occupied", "Unrented/Unoccupied", "Unrented/Occupied", "Rented/Unoccupied"];
 
-		if(this.node.hasAttribute("ColorFalse")) {
-			this.colors[0] = this.node.getAttribute("ColorFalse");
-		}
-		if(this.node.hasAttribute("ColorTrue")) {
-			this.colors[1] = this.node.getAttribute("ColorTrue");
+		this.bgd = Object.create(global.Rectangle);
+		this.bgd.init(this.node.getChildByName("background"));
+		
+		this.fgd = Object.create(global.Rectangle);
+		this.fgd.init(this.node.getChildByName("innerline"));
+		
+		this.txt = Object.create(global.Text);
+		this.txt.init(this.node.getChildByName("Text"));		
+	},
+	update: function(sig) {
+		var name = String(sig.name);
+		if(_.has(this.values, name)) {		
+			this.values[name] = +sig.value;
+		
+			this.render();
 		}
 	},
-	
-	update: function(sig) {		
-		this.node.setAttribute("Fill", MYAPI.getBool(sig.value) ? this.colors[1] : this.colors[0]);
-		this.node.setAttribute("Stroke", MYAPI.getBool(sig.value) ? this.colors[1] : this.colors[0]);
+	updateAll: function(sigs) {
+		for(var key in this.values) {
+			if(_.has(sigs, key)) {
+				this.values[key] = +sigs[key].value;
+			}
+		}
+		this.render();
+	},
+	render: function() {
+		var content = "";
+		var fill = "#404040";
+		var stroke = "#FFFFFF";
+		if(this.values["LowBattAlarm"] === 1) {
+			fill = this.fills[0];
+			content = this.contents[0];
+			stroke = this.strokes[0];
+		} else {
+			fill = this.fills[this.values["EffectiveOcc"]];
+			content = this.contents[this.values["EffectiveOcc"]];
+			stroke = this.strokes[this.values["EffectiveOcc"]];
+		}
+
+		this.txt.setContent(content);
+		this.txt.setStroke(stroke);
+		this.bgd.setFill(fill);
+		this.fgd.setFill(fill);
 	}
 };
 
-/**==========================================================================================
- * Event Callback Functions
- */
-
-function load(evt){	
-	Main.load(evt);
-}
-
-function change(evt) {	
-	Main.change(evt);
-}
-
-function click(evt) {
-	Main.click(evt);	
+function load(evt) {
 }]]></Script>
+        <Script Name="HeaderCtrl" OnDocumentLoad="load"><![CDATA[global.HeaderCtrl = {
+	init: function(node) {
+		this.values = {
+			"LowBattAlarm"	: 0,
+			"EffectiveOcc"	: 0,
+			"OccCommand"	: 0,
+		};
+		
+		this.fills = ["#FFD100", "#339999", "#87D300", "#4FA600", "#42B4E6"];
+		
+		this.bgd = Object.create(global.Rectangle);
+		this.bgd.init(node);		
+	},
+	update: function(sig) {
+		var name = String(sig.name);
+		if(_.has(this.values, name)) {		
+			this.values[name] = +sig.value;
+		
+			var fill = "#404040";
+			if(this.values["LowBattAlarm"] === 1) {
+				fill = this.fills[0];
+			} else {
+				fill = this.fills[this.values["EffectiveOcc"]];
+			}
+			this.bgd.setFill(fill);
+		}
+	}
+};
+
+function load(evt) {
+}]]></Script>
+        <Script Name="ViewCtrl" OnDocumentLoad="load"><![CDATA[global.ViewCtrl = {
+	init: function() {
+	},
+	update: function() {
+	},
+	trigger: function() {
+	}
+};
+
+function load(evt) {
+}]]></Script>
+        <Script Name="HideTextCtrl" OnDocumentLoad="load"><![CDATA[global.ViewCtrl = {
+	init: function() {
+	},
+	update: function() {
+	},
+	trigger: function() {
+	}
+};
+
+function load(evt) {
+}]]></Script>
+    </Layer>
+    <Layer Name="Binds">
+        <Component Clip="False" ContentHeight="491.0"
+            ContentWidth="491.0" Height="491.0" Left="0.0"
+            Name="Floor_01" Top="0.0" Width="491.0">
+            <Component Height="1.0" Left="0.0" Name="RC_01" Top="0.0" Width="1.0">
+                <Bind Name="RoomTemp" RoomTemp=""/>
+                <Bind Name="OccCoolSetpoint" SE8Setpoint="" Setpoint=""/>
+                <Bind Name="OccHeatSetpoint" SE8Setpoint="" Setpoint=""/>
+                <Bind Name="UnoccCoolSetpoint" SE8Setpoint="" Setpoint=""/>
+                <Bind Name="UnoccHeatSetpoint" SE8Setpoint="" Setpoint=""/>
+                <Bind Name="StandbyCoolSetpoint" SE8Setpoint="" Setpoint=""/>
+                <Bind Name="StandbyHeatSetpoint" SE8Setpoint="" Setpoint=""/>
+                <Bind Header="" Name="EffectiveOcc" OccBoxes=""
+                    Occupancy="" SE8Occupancy="" SE8Setpoint="" Setpoint=""/>
+                <Bind Name="PICoolDemand" SE8Setpoint="" Setpoint=""/>
+                <Bind Name="PIHeatDemand" SE8Setpoint="" Setpoint=""/>
+                <Bind Header="" Name="OccCommand" OccBoxes=""
+                    Occupancy="" SE8Occupancy="" SE8Setpoint="" Setpoint=""/>
+                <Bind Name="SystemMode" SE8Setpoint="" Setpoint=""/>
+                <Bind NOTE1="" Name="NOTE1"/>
+                <Bind Name="LowBattAlarm" Occupancy="" SE8Occupancy=""/>
+                <Bind FanMode="" Name="FanMode" SE8FanMode=""/>
+                <Bind Name="OutdoorHumidity" SE8HumidityText="" SE8OutdoorHumidity=""/>
+                <Bind Id="" Name="WirelessWindowSwitchStatus" WirelessWindowSwitchStatus=""/>
+                <Bind Id="" Name="WirelessDoorSwitchStatus" WirelessDoorSwitchStatus=""/>
+                <Bind Id="" LocalMotion="" Name="LocalMotion"/>
+            </Component>
+        </Component>
+    </Layer>
     <Layer Name="Title Bar" Visibility="Visible">
         <Rectangle Fill="#42B4E6" Height="85.0" Left="0.0" Opacity="1.0"
             RadiusX="0.0" RadiusY="0.0" Stroke="None"
@@ -1134,7 +1073,7 @@ function click(evt) {
                 Attribute="Content" Name="Graphic"/>
         </Text>
     </Layer>
-    <Layer Name="Display" Visibility="Visible">
+    <Layer Ctrl="DisplayManager" Id="Display" Model="Display" Name="" Visibility="Visible">
         <Component Clip="False" ContentHeight="200.0"
             ContentWidth="330.0" Height="140.0" Left="10.0"
             Name="RoomController" Top="270.0" Visibility="Hidden" Width="231.0">
@@ -1158,8 +1097,8 @@ function click(evt) {
                 HorizontalAlign="Left" Id="" Left="83.99841594696045"
                 Model="Setpoint" Name="Setpoint" Opacity="1.0"
                 Stroke="#626469" TextDecoration="None" Top="84.0" VerticalAlign="Top"><![CDATA[--.-]]></Text>
-            <Text Ctrl="AnalogValue" FontFamily="Arial" FontSize="28"
-                FontStyle="Normal" FontWeight="Normal"
+            <Text Ctrl="AnalogValueCtrl" FontFamily="Arial"
+                FontSize="28" FontStyle="Normal" FontWeight="Normal"
                 HorizontalAlign="Left" Id="" Left="88.99841594696045"
                 Model="RoomTemp" Name="RoomTemp" Opacity="1.0"
                 Stroke="#626469" TextDecoration="None"
@@ -1339,7 +1278,8 @@ function click(evt) {
             <TargetArea Height="200.0" Left="65.0" Name="SE8" Top="0.0" Width="265.0"/>
         </Component>
         <Component ContentHeight="620.0" ContentWidth="1350.0"
-            Height="620.0" Left="10.0" Name="RCView" Top="270.0" Width="1350.0">
+            Ctrl="ViewCtrl" Height="620.0" Left="10.0" Model="RCView"
+            Name="RCView" Top="270.0" Width="1350.0">
             <Component ContentHeight="620.0" ContentWidth="1350.0"
                 Height="620.0" Left="0.0" Name="RCContainer1" Top="0.0"
                 Visibility="Visible" Width="1350.0"/>
@@ -1351,8 +1291,8 @@ function click(evt) {
                 Visibility="Hidden" Width="1350.0"/>
         </Component>
         <Component Clip="False" ContentHeight="500.0"
-            ContentWidth="320.0" Height="500.0" Id="" Left="1370.0"
-            Name="SE8000" Top="280.0" Width="320.0">
+            ContentWidth="320.0" Ctrl="SE8Ctrl" Height="500.0" Id=""
+            Left="1370.0" Model="SE8" Name="SE8000" Top="280.0" Width="320.0">
             <Rectangle Fill="#87D300" Height="60.0" Left="0.0"
                 Name="TabBgd" Opacity="1.0" RadiusX="15.0"
                 RadiusY="15.0" Stroke="None" StrokeDashArray="0.0"
@@ -1393,7 +1333,7 @@ function click(evt) {
                     <Component Clip="False" ContentHeight="40"
                         ContentWidth="40" Ctrl="SystemModeCtrl"
                         Height="40.0" Id="SystemMode"
-                        Left="234.89841747283936" Model="SystemMode"
+                        Left="234.89841747283936" Model="SE8SystemMode"
                         Top="89.09688377380371" Width="40.0">
                         <Component Clip="False" ContentHeight="50"
                             ContentWidth="50" Height="40" Left="0.0"
@@ -1477,7 +1417,7 @@ function click(evt) {
                         ContentWidth="225.0" Ctrl="OccCtrl"
                         EffectiveOcc="0" Height="30.0"
                         Id="RentedOccupied" Left="4.898417472839356"
-                        LowBattAlarm="0" Model="Occupancy"
+                        LowBattAlarm="0" Model="SE8Occupancy"
                         OccCommand="0" Top="94.09688377380371" Width="225.0">
                         <Rectangle Fill="#4FA600" Height="30.0"
                             Left="0.0" Name="background" RadiusX="5"
@@ -1511,7 +1451,7 @@ function click(evt) {
                     <Component Clip="False" ContentHeight="50"
                         ContentWidth="40" Ctrl="FanModeCtrl"
                         Height="50.0" Id="Fan Mode"
-                        Left="274.89841747283936" Model="FanMode"
+                        Left="274.89841747283936" Model="SE8FanMode"
                         Name="" Top="89.09688377380371" Width="40.0">
                         <Group Name="Speeds">
                             <Pie
@@ -1563,31 +1503,27 @@ function click(evt) {
                             Opacity="1.0" Stroke="#626469"
                             TextDecoration="None" Top="37.11572265625" VerticalAlign="Top"><![CDATA[Auto]]></Text>
                     </Component>
-                    <Text Ctrl="AnalogValue" Decimals="1"
+                    <Text Ctrl="AnalogValueCtrl" Decimals="1"
                         FontFamily="Arial" FontSize="28"
                         FontStyle="Normal" FontWeight="Normal"
                         HorizontalAlign="Left" Id=""
-                        Left="14.898417472839355" Model="RoomTemp"
+                        Left="14.898417472839355" Model="SE8RoomTemp"
                         Name="RoomTemp" Opacity="1.0" Prefix=""
                         ShowUnits="true" Stroke="#626469" Suffix=""
                         TextDecoration="None" Top="244.0968837738037" VerticalAlign="Top"><![CDATA[88.8°C]]></Text>
-                    <Group Ctrl="ShowAVCtrl" Model="OutdoorHumidity"
-                        Name="OutdoorHumidity" Visibility="Hidden">
-                        <Text FontFamily="Arial" FontSize="16.0"
-                            FontStyle="Normal" FontWeight="Normal"
-                            HorizontalAlign="Left"
-                            Left="129.89841747283936" Name="Label"
-                            Opacity="1.0" Stroke="#626469"
-                            TextDecoration="None"
-                            Top="289.0968837738037" VerticalAlign="Top"><![CDATA[Humidity]]></Text>
-                        <Text Decimals="0" FontFamily="Arial"
-                            FontSize="28.0" FontStyle="Normal"
-                            FontWeight="Normal" HorizontalAlign="Left"
-                            Left="14.898417472839355" Name="Value"
-                            Opacity="1.0" Stroke="#626469"
-                            TextDecoration="None"
-                            Top="284.0968837738037" VerticalAlign="Top" Visibility="Visible"><![CDATA[45%]]></Text>
-                    </Group>
+                    <Text Ctrl="HideTextCtrl" FontFamily="Arial"
+                        FontSize="16.0" FontStyle="Normal"
+                        FontWeight="Normal" HorizontalAlign="Left"
+                        Left="129.89841747283936" Model="HumidityLabel"
+                        Name="Label" Opacity="1.0" Stroke="#626469"
+                        TextDecoration="None" Top="289.0968837738037" VerticalAlign="Top"><![CDATA[Humidity]]></Text>
+                    <Text Ctrl="ShowAVCtrl" Decimals="0"
+                        FontFamily="Arial" FontSize="28.0"
+                        FontStyle="Normal" FontWeight="Normal"
+                        HorizontalAlign="Left" Left="14.898417472839355"
+                        Name="Value" Opacity="1.0" Stroke="#626469"
+                        TextDecoration="None" Top="284.0968837738037"
+                        VerticalAlign="Top" Visibility="Visible"><![CDATA[45%]]></Text>
                     <Path ColorFalse="#C0C0C0" ColorTrue="#009530"
                         Ctrl="DigitalPathColorCtrl" Fill="#E0E0E0" Id=""
                         Model="LocalMotion" Name="LocalMotion"
@@ -1674,9 +1610,10 @@ function click(evt) {
                         Opacity="1.0" Stroke="#000000"
                         TextDecoration="None" Top="121.89235651493073" VerticalAlign="Top"><![CDATA[°C]]></Text>
                     <Component Clip="False" ContentHeight="22.0"
-                        ContentWidth="40.0" Height="22.0"
-                        Id="Temperature Scale" Left="43.34064042568207"
-                        LeftValue="1" Name="" RightValue="2"
+                        ContentWidth="40.0" Ctrl="SwitchCtrl"
+                        Height="22.0" Id="Units"
+                        Left="43.34064042568207" LeftValue="1"
+                        Model="UnitSwitch" Name="" RightValue="2"
                         Top="114.99894714355469" Width="40.0">
                         <Expose ExposedAttribute="LeftValue" Name="Left Value"/>
                         <Expose ExposedAttribute="RightValue" Name="Right Value"/>
@@ -5066,1100 +5003,146 @@ function click(evt) {
                 Top="0.0" Width="110.0"/>
         </Component>
     </Layer>
-    <Layer Name="Binds">
-        <Component Clip="False" ContentHeight="491.0"
-            ContentWidth="491.0" Height="491.0" Left="0.0"
-            Name="Floor_01" Top="0.0" Width="491.0">
-            <Component Height="1.0" Left="0.0" Name="RC_01" Top="0.0" Width="1.0">
-                <Bind Name="RoomTemp"/>
-                <Bind Name="OccCoolSetpoint"/>
-                <Bind Name="OccHeatSetpoint"/>
-                <Bind Name="UnoccCoolSetpoint"/>
-                <Bind Name="UnoccHeatSetpoint"/>
-                <Bind Name="StandbyCoolSetpoint"/>
-                <Bind Name="StandbyHeatSetpoint"/>
-                <Bind Name="EffectiveOcc"/>
-                <Bind Name="PICoolDemand"/>
-                <Bind Name="PIHeatDemand"/>
-                <Bind Name="OccCommand"/>
-                <Bind Name="SystemMode"/>
-                <Bind Name="NOTE1"/>
-                <Bind Name="LowBattAlarm"/>
-                <Bind Name="FanMode"/>
-                <Bind Name="OutdoorHumidity"/>
-                <Bind Id="" Name="WirelessWindowSwitchStatus"/>
-                <Bind Id="" Name="WirelessDoorSwitchStatus"/>
-                <Bind Id="" Name="LocalMotion"/>
-            </Component>
-            <Component Height="1.0" Left="10.0" Name="RC_02" Top="10.0" Width="1.0">
-                <Bind Name="RoomTemp"/>
-                <Bind Name="OccCoolSetpoint"/>
-                <Bind Name="OccHeatSetpoint"/>
-                <Bind Name="UnoccCoolSetpoint"/>
-                <Bind Name="UnoccHeatSetpoint"/>
-                <Bind Name="StandbyCoolSetpoint"/>
-                <Bind Name="StandbyHeatSetpoint"/>
-                <Bind Name="EffectiveOcc"/>
-                <Bind Name="PICoolDemand"/>
-                <Bind Name="PIHeatDemand"/>
-                <Bind Name="OccCommand"/>
-                <Bind Name="SystemMode"/>
-                <Bind Name="NOTE1"/>
-                <Bind Name="LowBattAlarm"/>
-                <Bind Name="FanMode"/>
-                <Bind Name="OutdoorHumidity"/>
-                <Bind Id="" Name="WirelessWindowSwitchStatus"/>
-                <Bind Id="" Name="WirelessDoorSwitchStatus"/>
-                <Bind Id="" Name="LocalMotion"/>
-            </Component>
-            <Component Height="1.0" Left="20.0" Name="RC_03" Top="20.0" Width="1.0">
-                <Bind Name="RoomTemp"/>
-                <Bind Name="OccCoolSetpoint"/>
-                <Bind Name="OccHeatSetpoint"/>
-                <Bind Name="UnoccCoolSetpoint"/>
-                <Bind Name="UnoccHeatSetpoint"/>
-                <Bind Name="StandbyCoolSetpoint"/>
-                <Bind Name="StandbyHeatSetpoint"/>
-                <Bind Name="EffectiveOcc"/>
-                <Bind Name="PICoolDemand"/>
-                <Bind Name="PIHeatDemand"/>
-                <Bind Name="OccCommand"/>
-                <Bind Name="SystemMode"/>
-                <Bind Name="NOTE1"/>
-                <Bind Name="LowBattAlarm"/>
-                <Bind Name="FanMode"/>
-                <Bind Name="OutdoorHumidity"/>
-                <Bind Id="" Name="WirelessWindowSwitchStatus"/>
-                <Bind Id="" Name="WirelessDoorSwitchStatus"/>
-                <Bind Id="" Name="LocalMotion"/>
-            </Component>
-            <Component Height="1.0" Left="30.0" Name="RC_04" Top="30.0" Width="1.0">
-                <Bind Name="RoomTemp"/>
-                <Bind Name="OccCoolSetpoint"/>
-                <Bind Name="OccHeatSetpoint"/>
-                <Bind Name="UnoccCoolSetpoint"/>
-                <Bind Name="UnoccHeatSetpoint"/>
-                <Bind Name="StandbyCoolSetpoint"/>
-                <Bind Name="StandbyHeatSetpoint"/>
-                <Bind Name="EffectiveOcc"/>
-                <Bind Name="PICoolDemand"/>
-                <Bind Name="PIHeatDemand"/>
-                <Bind Name="OccCommand"/>
-                <Bind Name="SystemMode"/>
-                <Bind Name="NOTE1"/>
-                <Bind Name="LowBattAlarm"/>
-                <Bind Name="FanMode"/>
-                <Bind Name="OutdoorHumidity"/>
-                <Bind Id="" Name="WirelessWindowSwitchStatus"/>
-                <Bind Id="" Name="WirelessDoorSwitchStatus"/>
-                <Bind Id="" Name="LocalMotion"/>
-            </Component>
-            <Component Height="1.0" Left="40.0" Name="RC_05" Top="40.0" Width="1.0">
-                <Bind Name="RoomTemp"/>
-                <Bind Name="OccCoolSetpoint"/>
-                <Bind Name="OccHeatSetpoint"/>
-                <Bind Name="UnoccCoolSetpoint"/>
-                <Bind Name="UnoccHeatSetpoint"/>
-                <Bind Name="StandbyCoolSetpoint"/>
-                <Bind Name="StandbyHeatSetpoint"/>
-                <Bind Name="EffectiveOcc"/>
-                <Bind Name="PICoolDemand"/>
-                <Bind Name="PIHeatDemand"/>
-                <Bind Name="OccCommand"/>
-                <Bind Name="SystemMode"/>
-                <Bind Name="NOTE1"/>
-                <Bind Name="LowBattAlarm"/>
-                <Bind Name="FanMode"/>
-                <Bind Name="OutdoorHumidity"/>
-                <Bind Id="" Name="WirelessWindowSwitchStatus"/>
-                <Bind Id="" Name="WirelessDoorSwitchStatus"/>
-                <Bind Id="" Name="LocalMotion"/>
-            </Component>
-            <Component Height="1.0" Left="50.0" Name="RC_06" Top="50.0" Width="1.0">
-                <Bind Name="RoomTemp"/>
-                <Bind Name="OccCoolSetpoint"/>
-                <Bind Name="OccHeatSetpoint"/>
-                <Bind Name="UnoccCoolSetpoint"/>
-                <Bind Name="UnoccHeatSetpoint"/>
-                <Bind Name="StandbyCoolSetpoint"/>
-                <Bind Name="StandbyHeatSetpoint"/>
-                <Bind Name="EffectiveOcc"/>
-                <Bind Name="PICoolDemand"/>
-                <Bind Name="PIHeatDemand"/>
-                <Bind Name="OccCommand"/>
-                <Bind Name="SystemMode"/>
-                <Bind Name="NOTE1"/>
-                <Bind Name="LowBattAlarm"/>
-                <Bind Name="FanMode"/>
-                <Bind Name="OutdoorHumidity"/>
-                <Bind Id="" Name="WirelessWindowSwitchStatus"/>
-                <Bind Id="" Name="WirelessDoorSwitchStatus"/>
-                <Bind Id="" Name="LocalMotion"/>
-            </Component>
-            <Component Height="1.0" Left="60.0" Name="RC_07" Top="60.0" Width="1.0">
-                <Bind Name="RoomTemp"/>
-                <Bind Name="OccCoolSetpoint"/>
-                <Bind Name="OccHeatSetpoint"/>
-                <Bind Name="UnoccCoolSetpoint"/>
-                <Bind Name="UnoccHeatSetpoint"/>
-                <Bind Name="StandbyCoolSetpoint"/>
-                <Bind Name="StandbyHeatSetpoint"/>
-                <Bind Name="EffectiveOcc"/>
-                <Bind Name="PICoolDemand"/>
-                <Bind Name="PIHeatDemand"/>
-                <Bind Name="OccCommand"/>
-                <Bind Name="SystemMode"/>
-                <Bind Name="NOTE1"/>
-                <Bind Name="LowBattAlarm"/>
-                <Bind Name="FanMode"/>
-                <Bind Name="OutdoorHumidity"/>
-                <Bind Id="" Name="WirelessWindowSwitchStatus"/>
-                <Bind Id="" Name="WirelessDoorSwitchStatus"/>
-                <Bind Id="" Name="LocalMotion"/>
-            </Component>
-            <Component Height="1.0" Left="70.0" Name="RC_08" Top="70.0" Width="1.0">
-                <Bind Name="RoomTemp"/>
-                <Bind Name="OccCoolSetpoint"/>
-                <Bind Name="OccHeatSetpoint"/>
-                <Bind Name="UnoccCoolSetpoint"/>
-                <Bind Name="UnoccHeatSetpoint"/>
-                <Bind Name="StandbyCoolSetpoint"/>
-                <Bind Name="StandbyHeatSetpoint"/>
-                <Bind Name="EffectiveOcc"/>
-                <Bind Name="PICoolDemand"/>
-                <Bind Name="PIHeatDemand"/>
-                <Bind Name="OccCommand"/>
-                <Bind Name="SystemMode"/>
-                <Bind Name="NOTE1"/>
-                <Bind Name="LowBattAlarm"/>
-                <Bind Name="FanMode"/>
-                <Bind Name="OutdoorHumidity"/>
-                <Bind Id="" Name="WirelessWindowSwitchStatus"/>
-                <Bind Id="" Name="WirelessDoorSwitchStatus"/>
-                <Bind Id="" Name="LocalMotion"/>
-            </Component>
-            <Component Height="1.0" Left="80.0" Name="RC_09" Top="80.0" Width="1.0">
-                <Bind Name="RoomTemp"/>
-                <Bind Name="OccCoolSetpoint"/>
-                <Bind Name="OccHeatSetpoint"/>
-                <Bind Name="UnoccCoolSetpoint"/>
-                <Bind Name="UnoccHeatSetpoint"/>
-                <Bind Name="StandbyCoolSetpoint"/>
-                <Bind Name="StandbyHeatSetpoint"/>
-                <Bind Name="EffectiveOcc"/>
-                <Bind Name="PICoolDemand"/>
-                <Bind Name="PIHeatDemand"/>
-                <Bind Name="OccCommand"/>
-                <Bind Name="SystemMode"/>
-                <Bind Name="NOTE1"/>
-                <Bind Name="LowBattAlarm"/>
-                <Bind Name="FanMode"/>
-                <Bind Name="OutdoorHumidity"/>
-                <Bind Id="" Name="WirelessWindowSwitchStatus"/>
-                <Bind Id="" Name="WirelessDoorSwitchStatus"/>
-                <Bind Id="" Name="LocalMotion"/>
-            </Component>
-            <Component Height="1.0" Left="90.0" Name="RC_10" Top="90.0" Width="1.0">
-                <Bind Name="RoomTemp"/>
-                <Bind Name="OccCoolSetpoint"/>
-                <Bind Name="OccHeatSetpoint"/>
-                <Bind Name="UnoccCoolSetpoint"/>
-                <Bind Name="UnoccHeatSetpoint"/>
-                <Bind Name="StandbyCoolSetpoint"/>
-                <Bind Name="StandbyHeatSetpoint"/>
-                <Bind Name="EffectiveOcc"/>
-                <Bind Name="PICoolDemand"/>
-                <Bind Name="PIHeatDemand"/>
-                <Bind Name="OccCommand"/>
-                <Bind Name="SystemMode"/>
-                <Bind Name="NOTE1"/>
-                <Bind Name="LowBattAlarm"/>
-                <Bind Name="FanMode"/>
-                <Bind Name="OutdoorHumidity"/>
-                <Bind Id="" Name="WirelessWindowSwitchStatus"/>
-                <Bind Id="" Name="WirelessDoorSwitchStatus"/>
-                <Bind Id="" Name="LocalMotion"/>
-            </Component>
-            <Component Height="1.0" Left="100.0" Name="RC_11"
-                Top="100.0" Width="1.0">
-                <Bind Name="RoomTemp"/>
-                <Bind Name="OccCoolSetpoint"/>
-                <Bind Name="OccHeatSetpoint"/>
-                <Bind Name="UnoccCoolSetpoint"/>
-                <Bind Name="UnoccHeatSetpoint"/>
-                <Bind Name="StandbyCoolSetpoint"/>
-                <Bind Name="StandbyHeatSetpoint"/>
-                <Bind Name="EffectiveOcc"/>
-                <Bind Name="PICoolDemand"/>
-                <Bind Name="PIHeatDemand"/>
-                <Bind Name="OccCommand"/>
-                <Bind Name="SystemMode"/>
-                <Bind Name="NOTE1"/>
-                <Bind Name="LowBattAlarm"/>
-                <Bind Name="FanMode"/>
-                <Bind Name="OutdoorHumidity"/>
-                <Bind Id="" Name="WirelessWindowSwitchStatus"/>
-                <Bind Id="" Name="WirelessDoorSwitchStatus"/>
-                <Bind Id="" Name="LocalMotion"/>
-            </Component>
-            <Component Height="1.0" Left="110.0" Name="RC_12"
-                Top="110.0" Width="1.0">
-                <Bind Name="RoomTemp"/>
-                <Bind Name="OccCoolSetpoint"/>
-                <Bind Name="OccHeatSetpoint"/>
-                <Bind Name="UnoccCoolSetpoint"/>
-                <Bind Name="UnoccHeatSetpoint"/>
-                <Bind Name="StandbyCoolSetpoint"/>
-                <Bind Name="StandbyHeatSetpoint"/>
-                <Bind Name="EffectiveOcc"/>
-                <Bind Name="PICoolDemand"/>
-                <Bind Name="PIHeatDemand"/>
-                <Bind Name="OccCommand"/>
-                <Bind Name="SystemMode"/>
-                <Bind Name="NOTE1"/>
-                <Bind Name="LowBattAlarm"/>
-                <Bind Name="FanMode"/>
-                <Bind Name="OutdoorHumidity"/>
-                <Bind Id="" Name="WirelessWindowSwitchStatus"/>
-                <Bind Id="" Name="WirelessDoorSwitchStatus"/>
-                <Bind Id="" Name="LocalMotion"/>
-            </Component>
-            <Component Height="1.0" Left="120.0" Name="RC_13"
-                Top="120.0" Width="1.0">
-                <Bind Name="RoomTemp"/>
-                <Bind Name="OccCoolSetpoint"/>
-                <Bind Name="OccHeatSetpoint"/>
-                <Bind Name="UnoccCoolSetpoint"/>
-                <Bind Name="UnoccHeatSetpoint"/>
-                <Bind Name="StandbyCoolSetpoint"/>
-                <Bind Name="StandbyHeatSetpoint"/>
-                <Bind Name="EffectiveOcc"/>
-                <Bind Name="PICoolDemand"/>
-                <Bind Name="PIHeatDemand"/>
-                <Bind Name="OccCommand"/>
-                <Bind Name="SystemMode"/>
-                <Bind Name="NOTE1"/>
-                <Bind Name="LowBattAlarm"/>
-                <Bind Name="FanMode"/>
-                <Bind Name="OutdoorHumidity"/>
-                <Bind Id="" Name="WirelessWindowSwitchStatus"/>
-                <Bind Id="" Name="WirelessDoorSwitchStatus"/>
-                <Bind Id="" Name="LocalMotion"/>
-            </Component>
-            <Component Height="1.0" Left="130.0" Name="RC_14"
-                Top="130.0" Width="1.0">
-                <Bind Name="RoomTemp"/>
-                <Bind Name="OccCoolSetpoint"/>
-                <Bind Name="OccHeatSetpoint"/>
-                <Bind Name="UnoccCoolSetpoint"/>
-                <Bind Name="UnoccHeatSetpoint"/>
-                <Bind Name="StandbyCoolSetpoint"/>
-                <Bind Name="StandbyHeatSetpoint"/>
-                <Bind Name="EffectiveOcc"/>
-                <Bind Name="PICoolDemand"/>
-                <Bind Name="PIHeatDemand"/>
-                <Bind Name="OccCommand"/>
-                <Bind Name="SystemMode"/>
-                <Bind Name="NOTE1"/>
-                <Bind Name="LowBattAlarm"/>
-                <Bind Name="FanMode"/>
-                <Bind Name="OutdoorHumidity"/>
-                <Bind Id="" Name="WirelessWindowSwitchStatus"/>
-                <Bind Id="" Name="WirelessDoorSwitchStatus"/>
-                <Bind Id="" Name="LocalMotion"/>
-            </Component>
-            <Component Height="1.0" Left="140.0" Name="RC_15"
-                Top="140.0" Width="1.0">
-                <Bind Name="RoomTemp"/>
-                <Bind Name="OccCoolSetpoint"/>
-                <Bind Name="OccHeatSetpoint"/>
-                <Bind Name="UnoccCoolSetpoint"/>
-                <Bind Name="UnoccHeatSetpoint"/>
-                <Bind Name="StandbyCoolSetpoint"/>
-                <Bind Name="StandbyHeatSetpoint"/>
-                <Bind Name="EffectiveOcc"/>
-                <Bind Name="PICoolDemand"/>
-                <Bind Name="PIHeatDemand"/>
-                <Bind Name="OccCommand"/>
-                <Bind Name="SystemMode"/>
-                <Bind Name="NOTE1"/>
-                <Bind Name="LowBattAlarm"/>
-                <Bind Name="FanMode"/>
-                <Bind Name="OutdoorHumidity"/>
-                <Bind Id="" Name="WirelessWindowSwitchStatus"/>
-                <Bind Id="" Name="WirelessDoorSwitchStatus"/>
-                <Bind Id="" Name="LocalMotion"/>
-            </Component>
-            <Component Height="1.0" Left="150.0" Name="RC_16"
-                Top="150.0" Width="1.0">
-                <Bind Name="RoomTemp"/>
-                <Bind Name="OccCoolSetpoint"/>
-                <Bind Name="OccHeatSetpoint"/>
-                <Bind Name="UnoccCoolSetpoint"/>
-                <Bind Name="UnoccHeatSetpoint"/>
-                <Bind Name="StandbyCoolSetpoint"/>
-                <Bind Name="StandbyHeatSetpoint"/>
-                <Bind Name="EffectiveOcc"/>
-                <Bind Name="PICoolDemand"/>
-                <Bind Name="PIHeatDemand"/>
-                <Bind Name="OccCommand"/>
-                <Bind Name="SystemMode"/>
-                <Bind Name="NOTE1"/>
-                <Bind Name="LowBattAlarm"/>
-                <Bind Name="FanMode"/>
-                <Bind Name="OutdoorHumidity"/>
-                <Bind Id="" Name="WirelessWindowSwitchStatus"/>
-                <Bind Id="" Name="WirelessDoorSwitchStatus"/>
-                <Bind Id="" Name="LocalMotion"/>
-            </Component>
-            <Component Height="1.0" Left="160.0" Name="RC_17"
-                Top="160.0" Width="1.0">
-                <Bind Name="RoomTemp"/>
-                <Bind Name="OccCoolSetpoint"/>
-                <Bind Name="OccHeatSetpoint"/>
-                <Bind Name="UnoccCoolSetpoint"/>
-                <Bind Name="UnoccHeatSetpoint"/>
-                <Bind Name="StandbyCoolSetpoint"/>
-                <Bind Name="StandbyHeatSetpoint"/>
-                <Bind Name="EffectiveOcc"/>
-                <Bind Name="PICoolDemand"/>
-                <Bind Name="PIHeatDemand"/>
-                <Bind Name="OccCommand"/>
-                <Bind Name="SystemMode"/>
-                <Bind Name="NOTE1"/>
-                <Bind Name="LowBattAlarm"/>
-                <Bind Name="FanMode"/>
-                <Bind Name="OutdoorHumidity"/>
-                <Bind Id="" Name="WirelessWindowSwitchStatus"/>
-                <Bind Id="" Name="WirelessDoorSwitchStatus"/>
-                <Bind Id="" Name="LocalMotion"/>
-            </Component>
-            <Component Height="1.0" Left="170.0" Name="RC_18"
-                Top="170.0" Width="1.0">
-                <Bind Name="RoomTemp"/>
-                <Bind Name="OccCoolSetpoint"/>
-                <Bind Name="OccHeatSetpoint"/>
-                <Bind Name="UnoccCoolSetpoint"/>
-                <Bind Name="UnoccHeatSetpoint"/>
-                <Bind Name="StandbyCoolSetpoint"/>
-                <Bind Name="StandbyHeatSetpoint"/>
-                <Bind Name="EffectiveOcc"/>
-                <Bind Name="PICoolDemand"/>
-                <Bind Name="PIHeatDemand"/>
-                <Bind Name="OccCommand"/>
-                <Bind Name="SystemMode"/>
-                <Bind Name="NOTE1"/>
-                <Bind Name="LowBattAlarm"/>
-                <Bind Name="FanMode"/>
-                <Bind Name="OutdoorHumidity"/>
-                <Bind Id="" Name="WirelessWindowSwitchStatus"/>
-                <Bind Id="" Name="WirelessDoorSwitchStatus"/>
-                <Bind Id="" Name="LocalMotion"/>
-            </Component>
-            <Component Height="1.0" Left="180.0" Name="RC_19"
-                Top="180.0" Width="1.0">
-                <Bind Name="RoomTemp"/>
-                <Bind Name="OccCoolSetpoint"/>
-                <Bind Name="OccHeatSetpoint"/>
-                <Bind Name="UnoccCoolSetpoint"/>
-                <Bind Name="UnoccHeatSetpoint"/>
-                <Bind Name="StandbyCoolSetpoint"/>
-                <Bind Name="StandbyHeatSetpoint"/>
-                <Bind Name="EffectiveOcc"/>
-                <Bind Name="PICoolDemand"/>
-                <Bind Name="PIHeatDemand"/>
-                <Bind Name="OccCommand"/>
-                <Bind Name="SystemMode"/>
-                <Bind Name="NOTE1"/>
-                <Bind Name="LowBattAlarm"/>
-                <Bind Name="FanMode"/>
-                <Bind Name="OutdoorHumidity"/>
-                <Bind Id="" Name="WirelessWindowSwitchStatus"/>
-                <Bind Id="" Name="WirelessDoorSwitchStatus"/>
-                <Bind Id="" Name="LocalMotion"/>
-            </Component>
-            <Component Height="1.0" Left="190.0" Name="RC_20"
-                Top="190.0" Width="1.0">
-                <Bind Name="RoomTemp"/>
-                <Bind Name="OccCoolSetpoint"/>
-                <Bind Name="OccHeatSetpoint"/>
-                <Bind Name="UnoccCoolSetpoint"/>
-                <Bind Name="UnoccHeatSetpoint"/>
-                <Bind Name="StandbyCoolSetpoint"/>
-                <Bind Name="StandbyHeatSetpoint"/>
-                <Bind Name="EffectiveOcc"/>
-                <Bind Name="PICoolDemand"/>
-                <Bind Name="PIHeatDemand"/>
-                <Bind Name="OccCommand"/>
-                <Bind Name="SystemMode"/>
-                <Bind Name="NOTE1"/>
-                <Bind Name="LowBattAlarm"/>
-                <Bind Name="FanMode"/>
-                <Bind Name="OutdoorHumidity"/>
-                <Bind Id="" Name="WirelessWindowSwitchStatus"/>
-                <Bind Id="" Name="WirelessDoorSwitchStatus"/>
-                <Bind Id="" Name="LocalMotion"/>
-            </Component>
-            <Component Height="1.0" Left="200.0" Name="RC_21"
-                Top="200.0" Width="1.0">
-                <Bind Name="RoomTemp"/>
-                <Bind Name="OccCoolSetpoint"/>
-                <Bind Name="OccHeatSetpoint"/>
-                <Bind Name="UnoccCoolSetpoint"/>
-                <Bind Name="UnoccHeatSetpoint"/>
-                <Bind Name="StandbyCoolSetpoint"/>
-                <Bind Name="StandbyHeatSetpoint"/>
-                <Bind Name="EffectiveOcc"/>
-                <Bind Name="PICoolDemand"/>
-                <Bind Name="PIHeatDemand"/>
-                <Bind Name="OccCommand"/>
-                <Bind Name="SystemMode"/>
-                <Bind Name="NOTE1"/>
-                <Bind Name="LowBattAlarm"/>
-                <Bind Name="FanMode"/>
-                <Bind Name="OutdoorHumidity"/>
-                <Bind Id="" Name="WirelessWindowSwitchStatus"/>
-                <Bind Id="" Name="WirelessDoorSwitchStatus"/>
-                <Bind Id="" Name="LocalMotion"/>
-            </Component>
-            <Component Height="1.0" Left="210.0" Name="RC_22"
-                Top="210.0" Width="1.0">
-                <Bind Name="RoomTemp"/>
-                <Bind Name="OccCoolSetpoint"/>
-                <Bind Name="OccHeatSetpoint"/>
-                <Bind Name="UnoccCoolSetpoint"/>
-                <Bind Name="UnoccHeatSetpoint"/>
-                <Bind Name="StandbyCoolSetpoint"/>
-                <Bind Name="StandbyHeatSetpoint"/>
-                <Bind Name="EffectiveOcc"/>
-                <Bind Name="PICoolDemand"/>
-                <Bind Name="PIHeatDemand"/>
-                <Bind Name="OccCommand"/>
-                <Bind Name="SystemMode"/>
-                <Bind Name="NOTE1"/>
-                <Bind Name="LowBattAlarm"/>
-                <Bind Name="FanMode"/>
-                <Bind Name="OutdoorHumidity"/>
-                <Bind Id="" Name="WirelessWindowSwitchStatus"/>
-                <Bind Id="" Name="WirelessDoorSwitchStatus"/>
-                <Bind Id="" Name="LocalMotion"/>
-            </Component>
-            <Component Height="1.0" Left="220.0" Name="RC_23"
-                Top="220.0" Width="1.0">
-                <Bind Name="RoomTemp"/>
-                <Bind Name="OccCoolSetpoint"/>
-                <Bind Name="OccHeatSetpoint"/>
-                <Bind Name="UnoccCoolSetpoint"/>
-                <Bind Name="UnoccHeatSetpoint"/>
-                <Bind Name="StandbyCoolSetpoint"/>
-                <Bind Name="StandbyHeatSetpoint"/>
-                <Bind Name="EffectiveOcc"/>
-                <Bind Name="PICoolDemand"/>
-                <Bind Name="PIHeatDemand"/>
-                <Bind Name="OccCommand"/>
-                <Bind Name="SystemMode"/>
-                <Bind Name="NOTE1"/>
-                <Bind Name="LowBattAlarm"/>
-                <Bind Name="FanMode"/>
-                <Bind Name="OutdoorHumidity"/>
-                <Bind Id="" Name="WirelessWindowSwitchStatus"/>
-                <Bind Id="" Name="WirelessDoorSwitchStatus"/>
-                <Bind Id="" Name="LocalMotion"/>
-            </Component>
-            <Component Height="1.0" Left="230.0" Name="RC_24"
-                Top="230.0" Width="1.0">
-                <Bind Name="RoomTemp"/>
-                <Bind Name="OccCoolSetpoint"/>
-                <Bind Name="OccHeatSetpoint"/>
-                <Bind Name="UnoccCoolSetpoint"/>
-                <Bind Name="UnoccHeatSetpoint"/>
-                <Bind Name="StandbyCoolSetpoint"/>
-                <Bind Name="StandbyHeatSetpoint"/>
-                <Bind Name="EffectiveOcc"/>
-                <Bind Name="PICoolDemand"/>
-                <Bind Name="PIHeatDemand"/>
-                <Bind Name="OccCommand"/>
-                <Bind Name="SystemMode"/>
-                <Bind Name="NOTE1"/>
-                <Bind Name="LowBattAlarm"/>
-                <Bind Name="FanMode"/>
-                <Bind Name="OutdoorHumidity"/>
-                <Bind Id="" Name="WirelessWindowSwitchStatus"/>
-                <Bind Id="" Name="WirelessDoorSwitchStatus"/>
-                <Bind Id="" Name="LocalMotion"/>
-            </Component>
-            <Component Height="1.0" Left="240.0" Name="RC_25"
-                Top="240.0" Width="1.0">
-                <Bind Name="RoomTemp"/>
-                <Bind Name="OccCoolSetpoint"/>
-                <Bind Name="OccHeatSetpoint"/>
-                <Bind Name="UnoccCoolSetpoint"/>
-                <Bind Name="UnoccHeatSetpoint"/>
-                <Bind Name="StandbyCoolSetpoint"/>
-                <Bind Name="StandbyHeatSetpoint"/>
-                <Bind Name="EffectiveOcc"/>
-                <Bind Name="PICoolDemand"/>
-                <Bind Name="PIHeatDemand"/>
-                <Bind Name="OccCommand"/>
-                <Bind Name="SystemMode"/>
-                <Bind Name="NOTE1"/>
-                <Bind Name="LowBattAlarm"/>
-                <Bind Name="FanMode"/>
-                <Bind Name="OutdoorHumidity"/>
-                <Bind Id="" Name="WirelessWindowSwitchStatus"/>
-                <Bind Id="" Name="WirelessDoorSwitchStatus"/>
-                <Bind Id="" Name="LocalMotion"/>
-            </Component>
-            <Component Height="1.0" Left="250.0" Name="RC_26"
-                Top="250.0" Width="1.0">
-                <Bind Name="RoomTemp"/>
-                <Bind Name="OccCoolSetpoint"/>
-                <Bind Name="OccHeatSetpoint"/>
-                <Bind Name="UnoccCoolSetpoint"/>
-                <Bind Name="UnoccHeatSetpoint"/>
-                <Bind Name="StandbyCoolSetpoint"/>
-                <Bind Name="StandbyHeatSetpoint"/>
-                <Bind Name="EffectiveOcc"/>
-                <Bind Name="PICoolDemand"/>
-                <Bind Name="PIHeatDemand"/>
-                <Bind Name="OccCommand"/>
-                <Bind Name="SystemMode"/>
-                <Bind Name="NOTE1"/>
-                <Bind Name="LowBattAlarm"/>
-                <Bind Name="FanMode"/>
-                <Bind Name="OutdoorHumidity"/>
-                <Bind Id="" Name="WirelessWindowSwitchStatus"/>
-                <Bind Id="" Name="WirelessDoorSwitchStatus"/>
-                <Bind Id="" Name="LocalMotion"/>
-            </Component>
-            <Component Height="1.0" Left="260.0" Name="RC_27"
-                Top="260.0" Width="1.0">
-                <Bind Name="RoomTemp"/>
-                <Bind Name="OccCoolSetpoint"/>
-                <Bind Name="OccHeatSetpoint"/>
-                <Bind Name="UnoccCoolSetpoint"/>
-                <Bind Name="UnoccHeatSetpoint"/>
-                <Bind Name="StandbyCoolSetpoint"/>
-                <Bind Name="StandbyHeatSetpoint"/>
-                <Bind Name="EffectiveOcc"/>
-                <Bind Name="PICoolDemand"/>
-                <Bind Name="PIHeatDemand"/>
-                <Bind Name="OccCommand"/>
-                <Bind Name="SystemMode"/>
-                <Bind Name="NOTE1"/>
-                <Bind Name="LowBattAlarm"/>
-                <Bind Name="FanMode"/>
-                <Bind Name="OutdoorHumidity"/>
-                <Bind Id="" Name="WirelessWindowSwitchStatus"/>
-                <Bind Id="" Name="WirelessDoorSwitchStatus"/>
-                <Bind Id="" Name="LocalMotion"/>
-            </Component>
-            <Component Height="1.0" Left="270.0" Name="RC_28"
-                Top="270.0" Width="1.0">
-                <Bind Name="RoomTemp"/>
-                <Bind Name="OccCoolSetpoint"/>
-                <Bind Name="OccHeatSetpoint"/>
-                <Bind Name="UnoccCoolSetpoint"/>
-                <Bind Name="UnoccHeatSetpoint"/>
-                <Bind Name="StandbyCoolSetpoint"/>
-                <Bind Name="StandbyHeatSetpoint"/>
-                <Bind Name="EffectiveOcc"/>
-                <Bind Name="PICoolDemand"/>
-                <Bind Name="PIHeatDemand"/>
-                <Bind Name="OccCommand"/>
-                <Bind Name="SystemMode"/>
-                <Bind Name="NOTE1"/>
-                <Bind Name="LowBattAlarm"/>
-                <Bind Name="FanMode"/>
-                <Bind Name="OutdoorHumidity"/>
-                <Bind Id="" Name="WirelessWindowSwitchStatus"/>
-                <Bind Id="" Name="WirelessDoorSwitchStatus"/>
-                <Bind Id="" Name="LocalMotion"/>
-            </Component>
-            <Component Height="1.0" Left="280.0" Name="RC_29"
-                Top="280.0" Width="1.0">
-                <Bind Name="RoomTemp"/>
-                <Bind Name="OccCoolSetpoint"/>
-                <Bind Name="OccHeatSetpoint"/>
-                <Bind Name="UnoccCoolSetpoint"/>
-                <Bind Name="UnoccHeatSetpoint"/>
-                <Bind Name="StandbyCoolSetpoint"/>
-                <Bind Name="StandbyHeatSetpoint"/>
-                <Bind Name="EffectiveOcc"/>
-                <Bind Name="PICoolDemand"/>
-                <Bind Name="PIHeatDemand"/>
-                <Bind Name="OccCommand"/>
-                <Bind Name="SystemMode"/>
-                <Bind Name="NOTE1"/>
-                <Bind Name="LowBattAlarm"/>
-                <Bind Name="FanMode"/>
-                <Bind Name="OutdoorHumidity"/>
-                <Bind Id="" Name="WirelessWindowSwitchStatus"/>
-                <Bind Id="" Name="WirelessDoorSwitchStatus"/>
-                <Bind Id="" Name="LocalMotion"/>
-            </Component>
-            <Component Height="1.0" Left="290.0" Name="RC_30"
-                Top="290.0" Width="1.0">
-                <Bind Name="RoomTemp"/>
-                <Bind Name="OccCoolSetpoint"/>
-                <Bind Name="OccHeatSetpoint"/>
-                <Bind Name="UnoccCoolSetpoint"/>
-                <Bind Name="UnoccHeatSetpoint"/>
-                <Bind Name="StandbyCoolSetpoint"/>
-                <Bind Name="StandbyHeatSetpoint"/>
-                <Bind Name="EffectiveOcc"/>
-                <Bind Name="PICoolDemand"/>
-                <Bind Name="PIHeatDemand"/>
-                <Bind Name="OccCommand"/>
-                <Bind Name="SystemMode"/>
-                <Bind Name="NOTE1"/>
-                <Bind Name="LowBattAlarm"/>
-                <Bind Name="FanMode"/>
-                <Bind Name="OutdoorHumidity"/>
-                <Bind Id="" Name="WirelessWindowSwitchStatus"/>
-                <Bind Id="" Name="WirelessDoorSwitchStatus"/>
-                <Bind Id="" Name="LocalMotion"/>
-            </Component>
-            <Component Height="1.0" Left="300.0" Name="RC_31"
-                Top="300.0" Width="1.0">
-                <Bind Name="RoomTemp"/>
-                <Bind Name="OccCoolSetpoint"/>
-                <Bind Name="OccHeatSetpoint"/>
-                <Bind Name="UnoccCoolSetpoint"/>
-                <Bind Name="UnoccHeatSetpoint"/>
-                <Bind Name="StandbyCoolSetpoint"/>
-                <Bind Name="StandbyHeatSetpoint"/>
-                <Bind Name="EffectiveOcc"/>
-                <Bind Name="PICoolDemand"/>
-                <Bind Name="PIHeatDemand"/>
-                <Bind Name="OccCommand"/>
-                <Bind Name="SystemMode"/>
-                <Bind Name="NOTE1"/>
-                <Bind Name="LowBattAlarm"/>
-                <Bind Name="FanMode"/>
-                <Bind Name="OutdoorHumidity"/>
-                <Bind Id="" Name="WirelessWindowSwitchStatus"/>
-                <Bind Id="" Name="WirelessDoorSwitchStatus"/>
-                <Bind Id="" Name="LocalMotion"/>
-            </Component>
-            <Component Height="1.0" Left="310.0" Name="RC_32"
-                Top="310.0" Width="1.0">
-                <Bind Name="RoomTemp"/>
-                <Bind Name="OccCoolSetpoint"/>
-                <Bind Name="OccHeatSetpoint"/>
-                <Bind Name="UnoccCoolSetpoint"/>
-                <Bind Name="UnoccHeatSetpoint"/>
-                <Bind Name="StandbyCoolSetpoint"/>
-                <Bind Name="StandbyHeatSetpoint"/>
-                <Bind Name="EffectiveOcc"/>
-                <Bind Name="PICoolDemand"/>
-                <Bind Name="PIHeatDemand"/>
-                <Bind Name="OccCommand"/>
-                <Bind Name="SystemMode"/>
-                <Bind Name="NOTE1"/>
-                <Bind Name="LowBattAlarm"/>
-                <Bind Name="FanMode"/>
-                <Bind Name="OutdoorHumidity"/>
-                <Bind Id="" Name="WirelessWindowSwitchStatus"/>
-                <Bind Id="" Name="WirelessDoorSwitchStatus"/>
-                <Bind Id="" Name="LocalMotion"/>
-            </Component>
-            <Component Height="1.0" Left="320.0" Name="RC_33"
-                Top="320.0" Width="1.0">
-                <Bind Name="RoomTemp"/>
-                <Bind Name="OccCoolSetpoint"/>
-                <Bind Name="OccHeatSetpoint"/>
-                <Bind Name="UnoccCoolSetpoint"/>
-                <Bind Name="UnoccHeatSetpoint"/>
-                <Bind Name="StandbyCoolSetpoint"/>
-                <Bind Name="StandbyHeatSetpoint"/>
-                <Bind Name="EffectiveOcc"/>
-                <Bind Name="PICoolDemand"/>
-                <Bind Name="PIHeatDemand"/>
-                <Bind Name="OccCommand"/>
-                <Bind Name="SystemMode"/>
-                <Bind Name="NOTE1"/>
-                <Bind Name="LowBattAlarm"/>
-                <Bind Name="FanMode"/>
-                <Bind Name="OutdoorHumidity"/>
-                <Bind Id="" Name="WirelessWindowSwitchStatus"/>
-                <Bind Id="" Name="WirelessDoorSwitchStatus"/>
-                <Bind Id="" Name="LocalMotion"/>
-            </Component>
-            <Component Height="1.0" Left="330.0" Name="RC_34"
-                Top="330.0" Width="1.0">
-                <Bind Name="RoomTemp"/>
-                <Bind Name="OccCoolSetpoint"/>
-                <Bind Name="OccHeatSetpoint"/>
-                <Bind Name="UnoccCoolSetpoint"/>
-                <Bind Name="UnoccHeatSetpoint"/>
-                <Bind Name="StandbyCoolSetpoint"/>
-                <Bind Name="StandbyHeatSetpoint"/>
-                <Bind Name="EffectiveOcc"/>
-                <Bind Name="PICoolDemand"/>
-                <Bind Name="PIHeatDemand"/>
-                <Bind Name="OccCommand"/>
-                <Bind Name="SystemMode"/>
-                <Bind Name="NOTE1"/>
-                <Bind Name="LowBattAlarm"/>
-                <Bind Name="FanMode"/>
-                <Bind Name="OutdoorHumidity"/>
-                <Bind Id="" Name="WirelessWindowSwitchStatus"/>
-                <Bind Id="" Name="WirelessDoorSwitchStatus"/>
-                <Bind Id="" Name="LocalMotion"/>
-            </Component>
-            <Component Height="1.0" Left="340.0" Name="RC_35"
-                Top="340.0" Width="1.0">
-                <Bind Name="RoomTemp"/>
-                <Bind Name="OccCoolSetpoint"/>
-                <Bind Name="OccHeatSetpoint"/>
-                <Bind Name="UnoccCoolSetpoint"/>
-                <Bind Name="UnoccHeatSetpoint"/>
-                <Bind Name="StandbyCoolSetpoint"/>
-                <Bind Name="StandbyHeatSetpoint"/>
-                <Bind Name="EffectiveOcc"/>
-                <Bind Name="PICoolDemand"/>
-                <Bind Name="PIHeatDemand"/>
-                <Bind Name="OccCommand"/>
-                <Bind Name="SystemMode"/>
-                <Bind Name="NOTE1"/>
-                <Bind Name="LowBattAlarm"/>
-                <Bind Name="FanMode"/>
-                <Bind Name="OutdoorHumidity"/>
-                <Bind Id="" Name="WirelessWindowSwitchStatus"/>
-                <Bind Id="" Name="WirelessDoorSwitchStatus"/>
-                <Bind Id="" Name="LocalMotion"/>
-            </Component>
-            <Component Height="1.0" Left="350.0" Name="RC_36"
-                Top="350.0" Width="1.0">
-                <Bind Name="RoomTemp"/>
-                <Bind Name="OccCoolSetpoint"/>
-                <Bind Name="OccHeatSetpoint"/>
-                <Bind Name="UnoccCoolSetpoint"/>
-                <Bind Name="UnoccHeatSetpoint"/>
-                <Bind Name="StandbyCoolSetpoint"/>
-                <Bind Name="StandbyHeatSetpoint"/>
-                <Bind Name="EffectiveOcc"/>
-                <Bind Name="PICoolDemand"/>
-                <Bind Name="PIHeatDemand"/>
-                <Bind Name="OccCommand"/>
-                <Bind Name="SystemMode"/>
-                <Bind Name="NOTE1"/>
-                <Bind Name="LowBattAlarm"/>
-                <Bind Name="FanMode"/>
-                <Bind Name="OutdoorHumidity"/>
-                <Bind Id="" Name="WirelessWindowSwitchStatus"/>
-                <Bind Id="" Name="WirelessDoorSwitchStatus"/>
-                <Bind Id="" Name="LocalMotion"/>
-            </Component>
-            <Component Height="1.0" Left="360.0" Name="RC_37"
-                Top="360.0" Width="1.0">
-                <Bind Name="RoomTemp"/>
-                <Bind Name="OccCoolSetpoint"/>
-                <Bind Name="OccHeatSetpoint"/>
-                <Bind Name="UnoccCoolSetpoint"/>
-                <Bind Name="UnoccHeatSetpoint"/>
-                <Bind Name="StandbyCoolSetpoint"/>
-                <Bind Name="StandbyHeatSetpoint"/>
-                <Bind Name="EffectiveOcc"/>
-                <Bind Name="PICoolDemand"/>
-                <Bind Name="PIHeatDemand"/>
-                <Bind Name="OccCommand"/>
-                <Bind Name="SystemMode"/>
-                <Bind Name="NOTE1"/>
-                <Bind Name="LowBattAlarm"/>
-                <Bind Name="FanMode"/>
-                <Bind Name="OutdoorHumidity"/>
-                <Bind Id="" Name="WirelessWindowSwitchStatus"/>
-                <Bind Id="" Name="WirelessDoorSwitchStatus"/>
-                <Bind Id="" Name="LocalMotion"/>
-            </Component>
-            <Component Height="1.0" Left="370.0" Name="RC_38"
-                Top="370.0" Width="1.0">
-                <Bind Name="RoomTemp"/>
-                <Bind Name="OccCoolSetpoint"/>
-                <Bind Name="OccHeatSetpoint"/>
-                <Bind Name="UnoccCoolSetpoint"/>
-                <Bind Name="UnoccHeatSetpoint"/>
-                <Bind Name="StandbyCoolSetpoint"/>
-                <Bind Name="StandbyHeatSetpoint"/>
-                <Bind Name="EffectiveOcc"/>
-                <Bind Name="PICoolDemand"/>
-                <Bind Name="PIHeatDemand"/>
-                <Bind Name="OccCommand"/>
-                <Bind Name="SystemMode"/>
-                <Bind Name="NOTE1"/>
-                <Bind Name="LowBattAlarm"/>
-                <Bind Name="FanMode"/>
-                <Bind Name="OutdoorHumidity"/>
-                <Bind Id="" Name="WirelessWindowSwitchStatus"/>
-                <Bind Id="" Name="WirelessDoorSwitchStatus"/>
-                <Bind Id="" Name="LocalMotion"/>
-            </Component>
-            <Component Height="1.0" Left="380.0" Name="RC_39"
-                Top="380.0" Width="1.0">
-                <Bind Name="RoomTemp"/>
-                <Bind Name="OccCoolSetpoint"/>
-                <Bind Name="OccHeatSetpoint"/>
-                <Bind Name="UnoccCoolSetpoint"/>
-                <Bind Name="UnoccHeatSetpoint"/>
-                <Bind Name="StandbyCoolSetpoint"/>
-                <Bind Name="StandbyHeatSetpoint"/>
-                <Bind Name="EffectiveOcc"/>
-                <Bind Name="PICoolDemand"/>
-                <Bind Name="PIHeatDemand"/>
-                <Bind Name="OccCommand"/>
-                <Bind Name="SystemMode"/>
-                <Bind Name="NOTE1"/>
-                <Bind Name="LowBattAlarm"/>
-                <Bind Name="FanMode"/>
-                <Bind Name="OutdoorHumidity"/>
-                <Bind Id="" Name="WirelessWindowSwitchStatus"/>
-                <Bind Id="" Name="WirelessDoorSwitchStatus"/>
-                <Bind Id="" Name="LocalMotion"/>
-            </Component>
-            <Component Height="1.0" Left="390.0" Name="RC_40"
-                Top="390.0" Width="1.0">
-                <Bind Name="RoomTemp"/>
-                <Bind Name="OccCoolSetpoint"/>
-                <Bind Name="OccHeatSetpoint"/>
-                <Bind Name="UnoccCoolSetpoint"/>
-                <Bind Name="UnoccHeatSetpoint"/>
-                <Bind Name="StandbyCoolSetpoint"/>
-                <Bind Name="StandbyHeatSetpoint"/>
-                <Bind Name="EffectiveOcc"/>
-                <Bind Name="PICoolDemand"/>
-                <Bind Name="PIHeatDemand"/>
-                <Bind Name="OccCommand"/>
-                <Bind Name="SystemMode"/>
-                <Bind Name="NOTE1"/>
-                <Bind Name="LowBattAlarm"/>
-                <Bind Name="FanMode"/>
-                <Bind Name="OutdoorHumidity"/>
-                <Bind Id="" Name="WirelessWindowSwitchStatus"/>
-                <Bind Id="" Name="WirelessDoorSwitchStatus"/>
-                <Bind Id="" Name="LocalMotion"/>
-            </Component>
-            <Component Height="1.0" Left="400.0" Name="RC_41"
-                Top="400.0" Width="1.0">
-                <Bind Name="RoomTemp"/>
-                <Bind Name="OccCoolSetpoint"/>
-                <Bind Name="OccHeatSetpoint"/>
-                <Bind Name="UnoccCoolSetpoint"/>
-                <Bind Name="UnoccHeatSetpoint"/>
-                <Bind Name="StandbyCoolSetpoint"/>
-                <Bind Name="StandbyHeatSetpoint"/>
-                <Bind Name="EffectiveOcc"/>
-                <Bind Name="PICoolDemand"/>
-                <Bind Name="PIHeatDemand"/>
-                <Bind Name="OccCommand"/>
-                <Bind Name="SystemMode"/>
-                <Bind Name="NOTE1"/>
-                <Bind Name="LowBattAlarm"/>
-                <Bind Name="FanMode"/>
-                <Bind Name="OutdoorHumidity"/>
-                <Bind Id="" Name="WirelessWindowSwitchStatus"/>
-                <Bind Id="" Name="WirelessDoorSwitchStatus"/>
-                <Bind Id="" Name="LocalMotion"/>
-            </Component>
-            <Component Height="1.0" Left="410.0" Name="RC_42"
-                Top="410.0" Width="1.0">
-                <Bind Name="RoomTemp"/>
-                <Bind Name="OccCoolSetpoint"/>
-                <Bind Name="OccHeatSetpoint"/>
-                <Bind Name="UnoccCoolSetpoint"/>
-                <Bind Name="UnoccHeatSetpoint"/>
-                <Bind Name="StandbyCoolSetpoint"/>
-                <Bind Name="StandbyHeatSetpoint"/>
-                <Bind Name="EffectiveOcc"/>
-                <Bind Name="PICoolDemand"/>
-                <Bind Name="PIHeatDemand"/>
-                <Bind Name="OccCommand"/>
-                <Bind Name="SystemMode"/>
-                <Bind Name="NOTE1"/>
-                <Bind Name="LowBattAlarm"/>
-                <Bind Name="FanMode"/>
-                <Bind Name="OutdoorHumidity"/>
-                <Bind Id="" Name="WirelessWindowSwitchStatus"/>
-                <Bind Id="" Name="WirelessDoorSwitchStatus"/>
-                <Bind Id="" Name="LocalMotion"/>
-            </Component>
-            <Component Height="1.0" Left="420.0" Name="RC_43"
-                Top="420.0" Width="1.0">
-                <Bind Name="RoomTemp"/>
-                <Bind Name="OccCoolSetpoint"/>
-                <Bind Name="OccHeatSetpoint"/>
-                <Bind Name="UnoccCoolSetpoint"/>
-                <Bind Name="UnoccHeatSetpoint"/>
-                <Bind Name="StandbyCoolSetpoint"/>
-                <Bind Name="StandbyHeatSetpoint"/>
-                <Bind Name="EffectiveOcc"/>
-                <Bind Name="PICoolDemand"/>
-                <Bind Name="PIHeatDemand"/>
-                <Bind Name="OccCommand"/>
-                <Bind Name="SystemMode"/>
-                <Bind Name="NOTE1"/>
-                <Bind Name="LowBattAlarm"/>
-                <Bind Name="FanMode"/>
-                <Bind Name="OutdoorHumidity"/>
-                <Bind Id="" Name="WirelessWindowSwitchStatus"/>
-                <Bind Id="" Name="WirelessDoorSwitchStatus"/>
-                <Bind Id="" Name="LocalMotion"/>
-            </Component>
-            <Component Height="1.0" Left="430.0" Name="RC_44"
-                Top="430.0" Width="1.0">
-                <Bind Name="RoomTemp"/>
-                <Bind Name="OccCoolSetpoint"/>
-                <Bind Name="OccHeatSetpoint"/>
-                <Bind Name="UnoccCoolSetpoint"/>
-                <Bind Name="UnoccHeatSetpoint"/>
-                <Bind Name="StandbyCoolSetpoint"/>
-                <Bind Name="StandbyHeatSetpoint"/>
-                <Bind Name="EffectiveOcc"/>
-                <Bind Name="PICoolDemand"/>
-                <Bind Name="PIHeatDemand"/>
-                <Bind Name="OccCommand"/>
-                <Bind Name="SystemMode"/>
-                <Bind Name="NOTE1"/>
-                <Bind Name="LowBattAlarm"/>
-                <Bind Name="FanMode"/>
-                <Bind Name="OutdoorHumidity"/>
-                <Bind Id="" Name="WirelessWindowSwitchStatus"/>
-                <Bind Id="" Name="WirelessDoorSwitchStatus"/>
-                <Bind Id="" Name="LocalMotion"/>
-            </Component>
-            <Component Height="1.0" Left="440.0" Name="RC_45"
-                Top="440.0" Width="1.0">
-                <Bind Name="RoomTemp"/>
-                <Bind Name="OccCoolSetpoint"/>
-                <Bind Name="OccHeatSetpoint"/>
-                <Bind Name="UnoccCoolSetpoint"/>
-                <Bind Name="UnoccHeatSetpoint"/>
-                <Bind Name="StandbyCoolSetpoint"/>
-                <Bind Name="StandbyHeatSetpoint"/>
-                <Bind Name="EffectiveOcc"/>
-                <Bind Name="PICoolDemand"/>
-                <Bind Name="PIHeatDemand"/>
-                <Bind Name="OccCommand"/>
-                <Bind Name="SystemMode"/>
-                <Bind Name="NOTE1"/>
-                <Bind Name="LowBattAlarm"/>
-                <Bind Name="FanMode"/>
-                <Bind Name="OutdoorHumidity"/>
-                <Bind Id="" Name="WirelessWindowSwitchStatus"/>
-                <Bind Id="" Name="WirelessDoorSwitchStatus"/>
-                <Bind Id="" Name="LocalMotion"/>
-            </Component>
-            <Component Height="1.0" Left="450.0" Name="RC_46"
-                Top="450.0" Width="1.0">
-                <Bind Name="RoomTemp"/>
-                <Bind Name="OccCoolSetpoint"/>
-                <Bind Name="OccHeatSetpoint"/>
-                <Bind Name="UnoccCoolSetpoint"/>
-                <Bind Name="UnoccHeatSetpoint"/>
-                <Bind Name="StandbyCoolSetpoint"/>
-                <Bind Name="StandbyHeatSetpoint"/>
-                <Bind Name="EffectiveOcc"/>
-                <Bind Name="PICoolDemand"/>
-                <Bind Name="PIHeatDemand"/>
-                <Bind Name="OccCommand"/>
-                <Bind Name="SystemMode"/>
-                <Bind Name="NOTE1"/>
-                <Bind Name="LowBattAlarm"/>
-                <Bind Name="FanMode"/>
-                <Bind Name="OutdoorHumidity"/>
-                <Bind Id="" Name="WirelessWindowSwitchStatus"/>
-                <Bind Id="" Name="WirelessDoorSwitchStatus"/>
-                <Bind Id="" Name="LocalMotion"/>
-            </Component>
-            <Component Height="1.0" Left="460.0" Name="RC_47"
-                Top="460.0" Width="1.0">
-                <Bind Name="RoomTemp"/>
-                <Bind Name="OccCoolSetpoint"/>
-                <Bind Name="OccHeatSetpoint"/>
-                <Bind Name="UnoccCoolSetpoint"/>
-                <Bind Name="UnoccHeatSetpoint"/>
-                <Bind Name="StandbyCoolSetpoint"/>
-                <Bind Name="StandbyHeatSetpoint"/>
-                <Bind Name="EffectiveOcc"/>
-                <Bind Name="PICoolDemand"/>
-                <Bind Name="PIHeatDemand"/>
-                <Bind Name="OccCommand"/>
-                <Bind Name="SystemMode"/>
-                <Bind Name="NOTE1"/>
-                <Bind Name="LowBattAlarm"/>
-                <Bind Name="FanMode"/>
-                <Bind Name="OutdoorHumidity"/>
-                <Bind Id="" Name="WirelessWindowSwitchStatus"/>
-                <Bind Id="" Name="WirelessDoorSwitchStatus"/>
-                <Bind Id="" Name="LocalMotion"/>
-            </Component>
-            <Component Height="1.0" Left="470.0" Name="RC_48"
-                Top="470.0" Width="1.0">
-                <Bind Name="RoomTemp"/>
-                <Bind Name="OccCoolSetpoint"/>
-                <Bind Name="OccHeatSetpoint"/>
-                <Bind Name="UnoccCoolSetpoint"/>
-                <Bind Name="UnoccHeatSetpoint"/>
-                <Bind Name="StandbyCoolSetpoint"/>
-                <Bind Name="StandbyHeatSetpoint"/>
-                <Bind Name="EffectiveOcc"/>
-                <Bind Name="PICoolDemand"/>
-                <Bind Name="PIHeatDemand"/>
-                <Bind Name="OccCommand"/>
-                <Bind Name="SystemMode"/>
-                <Bind Name="NOTE1"/>
-                <Bind Name="LowBattAlarm"/>
-                <Bind Name="FanMode"/>
-                <Bind Name="OutdoorHumidity"/>
-                <Bind Id="" Name="WirelessWindowSwitchStatus"/>
-                <Bind Id="" Name="WirelessDoorSwitchStatus"/>
-                <Bind Id="" Name="LocalMotion"/>
-            </Component>
-            <Component Height="1.0" Left="480.0" Name="RC_49"
-                Top="480.0" Width="1.0">
-                <Bind Name="RoomTemp"/>
-                <Bind Name="OccCoolSetpoint"/>
-                <Bind Name="OccHeatSetpoint"/>
-                <Bind Name="UnoccCoolSetpoint"/>
-                <Bind Name="UnoccHeatSetpoint"/>
-                <Bind Name="StandbyCoolSetpoint"/>
-                <Bind Name="StandbyHeatSetpoint"/>
-                <Bind Name="EffectiveOcc"/>
-                <Bind Name="PICoolDemand"/>
-                <Bind Name="PIHeatDemand"/>
-                <Bind Name="OccCommand"/>
-                <Bind Name="SystemMode"/>
-                <Bind Name="NOTE1"/>
-                <Bind Name="LowBattAlarm"/>
-                <Bind Name="FanMode"/>
-                <Bind Name="OutdoorHumidity"/>
-                <Bind Id="" Name="WirelessWindowSwitchStatus"/>
-                <Bind Id="" Name="WirelessDoorSwitchStatus"/>
-                <Bind Id="" Name="LocalMotion"/>
-            </Component>
-            <Component Height="1.0" Left="490.0" Name="RC_50"
-                Top="490.0" Width="1.0">
-                <Bind Name="RoomTemp"/>
-                <Bind Name="OccCoolSetpoint"/>
-                <Bind Name="OccHeatSetpoint"/>
-                <Bind Name="UnoccCoolSetpoint"/>
-                <Bind Name="UnoccHeatSetpoint"/>
-                <Bind Name="StandbyCoolSetpoint"/>
-                <Bind Name="StandbyHeatSetpoint"/>
-                <Bind Name="EffectiveOcc"/>
-                <Bind Name="PICoolDemand"/>
-                <Bind Name="PIHeatDemand"/>
-                <Bind Name="OccCommand"/>
-                <Bind Name="SystemMode"/>
-                <Bind Name="NOTE1"/>
-                <Bind Name="LowBattAlarm"/>
-                <Bind Name="FanMode"/>
-                <Bind Name="OutdoorHumidity"/>
-                <Bind Id="" Name="WirelessWindowSwitchStatus"/>
-                <Bind Id="" Name="WirelessDoorSwitchStatus"/>
-                <Bind Id="" Name="LocalMotion"/>
-            </Component>
-        </Component>
-    </Layer>
+    <Script Name="GS" OnDocumentLoad="load" OnMouseClick="click"
+        OnMouseDown="" OnMouseMove="" OnMouseOut="" OnMouseOver=""
+        OnMouseUp="up" OnSignalChange="change"><![CDATA[var _ = global._;
+
+/**==========================================================================================
+ * Helper Functions
+ */
+global.isUndefined = function(o) {
+	if(typeof(o) === "undefined") {
+		return true;			
+	}
+	return false;	
+};
+
+global.getBool = function(s) {
+	var trueEnum = ["yes", "y", "Yes", "Y", "1", "True", "true", "T", "t", "On", "active"];
+	var i = trueEnum.length;
+	while(i--) {
+		if(String(s) === trueEnum[i]) {
+			return true;
+		}
+	}
+	return false
+};
+
+//checks if object is of type undefined
+if (!Object.isUndefined) {
+	Object.isUndefined = function(object) {
+		return typeof object === "undefined";
+	};
+}
+
+//checks if object is part of DOM, should only be used on nodes (good to check against CDATA)
+if (!Object.isDOM) {
+	Object.isDOM = function(obj) {
+		if (!Object.isUndefined(obj) && obj.nodeName) {
+	    	switch (obj.nodeType) {
+	    		case 1: return 'element';
+	    		case 3: return (/\S/).test(obj.nodeValue) ? 'textnode' : 'whitespace';
+	    	}
+	    }
+	    return false;
+	};
+}
+
+//returns an array children nodes that have a defined attribute, ex: getChildrenByAttribute(view,"Model")
+global.getChildrenByAttribute = function(node, attb){
+	var v = [];
+	if (Object.isDOM(node)) {
+		if (node.hasAttribute(attb)) {
+			if (node.getAttribute(attb)!="") {			
+				v.push(node);
+			}
+		}
+		if (node.hasChildNodes()) {
+			var c = node.getChildNodes();			
+			for(var i = 0; i < c.length; i++) {
+				v = v.concat(global.getChildrenByAttribute(c.item(i), attb));
+			}
+		}
+	}
+	return v;
+}
+
+if (!Object.create) {
+	Object.create = function(base) {
+		function F () {};
+		F.prototype = base;
+		return new F();
+	};
+}
+
+/**==========================================================================================
+ * main Object
+ */
+var main = {		
+	load: function(e) {
+		var tgml = e.getCurrentTarget().getOwnerDocument().getDocumentElement(),
+			children = global.getChildrenByAttribute(tgml, "Model");
+			
+		this.models = {};
+		for(var i = 0, max = children.length; i < max; i += 1) {
+			var child = children[i],
+				model = child.getAttribute("Model"),
+				ctrl = child.getAttribute("Ctrl");
+			alert(model);
+			this.models[model] = Object.create(eval("global." + ctrl));
+			this.models[model].init(child);				
+		}
+	},
+	
+	// change event handler
+	change: function(e) {
+		e.preventDefault();
+		var bind = e.getTarget(),
+			attbList = bind.attributes;
+			
+		for(var i = 0, max = attbList.length; i < max; i += 1) {
+			var attb = attbList.item(i).nodeName;
+			if(this.models.hasOwnProperty(attb)) {
+				this.models[attb].update(e);
+			}
+		}	
+	},
+	
+	// mouse click event handler
+	up: function(e) {
+		var trigger = e.getTarget(),
+			attbList = trigger.attributes;
+			
+		for(var i = 0, max = attbList.length; i < max; i += 1) {
+			var attb = attbList.item(i).nodeName;
+			if(this.models.hasOwnProperty(attb)) {
+				this.models[attb].trigger(e);
+			}
+		}
+	},
+	
+	click: function(e) {
+		e.preventDefault();
+	}	
+};
+
+/**==========================================================================================
+ * Event Callback Functions
+ */
+
+function load(evt){	
+	main.load(evt);
+}
+
+function change(evt) {	
+	main.change(evt);
+}
+
+function click(evt) {
+	main.click(evt);	
+}
+
+function up(evt) {
+	main.up(evt);
+}]]></Script>
 </Tgml>
