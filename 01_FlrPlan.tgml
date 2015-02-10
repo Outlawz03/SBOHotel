@@ -2,7 +2,7 @@
 
 <!--[DocumentInformation]
 Created: 2014-07-09 07:45
-Modified: 2015-02-10 15:37
+Modified: 2015-02-10 16:43
 -->
 <?tgml version="1.21"?><Tgml ComponentCounter="111" GridSize="5"
     Height="900.0" LayerCounter="4" UseGlobalScripts="True" Width="1710.0">
@@ -317,6 +317,23 @@ function load(evt) {
 
 function load(evt) {
 }]]></Script>
+        <Script Name="Animate" OnDocumentLoad="load"><![CDATA[global.Animate = {
+	init: function(node) {
+		this.node = node;
+		this.from = this.node.getAttribute("From");
+		this.to = this.node.getAttribute("To");		
+	},
+	
+	update: function(b) {
+		this.node.setAttribute("Animation", "Stop");
+		this.node.setAttribute("From", b ? this.to : this.from);
+		this.node.setAttribute("To", b ? this.from : this.to);
+		this.node.setAttribute("Animation", "Start");
+	}
+};
+
+function load(evt) {
+}]]></Script>
         <Script Name="Container" OnDocumentLoad="load"><![CDATA[global.Container = {
 	init: function(node) {
 		this.node = node;
@@ -402,8 +419,10 @@ function load(evt) {
 			}
 			this.containers[this.activeContainer].update(true);
 		}	
-		
-		this.rcs[+parentName.slice(-2)].click(e);
+		var num = +parentName.slice(-2);
+		if(_.has(this.rcs, num)) {
+			this.rcs[num].click(e);
+		}
 	}
 };
 
@@ -438,6 +457,7 @@ function load(evt)
 		}
 		
 		this.showView("Monitor");
+		this.binds = {};
 	},	
 	update: function(e) {
 		var bind = e.getTarget(),
@@ -447,9 +467,13 @@ function load(evt)
 			
 		if(!_.has(this.values, parentName)) {
 			this.values[parentName] = {};
+			this.binds[parentName] = {};
 		}
 		
 		this.values[parentName][bindName] = {value: e.getValue(), units: e.getUnit(), name: bindName, attbs: attbList};
+		
+		this.binds[parentName][bindName] = Object.create(global.Bind);
+		this.binds[parentName][bindName].init(bind);
 			
 		if(parentName === this.active) {	
 			for(var i = 0, max = attbList.length; i < max; i += 1) {
@@ -464,7 +488,8 @@ function load(evt)
 		var target = e.getTarget(),
 			parentNode = target.getParentNode(),
 			targetName = String(target.getAttribute("Name")),
-			parentName = String(parentNode.getAttribute("Name"));
+			parentName = String(parentNode.getAttribute("Name")),
+			attbList = target.attributes;;
 
 		if(_.has(this.values, parentName)) {
 			this.active = parentName;
@@ -472,6 +497,14 @@ function load(evt)
 		}
 		if(_.has(this.views, targetName)) {
 			this.showView(targetName);
+		}
+		
+		for(var i = 0, max = attbList.length; i < max; i += 1) {
+			var attb = attbList.item(i).nodeName;
+
+			if(this.models.hasOwnProperty(attb) && this.active !== null && this.binds[this.active].hasOwnProperty(targetName)) {
+				this.models[attb].click(this.binds[this.active][targetName]);
+			}
 		}
 	},
 	sendValues: function() {
@@ -600,32 +633,26 @@ function load(evt) {
 }]]></Script>
         <Script Name="SwitchCtrl" OnDocumentLoad="load"><![CDATA[global.SwitchCtrl = {
 	init: function(node) {
-//		this.node = node;
-//		this.switchAnimate = Object.create(global.Animate);
-//		this.switchAnimate.init(this.node.getChildByName("SwAni"));
+		this.node = node;
+		this.switchAnimate = Object.create(global.Animate);
+		this.switchAnimate.init(this.node.getChildByName("SwAni"));
 		
-//		this.bgdAnimate = Object.create(global.Animate);
-//		this.bgdAnimate.init(this.node.getChildByName("BgAni"));
+		this.bgdAnimate = Object.create(global.Animate);
+		this.bgdAnimate.init(this.node.getChildByName("BgAni"));
 
-//		this.rightValue = +this.node.getAttribute("RightValue");
-//		this.leftValue = +this.node.getAttribute("LeftValue");
-//		this.value = 0;
-		
-//		this.writeable = true;
+		this.rightValue = +this.node.getAttribute("RightValue");
+		this.leftValue = +this.node.getAttribute("LeftValue");
+		this.value = 0;
 	},
 	
 	update: function(sig) {		
-//		this.value = +bind.value;
-//		this.switchAnimate.update(this.value === this.leftValue);
-//		this.bgdAnimate.update(this.value === this.leftValue);
+		this.value = +sig.value;
+		this.switchAnimate.update(this.value === this.leftValue);
+		this.bgdAnimate.update(this.value === this.leftValue);
 	},
 	
 	click: function(bind) {
-//		this.write(bind, this.value === this.rightValue ? this.leftValue : this.rightValue);
-	},
-	
-	write: function(bind, value) {
-//		bind.write(value);
+		bind.write(this.value === this.rightValue ? this.leftValue : this.rightValue);
 	}
 };
 
@@ -1002,6 +1029,10 @@ function load(evt) {
                 <Bind Attribute="" Id="" Name="WirelessDoorSwitchStatus"
                     SE8="" WirelessDoorSwitchStatus=""/>
                 <Bind Id="" LocalMotion="" Name="LocalMotion" SE8=""/>
+                <Bind Id="" Name="Units" SE8="" Units=""/>
+                <Bind Id="" Name="Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Network Units" NetworkUnits="" SE8=""/>
+                <Bind Id="" Name="Network Units.RelinquishDefault" SE8=""/>
             </Component>
         </Component>
     </Layer>
@@ -1328,7 +1359,7 @@ function load(evt) {
                     VerticalAlign="Top" Visibility="Visible"><![CDATA[Settings]]></Text>
             </Group>
             <Group Name="Views">
-                <Group Name="Monitor" Visibility="Visible">
+                <Group Name="Monitor" Visibility="Hidden">
                     <Component Clip="False" ContentHeight="40"
                         ContentWidth="40" Ctrl="SystemModeCtrl"
                         Height="40.0" Id="SystemMode"
@@ -1509,7 +1540,7 @@ function load(evt) {
                         Left="14.898417472839355" Name="RoomTemp"
                         Opacity="1.0" Prefix="" ShowUnits="true"
                         Stroke="#626469" SubModel="RoomTemp" Suffix=""
-                        TextDecoration="None" Top="244.0968837738037" VerticalAlign="Top"><![CDATA[88.8°C]]></Text>
+                        TextDecoration="None" Top="244.0968837738037" VerticalAlign="Top"><![CDATA[--.-]]></Text>
                     <Text Ctrl="HideTextCtrl" FontFamily="Arial"
                         FontSize="16.0" FontStyle="Normal"
                         FontWeight="Normal" HorizontalAlign="Left"
@@ -1536,7 +1567,7 @@ function load(evt) {
                         Left="9.898417472839355" Name="Setpoint"
                         Opacity="1.0" Stroke="#626469"
                         SubModel="Setpoint" TextDecoration="None"
-                        Top="154.0968837738037" VerticalAlign="Top"><![CDATA[88.8]]></Text>
+                        Top="154.0968837738037" VerticalAlign="Top"><![CDATA[--.-]]></Text>
                     <Path ColorFalse="#009530" ColorTrue="#FF0000"
                         Ctrl="DigitalPathColorCtrl" Fill="#E0E0E0" Id=""
                         Name="WirelessWindowSwitchStatus"
@@ -1593,7 +1624,7 @@ function load(evt) {
                         Stroke="#FFFFFF" TextDecoration="None"
                         Top="341.3238220214844" VerticalAlign="Top"><![CDATA[Override Closed]]></Text>
                 </Group>
-                <Group Id="" Name="Control" Visibility="Hidden">
+                <Group Id="" Name="Control" Visibility="Visible">
                     <Text FontFamily="Arial" FontSize="18"
                         FontStyle="Normal" FontWeight="Normal"
                         HorizontalAlign="Right"
@@ -1606,101 +1637,125 @@ function load(evt) {
                         Left="129.53871285915375" Opacity="1.0"
                         Stroke="#000000" TextDecoration="None"
                         Top="94.27167510986328" VerticalAlign="Top"><![CDATA[Guestroom Units]]></Text>
-                    <Text FontFamily="Arial" FontSize="15.0"
-                        FontStyle="Normal" FontWeight="Normal"
-                        HorizontalAlign="Left" Left="22.002521514892578"
-                        Opacity="1.0" Stroke="#000000"
-                        TextDecoration="None" Top="121.89235651493073" VerticalAlign="Top"><![CDATA[°C]]></Text>
-                    <Component Clip="False" ContentHeight="22.0"
-                        ContentWidth="40.0" Ctrl="SwitchCtrl"
-                        Height="22.0" Id="Units"
-                        Left="43.34064042568207" LeftValue="1" Name=""
-                        RightValue="2" SubModel="UnitSwitch"
-                        Top="114.99894714355469" Width="40.0">
-                        <Expose ExposedAttribute="LeftValue" Name="Left Value"/>
-                        <Expose ExposedAttribute="RightValue" Name="Right Value"/>
-                        <Rectangle Fill="#87D300" Height="20.0"
-                            Left="0.0" Name="Background" Opacity="1.0"
-                            RadiusX="10" RadiusY="10" Stroke="#9FA0A4"
-                            StrokeDashArray="0.0" StrokeWidth="1.0"
-                            Top="0.0" Width="40.0">
-                            <Animate Animation="Stop" Attribute="Fill"
-                                CalcMode="Linear" Duration=".25"
-                                Freeze="True" From="#87D300"
-                                Name="BgAni" Repeat="1" To="#CCCCCC"/>
-                        </Rectangle>
+                    <Component Clip="False" ContentHeight="23.65"
+                        ContentWidth="80.16" Ctrl="SwitchCtrl"
+                        Height="23.65" Left="22.0" LeftValue="1"
+                        Name="Temperature Scale" RightValue="2"
+                        SubModel="Units" Top="115.0" Width="80.16">
+                        <Text FontFamily="Arial" FontSize="15.0"
+                            FontStyle="Normal" FontWeight="Normal"
+                            HorizontalAlign="Left"
+                            Left="0.002521514892578" Opacity="1.0"
+                            Stroke="#000000" TextDecoration="None"
+                            Top="6.892356514930725" VerticalAlign="Top"><![CDATA[°C]]></Text>
                         <Component Clip="False" ContentHeight="22.0"
-                            ContentWidth="20.5" Height="22.0" Left="0.0"
-                            Name="Switch" Top="0.0" Width="20.5">
-                            <Ellipse Fill="#2F000000" Height="20.0"
-                                Left="0.500034689903259" Opacity="1.0"
-                                Stroke="None" StrokeDashArray="0.0"
-                                StrokeWidth="1.0" Top="2.0" Width="20.0"/>
-                            <Ellipse Fill="#EEEEEE" Height="20.0"
-                                Left="0.0" Opacity="1.0"
-                                Stroke="#808080" StrokeDashArray="0.0"
-                                StrokeWidth="1.0" Top="0.0" Width="20.0"/>
-                            <Animate Animation="Stop" Attribute="Left"
-                                CalcMode="Linear" Duration=".25"
-                                Freeze="True" From="20" Name="SwAni"
-                                Repeat="1" To="0"/>
+                            ContentWidth="40.0" Height="22.0"
+                            Left="21.34" Top="0.0" Width="40.0">
+                            <Rectangle Fill="#87D300" Height="20.0"
+                                Left="0.000640869140625"
+                                Name="Background" Opacity="1.0"
+                                RadiusX="10" RadiusY="10"
+                                Stroke="#9FA0A4" StrokeDashArray="0.0"
+                                StrokeWidth="1.0"
+                                Top="-0.001052856445312" Width="40.0">
+                                <Animate Animation="Stop"
+                                    Attribute="Fill" CalcMode="Linear"
+                                    Duration=".25" Freeze="True"
+                                    From="#CCCCCC" Name="BgAni"
+                                    Repeat="1" To="#87D300"/>
+                            </Rectangle>
+                            <Component Clip="False" ContentHeight="22.0"
+                                ContentWidth="20.5" Height="22.0"
+                                Left="0.000640869140625" Name="Switch"
+                                Top="-0.001052856445312" Width="20.5">
+                                <Ellipse Fill="#2F000000" Height="20.0"
+                                    Left="0.500034689903259"
+                                    Opacity="1.0" Stroke="None"
+                                    StrokeDashArray="0.0"
+                                    StrokeWidth="1.0" Top="2.0" Width="20.0"/>
+                                <Ellipse Fill="#EEEEEE" Height="20.0"
+                                    Left="0.0" Opacity="1.0"
+                                    Stroke="#808080"
+                                    StrokeDashArray="0.0"
+                                    StrokeWidth="1.0" Top="0.0" Width="20.0"/>
+                                <Animate Animation="Stop"
+                                    Attribute="Left" CalcMode="Linear"
+                                    Duration=".25" Freeze="True"
+                                    From="0" Name="SwAni" Repeat="1" To="20"/>
+                            </Component>
                         </Component>
+                        <Text FontFamily="Arial" FontSize="15.0"
+                            FontStyle="Normal" FontWeight="Normal"
+                            HorizontalAlign="Left"
+                            Left="65.00252151489258" Opacity="1.0"
+                            Stroke="#000000" TextDecoration="None"
+                            Top="6.892356514930725" VerticalAlign="Top"><![CDATA[°F]]></Text>
+                        <TargetArea Height="23.65" Left="0.0"
+                            Name="Units.RelinquishDefault" SE8=""
+                            Top="0.0" Units="" Width="80.16"/>
                     </Component>
-                    <Text FontFamily="Arial" FontSize="15.0"
-                        FontStyle="Normal" FontWeight="Normal"
-                        HorizontalAlign="Left" Left="87.00252151489258"
-                        Opacity="1.0" Stroke="#000000"
-                        TextDecoration="None" Top="121.89235651493073" VerticalAlign="Top"><![CDATA[°F]]></Text>
                     <Text FontFamily="Arial" FontSize="15.0"
                         FontStyle="Normal" FontWeight="Normal"
                         HorizontalAlign="Right"
                         Left="300.35670602321625" Opacity="1.0"
                         Stroke="#000000" TextDecoration="None"
-                        Top="94.27167510986328" VerticalAlign="Top"><![CDATA[Display Units]]></Text>
-                    <Text FontFamily="Arial" FontSize="15.0"
-                        FontStyle="Normal" FontWeight="Normal"
-                        HorizontalAlign="Left" Left="217.8206423521042"
-                        Opacity="1.0" Stroke="#000000"
-                        TextDecoration="None" Top="121.89235651493073" VerticalAlign="Top"><![CDATA[°C]]></Text>
-                    <Component Clip="False" ContentHeight="22.0"
-                        ContentWidth="40.0" Height="22.0"
-                        Id="Network Units" Left="238.34064042568207"
-                        LeftValue="1" Name="" RightValue="2"
-                        Top="114.99894714355469" Width="40.0">
-                        <Expose ExposedAttribute="LeftValue" Name="Left Value"/>
-                        <Expose ExposedAttribute="RightValue" Name="Right Value"/>
-                        <Rectangle Fill="#87D300" Height="20.0"
-                            Left="0.0" Name="Background" Opacity="1.0"
-                            RadiusX="10" RadiusY="10" Stroke="#9FA0A4"
-                            StrokeDashArray="0.0" StrokeWidth="1.0"
-                            Top="0.0" Width="40.0">
-                            <Animate Animation="Stop" Attribute="Fill"
-                                CalcMode="Linear" Duration=".25"
-                                Freeze="True" From="#87D300"
-                                Name="BgAni" Repeat="1" To="#CCCCCC"/>
-                        </Rectangle>
+                        Top="94.27167510986328" VerticalAlign="Top"><![CDATA[Network Units]]></Text>
+                    <Component Clip="False" ContentHeight="23.65"
+                        ContentWidth="80.16" Ctrl="SwitchCtrl"
+                        Height="23.65" Left="217.82" LeftValue="1"
+                        Name="Network Units" RightValue="2"
+                        SubModel="NetworkUnits" Top="115.0" Width="80.16">
+                        <Text FontFamily="Arial" FontSize="15.0"
+                            FontStyle="Normal" FontWeight="Normal"
+                            HorizontalAlign="Left"
+                            Left="0.000635027885437" Opacity="1.0"
+                            Stroke="#000000" TextDecoration="None"
+                            Top="6.892356514930725" VerticalAlign="Top"><![CDATA[°C]]></Text>
                         <Component Clip="False" ContentHeight="22.0"
-                            ContentWidth="20.5" Height="22.0" Left="0.0"
-                            Name="Switch" Top="0.0" Width="20.5">
-                            <Ellipse Fill="#2F000000" Height="20.0"
-                                Left="0.500034689903259" Opacity="1.0"
-                                Stroke="None" StrokeDashArray="0.0"
-                                StrokeWidth="1.0" Top="2.0" Width="20.0"/>
-                            <Ellipse Fill="#EEEEEE" Height="20.0"
-                                Left="0.0" Opacity="1.0"
-                                Stroke="#808080" StrokeDashArray="0.0"
-                                StrokeWidth="1.0" Top="0.0" Width="20.0"/>
-                            <Animate Animation="Stop" Attribute="Left"
-                                CalcMode="Linear" Duration=".25"
-                                Freeze="True" From="20" Name="SwAni"
-                                Repeat="1" To="0"/>
+                            ContentWidth="40.0" Height="22.0" Id=""
+                            Left="20.520633101463318" LeftValue="1"
+                            Name="" RightValue="2"
+                            Top="-0.001052856445312" Width="40.0">
+                            <Rectangle Fill="#87D300" Height="20.0"
+                                Left="0.0" Name="Background"
+                                Opacity="1.0" RadiusX="10" RadiusY="10"
+                                Stroke="#9FA0A4" StrokeDashArray="0.0"
+                                StrokeWidth="1.0" Top="0.0" Width="40.0">
+                                <Animate Animation="Stop"
+                                    Attribute="Fill" CalcMode="Linear"
+                                    Duration=".25" Freeze="True"
+                                    From="#CCCCCC" Name="BgAni"
+                                    Repeat="1" To="#87D300"/>
+                            </Rectangle>
+                            <Component Clip="False" ContentHeight="22.0"
+                                ContentWidth="20.5" Height="22.0"
+                                Left="0.0" Name="Switch" Top="0.0" Width="20.5">
+                                <Ellipse Fill="#2F000000" Height="20.0"
+                                    Left="0.500034689903259"
+                                    Opacity="1.0" Stroke="None"
+                                    StrokeDashArray="0.0"
+                                    StrokeWidth="1.0" Top="2.0" Width="20.0"/>
+                                <Ellipse Fill="#EEEEEE" Height="20.0"
+                                    Left="0.0" Opacity="1.0"
+                                    Stroke="#808080"
+                                    StrokeDashArray="0.0"
+                                    StrokeWidth="1.0" Top="0.0" Width="20.0"/>
+                                <Animate Animation="Stop"
+                                    Attribute="Left" CalcMode="Linear"
+                                    Duration=".25" Freeze="True"
+                                    From="0" Name="SwAni" Repeat="1" To="20"/>
+                            </Component>
                         </Component>
+                        <Text FontFamily="Arial" FontSize="15.0"
+                            FontStyle="Normal" FontWeight="Normal"
+                            HorizontalAlign="Left"
+                            Left="65.00063502788544" Opacity="1.0"
+                            Stroke="#000000" TextDecoration="None"
+                            Top="6.892356514930725" VerticalAlign="Top"><![CDATA[°F]]></Text>
+                        <TargetArea Height="23.65" Left="0.0"
+                            Name="Network Units.RelinquishDefault"
+                            NetworkUnits="" SE8="" Top="0.0" Width="80.16"/>
                     </Component>
-                    <Text FontFamily="Arial" FontSize="15.0"
-                        FontStyle="Normal" FontWeight="Normal"
-                        HorizontalAlign="Left" Left="282.8206423521042"
-                        Opacity="1.0" Stroke="#000000"
-                        TextDecoration="None" Top="121.89235651493073" VerticalAlign="Top"><![CDATA[°F]]></Text>
                     <Component Clip="False" ContentHeight="50.0"
                         ContentWidth="50.0" GridSize="10" Height="50.0"
                         Id="Ventilation_Icon" Left="37.00152146816254"
@@ -4854,8 +4909,6 @@ function load(evt) {
                     SE8="" Top="0.0" Width="108.0"/>
                 <TargetArea Height="49.0" Left="215.0" Name="Settings"
                     SE8="" Top="0.0" Width="103.0"/>
-                <TargetArea Height="30.0" Left="20.0"
-                    Name="Temperature Scale" SE8="" Top="110.0" Units="" Width="85.0"/>
             </Group>
         </Component>
         <Component Clip="False" ContentHeight="150.0"
