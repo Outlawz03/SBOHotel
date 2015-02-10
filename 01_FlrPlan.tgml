@@ -2,7 +2,7 @@
 
 <!--[DocumentInformation]
 Created: 2014-07-09 07:45
-Modified: 2015-02-10 11:33
+Modified: 2015-02-10 12:56
 -->
 <?tgml version="1.21"?><Tgml ComponentCounter="111" GridSize="5"
     Height="900.0" LayerCounter="4" UseGlobalScripts="True" Width="1710.0">
@@ -964,7 +964,7 @@ function load(evt) {
 
 function load(evt) {
 }]]></Script>
-        <Script Name="HideTextCtrl" OnDocumentLoad="load"><![CDATA[global.ViewCtrl = {
+        <Script Name="HideTextCtrl" OnDocumentLoad="load"><![CDATA[global.HideTextCtrl = {
 	init: function() {
 	},
 	update: function() {
@@ -1303,7 +1303,7 @@ function load(evt) {
                 StrokeWidth="1.0" Top="50.0" Visibility="Visible" Width="320.0"/>
             <Text Ctrl="NOTE1Ctrl" FontFamily="Arial" FontSize="19.0"
                 FontStyle="Normal" FontWeight="Normal"
-                HorizontalAlign="Left" Left="19.0" Model="NOTE1"
+                HorizontalAlign="Left" Left="19.0" Model="SE8NOTE1"
                 Name="RmName" Opacity="1.0" Stroke="#626469"
                 TextDecoration="None" Top="55.0" VerticalAlign="Top" Visibility="Visible"><![CDATA[...]]></Text>
             <Rectangle Fill="None" Height="500" Left="0.0"
@@ -1515,15 +1515,16 @@ function load(evt) {
                         FontSize="16.0" FontStyle="Normal"
                         FontWeight="Normal" HorizontalAlign="Left"
                         Left="129.89841747283936" Model="HumidityLabel"
-                        Name="Label" Opacity="1.0" Stroke="#626469"
-                        TextDecoration="None" Top="289.0968837738037" VerticalAlign="Top"><![CDATA[Humidity]]></Text>
+                        Name="Humidity Label" Opacity="1.0"
+                        Stroke="#626469" TextDecoration="None"
+                        Top="289.0968837738037" VerticalAlign="Top"><![CDATA[Humidity]]></Text>
                     <Text Ctrl="ShowAVCtrl" Decimals="0"
                         FontFamily="Arial" FontSize="28.0"
                         FontStyle="Normal" FontWeight="Normal"
                         HorizontalAlign="Left" Left="14.898417472839355"
-                        Name="Value" Opacity="1.0" Stroke="#626469"
-                        TextDecoration="None" Top="284.0968837738037"
-                        VerticalAlign="Top" Visibility="Visible"><![CDATA[45%]]></Text>
+                        Name="Humidity Value" Opacity="1.0"
+                        Stroke="#626469" TextDecoration="None"
+                        Top="284.0968837738037" VerticalAlign="Top" Visibility="Visible"><![CDATA[45%]]></Text>
                     <Path ColorFalse="#C0C0C0" ColorTrue="#009530"
                         Ctrl="DigitalPathColorCtrl" Fill="#E0E0E0" Id=""
                         Model="LocalMotion" Name="LocalMotion"
@@ -5088,7 +5089,7 @@ var main = {
 			var child = children[i],
 				model = child.getAttribute("Model"),
 				ctrl = child.getAttribute("Ctrl");
-			alert(model);
+
 			this.models[model] = Object.create(eval("global." + ctrl));
 			this.models[model].init(child);				
 		}
