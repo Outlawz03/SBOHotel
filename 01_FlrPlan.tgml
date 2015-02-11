@@ -2,7 +2,7 @@
 
 <!--[DocumentInformation]
 Created: 2014-07-09 07:45
-Modified: 2015-02-10 17:44
+Modified: 2015-02-11 09:29
 -->
 <?tgml version="1.21"?><Tgml ComponentCounter="169" GridSize="5"
     Height="900.0" LayerCounter="4" UseGlobalScripts="True" Width="1710.0">
@@ -501,14 +501,15 @@ function load(evt)
 		
 		for(var i = 0, max = attbList.length; i < max; i += 1) {
 			var attb = attbList.item(i).nodeName;
-
+			
 			if(this.models.hasOwnProperty(attb) && this.active !== null && this.binds[this.active].hasOwnProperty(targetName)) {
-				if(!this.models[attb].click(this.binds[this.active][targetName])) {
-					var name = targetName.split(".")[0];
-					if(this.binds[this.active].hasOwnProperty(name)) {
-						this.models[attb].click(this.binds[this.active][name]);
-					}
-				}
+				this.models[attb].click(this.binds[this.active][targetName])
+//				if(!this.models[attb].click(this.binds[this.active][targetName])) {
+//					var name = targetName.split(".")[0];
+//					if(this.binds[this.active].hasOwnProperty(name)) {
+//						this.models[attb].click(this.binds[this.active][name]);
+//					}
+//				}
 			}
 		}
 	},
@@ -652,8 +653,8 @@ function load(evt) {
 	
 	update: function(sig) {		
 		this.value = +sig.value;
-		this.switchAnimate.update(this.value === this.leftValue);
-		this.bgdAnimate.update(this.value === this.leftValue);
+		this.switchAnimate.update(this.value === this.rightValue);
+		this.bgdAnimate.update(this.value === this.rightValue);
 	},
 	
 	click: function(bind) {
@@ -1004,6 +1005,73 @@ function load(evt) {
 
 function load(evt) {
 }]]></Script>
+        <Script Name="SwitchMPMCtrl" OnDocumentLoad="load"><![CDATA[global.SwitchMPMCtrl = {
+	init: function(node) {
+		this.node = node;
+		this.switchAnimate = Object.create(global.Animate);
+		this.switchAnimate.init(this.node.getChildByName("SwAni"));
+		
+		this.bgdAnimate = Object.create(global.Animate);
+		this.bgdAnimate.init(this.node.getChildByName("BgAni"));
+
+		this.value = false;
+	},
+	
+	update: function(sig) {		
+		this.value = global.getBool(sig.value);
+		this.switchAnimate.update(this.value);
+		this.bgdAnimate.update(this.value);
+	},
+	
+	click: function(bind) {
+		return bind.write(!this.value);
+	}
+};
+
+function load(evt) {
+}]]></Script>
+        <Script Name="FanMenuCtrl" OnDocumentLoad="load"><![CDATA[global.FanMenuCtrl = {
+	init: function(node) {
+		this.node = node;
+		this.menus = [];
+		if(this.node.hasAttribute("Menus")) {
+			this.menus = String(this.node.getAttribute("Menus")).split(",");
+		}
+	},
+	
+	update: function(sig) {
+		var visibility = "Hidden";
+		_.each(this.menus, function(val) {
+			if(+val === +sig.value) {
+				visibility = "Visible";
+			}
+		});
+		this.node.setAttribute("Visibility", visibility);
+	}
+};
+
+function load(evt) {
+}]]></Script>
+        <Script Name="FanModeSelect" OnDocumentLoad="load"><![CDATA[global.FanModeSelect = {
+	init: function(node) {
+		this.node = node;
+		this.mode = 0;
+		if(this.node.hasAttribute("Mode")) {
+			this.mode = +this.node.getAttribute("Mode");
+		}
+	},
+	
+	update: function(sig) {
+		this.node.setAttribute("Fill", this.mode === +sig.value ? "#87D300" : "CCCCCC");
+	},
+	
+	click: function(bind) {
+		bind.write(this.mode);
+	}
+};
+
+function load(evt) {
+}]]></Script>
     </Layer>
     <Layer Name="Binds">
         <Component Clip="False" ContentHeight="491.0"
@@ -1027,7 +1095,9 @@ function load(evt) {
                 <Bind NOTE1="" Name="NOTE1" RCManager="" SE8=""/>
                 <Bind Header="" Name="LowBattAlarm" Occupancy=""
                     RCManager="" SE8=""/>
-                <Bind FanMode="" Name="FanMode" RCManager="" SE8=""/>
+                <Bind FanAutoMode="" FanHighMode="" FanLowMode=""
+                    FanMedMode="" FanMode="" FanOnMode="" Name="FanMode"
+                    RCManager="" SE8=""/>
                 <Bind Humidity="" HumidityLabel=""
                     Name="OutdoorHumidity" SE8=""/>
                 <Bind Id="" Name="WirelessWindowSwitchStatus" SE8="" WirelessWindowSwitchStatus=""/>
@@ -1035,9 +1105,11 @@ function load(evt) {
                     SE8="" WirelessDoorSwitchStatus=""/>
                 <Bind Id="" LocalMotion="" Name="LocalMotion" SE8=""/>
                 <Bind Id="" Name="Units" SE8="" Units=""/>
-                <Bind Id="" Name="Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Units.RelinquishDefault"/>
                 <Bind Id="" Name="Network Units" NetworkUnits="" SE8=""/>
-                <Bind Id="" Name="Network Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Network Units.RelinquishDefault"/>
+                <Bind FanAutoMenu="" FanHighMenu="" FanLowMenu=""
+                    FanMedMenu="" FanOnMenu="" Id="" Name="FanMenu" SE8=""/>
             </Component>
             <Component Height="1.0" Left="10.0" Name="RC_02" Top="10.0" Width="1.0">
                 <Bind Name="RoomTemp" RCManager="" RoomTemp="" SE8=""/>
@@ -3153,7 +3225,7 @@ function load(evt) {
                         Stroke="#000000" TextDecoration="None"
                         Top="94.27167510986328" VerticalAlign="Top"><![CDATA[Guestroom Units]]></Text>
                     <Component Clip="False" ContentHeight="23.65"
-                        ContentWidth="80.16" Ctrl="SwitchCtrl"
+                        ContentWidth="80.16" Ctrl="SwitchMPMCtrl"
                         Height="23.65" Left="22.0" LeftValue="1"
                         Name="Temperature Scale" RightValue="2"
                         SubModel="Units" Top="115.0" Width="80.16">
@@ -3176,8 +3248,8 @@ function load(evt) {
                                 <Animate Animation="Stop"
                                     Attribute="Fill" CalcMode="Linear"
                                     Duration=".25" Freeze="True"
-                                    From="#CCCCCC" Name="BgAni"
-                                    Repeat="1" To="#87D300"/>
+                                    From="#87D300" Name="BgAni"
+                                    Repeat="1" To="#CCCCCC"/>
                             </Rectangle>
                             <Component Clip="False" ContentHeight="22.0"
                                 ContentWidth="20.5" Height="22.0"
@@ -3196,7 +3268,7 @@ function load(evt) {
                                 <Animate Animation="Stop"
                                     Attribute="Left" CalcMode="Linear"
                                     Duration=".25" Freeze="True"
-                                    From="0" Name="SwAni" Repeat="1" To="20"/>
+                                    From="20" Name="SwAni" Repeat="1" To="0"/>
                             </Component>
                         </Component>
                         <Text FontFamily="Arial" FontSize="15.0"
@@ -3206,8 +3278,7 @@ function load(evt) {
                             Stroke="#000000" TextDecoration="None"
                             Top="6.892356514930725" VerticalAlign="Top"><![CDATA[°F]]></Text>
                         <TargetArea Height="23.65" Left="0.0"
-                            Name="Units.RelinquishDefault" SE8=""
-                            Top="0.0" Units="" Width="80.16"/>
+                            Name="Units" SE8="" Top="0.0" Units="" Width="80.16"/>
                     </Component>
                     <Text FontFamily="Arial" FontSize="15.0"
                         FontStyle="Normal" FontWeight="Normal"
@@ -3216,7 +3287,7 @@ function load(evt) {
                         Stroke="#000000" TextDecoration="None"
                         Top="94.27167510986328" VerticalAlign="Top"><![CDATA[Network Units]]></Text>
                     <Component Clip="False" ContentHeight="23.65"
-                        ContentWidth="80.16" Ctrl="SwitchCtrl"
+                        ContentWidth="80.16" Ctrl="SwitchMPMCtrl"
                         Height="23.65" Left="217.82" LeftValue="1"
                         Name="Network Units" RightValue="2"
                         SubModel="NetworkUnits" Top="115.0" Width="80.16">
@@ -3239,8 +3310,8 @@ function load(evt) {
                                 <Animate Animation="Stop"
                                     Attribute="Fill" CalcMode="Linear"
                                     Duration=".25" Freeze="True"
-                                    From="#CCCCCC" Name="BgAni"
-                                    Repeat="1" To="#87D300"/>
+                                    From="#87D300" Name="BgAni"
+                                    Repeat="1" To="#CCCCCC"/>
                             </Rectangle>
                             <Component Clip="False" ContentHeight="22.0"
                                 ContentWidth="20.5" Height="22.0"
@@ -3258,7 +3329,7 @@ function load(evt) {
                                 <Animate Animation="Stop"
                                     Attribute="Left" CalcMode="Linear"
                                     Duration=".25" Freeze="True"
-                                    From="0" Name="SwAni" Repeat="1" To="20"/>
+                                    From="20" Name="SwAni" Repeat="1" To="0"/>
                             </Component>
                         </Component>
                         <Text FontFamily="Arial" FontSize="15.0"
@@ -3268,8 +3339,8 @@ function load(evt) {
                             Stroke="#000000" TextDecoration="None"
                             Top="6.892356514930725" VerticalAlign="Top"><![CDATA[°F]]></Text>
                         <TargetArea Height="23.65" Left="0.0"
-                            Name="Network Units.RelinquishDefault"
-                            NetworkUnits="" SE8="" Top="0.0" Width="80.16"/>
+                            Name="Network Units" NetworkUnits="" SE8=""
+                            Top="0.0" Width="80.16"/>
                     </Component>
                     <Component Clip="False" ContentHeight="50.0"
                         ContentWidth="50.0" GridSize="10" Height="50.0"
@@ -3280,22 +3351,27 @@ function load(evt) {
                             <Expose ExposedAttribute="Fill" Name="IconSymbolFill"/>
                         </Path>
                     </Component>
-                    <Group Id="FanAuto">
+                    <Component Clip="False" ContentHeight="36.76"
+                        ContentWidth="30.86" Ctrl="FanMenuCtrl"
+                        Height="36.76000000000002" Left="112.0"
+                        Menus="3,4,5" Name="FanAuto"
+                        SubModel="FanAutoMenu" Top="145.72999755859374" Width="30.860000000000014">
                         <Component Clip="False" ContentHeight="15.0"
                             ContentWidth="15.0" Fill="#87D300"
-                            Height="20.0" Id="FanAuto"
-                            Left="117.00052146811504" Name=""
-                            Push="#3F000000" RadioButtonValue="4"
-                            Stroke="#404040" Top="145.72594714164734"
+                            Height="20.0" Id="" Left="5.000521468115039"
+                            Name="FanAuto" Push="#3F000000"
+                            RadioButtonValue="4" Stroke="#404040"
+                            Top="-0.004050374031067"
                             Visibility="Visible" Width="20.0">
                             <Expose
                                 Description="The color of the radio button."
                                 ExposedAttribute="Fill" Name="ButtonColor"/>
                             <Expose ExposedAttribute="Stroke" Name="ButtonEdge"/>
-                            <Ellipse Height="12.0" Left="1.5"
-                                Name="Background" Opacity="1.0"
-                                Stroke="#FFFFFF" StrokeDashArray="0.0"
-                                StrokeWidth="4.0" Top="1.5"
+                            <Ellipse Ctrl="FanModeSelect" Height="12.0"
+                                Left="1.5" Mode="4" Name="Background"
+                                Opacity="1.0" Stroke="#FFFFFF"
+                                StrokeDashArray="0.0" StrokeWidth="4.0"
+                                SubModel="FanAutoMode" Top="1.5"
                                 Visibility="Visible" Width="12.0"/>
                             <Ellipse Fill="None" Height="7.0" Left="4.0"
                                 Name="EditMode" Opacity="1.0"
@@ -3307,50 +3383,40 @@ function load(evt) {
                                     <GradientStop Color="#19000000" Offset="1"/>
                                 </LinearGradient>
                             </Ellipse>
-                            <Expose
-                                Description="The value to set and indicate."
-                                ExposedAttribute="RadioButtonValue" Name="RadioButtonValue"/>
-                            <Ellipse Fill="None" Height="15.0"
-                                Left="0.0" Name="Hover" Opacity="1.0"
-                                Stroke="None" StrokeDashArray="0.0"
-                                StrokeWidth="1.0" Top="0.0"
-                                Visibility="Hidden" Width="15.0">
-                                <LinearGradient EndPoint="0.0,1.0">
-                                    <GradientStop Color="None" Offset="0.0"/>
-                                    <GradientStop Color="#FFFFFF" Offset="1.0">
-                                    <Expose
-                                    Description="The color of the hover indication."
-                                    ExposedAttribute="Color" Name="HoverColor"/>
-                                    </GradientStop>
-                                </LinearGradient>
-                            </Ellipse>
                             <Ellipse Fill="None" Height="13.0"
                                 Left="1.0" Name="Edge" Top="1.0" Width="13.0"/>
-                            <TargetArea Height="15.0" Left="0.0"
+                            <TargetArea FanAutoMode="" Height="15.0"
+                                Left="0.0" Name="FanMode" SE8=""
                                 Top="0.0" Width="15.0"/>
                         </Component>
                         <Text FontFamily="Arial" FontSize="15.0"
                             FontStyle="Normal" FontWeight="Normal"
                             HorizontalAlign="Left"
-                            Left="112.00052146811504" Opacity="1.0"
-                            Stroke="#808080" TextDecoration="None"
-                            Top="165.72594714164734" VerticalAlign="Top"><![CDATA[Auto]]></Text>
-                    </Group>
-                    <Group Id="FanLow">
+                            Left="0.000521468115039" Name="Label"
+                            Opacity="1.0" Stroke="#808080"
+                            TextDecoration="None"
+                            Top="19.995949625968933" VerticalAlign="Top"><![CDATA[Auto]]></Text>
+                    </Component>
+                    <Component Clip="False" ContentHeight="36.76"
+                        ContentWidth="27.52" Ctrl="FanMenuCtrl"
+                        Height="36.76000000000002" Left="151.0"
+                        Menus="1,2,3,4" Name="FanLow"
+                        SubModel="FanLowMenu" Top="145.72999755859374" Width="27.519999999999982">
                         <Component Clip="False" ContentHeight="15.0"
                             ContentWidth="15.0" Fill="#87D300"
-                            Height="20.0" Id="FanLow"
-                            Left="156.00052146811504" Name=""
-                            Push="#3F000000" RadioButtonValue="1"
-                            Stroke="#404040" Top="145.72594714164734" Width="20.0">
+                            Height="20.0" Id="" Left="5.000521468115039"
+                            Name="FanLow" Push="#3F000000"
+                            RadioButtonValue="1" Stroke="#404040"
+                            Top="-0.004050374031067" Width="20.0">
                             <Expose
                                 Description="The color of the radio button."
                                 ExposedAttribute="Fill" Name="ButtonColor"/>
                             <Expose ExposedAttribute="Stroke" Name="ButtonEdge"/>
-                            <Ellipse Height="12.0" Left="1.5"
-                                Name="Background" Opacity="1.0"
-                                Stroke="#FFFFFF" StrokeDashArray="0.0"
-                                StrokeWidth="4.0" Top="1.5"
+                            <Ellipse Ctrl="FanModeSelect" Height="12.0"
+                                Left="1.5" Mode="1" Name="Background"
+                                Opacity="1.0" Stroke="#FFFFFF"
+                                StrokeDashArray="0.0" StrokeWidth="4.0"
+                                SubModel="FanLowMode" Top="1.5"
                                 Visibility="Visible" Width="12.0"/>
                             <Ellipse Fill="None" Height="7.0" Left="4.0"
                                 Name="EditMode" Opacity="1.0"
@@ -3362,50 +3428,40 @@ function load(evt) {
                                     <GradientStop Color="#19000000" Offset="1"/>
                                 </LinearGradient>
                             </Ellipse>
-                            <Expose
-                                Description="The value to set and indicate."
-                                ExposedAttribute="RadioButtonValue" Name="RadioButtonValue"/>
-                            <Ellipse Fill="None" Height="15.0"
-                                Left="0.0" Name="Hover" Opacity="1.0"
-                                Stroke="None" StrokeDashArray="0.0"
-                                StrokeWidth="1.0" Top="0.0"
-                                Visibility="Hidden" Width="15.0">
-                                <LinearGradient EndPoint="0.0,1.0">
-                                    <GradientStop Color="None" Offset="0.0"/>
-                                    <GradientStop Color="#FFFFFF" Offset="1.0">
-                                    <Expose
-                                    Description="The color of the hover indication."
-                                    ExposedAttribute="Color" Name="HoverColor"/>
-                                    </GradientStop>
-                                </LinearGradient>
-                            </Ellipse>
                             <Ellipse Fill="None" Height="13.0"
                                 Left="1.0" Name="Edge" Top="1.0" Width="13.0"/>
-                            <TargetArea Height="15.0" Left="0.0"
+                            <TargetArea FanLowMode="" Height="15.0"
+                                Left="0.0" Name="FanMode" SE8=""
                                 Top="0.0" Width="15.0"/>
                         </Component>
                         <Text FontFamily="Arial" FontSize="15.0"
                             FontStyle="Normal" FontWeight="Normal"
                             HorizontalAlign="Left"
-                            Left="151.00052146811504" Opacity="1.0"
-                            Stroke="#808080" TextDecoration="None"
-                            Top="165.72594714164734" VerticalAlign="Top"><![CDATA[Low]]></Text>
-                    </Group>
-                    <Group Id="FanMed">
+                            Left="0.000521468115039" Name="Label"
+                            Opacity="1.0" Stroke="#808080"
+                            TextDecoration="None"
+                            Top="19.995949625968933" VerticalAlign="Top"><![CDATA[Low]]></Text>
+                    </Component>
+                    <Component Clip="False" ContentHeight="36.76"
+                        ContentWidth="29.18" Ctrl="FanMenuCtrl"
+                        Height="36.76000000000002" Left="190.0"
+                        Menus="1,3" Name="FanMed" SubModel="FanMedMenu"
+                        Top="145.72999755859374" Width="29.180000000000007">
                         <Component Clip="False" ContentHeight="15.0"
                             ContentWidth="15.0" Fill="#87D300"
-                            Height="20.0" Id="FanMed"
-                            Left="195.00052146811504" Name=""
-                            Push="#3F000000" RadioButtonValue="2"
-                            Stroke="#404040" Top="145.72594714164734" Width="20.0">
+                            Height="20.0" Id="" Left="5.000521468115039"
+                            Name="FanMed" Push="#3F000000"
+                            RadioButtonValue="2" Stroke="#404040"
+                            Top="-0.004050374031067" Width="20.0">
                             <Expose
                                 Description="The color of the radio button."
                                 ExposedAttribute="Fill" Name="ButtonColor"/>
                             <Expose ExposedAttribute="Stroke" Name="ButtonEdge"/>
-                            <Ellipse Height="12.0" Left="1.5"
-                                Name="Background" Opacity="1.0"
-                                Stroke="#FFFFFF" StrokeDashArray="0.0"
-                                StrokeWidth="4.0" Top="1.5"
+                            <Ellipse Ctrl="FanModeSelect" Height="12.0"
+                                Left="1.5" Mode="2" Name="Background"
+                                Opacity="1.0" Stroke="#FFFFFF"
+                                StrokeDashArray="0.0" StrokeWidth="4.0"
+                                SubModel="FanMedMode" Top="1.5"
                                 Visibility="Visible" Width="12.0"/>
                             <Ellipse Fill="None" Height="7.0" Left="4.0"
                                 Name="EditMode" Opacity="1.0"
@@ -3417,50 +3473,40 @@ function load(evt) {
                                     <GradientStop Color="#19000000" Offset="1"/>
                                 </LinearGradient>
                             </Ellipse>
-                            <Expose
-                                Description="The value to set and indicate."
-                                ExposedAttribute="RadioButtonValue" Name="RadioButtonValue"/>
-                            <Ellipse Fill="None" Height="15.0"
-                                Left="0.0" Name="Hover" Opacity="1.0"
-                                Stroke="None" StrokeDashArray="0.0"
-                                StrokeWidth="1.0" Top="0.0"
-                                Visibility="Hidden" Width="15.0">
-                                <LinearGradient EndPoint="0.0,1.0">
-                                    <GradientStop Color="None" Offset="0.0"/>
-                                    <GradientStop Color="#FFFFFF" Offset="1.0">
-                                    <Expose
-                                    Description="The color of the hover indication."
-                                    ExposedAttribute="Color" Name="HoverColor"/>
-                                    </GradientStop>
-                                </LinearGradient>
-                            </Ellipse>
                             <Ellipse Fill="None" Height="13.0"
                                 Left="1.0" Name="Edge" Top="1.0" Width="13.0"/>
-                            <TargetArea Height="15.0" Left="0.0"
+                            <TargetArea FanMedMode="" Height="15.0"
+                                Left="0.0" Name="FanMode" SE8=""
                                 Top="0.0" Width="15.0"/>
                         </Component>
                         <Text FontFamily="Arial" FontSize="15.0"
                             FontStyle="Normal" FontWeight="Normal"
                             HorizontalAlign="Left"
-                            Left="190.00052146811504" Opacity="1.0"
-                            Stroke="#808080" TextDecoration="None"
-                            Top="165.72594714164734" VerticalAlign="Top"><![CDATA[Med]]></Text>
-                    </Group>
-                    <Group Id="FanHigh">
+                            Left="0.000521468115039" Name="Label"
+                            Opacity="1.0" Stroke="#808080"
+                            TextDecoration="None"
+                            Top="19.995949625968933" VerticalAlign="Top"><![CDATA[Med]]></Text>
+                    </Component>
+                    <Component Clip="False" ContentHeight="36.76"
+                        ContentWidth="30.85" Ctrl="FanMenuCtrl"
+                        Height="36.76000000000002" Left="229.0"
+                        Menus="1,2,3,4" Name="FanHigh"
+                        SubModel="FanHighMenu" Top="145.72999755859374" Width="30.850000000000023">
                         <Component Clip="False" ContentHeight="15.0"
                             ContentWidth="15.0" Fill="#87D300"
-                            Height="20.0" Id="FanHigh"
-                            Left="234.00052146811504" Name=""
-                            Push="#3F000000" RadioButtonValue="3"
-                            Stroke="#404040" Top="145.72594714164734" Width="20.0">
+                            Height="20.0" Id="" Left="5.000521468115039"
+                            Name="FanHigh" Push="#3F000000"
+                            RadioButtonValue="3" Stroke="#404040"
+                            Top="-0.004050374031067" Width="20.0">
                             <Expose
                                 Description="The color of the radio button."
                                 ExposedAttribute="Fill" Name="ButtonColor"/>
                             <Expose ExposedAttribute="Stroke" Name="ButtonEdge"/>
-                            <Ellipse Height="12.0" Left="1.5"
-                                Name="Background" Opacity="1.0"
-                                Stroke="#FFFFFF" StrokeDashArray="0.0"
-                                StrokeWidth="4.0" Top="1.5"
+                            <Ellipse Ctrl="FanModeSelect" Height="12.0"
+                                Left="1.5" Mode="3" Name="Background"
+                                Opacity="1.0" Stroke="#FFFFFF"
+                                StrokeDashArray="0.0" StrokeWidth="4.0"
+                                SubModel="FanHighMode" Top="1.5"
                                 Visibility="Visible" Width="12.0"/>
                             <Ellipse Fill="None" Height="7.0" Left="4.0"
                                 Name="EditMode" Opacity="1.0"
@@ -3472,50 +3518,40 @@ function load(evt) {
                                     <GradientStop Color="#19000000" Offset="1"/>
                                 </LinearGradient>
                             </Ellipse>
-                            <Expose
-                                Description="The value to set and indicate."
-                                ExposedAttribute="RadioButtonValue" Name="RadioButtonValue"/>
-                            <Ellipse Fill="None" Height="15.0"
-                                Left="0.0" Name="Hover" Opacity="1.0"
-                                Stroke="None" StrokeDashArray="0.0"
-                                StrokeWidth="1.0" Top="0.0"
-                                Visibility="Hidden" Width="15.0">
-                                <LinearGradient EndPoint="0.0,1.0">
-                                    <GradientStop Color="None" Offset="0.0"/>
-                                    <GradientStop Color="#FFFFFF" Offset="1.0">
-                                    <Expose
-                                    Description="The color of the hover indication."
-                                    ExposedAttribute="Color" Name="HoverColor"/>
-                                    </GradientStop>
-                                </LinearGradient>
-                            </Ellipse>
                             <Ellipse Fill="None" Height="13.0"
                                 Left="1.0" Name="Edge" Top="1.0" Width="13.0"/>
-                            <TargetArea Height="15.0" Left="0.0"
+                            <TargetArea FanHighMode="" Height="15.0"
+                                Left="0.0" Name="FanMode" SE8=""
                                 Top="0.0" Width="15.0"/>
                         </Component>
                         <Text FontFamily="Arial" FontSize="15.0"
                             FontStyle="Normal" FontWeight="Normal"
                             HorizontalAlign="Left"
-                            Left="229.00052146811504" Opacity="1.0"
-                            Stroke="#808080" TextDecoration="None"
-                            Top="165.72594714164734" VerticalAlign="Top"><![CDATA[High]]></Text>
-                    </Group>
-                    <Group Id="FanOn">
+                            Left="0.000521468115039" Name="Label"
+                            Opacity="1.0" Stroke="#808080"
+                            TextDecoration="None"
+                            Top="19.995949625968933" VerticalAlign="Top"><![CDATA[High]]></Text>
+                    </Component>
+                    <Component Clip="False" ContentHeight="36.76"
+                        ContentWidth="21.01" Ctrl="FanMenuCtrl"
+                        Height="36.76000000000002" Left="273.0"
+                        Menus="5" Name="FanOn" SubModel="FanOnMenu"
+                        Top="145.72999755859374" Width="21.00999999999999">
                         <Component Clip="False" ContentHeight="15.0"
                             ContentWidth="15.0" Fill="#87D300"
-                            Height="20.0" Id="FanAuto"
-                            Left="273.00052146811504" Name=""
-                            Push="#3F000000" RadioButtonValue="5"
-                            Stroke="#404040" Top="145.72594714164734" Width="20.0">
+                            Height="20.0" Id="" Left="0.000521468115039"
+                            Name="FanOn" Push="#3F000000"
+                            RadioButtonValue="5" Stroke="#404040"
+                            Top="-0.004050374031067" Width="20.0">
                             <Expose
                                 Description="The color of the radio button."
                                 ExposedAttribute="Fill" Name="ButtonColor"/>
                             <Expose ExposedAttribute="Stroke" Name="ButtonEdge"/>
-                            <Ellipse Height="12.0" Left="1.5"
-                                Name="Background" Opacity="1.0"
-                                Stroke="#FFFFFF" StrokeDashArray="0.0"
-                                StrokeWidth="4.0" Top="1.5"
+                            <Ellipse Ctrl="FanModeSelect" Height="12.0"
+                                Left="1.5" Mode="5" Name="Background"
+                                Opacity="1.0" Stroke="#FFFFFF"
+                                StrokeDashArray="0.0" StrokeWidth="4.0"
+                                SubModel="FanOnMode" Top="1.5"
                                 Visibility="Visible" Width="12.0"/>
                             <Ellipse Fill="None" Height="7.0" Left="4.0"
                                 Name="EditMode" Opacity="1.0"
@@ -3527,35 +3563,20 @@ function load(evt) {
                                     <GradientStop Color="#19000000" Offset="1"/>
                                 </LinearGradient>
                             </Ellipse>
-                            <Expose
-                                Description="The value to set and indicate."
-                                ExposedAttribute="RadioButtonValue" Name="RadioButtonValue"/>
-                            <Ellipse Fill="None" Height="15.0"
-                                Left="0.0" Name="Hover" Opacity="1.0"
-                                Stroke="None" StrokeDashArray="0.0"
-                                StrokeWidth="1.0" Top="0.0"
-                                Visibility="Hidden" Width="15.0">
-                                <LinearGradient EndPoint="0.0,1.0">
-                                    <GradientStop Color="None" Offset="0.0"/>
-                                    <GradientStop Color="#FFFFFF" Offset="1.0">
-                                    <Expose
-                                    Description="The color of the hover indication."
-                                    ExposedAttribute="Color" Name="HoverColor"/>
-                                    </GradientStop>
-                                </LinearGradient>
-                            </Ellipse>
                             <Ellipse Fill="None" Height="13.0"
                                 Left="1.0" Name="Edge" Top="1.0" Width="13.0"/>
-                            <TargetArea Height="15.0" Left="0.0"
+                            <TargetArea FanOnMode="" Height="15.0"
+                                Left="0.0" Name="FanMode" SE8=""
                                 Top="0.0" Width="15.0"/>
                         </Component>
                         <Text FontFamily="Arial" FontSize="15.0"
                             FontStyle="Normal" FontWeight="Normal"
                             HorizontalAlign="Left"
-                            Left="274.00052146811504" Opacity="1.0"
-                            Stroke="#808080" TextDecoration="None"
-                            Top="165.72594714164734" VerticalAlign="Top"><![CDATA[On]]></Text>
-                    </Group>
+                            Left="1.000521468115039" Name="Label"
+                            Opacity="1.0" Stroke="#808080"
+                            TextDecoration="None"
+                            Top="19.995949625968933" VerticalAlign="Top"><![CDATA[On]]></Text>
+                    </Component>
                     <Component Clip="False" ContentHeight="50"
                         ContentWidth="50" GridSize="10" Height="25.0"
                         Id="" Left="60.00052146811504" Name=""
