@@ -2,9 +2,9 @@
 
 <!--[DocumentInformation]
 Created: 2014-07-09 07:45
-Modified: 2015-02-11 10:26
+Modified: 2015-02-11 10:44
 -->
-<?tgml version="1.21"?><Tgml ComponentCounter="169" GridSize="5"
+<?tgml version="1.21"?><Tgml ComponentCounter="218" GridSize="5"
     Height="900.0" LayerCounter="4" UseGlobalScripts="True" Width="1710.0">
     <Layer Name="Control">
         <Script Name="underscore" OnDocumentLoad="load"><![CDATA[(function() {
@@ -1077,6 +1077,27 @@ function load(evt) {
 
 function load(evt) {
 }]]></Script>
+        <Script Name="MessageCtrl" OnDocumentLoad="load"><![CDATA[global.MessageCtrl = {
+	init: function(node) {
+		this.node = node;
+		this.value = "";
+		this.node.setAttribute("Visibility", "Hidden");
+		this.txt = this.node.getChild("Message");
+	},
+	
+	update: function(sig) {
+		this.node.setAttribute("Visibility", "Visible");
+		this.value = String(sig.value);
+		this.txt.setAttribute("Content", this.value);
+	},
+	
+	click: function(bind) {
+		bind.write(prompt("Message To Display?", this.value));		
+	}
+};
+
+function load(evt) {
+}]]></Script>
     </Layer>
     <Layer Name="Binds">
         <Component Clip="False" ContentHeight="491.0"
@@ -1121,6 +1142,7 @@ function load(evt) {
                 <Bind Id="" LightingOverride=""
                     Name="BO 8 Auxilary Binary Output" SE8=""/>
                 <Bind Id="" Name="UserHMI" SE8="" UserHMI=""/>
+                <Bind Id="" Message="" Name="Location" SE8=""/>
             </Component>
             <Component Height="1.0" Left="10.0" Name="RC_02" Top="10.0" Width="1.0">
                 <Bind Name="RoomTemp" RCManager="" RoomTemp="" SE8=""/>
@@ -1135,12 +1157,16 @@ function load(evt) {
                 <Bind Name="PICoolDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Name="PIHeatDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Header="" Name="OccCommand" Occupancy=""
-                    RCManager="" SE8="" Setpoint=""/>
-                <Bind Name="SystemMode" RCManager="" SE8="" Setpoint="" SystemMode=""/>
+                    OccupancyCommand="" RCManager="" SE8="" Setpoint=""/>
+                <Bind HtgClgAuto="" HtgClgCool="" HtgClgHeat=""
+                    HtgClgOff="" Name="SystemMode" RCManager="" SE8=""
+                    Setpoint="" SystemMode=""/>
                 <Bind NOTE1="" Name="NOTE1" RCManager="" SE8=""/>
                 <Bind Header="" Name="LowBattAlarm" Occupancy=""
                     RCManager="" SE8=""/>
-                <Bind FanMode="" Name="FanMode" RCManager="" SE8=""/>
+                <Bind FanAutoMode="" FanHighMode="" FanLowMode=""
+                    FanMedMode="" FanMode="" FanOnMode="" Name="FanMode"
+                    RCManager="" SE8=""/>
                 <Bind Humidity="" HumidityLabel=""
                     Name="OutdoorHumidity" SE8=""/>
                 <Bind Id="" Name="WirelessWindowSwitchStatus" SE8="" WirelessWindowSwitchStatus=""/>
@@ -1148,9 +1174,16 @@ function load(evt) {
                     SE8="" WirelessDoorSwitchStatus=""/>
                 <Bind Id="" LocalMotion="" Name="LocalMotion" SE8=""/>
                 <Bind Id="" Name="Units" SE8="" Units=""/>
-                <Bind Id="" Name="Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Units.RelinquishDefault"/>
                 <Bind Id="" Name="Network Units" NetworkUnits="" SE8=""/>
-                <Bind Id="" Name="Network Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Network Units.RelinquishDefault"/>
+                <Bind FanAutoMenu="" FanHighMenu="" FanLowMenu=""
+                    FanMedMenu="" FanOnMenu="" Id="" Name="FanMenu" SE8=""/>
+                <Bind Id="" Name="BI1Config" SE8="" WindowOverride=""/>
+                <Bind Id="" LightingOverride=""
+                    Name="BO 8 Auxilary Binary Output" SE8=""/>
+                <Bind Id="" Name="UserHMI" SE8="" UserHMI=""/>
+                <Bind Id="" Message="" Name="Location" SE8=""/>
             </Component>
             <Component Height="1.0" Left="20.0" Name="RC_03" Top="20.0" Width="1.0">
                 <Bind Name="RoomTemp" RCManager="" RoomTemp="" SE8=""/>
@@ -1165,12 +1198,16 @@ function load(evt) {
                 <Bind Name="PICoolDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Name="PIHeatDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Header="" Name="OccCommand" Occupancy=""
-                    RCManager="" SE8="" Setpoint=""/>
-                <Bind Name="SystemMode" RCManager="" SE8="" Setpoint="" SystemMode=""/>
+                    OccupancyCommand="" RCManager="" SE8="" Setpoint=""/>
+                <Bind HtgClgAuto="" HtgClgCool="" HtgClgHeat=""
+                    HtgClgOff="" Name="SystemMode" RCManager="" SE8=""
+                    Setpoint="" SystemMode=""/>
                 <Bind NOTE1="" Name="NOTE1" RCManager="" SE8=""/>
                 <Bind Header="" Name="LowBattAlarm" Occupancy=""
                     RCManager="" SE8=""/>
-                <Bind FanMode="" Name="FanMode" RCManager="" SE8=""/>
+                <Bind FanAutoMode="" FanHighMode="" FanLowMode=""
+                    FanMedMode="" FanMode="" FanOnMode="" Name="FanMode"
+                    RCManager="" SE8=""/>
                 <Bind Humidity="" HumidityLabel=""
                     Name="OutdoorHumidity" SE8=""/>
                 <Bind Id="" Name="WirelessWindowSwitchStatus" SE8="" WirelessWindowSwitchStatus=""/>
@@ -1178,9 +1215,16 @@ function load(evt) {
                     SE8="" WirelessDoorSwitchStatus=""/>
                 <Bind Id="" LocalMotion="" Name="LocalMotion" SE8=""/>
                 <Bind Id="" Name="Units" SE8="" Units=""/>
-                <Bind Id="" Name="Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Units.RelinquishDefault"/>
                 <Bind Id="" Name="Network Units" NetworkUnits="" SE8=""/>
-                <Bind Id="" Name="Network Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Network Units.RelinquishDefault"/>
+                <Bind FanAutoMenu="" FanHighMenu="" FanLowMenu=""
+                    FanMedMenu="" FanOnMenu="" Id="" Name="FanMenu" SE8=""/>
+                <Bind Id="" Name="BI1Config" SE8="" WindowOverride=""/>
+                <Bind Id="" LightingOverride=""
+                    Name="BO 8 Auxilary Binary Output" SE8=""/>
+                <Bind Id="" Name="UserHMI" SE8="" UserHMI=""/>
+                <Bind Id="" Message="" Name="Location" SE8=""/>
             </Component>
             <Component Height="1.0" Left="30.0" Name="RC_04" Top="30.0" Width="1.0">
                 <Bind Name="RoomTemp" RCManager="" RoomTemp="" SE8=""/>
@@ -1195,12 +1239,16 @@ function load(evt) {
                 <Bind Name="PICoolDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Name="PIHeatDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Header="" Name="OccCommand" Occupancy=""
-                    RCManager="" SE8="" Setpoint=""/>
-                <Bind Name="SystemMode" RCManager="" SE8="" Setpoint="" SystemMode=""/>
+                    OccupancyCommand="" RCManager="" SE8="" Setpoint=""/>
+                <Bind HtgClgAuto="" HtgClgCool="" HtgClgHeat=""
+                    HtgClgOff="" Name="SystemMode" RCManager="" SE8=""
+                    Setpoint="" SystemMode=""/>
                 <Bind NOTE1="" Name="NOTE1" RCManager="" SE8=""/>
                 <Bind Header="" Name="LowBattAlarm" Occupancy=""
                     RCManager="" SE8=""/>
-                <Bind FanMode="" Name="FanMode" RCManager="" SE8=""/>
+                <Bind FanAutoMode="" FanHighMode="" FanLowMode=""
+                    FanMedMode="" FanMode="" FanOnMode="" Name="FanMode"
+                    RCManager="" SE8=""/>
                 <Bind Humidity="" HumidityLabel=""
                     Name="OutdoorHumidity" SE8=""/>
                 <Bind Id="" Name="WirelessWindowSwitchStatus" SE8="" WirelessWindowSwitchStatus=""/>
@@ -1208,9 +1256,16 @@ function load(evt) {
                     SE8="" WirelessDoorSwitchStatus=""/>
                 <Bind Id="" LocalMotion="" Name="LocalMotion" SE8=""/>
                 <Bind Id="" Name="Units" SE8="" Units=""/>
-                <Bind Id="" Name="Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Units.RelinquishDefault"/>
                 <Bind Id="" Name="Network Units" NetworkUnits="" SE8=""/>
-                <Bind Id="" Name="Network Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Network Units.RelinquishDefault"/>
+                <Bind FanAutoMenu="" FanHighMenu="" FanLowMenu=""
+                    FanMedMenu="" FanOnMenu="" Id="" Name="FanMenu" SE8=""/>
+                <Bind Id="" Name="BI1Config" SE8="" WindowOverride=""/>
+                <Bind Id="" LightingOverride=""
+                    Name="BO 8 Auxilary Binary Output" SE8=""/>
+                <Bind Id="" Name="UserHMI" SE8="" UserHMI=""/>
+                <Bind Id="" Message="" Name="Location" SE8=""/>
             </Component>
             <Component Height="1.0" Left="40.0" Name="RC_05" Top="40.0" Width="1.0">
                 <Bind Name="RoomTemp" RCManager="" RoomTemp="" SE8=""/>
@@ -1225,12 +1280,16 @@ function load(evt) {
                 <Bind Name="PICoolDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Name="PIHeatDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Header="" Name="OccCommand" Occupancy=""
-                    RCManager="" SE8="" Setpoint=""/>
-                <Bind Name="SystemMode" RCManager="" SE8="" Setpoint="" SystemMode=""/>
+                    OccupancyCommand="" RCManager="" SE8="" Setpoint=""/>
+                <Bind HtgClgAuto="" HtgClgCool="" HtgClgHeat=""
+                    HtgClgOff="" Name="SystemMode" RCManager="" SE8=""
+                    Setpoint="" SystemMode=""/>
                 <Bind NOTE1="" Name="NOTE1" RCManager="" SE8=""/>
                 <Bind Header="" Name="LowBattAlarm" Occupancy=""
                     RCManager="" SE8=""/>
-                <Bind FanMode="" Name="FanMode" RCManager="" SE8=""/>
+                <Bind FanAutoMode="" FanHighMode="" FanLowMode=""
+                    FanMedMode="" FanMode="" FanOnMode="" Name="FanMode"
+                    RCManager="" SE8=""/>
                 <Bind Humidity="" HumidityLabel=""
                     Name="OutdoorHumidity" SE8=""/>
                 <Bind Id="" Name="WirelessWindowSwitchStatus" SE8="" WirelessWindowSwitchStatus=""/>
@@ -1238,9 +1297,16 @@ function load(evt) {
                     SE8="" WirelessDoorSwitchStatus=""/>
                 <Bind Id="" LocalMotion="" Name="LocalMotion" SE8=""/>
                 <Bind Id="" Name="Units" SE8="" Units=""/>
-                <Bind Id="" Name="Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Units.RelinquishDefault"/>
                 <Bind Id="" Name="Network Units" NetworkUnits="" SE8=""/>
-                <Bind Id="" Name="Network Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Network Units.RelinquishDefault"/>
+                <Bind FanAutoMenu="" FanHighMenu="" FanLowMenu=""
+                    FanMedMenu="" FanOnMenu="" Id="" Name="FanMenu" SE8=""/>
+                <Bind Id="" Name="BI1Config" SE8="" WindowOverride=""/>
+                <Bind Id="" LightingOverride=""
+                    Name="BO 8 Auxilary Binary Output" SE8=""/>
+                <Bind Id="" Name="UserHMI" SE8="" UserHMI=""/>
+                <Bind Id="" Message="" Name="Location" SE8=""/>
             </Component>
             <Component Height="1.0" Left="50.0" Name="RC_06" Top="50.0" Width="1.0">
                 <Bind Name="RoomTemp" RCManager="" RoomTemp="" SE8=""/>
@@ -1255,12 +1321,16 @@ function load(evt) {
                 <Bind Name="PICoolDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Name="PIHeatDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Header="" Name="OccCommand" Occupancy=""
-                    RCManager="" SE8="" Setpoint=""/>
-                <Bind Name="SystemMode" RCManager="" SE8="" Setpoint="" SystemMode=""/>
+                    OccupancyCommand="" RCManager="" SE8="" Setpoint=""/>
+                <Bind HtgClgAuto="" HtgClgCool="" HtgClgHeat=""
+                    HtgClgOff="" Name="SystemMode" RCManager="" SE8=""
+                    Setpoint="" SystemMode=""/>
                 <Bind NOTE1="" Name="NOTE1" RCManager="" SE8=""/>
                 <Bind Header="" Name="LowBattAlarm" Occupancy=""
                     RCManager="" SE8=""/>
-                <Bind FanMode="" Name="FanMode" RCManager="" SE8=""/>
+                <Bind FanAutoMode="" FanHighMode="" FanLowMode=""
+                    FanMedMode="" FanMode="" FanOnMode="" Name="FanMode"
+                    RCManager="" SE8=""/>
                 <Bind Humidity="" HumidityLabel=""
                     Name="OutdoorHumidity" SE8=""/>
                 <Bind Id="" Name="WirelessWindowSwitchStatus" SE8="" WirelessWindowSwitchStatus=""/>
@@ -1268,9 +1338,16 @@ function load(evt) {
                     SE8="" WirelessDoorSwitchStatus=""/>
                 <Bind Id="" LocalMotion="" Name="LocalMotion" SE8=""/>
                 <Bind Id="" Name="Units" SE8="" Units=""/>
-                <Bind Id="" Name="Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Units.RelinquishDefault"/>
                 <Bind Id="" Name="Network Units" NetworkUnits="" SE8=""/>
-                <Bind Id="" Name="Network Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Network Units.RelinquishDefault"/>
+                <Bind FanAutoMenu="" FanHighMenu="" FanLowMenu=""
+                    FanMedMenu="" FanOnMenu="" Id="" Name="FanMenu" SE8=""/>
+                <Bind Id="" Name="BI1Config" SE8="" WindowOverride=""/>
+                <Bind Id="" LightingOverride=""
+                    Name="BO 8 Auxilary Binary Output" SE8=""/>
+                <Bind Id="" Name="UserHMI" SE8="" UserHMI=""/>
+                <Bind Id="" Message="" Name="Location" SE8=""/>
             </Component>
             <Component Height="1.0" Left="60.0" Name="RC_07" Top="60.0" Width="1.0">
                 <Bind Name="RoomTemp" RCManager="" RoomTemp="" SE8=""/>
@@ -1285,12 +1362,16 @@ function load(evt) {
                 <Bind Name="PICoolDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Name="PIHeatDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Header="" Name="OccCommand" Occupancy=""
-                    RCManager="" SE8="" Setpoint=""/>
-                <Bind Name="SystemMode" RCManager="" SE8="" Setpoint="" SystemMode=""/>
+                    OccupancyCommand="" RCManager="" SE8="" Setpoint=""/>
+                <Bind HtgClgAuto="" HtgClgCool="" HtgClgHeat=""
+                    HtgClgOff="" Name="SystemMode" RCManager="" SE8=""
+                    Setpoint="" SystemMode=""/>
                 <Bind NOTE1="" Name="NOTE1" RCManager="" SE8=""/>
                 <Bind Header="" Name="LowBattAlarm" Occupancy=""
                     RCManager="" SE8=""/>
-                <Bind FanMode="" Name="FanMode" RCManager="" SE8=""/>
+                <Bind FanAutoMode="" FanHighMode="" FanLowMode=""
+                    FanMedMode="" FanMode="" FanOnMode="" Name="FanMode"
+                    RCManager="" SE8=""/>
                 <Bind Humidity="" HumidityLabel=""
                     Name="OutdoorHumidity" SE8=""/>
                 <Bind Id="" Name="WirelessWindowSwitchStatus" SE8="" WirelessWindowSwitchStatus=""/>
@@ -1298,9 +1379,16 @@ function load(evt) {
                     SE8="" WirelessDoorSwitchStatus=""/>
                 <Bind Id="" LocalMotion="" Name="LocalMotion" SE8=""/>
                 <Bind Id="" Name="Units" SE8="" Units=""/>
-                <Bind Id="" Name="Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Units.RelinquishDefault"/>
                 <Bind Id="" Name="Network Units" NetworkUnits="" SE8=""/>
-                <Bind Id="" Name="Network Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Network Units.RelinquishDefault"/>
+                <Bind FanAutoMenu="" FanHighMenu="" FanLowMenu=""
+                    FanMedMenu="" FanOnMenu="" Id="" Name="FanMenu" SE8=""/>
+                <Bind Id="" Name="BI1Config" SE8="" WindowOverride=""/>
+                <Bind Id="" LightingOverride=""
+                    Name="BO 8 Auxilary Binary Output" SE8=""/>
+                <Bind Id="" Name="UserHMI" SE8="" UserHMI=""/>
+                <Bind Id="" Message="" Name="Location" SE8=""/>
             </Component>
             <Component Height="1.0" Left="70.0" Name="RC_08" Top="70.0" Width="1.0">
                 <Bind Name="RoomTemp" RCManager="" RoomTemp="" SE8=""/>
@@ -1315,12 +1403,16 @@ function load(evt) {
                 <Bind Name="PICoolDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Name="PIHeatDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Header="" Name="OccCommand" Occupancy=""
-                    RCManager="" SE8="" Setpoint=""/>
-                <Bind Name="SystemMode" RCManager="" SE8="" Setpoint="" SystemMode=""/>
+                    OccupancyCommand="" RCManager="" SE8="" Setpoint=""/>
+                <Bind HtgClgAuto="" HtgClgCool="" HtgClgHeat=""
+                    HtgClgOff="" Name="SystemMode" RCManager="" SE8=""
+                    Setpoint="" SystemMode=""/>
                 <Bind NOTE1="" Name="NOTE1" RCManager="" SE8=""/>
                 <Bind Header="" Name="LowBattAlarm" Occupancy=""
                     RCManager="" SE8=""/>
-                <Bind FanMode="" Name="FanMode" RCManager="" SE8=""/>
+                <Bind FanAutoMode="" FanHighMode="" FanLowMode=""
+                    FanMedMode="" FanMode="" FanOnMode="" Name="FanMode"
+                    RCManager="" SE8=""/>
                 <Bind Humidity="" HumidityLabel=""
                     Name="OutdoorHumidity" SE8=""/>
                 <Bind Id="" Name="WirelessWindowSwitchStatus" SE8="" WirelessWindowSwitchStatus=""/>
@@ -1328,9 +1420,16 @@ function load(evt) {
                     SE8="" WirelessDoorSwitchStatus=""/>
                 <Bind Id="" LocalMotion="" Name="LocalMotion" SE8=""/>
                 <Bind Id="" Name="Units" SE8="" Units=""/>
-                <Bind Id="" Name="Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Units.RelinquishDefault"/>
                 <Bind Id="" Name="Network Units" NetworkUnits="" SE8=""/>
-                <Bind Id="" Name="Network Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Network Units.RelinquishDefault"/>
+                <Bind FanAutoMenu="" FanHighMenu="" FanLowMenu=""
+                    FanMedMenu="" FanOnMenu="" Id="" Name="FanMenu" SE8=""/>
+                <Bind Id="" Name="BI1Config" SE8="" WindowOverride=""/>
+                <Bind Id="" LightingOverride=""
+                    Name="BO 8 Auxilary Binary Output" SE8=""/>
+                <Bind Id="" Name="UserHMI" SE8="" UserHMI=""/>
+                <Bind Id="" Message="" Name="Location" SE8=""/>
             </Component>
             <Component Height="1.0" Left="80.0" Name="RC_09" Top="80.0" Width="1.0">
                 <Bind Name="RoomTemp" RCManager="" RoomTemp="" SE8=""/>
@@ -1345,12 +1444,16 @@ function load(evt) {
                 <Bind Name="PICoolDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Name="PIHeatDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Header="" Name="OccCommand" Occupancy=""
-                    RCManager="" SE8="" Setpoint=""/>
-                <Bind Name="SystemMode" RCManager="" SE8="" Setpoint="" SystemMode=""/>
+                    OccupancyCommand="" RCManager="" SE8="" Setpoint=""/>
+                <Bind HtgClgAuto="" HtgClgCool="" HtgClgHeat=""
+                    HtgClgOff="" Name="SystemMode" RCManager="" SE8=""
+                    Setpoint="" SystemMode=""/>
                 <Bind NOTE1="" Name="NOTE1" RCManager="" SE8=""/>
                 <Bind Header="" Name="LowBattAlarm" Occupancy=""
                     RCManager="" SE8=""/>
-                <Bind FanMode="" Name="FanMode" RCManager="" SE8=""/>
+                <Bind FanAutoMode="" FanHighMode="" FanLowMode=""
+                    FanMedMode="" FanMode="" FanOnMode="" Name="FanMode"
+                    RCManager="" SE8=""/>
                 <Bind Humidity="" HumidityLabel=""
                     Name="OutdoorHumidity" SE8=""/>
                 <Bind Id="" Name="WirelessWindowSwitchStatus" SE8="" WirelessWindowSwitchStatus=""/>
@@ -1358,9 +1461,16 @@ function load(evt) {
                     SE8="" WirelessDoorSwitchStatus=""/>
                 <Bind Id="" LocalMotion="" Name="LocalMotion" SE8=""/>
                 <Bind Id="" Name="Units" SE8="" Units=""/>
-                <Bind Id="" Name="Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Units.RelinquishDefault"/>
                 <Bind Id="" Name="Network Units" NetworkUnits="" SE8=""/>
-                <Bind Id="" Name="Network Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Network Units.RelinquishDefault"/>
+                <Bind FanAutoMenu="" FanHighMenu="" FanLowMenu=""
+                    FanMedMenu="" FanOnMenu="" Id="" Name="FanMenu" SE8=""/>
+                <Bind Id="" Name="BI1Config" SE8="" WindowOverride=""/>
+                <Bind Id="" LightingOverride=""
+                    Name="BO 8 Auxilary Binary Output" SE8=""/>
+                <Bind Id="" Name="UserHMI" SE8="" UserHMI=""/>
+                <Bind Id="" Message="" Name="Location" SE8=""/>
             </Component>
             <Component Height="1.0" Left="90.0" Name="RC_10" Top="90.0" Width="1.0">
                 <Bind Name="RoomTemp" RCManager="" RoomTemp="" SE8=""/>
@@ -1375,12 +1485,16 @@ function load(evt) {
                 <Bind Name="PICoolDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Name="PIHeatDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Header="" Name="OccCommand" Occupancy=""
-                    RCManager="" SE8="" Setpoint=""/>
-                <Bind Name="SystemMode" RCManager="" SE8="" Setpoint="" SystemMode=""/>
+                    OccupancyCommand="" RCManager="" SE8="" Setpoint=""/>
+                <Bind HtgClgAuto="" HtgClgCool="" HtgClgHeat=""
+                    HtgClgOff="" Name="SystemMode" RCManager="" SE8=""
+                    Setpoint="" SystemMode=""/>
                 <Bind NOTE1="" Name="NOTE1" RCManager="" SE8=""/>
                 <Bind Header="" Name="LowBattAlarm" Occupancy=""
                     RCManager="" SE8=""/>
-                <Bind FanMode="" Name="FanMode" RCManager="" SE8=""/>
+                <Bind FanAutoMode="" FanHighMode="" FanLowMode=""
+                    FanMedMode="" FanMode="" FanOnMode="" Name="FanMode"
+                    RCManager="" SE8=""/>
                 <Bind Humidity="" HumidityLabel=""
                     Name="OutdoorHumidity" SE8=""/>
                 <Bind Id="" Name="WirelessWindowSwitchStatus" SE8="" WirelessWindowSwitchStatus=""/>
@@ -1388,9 +1502,16 @@ function load(evt) {
                     SE8="" WirelessDoorSwitchStatus=""/>
                 <Bind Id="" LocalMotion="" Name="LocalMotion" SE8=""/>
                 <Bind Id="" Name="Units" SE8="" Units=""/>
-                <Bind Id="" Name="Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Units.RelinquishDefault"/>
                 <Bind Id="" Name="Network Units" NetworkUnits="" SE8=""/>
-                <Bind Id="" Name="Network Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Network Units.RelinquishDefault"/>
+                <Bind FanAutoMenu="" FanHighMenu="" FanLowMenu=""
+                    FanMedMenu="" FanOnMenu="" Id="" Name="FanMenu" SE8=""/>
+                <Bind Id="" Name="BI1Config" SE8="" WindowOverride=""/>
+                <Bind Id="" LightingOverride=""
+                    Name="BO 8 Auxilary Binary Output" SE8=""/>
+                <Bind Id="" Name="UserHMI" SE8="" UserHMI=""/>
+                <Bind Id="" Message="" Name="Location" SE8=""/>
             </Component>
             <Component Height="1.0" Left="100.0" Name="RC_11"
                 Top="100.0" Width="1.0">
@@ -1406,12 +1527,16 @@ function load(evt) {
                 <Bind Name="PICoolDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Name="PIHeatDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Header="" Name="OccCommand" Occupancy=""
-                    RCManager="" SE8="" Setpoint=""/>
-                <Bind Name="SystemMode" RCManager="" SE8="" Setpoint="" SystemMode=""/>
+                    OccupancyCommand="" RCManager="" SE8="" Setpoint=""/>
+                <Bind HtgClgAuto="" HtgClgCool="" HtgClgHeat=""
+                    HtgClgOff="" Name="SystemMode" RCManager="" SE8=""
+                    Setpoint="" SystemMode=""/>
                 <Bind NOTE1="" Name="NOTE1" RCManager="" SE8=""/>
                 <Bind Header="" Name="LowBattAlarm" Occupancy=""
                     RCManager="" SE8=""/>
-                <Bind FanMode="" Name="FanMode" RCManager="" SE8=""/>
+                <Bind FanAutoMode="" FanHighMode="" FanLowMode=""
+                    FanMedMode="" FanMode="" FanOnMode="" Name="FanMode"
+                    RCManager="" SE8=""/>
                 <Bind Humidity="" HumidityLabel=""
                     Name="OutdoorHumidity" SE8=""/>
                 <Bind Id="" Name="WirelessWindowSwitchStatus" SE8="" WirelessWindowSwitchStatus=""/>
@@ -1419,9 +1544,16 @@ function load(evt) {
                     SE8="" WirelessDoorSwitchStatus=""/>
                 <Bind Id="" LocalMotion="" Name="LocalMotion" SE8=""/>
                 <Bind Id="" Name="Units" SE8="" Units=""/>
-                <Bind Id="" Name="Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Units.RelinquishDefault"/>
                 <Bind Id="" Name="Network Units" NetworkUnits="" SE8=""/>
-                <Bind Id="" Name="Network Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Network Units.RelinquishDefault"/>
+                <Bind FanAutoMenu="" FanHighMenu="" FanLowMenu=""
+                    FanMedMenu="" FanOnMenu="" Id="" Name="FanMenu" SE8=""/>
+                <Bind Id="" Name="BI1Config" SE8="" WindowOverride=""/>
+                <Bind Id="" LightingOverride=""
+                    Name="BO 8 Auxilary Binary Output" SE8=""/>
+                <Bind Id="" Name="UserHMI" SE8="" UserHMI=""/>
+                <Bind Id="" Message="" Name="Location" SE8=""/>
             </Component>
             <Component Height="1.0" Left="110.0" Name="RC_12"
                 Top="110.0" Width="1.0">
@@ -1437,12 +1569,16 @@ function load(evt) {
                 <Bind Name="PICoolDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Name="PIHeatDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Header="" Name="OccCommand" Occupancy=""
-                    RCManager="" SE8="" Setpoint=""/>
-                <Bind Name="SystemMode" RCManager="" SE8="" Setpoint="" SystemMode=""/>
+                    OccupancyCommand="" RCManager="" SE8="" Setpoint=""/>
+                <Bind HtgClgAuto="" HtgClgCool="" HtgClgHeat=""
+                    HtgClgOff="" Name="SystemMode" RCManager="" SE8=""
+                    Setpoint="" SystemMode=""/>
                 <Bind NOTE1="" Name="NOTE1" RCManager="" SE8=""/>
                 <Bind Header="" Name="LowBattAlarm" Occupancy=""
                     RCManager="" SE8=""/>
-                <Bind FanMode="" Name="FanMode" RCManager="" SE8=""/>
+                <Bind FanAutoMode="" FanHighMode="" FanLowMode=""
+                    FanMedMode="" FanMode="" FanOnMode="" Name="FanMode"
+                    RCManager="" SE8=""/>
                 <Bind Humidity="" HumidityLabel=""
                     Name="OutdoorHumidity" SE8=""/>
                 <Bind Id="" Name="WirelessWindowSwitchStatus" SE8="" WirelessWindowSwitchStatus=""/>
@@ -1450,9 +1586,16 @@ function load(evt) {
                     SE8="" WirelessDoorSwitchStatus=""/>
                 <Bind Id="" LocalMotion="" Name="LocalMotion" SE8=""/>
                 <Bind Id="" Name="Units" SE8="" Units=""/>
-                <Bind Id="" Name="Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Units.RelinquishDefault"/>
                 <Bind Id="" Name="Network Units" NetworkUnits="" SE8=""/>
-                <Bind Id="" Name="Network Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Network Units.RelinquishDefault"/>
+                <Bind FanAutoMenu="" FanHighMenu="" FanLowMenu=""
+                    FanMedMenu="" FanOnMenu="" Id="" Name="FanMenu" SE8=""/>
+                <Bind Id="" Name="BI1Config" SE8="" WindowOverride=""/>
+                <Bind Id="" LightingOverride=""
+                    Name="BO 8 Auxilary Binary Output" SE8=""/>
+                <Bind Id="" Name="UserHMI" SE8="" UserHMI=""/>
+                <Bind Id="" Message="" Name="Location" SE8=""/>
             </Component>
             <Component Height="1.0" Left="120.0" Name="RC_13"
                 Top="120.0" Width="1.0">
@@ -1468,12 +1611,16 @@ function load(evt) {
                 <Bind Name="PICoolDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Name="PIHeatDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Header="" Name="OccCommand" Occupancy=""
-                    RCManager="" SE8="" Setpoint=""/>
-                <Bind Name="SystemMode" RCManager="" SE8="" Setpoint="" SystemMode=""/>
+                    OccupancyCommand="" RCManager="" SE8="" Setpoint=""/>
+                <Bind HtgClgAuto="" HtgClgCool="" HtgClgHeat=""
+                    HtgClgOff="" Name="SystemMode" RCManager="" SE8=""
+                    Setpoint="" SystemMode=""/>
                 <Bind NOTE1="" Name="NOTE1" RCManager="" SE8=""/>
                 <Bind Header="" Name="LowBattAlarm" Occupancy=""
                     RCManager="" SE8=""/>
-                <Bind FanMode="" Name="FanMode" RCManager="" SE8=""/>
+                <Bind FanAutoMode="" FanHighMode="" FanLowMode=""
+                    FanMedMode="" FanMode="" FanOnMode="" Name="FanMode"
+                    RCManager="" SE8=""/>
                 <Bind Humidity="" HumidityLabel=""
                     Name="OutdoorHumidity" SE8=""/>
                 <Bind Id="" Name="WirelessWindowSwitchStatus" SE8="" WirelessWindowSwitchStatus=""/>
@@ -1481,9 +1628,16 @@ function load(evt) {
                     SE8="" WirelessDoorSwitchStatus=""/>
                 <Bind Id="" LocalMotion="" Name="LocalMotion" SE8=""/>
                 <Bind Id="" Name="Units" SE8="" Units=""/>
-                <Bind Id="" Name="Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Units.RelinquishDefault"/>
                 <Bind Id="" Name="Network Units" NetworkUnits="" SE8=""/>
-                <Bind Id="" Name="Network Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Network Units.RelinquishDefault"/>
+                <Bind FanAutoMenu="" FanHighMenu="" FanLowMenu=""
+                    FanMedMenu="" FanOnMenu="" Id="" Name="FanMenu" SE8=""/>
+                <Bind Id="" Name="BI1Config" SE8="" WindowOverride=""/>
+                <Bind Id="" LightingOverride=""
+                    Name="BO 8 Auxilary Binary Output" SE8=""/>
+                <Bind Id="" Name="UserHMI" SE8="" UserHMI=""/>
+                <Bind Id="" Message="" Name="Location" SE8=""/>
             </Component>
             <Component Height="1.0" Left="130.0" Name="RC_14"
                 Top="130.0" Width="1.0">
@@ -1499,12 +1653,16 @@ function load(evt) {
                 <Bind Name="PICoolDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Name="PIHeatDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Header="" Name="OccCommand" Occupancy=""
-                    RCManager="" SE8="" Setpoint=""/>
-                <Bind Name="SystemMode" RCManager="" SE8="" Setpoint="" SystemMode=""/>
+                    OccupancyCommand="" RCManager="" SE8="" Setpoint=""/>
+                <Bind HtgClgAuto="" HtgClgCool="" HtgClgHeat=""
+                    HtgClgOff="" Name="SystemMode" RCManager="" SE8=""
+                    Setpoint="" SystemMode=""/>
                 <Bind NOTE1="" Name="NOTE1" RCManager="" SE8=""/>
                 <Bind Header="" Name="LowBattAlarm" Occupancy=""
                     RCManager="" SE8=""/>
-                <Bind FanMode="" Name="FanMode" RCManager="" SE8=""/>
+                <Bind FanAutoMode="" FanHighMode="" FanLowMode=""
+                    FanMedMode="" FanMode="" FanOnMode="" Name="FanMode"
+                    RCManager="" SE8=""/>
                 <Bind Humidity="" HumidityLabel=""
                     Name="OutdoorHumidity" SE8=""/>
                 <Bind Id="" Name="WirelessWindowSwitchStatus" SE8="" WirelessWindowSwitchStatus=""/>
@@ -1512,9 +1670,16 @@ function load(evt) {
                     SE8="" WirelessDoorSwitchStatus=""/>
                 <Bind Id="" LocalMotion="" Name="LocalMotion" SE8=""/>
                 <Bind Id="" Name="Units" SE8="" Units=""/>
-                <Bind Id="" Name="Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Units.RelinquishDefault"/>
                 <Bind Id="" Name="Network Units" NetworkUnits="" SE8=""/>
-                <Bind Id="" Name="Network Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Network Units.RelinquishDefault"/>
+                <Bind FanAutoMenu="" FanHighMenu="" FanLowMenu=""
+                    FanMedMenu="" FanOnMenu="" Id="" Name="FanMenu" SE8=""/>
+                <Bind Id="" Name="BI1Config" SE8="" WindowOverride=""/>
+                <Bind Id="" LightingOverride=""
+                    Name="BO 8 Auxilary Binary Output" SE8=""/>
+                <Bind Id="" Name="UserHMI" SE8="" UserHMI=""/>
+                <Bind Id="" Message="" Name="Location" SE8=""/>
             </Component>
             <Component Height="1.0" Left="140.0" Name="RC_15"
                 Top="140.0" Width="1.0">
@@ -1530,12 +1695,16 @@ function load(evt) {
                 <Bind Name="PICoolDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Name="PIHeatDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Header="" Name="OccCommand" Occupancy=""
-                    RCManager="" SE8="" Setpoint=""/>
-                <Bind Name="SystemMode" RCManager="" SE8="" Setpoint="" SystemMode=""/>
+                    OccupancyCommand="" RCManager="" SE8="" Setpoint=""/>
+                <Bind HtgClgAuto="" HtgClgCool="" HtgClgHeat=""
+                    HtgClgOff="" Name="SystemMode" RCManager="" SE8=""
+                    Setpoint="" SystemMode=""/>
                 <Bind NOTE1="" Name="NOTE1" RCManager="" SE8=""/>
                 <Bind Header="" Name="LowBattAlarm" Occupancy=""
                     RCManager="" SE8=""/>
-                <Bind FanMode="" Name="FanMode" RCManager="" SE8=""/>
+                <Bind FanAutoMode="" FanHighMode="" FanLowMode=""
+                    FanMedMode="" FanMode="" FanOnMode="" Name="FanMode"
+                    RCManager="" SE8=""/>
                 <Bind Humidity="" HumidityLabel=""
                     Name="OutdoorHumidity" SE8=""/>
                 <Bind Id="" Name="WirelessWindowSwitchStatus" SE8="" WirelessWindowSwitchStatus=""/>
@@ -1543,9 +1712,16 @@ function load(evt) {
                     SE8="" WirelessDoorSwitchStatus=""/>
                 <Bind Id="" LocalMotion="" Name="LocalMotion" SE8=""/>
                 <Bind Id="" Name="Units" SE8="" Units=""/>
-                <Bind Id="" Name="Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Units.RelinquishDefault"/>
                 <Bind Id="" Name="Network Units" NetworkUnits="" SE8=""/>
-                <Bind Id="" Name="Network Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Network Units.RelinquishDefault"/>
+                <Bind FanAutoMenu="" FanHighMenu="" FanLowMenu=""
+                    FanMedMenu="" FanOnMenu="" Id="" Name="FanMenu" SE8=""/>
+                <Bind Id="" Name="BI1Config" SE8="" WindowOverride=""/>
+                <Bind Id="" LightingOverride=""
+                    Name="BO 8 Auxilary Binary Output" SE8=""/>
+                <Bind Id="" Name="UserHMI" SE8="" UserHMI=""/>
+                <Bind Id="" Message="" Name="Location" SE8=""/>
             </Component>
             <Component Height="1.0" Left="150.0" Name="RC_16"
                 Top="150.0" Width="1.0">
@@ -1561,12 +1737,16 @@ function load(evt) {
                 <Bind Name="PICoolDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Name="PIHeatDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Header="" Name="OccCommand" Occupancy=""
-                    RCManager="" SE8="" Setpoint=""/>
-                <Bind Name="SystemMode" RCManager="" SE8="" Setpoint="" SystemMode=""/>
+                    OccupancyCommand="" RCManager="" SE8="" Setpoint=""/>
+                <Bind HtgClgAuto="" HtgClgCool="" HtgClgHeat=""
+                    HtgClgOff="" Name="SystemMode" RCManager="" SE8=""
+                    Setpoint="" SystemMode=""/>
                 <Bind NOTE1="" Name="NOTE1" RCManager="" SE8=""/>
                 <Bind Header="" Name="LowBattAlarm" Occupancy=""
                     RCManager="" SE8=""/>
-                <Bind FanMode="" Name="FanMode" RCManager="" SE8=""/>
+                <Bind FanAutoMode="" FanHighMode="" FanLowMode=""
+                    FanMedMode="" FanMode="" FanOnMode="" Name="FanMode"
+                    RCManager="" SE8=""/>
                 <Bind Humidity="" HumidityLabel=""
                     Name="OutdoorHumidity" SE8=""/>
                 <Bind Id="" Name="WirelessWindowSwitchStatus" SE8="" WirelessWindowSwitchStatus=""/>
@@ -1574,9 +1754,16 @@ function load(evt) {
                     SE8="" WirelessDoorSwitchStatus=""/>
                 <Bind Id="" LocalMotion="" Name="LocalMotion" SE8=""/>
                 <Bind Id="" Name="Units" SE8="" Units=""/>
-                <Bind Id="" Name="Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Units.RelinquishDefault"/>
                 <Bind Id="" Name="Network Units" NetworkUnits="" SE8=""/>
-                <Bind Id="" Name="Network Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Network Units.RelinquishDefault"/>
+                <Bind FanAutoMenu="" FanHighMenu="" FanLowMenu=""
+                    FanMedMenu="" FanOnMenu="" Id="" Name="FanMenu" SE8=""/>
+                <Bind Id="" Name="BI1Config" SE8="" WindowOverride=""/>
+                <Bind Id="" LightingOverride=""
+                    Name="BO 8 Auxilary Binary Output" SE8=""/>
+                <Bind Id="" Name="UserHMI" SE8="" UserHMI=""/>
+                <Bind Id="" Message="" Name="Location" SE8=""/>
             </Component>
             <Component Height="1.0" Left="160.0" Name="RC_17"
                 Top="160.0" Width="1.0">
@@ -1592,12 +1779,16 @@ function load(evt) {
                 <Bind Name="PICoolDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Name="PIHeatDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Header="" Name="OccCommand" Occupancy=""
-                    RCManager="" SE8="" Setpoint=""/>
-                <Bind Name="SystemMode" RCManager="" SE8="" Setpoint="" SystemMode=""/>
+                    OccupancyCommand="" RCManager="" SE8="" Setpoint=""/>
+                <Bind HtgClgAuto="" HtgClgCool="" HtgClgHeat=""
+                    HtgClgOff="" Name="SystemMode" RCManager="" SE8=""
+                    Setpoint="" SystemMode=""/>
                 <Bind NOTE1="" Name="NOTE1" RCManager="" SE8=""/>
                 <Bind Header="" Name="LowBattAlarm" Occupancy=""
                     RCManager="" SE8=""/>
-                <Bind FanMode="" Name="FanMode" RCManager="" SE8=""/>
+                <Bind FanAutoMode="" FanHighMode="" FanLowMode=""
+                    FanMedMode="" FanMode="" FanOnMode="" Name="FanMode"
+                    RCManager="" SE8=""/>
                 <Bind Humidity="" HumidityLabel=""
                     Name="OutdoorHumidity" SE8=""/>
                 <Bind Id="" Name="WirelessWindowSwitchStatus" SE8="" WirelessWindowSwitchStatus=""/>
@@ -1605,9 +1796,16 @@ function load(evt) {
                     SE8="" WirelessDoorSwitchStatus=""/>
                 <Bind Id="" LocalMotion="" Name="LocalMotion" SE8=""/>
                 <Bind Id="" Name="Units" SE8="" Units=""/>
-                <Bind Id="" Name="Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Units.RelinquishDefault"/>
                 <Bind Id="" Name="Network Units" NetworkUnits="" SE8=""/>
-                <Bind Id="" Name="Network Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Network Units.RelinquishDefault"/>
+                <Bind FanAutoMenu="" FanHighMenu="" FanLowMenu=""
+                    FanMedMenu="" FanOnMenu="" Id="" Name="FanMenu" SE8=""/>
+                <Bind Id="" Name="BI1Config" SE8="" WindowOverride=""/>
+                <Bind Id="" LightingOverride=""
+                    Name="BO 8 Auxilary Binary Output" SE8=""/>
+                <Bind Id="" Name="UserHMI" SE8="" UserHMI=""/>
+                <Bind Id="" Message="" Name="Location" SE8=""/>
             </Component>
             <Component Height="1.0" Left="170.0" Name="RC_18"
                 Top="170.0" Width="1.0">
@@ -1623,12 +1821,16 @@ function load(evt) {
                 <Bind Name="PICoolDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Name="PIHeatDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Header="" Name="OccCommand" Occupancy=""
-                    RCManager="" SE8="" Setpoint=""/>
-                <Bind Name="SystemMode" RCManager="" SE8="" Setpoint="" SystemMode=""/>
+                    OccupancyCommand="" RCManager="" SE8="" Setpoint=""/>
+                <Bind HtgClgAuto="" HtgClgCool="" HtgClgHeat=""
+                    HtgClgOff="" Name="SystemMode" RCManager="" SE8=""
+                    Setpoint="" SystemMode=""/>
                 <Bind NOTE1="" Name="NOTE1" RCManager="" SE8=""/>
                 <Bind Header="" Name="LowBattAlarm" Occupancy=""
                     RCManager="" SE8=""/>
-                <Bind FanMode="" Name="FanMode" RCManager="" SE8=""/>
+                <Bind FanAutoMode="" FanHighMode="" FanLowMode=""
+                    FanMedMode="" FanMode="" FanOnMode="" Name="FanMode"
+                    RCManager="" SE8=""/>
                 <Bind Humidity="" HumidityLabel=""
                     Name="OutdoorHumidity" SE8=""/>
                 <Bind Id="" Name="WirelessWindowSwitchStatus" SE8="" WirelessWindowSwitchStatus=""/>
@@ -1636,9 +1838,16 @@ function load(evt) {
                     SE8="" WirelessDoorSwitchStatus=""/>
                 <Bind Id="" LocalMotion="" Name="LocalMotion" SE8=""/>
                 <Bind Id="" Name="Units" SE8="" Units=""/>
-                <Bind Id="" Name="Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Units.RelinquishDefault"/>
                 <Bind Id="" Name="Network Units" NetworkUnits="" SE8=""/>
-                <Bind Id="" Name="Network Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Network Units.RelinquishDefault"/>
+                <Bind FanAutoMenu="" FanHighMenu="" FanLowMenu=""
+                    FanMedMenu="" FanOnMenu="" Id="" Name="FanMenu" SE8=""/>
+                <Bind Id="" Name="BI1Config" SE8="" WindowOverride=""/>
+                <Bind Id="" LightingOverride=""
+                    Name="BO 8 Auxilary Binary Output" SE8=""/>
+                <Bind Id="" Name="UserHMI" SE8="" UserHMI=""/>
+                <Bind Id="" Message="" Name="Location" SE8=""/>
             </Component>
             <Component Height="1.0" Left="180.0" Name="RC_19"
                 Top="180.0" Width="1.0">
@@ -1654,12 +1863,16 @@ function load(evt) {
                 <Bind Name="PICoolDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Name="PIHeatDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Header="" Name="OccCommand" Occupancy=""
-                    RCManager="" SE8="" Setpoint=""/>
-                <Bind Name="SystemMode" RCManager="" SE8="" Setpoint="" SystemMode=""/>
+                    OccupancyCommand="" RCManager="" SE8="" Setpoint=""/>
+                <Bind HtgClgAuto="" HtgClgCool="" HtgClgHeat=""
+                    HtgClgOff="" Name="SystemMode" RCManager="" SE8=""
+                    Setpoint="" SystemMode=""/>
                 <Bind NOTE1="" Name="NOTE1" RCManager="" SE8=""/>
                 <Bind Header="" Name="LowBattAlarm" Occupancy=""
                     RCManager="" SE8=""/>
-                <Bind FanMode="" Name="FanMode" RCManager="" SE8=""/>
+                <Bind FanAutoMode="" FanHighMode="" FanLowMode=""
+                    FanMedMode="" FanMode="" FanOnMode="" Name="FanMode"
+                    RCManager="" SE8=""/>
                 <Bind Humidity="" HumidityLabel=""
                     Name="OutdoorHumidity" SE8=""/>
                 <Bind Id="" Name="WirelessWindowSwitchStatus" SE8="" WirelessWindowSwitchStatus=""/>
@@ -1667,9 +1880,16 @@ function load(evt) {
                     SE8="" WirelessDoorSwitchStatus=""/>
                 <Bind Id="" LocalMotion="" Name="LocalMotion" SE8=""/>
                 <Bind Id="" Name="Units" SE8="" Units=""/>
-                <Bind Id="" Name="Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Units.RelinquishDefault"/>
                 <Bind Id="" Name="Network Units" NetworkUnits="" SE8=""/>
-                <Bind Id="" Name="Network Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Network Units.RelinquishDefault"/>
+                <Bind FanAutoMenu="" FanHighMenu="" FanLowMenu=""
+                    FanMedMenu="" FanOnMenu="" Id="" Name="FanMenu" SE8=""/>
+                <Bind Id="" Name="BI1Config" SE8="" WindowOverride=""/>
+                <Bind Id="" LightingOverride=""
+                    Name="BO 8 Auxilary Binary Output" SE8=""/>
+                <Bind Id="" Name="UserHMI" SE8="" UserHMI=""/>
+                <Bind Id="" Message="" Name="Location" SE8=""/>
             </Component>
             <Component Height="1.0" Left="190.0" Name="RC_20"
                 Top="190.0" Width="1.0">
@@ -1685,12 +1905,16 @@ function load(evt) {
                 <Bind Name="PICoolDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Name="PIHeatDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Header="" Name="OccCommand" Occupancy=""
-                    RCManager="" SE8="" Setpoint=""/>
-                <Bind Name="SystemMode" RCManager="" SE8="" Setpoint="" SystemMode=""/>
+                    OccupancyCommand="" RCManager="" SE8="" Setpoint=""/>
+                <Bind HtgClgAuto="" HtgClgCool="" HtgClgHeat=""
+                    HtgClgOff="" Name="SystemMode" RCManager="" SE8=""
+                    Setpoint="" SystemMode=""/>
                 <Bind NOTE1="" Name="NOTE1" RCManager="" SE8=""/>
                 <Bind Header="" Name="LowBattAlarm" Occupancy=""
                     RCManager="" SE8=""/>
-                <Bind FanMode="" Name="FanMode" RCManager="" SE8=""/>
+                <Bind FanAutoMode="" FanHighMode="" FanLowMode=""
+                    FanMedMode="" FanMode="" FanOnMode="" Name="FanMode"
+                    RCManager="" SE8=""/>
                 <Bind Humidity="" HumidityLabel=""
                     Name="OutdoorHumidity" SE8=""/>
                 <Bind Id="" Name="WirelessWindowSwitchStatus" SE8="" WirelessWindowSwitchStatus=""/>
@@ -1698,9 +1922,16 @@ function load(evt) {
                     SE8="" WirelessDoorSwitchStatus=""/>
                 <Bind Id="" LocalMotion="" Name="LocalMotion" SE8=""/>
                 <Bind Id="" Name="Units" SE8="" Units=""/>
-                <Bind Id="" Name="Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Units.RelinquishDefault"/>
                 <Bind Id="" Name="Network Units" NetworkUnits="" SE8=""/>
-                <Bind Id="" Name="Network Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Network Units.RelinquishDefault"/>
+                <Bind FanAutoMenu="" FanHighMenu="" FanLowMenu=""
+                    FanMedMenu="" FanOnMenu="" Id="" Name="FanMenu" SE8=""/>
+                <Bind Id="" Name="BI1Config" SE8="" WindowOverride=""/>
+                <Bind Id="" LightingOverride=""
+                    Name="BO 8 Auxilary Binary Output" SE8=""/>
+                <Bind Id="" Name="UserHMI" SE8="" UserHMI=""/>
+                <Bind Id="" Message="" Name="Location" SE8=""/>
             </Component>
             <Component Height="1.0" Left="200.0" Name="RC_21"
                 Top="200.0" Width="1.0">
@@ -1716,12 +1947,16 @@ function load(evt) {
                 <Bind Name="PICoolDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Name="PIHeatDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Header="" Name="OccCommand" Occupancy=""
-                    RCManager="" SE8="" Setpoint=""/>
-                <Bind Name="SystemMode" RCManager="" SE8="" Setpoint="" SystemMode=""/>
+                    OccupancyCommand="" RCManager="" SE8="" Setpoint=""/>
+                <Bind HtgClgAuto="" HtgClgCool="" HtgClgHeat=""
+                    HtgClgOff="" Name="SystemMode" RCManager="" SE8=""
+                    Setpoint="" SystemMode=""/>
                 <Bind NOTE1="" Name="NOTE1" RCManager="" SE8=""/>
                 <Bind Header="" Name="LowBattAlarm" Occupancy=""
                     RCManager="" SE8=""/>
-                <Bind FanMode="" Name="FanMode" RCManager="" SE8=""/>
+                <Bind FanAutoMode="" FanHighMode="" FanLowMode=""
+                    FanMedMode="" FanMode="" FanOnMode="" Name="FanMode"
+                    RCManager="" SE8=""/>
                 <Bind Humidity="" HumidityLabel=""
                     Name="OutdoorHumidity" SE8=""/>
                 <Bind Id="" Name="WirelessWindowSwitchStatus" SE8="" WirelessWindowSwitchStatus=""/>
@@ -1729,9 +1964,16 @@ function load(evt) {
                     SE8="" WirelessDoorSwitchStatus=""/>
                 <Bind Id="" LocalMotion="" Name="LocalMotion" SE8=""/>
                 <Bind Id="" Name="Units" SE8="" Units=""/>
-                <Bind Id="" Name="Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Units.RelinquishDefault"/>
                 <Bind Id="" Name="Network Units" NetworkUnits="" SE8=""/>
-                <Bind Id="" Name="Network Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Network Units.RelinquishDefault"/>
+                <Bind FanAutoMenu="" FanHighMenu="" FanLowMenu=""
+                    FanMedMenu="" FanOnMenu="" Id="" Name="FanMenu" SE8=""/>
+                <Bind Id="" Name="BI1Config" SE8="" WindowOverride=""/>
+                <Bind Id="" LightingOverride=""
+                    Name="BO 8 Auxilary Binary Output" SE8=""/>
+                <Bind Id="" Name="UserHMI" SE8="" UserHMI=""/>
+                <Bind Id="" Message="" Name="Location" SE8=""/>
             </Component>
             <Component Height="1.0" Left="210.0" Name="RC_22"
                 Top="210.0" Width="1.0">
@@ -1747,12 +1989,16 @@ function load(evt) {
                 <Bind Name="PICoolDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Name="PIHeatDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Header="" Name="OccCommand" Occupancy=""
-                    RCManager="" SE8="" Setpoint=""/>
-                <Bind Name="SystemMode" RCManager="" SE8="" Setpoint="" SystemMode=""/>
+                    OccupancyCommand="" RCManager="" SE8="" Setpoint=""/>
+                <Bind HtgClgAuto="" HtgClgCool="" HtgClgHeat=""
+                    HtgClgOff="" Name="SystemMode" RCManager="" SE8=""
+                    Setpoint="" SystemMode=""/>
                 <Bind NOTE1="" Name="NOTE1" RCManager="" SE8=""/>
                 <Bind Header="" Name="LowBattAlarm" Occupancy=""
                     RCManager="" SE8=""/>
-                <Bind FanMode="" Name="FanMode" RCManager="" SE8=""/>
+                <Bind FanAutoMode="" FanHighMode="" FanLowMode=""
+                    FanMedMode="" FanMode="" FanOnMode="" Name="FanMode"
+                    RCManager="" SE8=""/>
                 <Bind Humidity="" HumidityLabel=""
                     Name="OutdoorHumidity" SE8=""/>
                 <Bind Id="" Name="WirelessWindowSwitchStatus" SE8="" WirelessWindowSwitchStatus=""/>
@@ -1760,9 +2006,16 @@ function load(evt) {
                     SE8="" WirelessDoorSwitchStatus=""/>
                 <Bind Id="" LocalMotion="" Name="LocalMotion" SE8=""/>
                 <Bind Id="" Name="Units" SE8="" Units=""/>
-                <Bind Id="" Name="Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Units.RelinquishDefault"/>
                 <Bind Id="" Name="Network Units" NetworkUnits="" SE8=""/>
-                <Bind Id="" Name="Network Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Network Units.RelinquishDefault"/>
+                <Bind FanAutoMenu="" FanHighMenu="" FanLowMenu=""
+                    FanMedMenu="" FanOnMenu="" Id="" Name="FanMenu" SE8=""/>
+                <Bind Id="" Name="BI1Config" SE8="" WindowOverride=""/>
+                <Bind Id="" LightingOverride=""
+                    Name="BO 8 Auxilary Binary Output" SE8=""/>
+                <Bind Id="" Name="UserHMI" SE8="" UserHMI=""/>
+                <Bind Id="" Message="" Name="Location" SE8=""/>
             </Component>
             <Component Height="1.0" Left="220.0" Name="RC_23"
                 Top="220.0" Width="1.0">
@@ -1778,12 +2031,16 @@ function load(evt) {
                 <Bind Name="PICoolDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Name="PIHeatDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Header="" Name="OccCommand" Occupancy=""
-                    RCManager="" SE8="" Setpoint=""/>
-                <Bind Name="SystemMode" RCManager="" SE8="" Setpoint="" SystemMode=""/>
+                    OccupancyCommand="" RCManager="" SE8="" Setpoint=""/>
+                <Bind HtgClgAuto="" HtgClgCool="" HtgClgHeat=""
+                    HtgClgOff="" Name="SystemMode" RCManager="" SE8=""
+                    Setpoint="" SystemMode=""/>
                 <Bind NOTE1="" Name="NOTE1" RCManager="" SE8=""/>
                 <Bind Header="" Name="LowBattAlarm" Occupancy=""
                     RCManager="" SE8=""/>
-                <Bind FanMode="" Name="FanMode" RCManager="" SE8=""/>
+                <Bind FanAutoMode="" FanHighMode="" FanLowMode=""
+                    FanMedMode="" FanMode="" FanOnMode="" Name="FanMode"
+                    RCManager="" SE8=""/>
                 <Bind Humidity="" HumidityLabel=""
                     Name="OutdoorHumidity" SE8=""/>
                 <Bind Id="" Name="WirelessWindowSwitchStatus" SE8="" WirelessWindowSwitchStatus=""/>
@@ -1791,9 +2048,16 @@ function load(evt) {
                     SE8="" WirelessDoorSwitchStatus=""/>
                 <Bind Id="" LocalMotion="" Name="LocalMotion" SE8=""/>
                 <Bind Id="" Name="Units" SE8="" Units=""/>
-                <Bind Id="" Name="Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Units.RelinquishDefault"/>
                 <Bind Id="" Name="Network Units" NetworkUnits="" SE8=""/>
-                <Bind Id="" Name="Network Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Network Units.RelinquishDefault"/>
+                <Bind FanAutoMenu="" FanHighMenu="" FanLowMenu=""
+                    FanMedMenu="" FanOnMenu="" Id="" Name="FanMenu" SE8=""/>
+                <Bind Id="" Name="BI1Config" SE8="" WindowOverride=""/>
+                <Bind Id="" LightingOverride=""
+                    Name="BO 8 Auxilary Binary Output" SE8=""/>
+                <Bind Id="" Name="UserHMI" SE8="" UserHMI=""/>
+                <Bind Id="" Message="" Name="Location" SE8=""/>
             </Component>
             <Component Height="1.0" Left="230.0" Name="RC_24"
                 Top="230.0" Width="1.0">
@@ -1809,12 +2073,16 @@ function load(evt) {
                 <Bind Name="PICoolDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Name="PIHeatDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Header="" Name="OccCommand" Occupancy=""
-                    RCManager="" SE8="" Setpoint=""/>
-                <Bind Name="SystemMode" RCManager="" SE8="" Setpoint="" SystemMode=""/>
+                    OccupancyCommand="" RCManager="" SE8="" Setpoint=""/>
+                <Bind HtgClgAuto="" HtgClgCool="" HtgClgHeat=""
+                    HtgClgOff="" Name="SystemMode" RCManager="" SE8=""
+                    Setpoint="" SystemMode=""/>
                 <Bind NOTE1="" Name="NOTE1" RCManager="" SE8=""/>
                 <Bind Header="" Name="LowBattAlarm" Occupancy=""
                     RCManager="" SE8=""/>
-                <Bind FanMode="" Name="FanMode" RCManager="" SE8=""/>
+                <Bind FanAutoMode="" FanHighMode="" FanLowMode=""
+                    FanMedMode="" FanMode="" FanOnMode="" Name="FanMode"
+                    RCManager="" SE8=""/>
                 <Bind Humidity="" HumidityLabel=""
                     Name="OutdoorHumidity" SE8=""/>
                 <Bind Id="" Name="WirelessWindowSwitchStatus" SE8="" WirelessWindowSwitchStatus=""/>
@@ -1822,9 +2090,16 @@ function load(evt) {
                     SE8="" WirelessDoorSwitchStatus=""/>
                 <Bind Id="" LocalMotion="" Name="LocalMotion" SE8=""/>
                 <Bind Id="" Name="Units" SE8="" Units=""/>
-                <Bind Id="" Name="Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Units.RelinquishDefault"/>
                 <Bind Id="" Name="Network Units" NetworkUnits="" SE8=""/>
-                <Bind Id="" Name="Network Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Network Units.RelinquishDefault"/>
+                <Bind FanAutoMenu="" FanHighMenu="" FanLowMenu=""
+                    FanMedMenu="" FanOnMenu="" Id="" Name="FanMenu" SE8=""/>
+                <Bind Id="" Name="BI1Config" SE8="" WindowOverride=""/>
+                <Bind Id="" LightingOverride=""
+                    Name="BO 8 Auxilary Binary Output" SE8=""/>
+                <Bind Id="" Name="UserHMI" SE8="" UserHMI=""/>
+                <Bind Id="" Message="" Name="Location" SE8=""/>
             </Component>
             <Component Height="1.0" Left="240.0" Name="RC_25"
                 Top="240.0" Width="1.0">
@@ -1840,12 +2115,16 @@ function load(evt) {
                 <Bind Name="PICoolDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Name="PIHeatDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Header="" Name="OccCommand" Occupancy=""
-                    RCManager="" SE8="" Setpoint=""/>
-                <Bind Name="SystemMode" RCManager="" SE8="" Setpoint="" SystemMode=""/>
+                    OccupancyCommand="" RCManager="" SE8="" Setpoint=""/>
+                <Bind HtgClgAuto="" HtgClgCool="" HtgClgHeat=""
+                    HtgClgOff="" Name="SystemMode" RCManager="" SE8=""
+                    Setpoint="" SystemMode=""/>
                 <Bind NOTE1="" Name="NOTE1" RCManager="" SE8=""/>
                 <Bind Header="" Name="LowBattAlarm" Occupancy=""
                     RCManager="" SE8=""/>
-                <Bind FanMode="" Name="FanMode" RCManager="" SE8=""/>
+                <Bind FanAutoMode="" FanHighMode="" FanLowMode=""
+                    FanMedMode="" FanMode="" FanOnMode="" Name="FanMode"
+                    RCManager="" SE8=""/>
                 <Bind Humidity="" HumidityLabel=""
                     Name="OutdoorHumidity" SE8=""/>
                 <Bind Id="" Name="WirelessWindowSwitchStatus" SE8="" WirelessWindowSwitchStatus=""/>
@@ -1853,9 +2132,16 @@ function load(evt) {
                     SE8="" WirelessDoorSwitchStatus=""/>
                 <Bind Id="" LocalMotion="" Name="LocalMotion" SE8=""/>
                 <Bind Id="" Name="Units" SE8="" Units=""/>
-                <Bind Id="" Name="Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Units.RelinquishDefault"/>
                 <Bind Id="" Name="Network Units" NetworkUnits="" SE8=""/>
-                <Bind Id="" Name="Network Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Network Units.RelinquishDefault"/>
+                <Bind FanAutoMenu="" FanHighMenu="" FanLowMenu=""
+                    FanMedMenu="" FanOnMenu="" Id="" Name="FanMenu" SE8=""/>
+                <Bind Id="" Name="BI1Config" SE8="" WindowOverride=""/>
+                <Bind Id="" LightingOverride=""
+                    Name="BO 8 Auxilary Binary Output" SE8=""/>
+                <Bind Id="" Name="UserHMI" SE8="" UserHMI=""/>
+                <Bind Id="" Message="" Name="Location" SE8=""/>
             </Component>
             <Component Height="1.0" Left="250.0" Name="RC_26"
                 Top="250.0" Width="1.0">
@@ -1871,12 +2157,16 @@ function load(evt) {
                 <Bind Name="PICoolDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Name="PIHeatDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Header="" Name="OccCommand" Occupancy=""
-                    RCManager="" SE8="" Setpoint=""/>
-                <Bind Name="SystemMode" RCManager="" SE8="" Setpoint="" SystemMode=""/>
+                    OccupancyCommand="" RCManager="" SE8="" Setpoint=""/>
+                <Bind HtgClgAuto="" HtgClgCool="" HtgClgHeat=""
+                    HtgClgOff="" Name="SystemMode" RCManager="" SE8=""
+                    Setpoint="" SystemMode=""/>
                 <Bind NOTE1="" Name="NOTE1" RCManager="" SE8=""/>
                 <Bind Header="" Name="LowBattAlarm" Occupancy=""
                     RCManager="" SE8=""/>
-                <Bind FanMode="" Name="FanMode" RCManager="" SE8=""/>
+                <Bind FanAutoMode="" FanHighMode="" FanLowMode=""
+                    FanMedMode="" FanMode="" FanOnMode="" Name="FanMode"
+                    RCManager="" SE8=""/>
                 <Bind Humidity="" HumidityLabel=""
                     Name="OutdoorHumidity" SE8=""/>
                 <Bind Id="" Name="WirelessWindowSwitchStatus" SE8="" WirelessWindowSwitchStatus=""/>
@@ -1884,9 +2174,16 @@ function load(evt) {
                     SE8="" WirelessDoorSwitchStatus=""/>
                 <Bind Id="" LocalMotion="" Name="LocalMotion" SE8=""/>
                 <Bind Id="" Name="Units" SE8="" Units=""/>
-                <Bind Id="" Name="Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Units.RelinquishDefault"/>
                 <Bind Id="" Name="Network Units" NetworkUnits="" SE8=""/>
-                <Bind Id="" Name="Network Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Network Units.RelinquishDefault"/>
+                <Bind FanAutoMenu="" FanHighMenu="" FanLowMenu=""
+                    FanMedMenu="" FanOnMenu="" Id="" Name="FanMenu" SE8=""/>
+                <Bind Id="" Name="BI1Config" SE8="" WindowOverride=""/>
+                <Bind Id="" LightingOverride=""
+                    Name="BO 8 Auxilary Binary Output" SE8=""/>
+                <Bind Id="" Name="UserHMI" SE8="" UserHMI=""/>
+                <Bind Id="" Message="" Name="Location" SE8=""/>
             </Component>
             <Component Height="1.0" Left="260.0" Name="RC_27"
                 Top="260.0" Width="1.0">
@@ -1902,12 +2199,16 @@ function load(evt) {
                 <Bind Name="PICoolDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Name="PIHeatDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Header="" Name="OccCommand" Occupancy=""
-                    RCManager="" SE8="" Setpoint=""/>
-                <Bind Name="SystemMode" RCManager="" SE8="" Setpoint="" SystemMode=""/>
+                    OccupancyCommand="" RCManager="" SE8="" Setpoint=""/>
+                <Bind HtgClgAuto="" HtgClgCool="" HtgClgHeat=""
+                    HtgClgOff="" Name="SystemMode" RCManager="" SE8=""
+                    Setpoint="" SystemMode=""/>
                 <Bind NOTE1="" Name="NOTE1" RCManager="" SE8=""/>
                 <Bind Header="" Name="LowBattAlarm" Occupancy=""
                     RCManager="" SE8=""/>
-                <Bind FanMode="" Name="FanMode" RCManager="" SE8=""/>
+                <Bind FanAutoMode="" FanHighMode="" FanLowMode=""
+                    FanMedMode="" FanMode="" FanOnMode="" Name="FanMode"
+                    RCManager="" SE8=""/>
                 <Bind Humidity="" HumidityLabel=""
                     Name="OutdoorHumidity" SE8=""/>
                 <Bind Id="" Name="WirelessWindowSwitchStatus" SE8="" WirelessWindowSwitchStatus=""/>
@@ -1915,9 +2216,16 @@ function load(evt) {
                     SE8="" WirelessDoorSwitchStatus=""/>
                 <Bind Id="" LocalMotion="" Name="LocalMotion" SE8=""/>
                 <Bind Id="" Name="Units" SE8="" Units=""/>
-                <Bind Id="" Name="Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Units.RelinquishDefault"/>
                 <Bind Id="" Name="Network Units" NetworkUnits="" SE8=""/>
-                <Bind Id="" Name="Network Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Network Units.RelinquishDefault"/>
+                <Bind FanAutoMenu="" FanHighMenu="" FanLowMenu=""
+                    FanMedMenu="" FanOnMenu="" Id="" Name="FanMenu" SE8=""/>
+                <Bind Id="" Name="BI1Config" SE8="" WindowOverride=""/>
+                <Bind Id="" LightingOverride=""
+                    Name="BO 8 Auxilary Binary Output" SE8=""/>
+                <Bind Id="" Name="UserHMI" SE8="" UserHMI=""/>
+                <Bind Id="" Message="" Name="Location" SE8=""/>
             </Component>
             <Component Height="1.0" Left="270.0" Name="RC_28"
                 Top="270.0" Width="1.0">
@@ -1933,12 +2241,16 @@ function load(evt) {
                 <Bind Name="PICoolDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Name="PIHeatDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Header="" Name="OccCommand" Occupancy=""
-                    RCManager="" SE8="" Setpoint=""/>
-                <Bind Name="SystemMode" RCManager="" SE8="" Setpoint="" SystemMode=""/>
+                    OccupancyCommand="" RCManager="" SE8="" Setpoint=""/>
+                <Bind HtgClgAuto="" HtgClgCool="" HtgClgHeat=""
+                    HtgClgOff="" Name="SystemMode" RCManager="" SE8=""
+                    Setpoint="" SystemMode=""/>
                 <Bind NOTE1="" Name="NOTE1" RCManager="" SE8=""/>
                 <Bind Header="" Name="LowBattAlarm" Occupancy=""
                     RCManager="" SE8=""/>
-                <Bind FanMode="" Name="FanMode" RCManager="" SE8=""/>
+                <Bind FanAutoMode="" FanHighMode="" FanLowMode=""
+                    FanMedMode="" FanMode="" FanOnMode="" Name="FanMode"
+                    RCManager="" SE8=""/>
                 <Bind Humidity="" HumidityLabel=""
                     Name="OutdoorHumidity" SE8=""/>
                 <Bind Id="" Name="WirelessWindowSwitchStatus" SE8="" WirelessWindowSwitchStatus=""/>
@@ -1946,9 +2258,16 @@ function load(evt) {
                     SE8="" WirelessDoorSwitchStatus=""/>
                 <Bind Id="" LocalMotion="" Name="LocalMotion" SE8=""/>
                 <Bind Id="" Name="Units" SE8="" Units=""/>
-                <Bind Id="" Name="Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Units.RelinquishDefault"/>
                 <Bind Id="" Name="Network Units" NetworkUnits="" SE8=""/>
-                <Bind Id="" Name="Network Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Network Units.RelinquishDefault"/>
+                <Bind FanAutoMenu="" FanHighMenu="" FanLowMenu=""
+                    FanMedMenu="" FanOnMenu="" Id="" Name="FanMenu" SE8=""/>
+                <Bind Id="" Name="BI1Config" SE8="" WindowOverride=""/>
+                <Bind Id="" LightingOverride=""
+                    Name="BO 8 Auxilary Binary Output" SE8=""/>
+                <Bind Id="" Name="UserHMI" SE8="" UserHMI=""/>
+                <Bind Id="" Message="" Name="Location" SE8=""/>
             </Component>
             <Component Height="1.0" Left="280.0" Name="RC_29"
                 Top="280.0" Width="1.0">
@@ -1964,12 +2283,16 @@ function load(evt) {
                 <Bind Name="PICoolDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Name="PIHeatDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Header="" Name="OccCommand" Occupancy=""
-                    RCManager="" SE8="" Setpoint=""/>
-                <Bind Name="SystemMode" RCManager="" SE8="" Setpoint="" SystemMode=""/>
+                    OccupancyCommand="" RCManager="" SE8="" Setpoint=""/>
+                <Bind HtgClgAuto="" HtgClgCool="" HtgClgHeat=""
+                    HtgClgOff="" Name="SystemMode" RCManager="" SE8=""
+                    Setpoint="" SystemMode=""/>
                 <Bind NOTE1="" Name="NOTE1" RCManager="" SE8=""/>
                 <Bind Header="" Name="LowBattAlarm" Occupancy=""
                     RCManager="" SE8=""/>
-                <Bind FanMode="" Name="FanMode" RCManager="" SE8=""/>
+                <Bind FanAutoMode="" FanHighMode="" FanLowMode=""
+                    FanMedMode="" FanMode="" FanOnMode="" Name="FanMode"
+                    RCManager="" SE8=""/>
                 <Bind Humidity="" HumidityLabel=""
                     Name="OutdoorHumidity" SE8=""/>
                 <Bind Id="" Name="WirelessWindowSwitchStatus" SE8="" WirelessWindowSwitchStatus=""/>
@@ -1977,9 +2300,16 @@ function load(evt) {
                     SE8="" WirelessDoorSwitchStatus=""/>
                 <Bind Id="" LocalMotion="" Name="LocalMotion" SE8=""/>
                 <Bind Id="" Name="Units" SE8="" Units=""/>
-                <Bind Id="" Name="Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Units.RelinquishDefault"/>
                 <Bind Id="" Name="Network Units" NetworkUnits="" SE8=""/>
-                <Bind Id="" Name="Network Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Network Units.RelinquishDefault"/>
+                <Bind FanAutoMenu="" FanHighMenu="" FanLowMenu=""
+                    FanMedMenu="" FanOnMenu="" Id="" Name="FanMenu" SE8=""/>
+                <Bind Id="" Name="BI1Config" SE8="" WindowOverride=""/>
+                <Bind Id="" LightingOverride=""
+                    Name="BO 8 Auxilary Binary Output" SE8=""/>
+                <Bind Id="" Name="UserHMI" SE8="" UserHMI=""/>
+                <Bind Id="" Message="" Name="Location" SE8=""/>
             </Component>
             <Component Height="1.0" Left="290.0" Name="RC_30"
                 Top="290.0" Width="1.0">
@@ -1995,12 +2325,16 @@ function load(evt) {
                 <Bind Name="PICoolDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Name="PIHeatDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Header="" Name="OccCommand" Occupancy=""
-                    RCManager="" SE8="" Setpoint=""/>
-                <Bind Name="SystemMode" RCManager="" SE8="" Setpoint="" SystemMode=""/>
+                    OccupancyCommand="" RCManager="" SE8="" Setpoint=""/>
+                <Bind HtgClgAuto="" HtgClgCool="" HtgClgHeat=""
+                    HtgClgOff="" Name="SystemMode" RCManager="" SE8=""
+                    Setpoint="" SystemMode=""/>
                 <Bind NOTE1="" Name="NOTE1" RCManager="" SE8=""/>
                 <Bind Header="" Name="LowBattAlarm" Occupancy=""
                     RCManager="" SE8=""/>
-                <Bind FanMode="" Name="FanMode" RCManager="" SE8=""/>
+                <Bind FanAutoMode="" FanHighMode="" FanLowMode=""
+                    FanMedMode="" FanMode="" FanOnMode="" Name="FanMode"
+                    RCManager="" SE8=""/>
                 <Bind Humidity="" HumidityLabel=""
                     Name="OutdoorHumidity" SE8=""/>
                 <Bind Id="" Name="WirelessWindowSwitchStatus" SE8="" WirelessWindowSwitchStatus=""/>
@@ -2008,9 +2342,16 @@ function load(evt) {
                     SE8="" WirelessDoorSwitchStatus=""/>
                 <Bind Id="" LocalMotion="" Name="LocalMotion" SE8=""/>
                 <Bind Id="" Name="Units" SE8="" Units=""/>
-                <Bind Id="" Name="Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Units.RelinquishDefault"/>
                 <Bind Id="" Name="Network Units" NetworkUnits="" SE8=""/>
-                <Bind Id="" Name="Network Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Network Units.RelinquishDefault"/>
+                <Bind FanAutoMenu="" FanHighMenu="" FanLowMenu=""
+                    FanMedMenu="" FanOnMenu="" Id="" Name="FanMenu" SE8=""/>
+                <Bind Id="" Name="BI1Config" SE8="" WindowOverride=""/>
+                <Bind Id="" LightingOverride=""
+                    Name="BO 8 Auxilary Binary Output" SE8=""/>
+                <Bind Id="" Name="UserHMI" SE8="" UserHMI=""/>
+                <Bind Id="" Message="" Name="Location" SE8=""/>
             </Component>
             <Component Height="1.0" Left="300.0" Name="RC_31"
                 Top="300.0" Width="1.0">
@@ -2026,12 +2367,16 @@ function load(evt) {
                 <Bind Name="PICoolDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Name="PIHeatDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Header="" Name="OccCommand" Occupancy=""
-                    RCManager="" SE8="" Setpoint=""/>
-                <Bind Name="SystemMode" RCManager="" SE8="" Setpoint="" SystemMode=""/>
+                    OccupancyCommand="" RCManager="" SE8="" Setpoint=""/>
+                <Bind HtgClgAuto="" HtgClgCool="" HtgClgHeat=""
+                    HtgClgOff="" Name="SystemMode" RCManager="" SE8=""
+                    Setpoint="" SystemMode=""/>
                 <Bind NOTE1="" Name="NOTE1" RCManager="" SE8=""/>
                 <Bind Header="" Name="LowBattAlarm" Occupancy=""
                     RCManager="" SE8=""/>
-                <Bind FanMode="" Name="FanMode" RCManager="" SE8=""/>
+                <Bind FanAutoMode="" FanHighMode="" FanLowMode=""
+                    FanMedMode="" FanMode="" FanOnMode="" Name="FanMode"
+                    RCManager="" SE8=""/>
                 <Bind Humidity="" HumidityLabel=""
                     Name="OutdoorHumidity" SE8=""/>
                 <Bind Id="" Name="WirelessWindowSwitchStatus" SE8="" WirelessWindowSwitchStatus=""/>
@@ -2039,9 +2384,16 @@ function load(evt) {
                     SE8="" WirelessDoorSwitchStatus=""/>
                 <Bind Id="" LocalMotion="" Name="LocalMotion" SE8=""/>
                 <Bind Id="" Name="Units" SE8="" Units=""/>
-                <Bind Id="" Name="Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Units.RelinquishDefault"/>
                 <Bind Id="" Name="Network Units" NetworkUnits="" SE8=""/>
-                <Bind Id="" Name="Network Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Network Units.RelinquishDefault"/>
+                <Bind FanAutoMenu="" FanHighMenu="" FanLowMenu=""
+                    FanMedMenu="" FanOnMenu="" Id="" Name="FanMenu" SE8=""/>
+                <Bind Id="" Name="BI1Config" SE8="" WindowOverride=""/>
+                <Bind Id="" LightingOverride=""
+                    Name="BO 8 Auxilary Binary Output" SE8=""/>
+                <Bind Id="" Name="UserHMI" SE8="" UserHMI=""/>
+                <Bind Id="" Message="" Name="Location" SE8=""/>
             </Component>
             <Component Height="1.0" Left="310.0" Name="RC_32"
                 Top="310.0" Width="1.0">
@@ -2057,12 +2409,16 @@ function load(evt) {
                 <Bind Name="PICoolDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Name="PIHeatDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Header="" Name="OccCommand" Occupancy=""
-                    RCManager="" SE8="" Setpoint=""/>
-                <Bind Name="SystemMode" RCManager="" SE8="" Setpoint="" SystemMode=""/>
+                    OccupancyCommand="" RCManager="" SE8="" Setpoint=""/>
+                <Bind HtgClgAuto="" HtgClgCool="" HtgClgHeat=""
+                    HtgClgOff="" Name="SystemMode" RCManager="" SE8=""
+                    Setpoint="" SystemMode=""/>
                 <Bind NOTE1="" Name="NOTE1" RCManager="" SE8=""/>
                 <Bind Header="" Name="LowBattAlarm" Occupancy=""
                     RCManager="" SE8=""/>
-                <Bind FanMode="" Name="FanMode" RCManager="" SE8=""/>
+                <Bind FanAutoMode="" FanHighMode="" FanLowMode=""
+                    FanMedMode="" FanMode="" FanOnMode="" Name="FanMode"
+                    RCManager="" SE8=""/>
                 <Bind Humidity="" HumidityLabel=""
                     Name="OutdoorHumidity" SE8=""/>
                 <Bind Id="" Name="WirelessWindowSwitchStatus" SE8="" WirelessWindowSwitchStatus=""/>
@@ -2070,9 +2426,16 @@ function load(evt) {
                     SE8="" WirelessDoorSwitchStatus=""/>
                 <Bind Id="" LocalMotion="" Name="LocalMotion" SE8=""/>
                 <Bind Id="" Name="Units" SE8="" Units=""/>
-                <Bind Id="" Name="Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Units.RelinquishDefault"/>
                 <Bind Id="" Name="Network Units" NetworkUnits="" SE8=""/>
-                <Bind Id="" Name="Network Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Network Units.RelinquishDefault"/>
+                <Bind FanAutoMenu="" FanHighMenu="" FanLowMenu=""
+                    FanMedMenu="" FanOnMenu="" Id="" Name="FanMenu" SE8=""/>
+                <Bind Id="" Name="BI1Config" SE8="" WindowOverride=""/>
+                <Bind Id="" LightingOverride=""
+                    Name="BO 8 Auxilary Binary Output" SE8=""/>
+                <Bind Id="" Name="UserHMI" SE8="" UserHMI=""/>
+                <Bind Id="" Message="" Name="Location" SE8=""/>
             </Component>
             <Component Height="1.0" Left="320.0" Name="RC_33"
                 Top="320.0" Width="1.0">
@@ -2088,12 +2451,16 @@ function load(evt) {
                 <Bind Name="PICoolDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Name="PIHeatDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Header="" Name="OccCommand" Occupancy=""
-                    RCManager="" SE8="" Setpoint=""/>
-                <Bind Name="SystemMode" RCManager="" SE8="" Setpoint="" SystemMode=""/>
+                    OccupancyCommand="" RCManager="" SE8="" Setpoint=""/>
+                <Bind HtgClgAuto="" HtgClgCool="" HtgClgHeat=""
+                    HtgClgOff="" Name="SystemMode" RCManager="" SE8=""
+                    Setpoint="" SystemMode=""/>
                 <Bind NOTE1="" Name="NOTE1" RCManager="" SE8=""/>
                 <Bind Header="" Name="LowBattAlarm" Occupancy=""
                     RCManager="" SE8=""/>
-                <Bind FanMode="" Name="FanMode" RCManager="" SE8=""/>
+                <Bind FanAutoMode="" FanHighMode="" FanLowMode=""
+                    FanMedMode="" FanMode="" FanOnMode="" Name="FanMode"
+                    RCManager="" SE8=""/>
                 <Bind Humidity="" HumidityLabel=""
                     Name="OutdoorHumidity" SE8=""/>
                 <Bind Id="" Name="WirelessWindowSwitchStatus" SE8="" WirelessWindowSwitchStatus=""/>
@@ -2101,9 +2468,16 @@ function load(evt) {
                     SE8="" WirelessDoorSwitchStatus=""/>
                 <Bind Id="" LocalMotion="" Name="LocalMotion" SE8=""/>
                 <Bind Id="" Name="Units" SE8="" Units=""/>
-                <Bind Id="" Name="Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Units.RelinquishDefault"/>
                 <Bind Id="" Name="Network Units" NetworkUnits="" SE8=""/>
-                <Bind Id="" Name="Network Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Network Units.RelinquishDefault"/>
+                <Bind FanAutoMenu="" FanHighMenu="" FanLowMenu=""
+                    FanMedMenu="" FanOnMenu="" Id="" Name="FanMenu" SE8=""/>
+                <Bind Id="" Name="BI1Config" SE8="" WindowOverride=""/>
+                <Bind Id="" LightingOverride=""
+                    Name="BO 8 Auxilary Binary Output" SE8=""/>
+                <Bind Id="" Name="UserHMI" SE8="" UserHMI=""/>
+                <Bind Id="" Message="" Name="Location" SE8=""/>
             </Component>
             <Component Height="1.0" Left="330.0" Name="RC_34"
                 Top="330.0" Width="1.0">
@@ -2119,12 +2493,16 @@ function load(evt) {
                 <Bind Name="PICoolDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Name="PIHeatDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Header="" Name="OccCommand" Occupancy=""
-                    RCManager="" SE8="" Setpoint=""/>
-                <Bind Name="SystemMode" RCManager="" SE8="" Setpoint="" SystemMode=""/>
+                    OccupancyCommand="" RCManager="" SE8="" Setpoint=""/>
+                <Bind HtgClgAuto="" HtgClgCool="" HtgClgHeat=""
+                    HtgClgOff="" Name="SystemMode" RCManager="" SE8=""
+                    Setpoint="" SystemMode=""/>
                 <Bind NOTE1="" Name="NOTE1" RCManager="" SE8=""/>
                 <Bind Header="" Name="LowBattAlarm" Occupancy=""
                     RCManager="" SE8=""/>
-                <Bind FanMode="" Name="FanMode" RCManager="" SE8=""/>
+                <Bind FanAutoMode="" FanHighMode="" FanLowMode=""
+                    FanMedMode="" FanMode="" FanOnMode="" Name="FanMode"
+                    RCManager="" SE8=""/>
                 <Bind Humidity="" HumidityLabel=""
                     Name="OutdoorHumidity" SE8=""/>
                 <Bind Id="" Name="WirelessWindowSwitchStatus" SE8="" WirelessWindowSwitchStatus=""/>
@@ -2132,9 +2510,16 @@ function load(evt) {
                     SE8="" WirelessDoorSwitchStatus=""/>
                 <Bind Id="" LocalMotion="" Name="LocalMotion" SE8=""/>
                 <Bind Id="" Name="Units" SE8="" Units=""/>
-                <Bind Id="" Name="Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Units.RelinquishDefault"/>
                 <Bind Id="" Name="Network Units" NetworkUnits="" SE8=""/>
-                <Bind Id="" Name="Network Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Network Units.RelinquishDefault"/>
+                <Bind FanAutoMenu="" FanHighMenu="" FanLowMenu=""
+                    FanMedMenu="" FanOnMenu="" Id="" Name="FanMenu" SE8=""/>
+                <Bind Id="" Name="BI1Config" SE8="" WindowOverride=""/>
+                <Bind Id="" LightingOverride=""
+                    Name="BO 8 Auxilary Binary Output" SE8=""/>
+                <Bind Id="" Name="UserHMI" SE8="" UserHMI=""/>
+                <Bind Id="" Message="" Name="Location" SE8=""/>
             </Component>
             <Component Height="1.0" Left="340.0" Name="RC_35"
                 Top="340.0" Width="1.0">
@@ -2150,12 +2535,16 @@ function load(evt) {
                 <Bind Name="PICoolDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Name="PIHeatDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Header="" Name="OccCommand" Occupancy=""
-                    RCManager="" SE8="" Setpoint=""/>
-                <Bind Name="SystemMode" RCManager="" SE8="" Setpoint="" SystemMode=""/>
+                    OccupancyCommand="" RCManager="" SE8="" Setpoint=""/>
+                <Bind HtgClgAuto="" HtgClgCool="" HtgClgHeat=""
+                    HtgClgOff="" Name="SystemMode" RCManager="" SE8=""
+                    Setpoint="" SystemMode=""/>
                 <Bind NOTE1="" Name="NOTE1" RCManager="" SE8=""/>
                 <Bind Header="" Name="LowBattAlarm" Occupancy=""
                     RCManager="" SE8=""/>
-                <Bind FanMode="" Name="FanMode" RCManager="" SE8=""/>
+                <Bind FanAutoMode="" FanHighMode="" FanLowMode=""
+                    FanMedMode="" FanMode="" FanOnMode="" Name="FanMode"
+                    RCManager="" SE8=""/>
                 <Bind Humidity="" HumidityLabel=""
                     Name="OutdoorHumidity" SE8=""/>
                 <Bind Id="" Name="WirelessWindowSwitchStatus" SE8="" WirelessWindowSwitchStatus=""/>
@@ -2163,9 +2552,16 @@ function load(evt) {
                     SE8="" WirelessDoorSwitchStatus=""/>
                 <Bind Id="" LocalMotion="" Name="LocalMotion" SE8=""/>
                 <Bind Id="" Name="Units" SE8="" Units=""/>
-                <Bind Id="" Name="Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Units.RelinquishDefault"/>
                 <Bind Id="" Name="Network Units" NetworkUnits="" SE8=""/>
-                <Bind Id="" Name="Network Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Network Units.RelinquishDefault"/>
+                <Bind FanAutoMenu="" FanHighMenu="" FanLowMenu=""
+                    FanMedMenu="" FanOnMenu="" Id="" Name="FanMenu" SE8=""/>
+                <Bind Id="" Name="BI1Config" SE8="" WindowOverride=""/>
+                <Bind Id="" LightingOverride=""
+                    Name="BO 8 Auxilary Binary Output" SE8=""/>
+                <Bind Id="" Name="UserHMI" SE8="" UserHMI=""/>
+                <Bind Id="" Message="" Name="Location" SE8=""/>
             </Component>
             <Component Height="1.0" Left="350.0" Name="RC_36"
                 Top="350.0" Width="1.0">
@@ -2181,12 +2577,16 @@ function load(evt) {
                 <Bind Name="PICoolDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Name="PIHeatDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Header="" Name="OccCommand" Occupancy=""
-                    RCManager="" SE8="" Setpoint=""/>
-                <Bind Name="SystemMode" RCManager="" SE8="" Setpoint="" SystemMode=""/>
+                    OccupancyCommand="" RCManager="" SE8="" Setpoint=""/>
+                <Bind HtgClgAuto="" HtgClgCool="" HtgClgHeat=""
+                    HtgClgOff="" Name="SystemMode" RCManager="" SE8=""
+                    Setpoint="" SystemMode=""/>
                 <Bind NOTE1="" Name="NOTE1" RCManager="" SE8=""/>
                 <Bind Header="" Name="LowBattAlarm" Occupancy=""
                     RCManager="" SE8=""/>
-                <Bind FanMode="" Name="FanMode" RCManager="" SE8=""/>
+                <Bind FanAutoMode="" FanHighMode="" FanLowMode=""
+                    FanMedMode="" FanMode="" FanOnMode="" Name="FanMode"
+                    RCManager="" SE8=""/>
                 <Bind Humidity="" HumidityLabel=""
                     Name="OutdoorHumidity" SE8=""/>
                 <Bind Id="" Name="WirelessWindowSwitchStatus" SE8="" WirelessWindowSwitchStatus=""/>
@@ -2194,9 +2594,16 @@ function load(evt) {
                     SE8="" WirelessDoorSwitchStatus=""/>
                 <Bind Id="" LocalMotion="" Name="LocalMotion" SE8=""/>
                 <Bind Id="" Name="Units" SE8="" Units=""/>
-                <Bind Id="" Name="Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Units.RelinquishDefault"/>
                 <Bind Id="" Name="Network Units" NetworkUnits="" SE8=""/>
-                <Bind Id="" Name="Network Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Network Units.RelinquishDefault"/>
+                <Bind FanAutoMenu="" FanHighMenu="" FanLowMenu=""
+                    FanMedMenu="" FanOnMenu="" Id="" Name="FanMenu" SE8=""/>
+                <Bind Id="" Name="BI1Config" SE8="" WindowOverride=""/>
+                <Bind Id="" LightingOverride=""
+                    Name="BO 8 Auxilary Binary Output" SE8=""/>
+                <Bind Id="" Name="UserHMI" SE8="" UserHMI=""/>
+                <Bind Id="" Message="" Name="Location" SE8=""/>
             </Component>
             <Component Height="1.0" Left="360.0" Name="RC_37"
                 Top="360.0" Width="1.0">
@@ -2212,12 +2619,16 @@ function load(evt) {
                 <Bind Name="PICoolDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Name="PIHeatDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Header="" Name="OccCommand" Occupancy=""
-                    RCManager="" SE8="" Setpoint=""/>
-                <Bind Name="SystemMode" RCManager="" SE8="" Setpoint="" SystemMode=""/>
+                    OccupancyCommand="" RCManager="" SE8="" Setpoint=""/>
+                <Bind HtgClgAuto="" HtgClgCool="" HtgClgHeat=""
+                    HtgClgOff="" Name="SystemMode" RCManager="" SE8=""
+                    Setpoint="" SystemMode=""/>
                 <Bind NOTE1="" Name="NOTE1" RCManager="" SE8=""/>
                 <Bind Header="" Name="LowBattAlarm" Occupancy=""
                     RCManager="" SE8=""/>
-                <Bind FanMode="" Name="FanMode" RCManager="" SE8=""/>
+                <Bind FanAutoMode="" FanHighMode="" FanLowMode=""
+                    FanMedMode="" FanMode="" FanOnMode="" Name="FanMode"
+                    RCManager="" SE8=""/>
                 <Bind Humidity="" HumidityLabel=""
                     Name="OutdoorHumidity" SE8=""/>
                 <Bind Id="" Name="WirelessWindowSwitchStatus" SE8="" WirelessWindowSwitchStatus=""/>
@@ -2225,9 +2636,16 @@ function load(evt) {
                     SE8="" WirelessDoorSwitchStatus=""/>
                 <Bind Id="" LocalMotion="" Name="LocalMotion" SE8=""/>
                 <Bind Id="" Name="Units" SE8="" Units=""/>
-                <Bind Id="" Name="Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Units.RelinquishDefault"/>
                 <Bind Id="" Name="Network Units" NetworkUnits="" SE8=""/>
-                <Bind Id="" Name="Network Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Network Units.RelinquishDefault"/>
+                <Bind FanAutoMenu="" FanHighMenu="" FanLowMenu=""
+                    FanMedMenu="" FanOnMenu="" Id="" Name="FanMenu" SE8=""/>
+                <Bind Id="" Name="BI1Config" SE8="" WindowOverride=""/>
+                <Bind Id="" LightingOverride=""
+                    Name="BO 8 Auxilary Binary Output" SE8=""/>
+                <Bind Id="" Name="UserHMI" SE8="" UserHMI=""/>
+                <Bind Id="" Message="" Name="Location" SE8=""/>
             </Component>
             <Component Height="1.0" Left="370.0" Name="RC_38"
                 Top="370.0" Width="1.0">
@@ -2243,12 +2661,16 @@ function load(evt) {
                 <Bind Name="PICoolDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Name="PIHeatDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Header="" Name="OccCommand" Occupancy=""
-                    RCManager="" SE8="" Setpoint=""/>
-                <Bind Name="SystemMode" RCManager="" SE8="" Setpoint="" SystemMode=""/>
+                    OccupancyCommand="" RCManager="" SE8="" Setpoint=""/>
+                <Bind HtgClgAuto="" HtgClgCool="" HtgClgHeat=""
+                    HtgClgOff="" Name="SystemMode" RCManager="" SE8=""
+                    Setpoint="" SystemMode=""/>
                 <Bind NOTE1="" Name="NOTE1" RCManager="" SE8=""/>
                 <Bind Header="" Name="LowBattAlarm" Occupancy=""
                     RCManager="" SE8=""/>
-                <Bind FanMode="" Name="FanMode" RCManager="" SE8=""/>
+                <Bind FanAutoMode="" FanHighMode="" FanLowMode=""
+                    FanMedMode="" FanMode="" FanOnMode="" Name="FanMode"
+                    RCManager="" SE8=""/>
                 <Bind Humidity="" HumidityLabel=""
                     Name="OutdoorHumidity" SE8=""/>
                 <Bind Id="" Name="WirelessWindowSwitchStatus" SE8="" WirelessWindowSwitchStatus=""/>
@@ -2256,9 +2678,16 @@ function load(evt) {
                     SE8="" WirelessDoorSwitchStatus=""/>
                 <Bind Id="" LocalMotion="" Name="LocalMotion" SE8=""/>
                 <Bind Id="" Name="Units" SE8="" Units=""/>
-                <Bind Id="" Name="Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Units.RelinquishDefault"/>
                 <Bind Id="" Name="Network Units" NetworkUnits="" SE8=""/>
-                <Bind Id="" Name="Network Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Network Units.RelinquishDefault"/>
+                <Bind FanAutoMenu="" FanHighMenu="" FanLowMenu=""
+                    FanMedMenu="" FanOnMenu="" Id="" Name="FanMenu" SE8=""/>
+                <Bind Id="" Name="BI1Config" SE8="" WindowOverride=""/>
+                <Bind Id="" LightingOverride=""
+                    Name="BO 8 Auxilary Binary Output" SE8=""/>
+                <Bind Id="" Name="UserHMI" SE8="" UserHMI=""/>
+                <Bind Id="" Message="" Name="Location" SE8=""/>
             </Component>
             <Component Height="1.0" Left="380.0" Name="RC_39"
                 Top="380.0" Width="1.0">
@@ -2274,12 +2703,16 @@ function load(evt) {
                 <Bind Name="PICoolDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Name="PIHeatDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Header="" Name="OccCommand" Occupancy=""
-                    RCManager="" SE8="" Setpoint=""/>
-                <Bind Name="SystemMode" RCManager="" SE8="" Setpoint="" SystemMode=""/>
+                    OccupancyCommand="" RCManager="" SE8="" Setpoint=""/>
+                <Bind HtgClgAuto="" HtgClgCool="" HtgClgHeat=""
+                    HtgClgOff="" Name="SystemMode" RCManager="" SE8=""
+                    Setpoint="" SystemMode=""/>
                 <Bind NOTE1="" Name="NOTE1" RCManager="" SE8=""/>
                 <Bind Header="" Name="LowBattAlarm" Occupancy=""
                     RCManager="" SE8=""/>
-                <Bind FanMode="" Name="FanMode" RCManager="" SE8=""/>
+                <Bind FanAutoMode="" FanHighMode="" FanLowMode=""
+                    FanMedMode="" FanMode="" FanOnMode="" Name="FanMode"
+                    RCManager="" SE8=""/>
                 <Bind Humidity="" HumidityLabel=""
                     Name="OutdoorHumidity" SE8=""/>
                 <Bind Id="" Name="WirelessWindowSwitchStatus" SE8="" WirelessWindowSwitchStatus=""/>
@@ -2287,9 +2720,16 @@ function load(evt) {
                     SE8="" WirelessDoorSwitchStatus=""/>
                 <Bind Id="" LocalMotion="" Name="LocalMotion" SE8=""/>
                 <Bind Id="" Name="Units" SE8="" Units=""/>
-                <Bind Id="" Name="Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Units.RelinquishDefault"/>
                 <Bind Id="" Name="Network Units" NetworkUnits="" SE8=""/>
-                <Bind Id="" Name="Network Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Network Units.RelinquishDefault"/>
+                <Bind FanAutoMenu="" FanHighMenu="" FanLowMenu=""
+                    FanMedMenu="" FanOnMenu="" Id="" Name="FanMenu" SE8=""/>
+                <Bind Id="" Name="BI1Config" SE8="" WindowOverride=""/>
+                <Bind Id="" LightingOverride=""
+                    Name="BO 8 Auxilary Binary Output" SE8=""/>
+                <Bind Id="" Name="UserHMI" SE8="" UserHMI=""/>
+                <Bind Id="" Message="" Name="Location" SE8=""/>
             </Component>
             <Component Height="1.0" Left="390.0" Name="RC_40"
                 Top="390.0" Width="1.0">
@@ -2305,12 +2745,16 @@ function load(evt) {
                 <Bind Name="PICoolDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Name="PIHeatDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Header="" Name="OccCommand" Occupancy=""
-                    RCManager="" SE8="" Setpoint=""/>
-                <Bind Name="SystemMode" RCManager="" SE8="" Setpoint="" SystemMode=""/>
+                    OccupancyCommand="" RCManager="" SE8="" Setpoint=""/>
+                <Bind HtgClgAuto="" HtgClgCool="" HtgClgHeat=""
+                    HtgClgOff="" Name="SystemMode" RCManager="" SE8=""
+                    Setpoint="" SystemMode=""/>
                 <Bind NOTE1="" Name="NOTE1" RCManager="" SE8=""/>
                 <Bind Header="" Name="LowBattAlarm" Occupancy=""
                     RCManager="" SE8=""/>
-                <Bind FanMode="" Name="FanMode" RCManager="" SE8=""/>
+                <Bind FanAutoMode="" FanHighMode="" FanLowMode=""
+                    FanMedMode="" FanMode="" FanOnMode="" Name="FanMode"
+                    RCManager="" SE8=""/>
                 <Bind Humidity="" HumidityLabel=""
                     Name="OutdoorHumidity" SE8=""/>
                 <Bind Id="" Name="WirelessWindowSwitchStatus" SE8="" WirelessWindowSwitchStatus=""/>
@@ -2318,9 +2762,16 @@ function load(evt) {
                     SE8="" WirelessDoorSwitchStatus=""/>
                 <Bind Id="" LocalMotion="" Name="LocalMotion" SE8=""/>
                 <Bind Id="" Name="Units" SE8="" Units=""/>
-                <Bind Id="" Name="Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Units.RelinquishDefault"/>
                 <Bind Id="" Name="Network Units" NetworkUnits="" SE8=""/>
-                <Bind Id="" Name="Network Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Network Units.RelinquishDefault"/>
+                <Bind FanAutoMenu="" FanHighMenu="" FanLowMenu=""
+                    FanMedMenu="" FanOnMenu="" Id="" Name="FanMenu" SE8=""/>
+                <Bind Id="" Name="BI1Config" SE8="" WindowOverride=""/>
+                <Bind Id="" LightingOverride=""
+                    Name="BO 8 Auxilary Binary Output" SE8=""/>
+                <Bind Id="" Name="UserHMI" SE8="" UserHMI=""/>
+                <Bind Id="" Message="" Name="Location" SE8=""/>
             </Component>
             <Component Height="1.0" Left="400.0" Name="RC_41"
                 Top="400.0" Width="1.0">
@@ -2336,12 +2787,16 @@ function load(evt) {
                 <Bind Name="PICoolDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Name="PIHeatDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Header="" Name="OccCommand" Occupancy=""
-                    RCManager="" SE8="" Setpoint=""/>
-                <Bind Name="SystemMode" RCManager="" SE8="" Setpoint="" SystemMode=""/>
+                    OccupancyCommand="" RCManager="" SE8="" Setpoint=""/>
+                <Bind HtgClgAuto="" HtgClgCool="" HtgClgHeat=""
+                    HtgClgOff="" Name="SystemMode" RCManager="" SE8=""
+                    Setpoint="" SystemMode=""/>
                 <Bind NOTE1="" Name="NOTE1" RCManager="" SE8=""/>
                 <Bind Header="" Name="LowBattAlarm" Occupancy=""
                     RCManager="" SE8=""/>
-                <Bind FanMode="" Name="FanMode" RCManager="" SE8=""/>
+                <Bind FanAutoMode="" FanHighMode="" FanLowMode=""
+                    FanMedMode="" FanMode="" FanOnMode="" Name="FanMode"
+                    RCManager="" SE8=""/>
                 <Bind Humidity="" HumidityLabel=""
                     Name="OutdoorHumidity" SE8=""/>
                 <Bind Id="" Name="WirelessWindowSwitchStatus" SE8="" WirelessWindowSwitchStatus=""/>
@@ -2349,9 +2804,16 @@ function load(evt) {
                     SE8="" WirelessDoorSwitchStatus=""/>
                 <Bind Id="" LocalMotion="" Name="LocalMotion" SE8=""/>
                 <Bind Id="" Name="Units" SE8="" Units=""/>
-                <Bind Id="" Name="Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Units.RelinquishDefault"/>
                 <Bind Id="" Name="Network Units" NetworkUnits="" SE8=""/>
-                <Bind Id="" Name="Network Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Network Units.RelinquishDefault"/>
+                <Bind FanAutoMenu="" FanHighMenu="" FanLowMenu=""
+                    FanMedMenu="" FanOnMenu="" Id="" Name="FanMenu" SE8=""/>
+                <Bind Id="" Name="BI1Config" SE8="" WindowOverride=""/>
+                <Bind Id="" LightingOverride=""
+                    Name="BO 8 Auxilary Binary Output" SE8=""/>
+                <Bind Id="" Name="UserHMI" SE8="" UserHMI=""/>
+                <Bind Id="" Message="" Name="Location" SE8=""/>
             </Component>
             <Component Height="1.0" Left="410.0" Name="RC_42"
                 Top="410.0" Width="1.0">
@@ -2367,12 +2829,16 @@ function load(evt) {
                 <Bind Name="PICoolDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Name="PIHeatDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Header="" Name="OccCommand" Occupancy=""
-                    RCManager="" SE8="" Setpoint=""/>
-                <Bind Name="SystemMode" RCManager="" SE8="" Setpoint="" SystemMode=""/>
+                    OccupancyCommand="" RCManager="" SE8="" Setpoint=""/>
+                <Bind HtgClgAuto="" HtgClgCool="" HtgClgHeat=""
+                    HtgClgOff="" Name="SystemMode" RCManager="" SE8=""
+                    Setpoint="" SystemMode=""/>
                 <Bind NOTE1="" Name="NOTE1" RCManager="" SE8=""/>
                 <Bind Header="" Name="LowBattAlarm" Occupancy=""
                     RCManager="" SE8=""/>
-                <Bind FanMode="" Name="FanMode" RCManager="" SE8=""/>
+                <Bind FanAutoMode="" FanHighMode="" FanLowMode=""
+                    FanMedMode="" FanMode="" FanOnMode="" Name="FanMode"
+                    RCManager="" SE8=""/>
                 <Bind Humidity="" HumidityLabel=""
                     Name="OutdoorHumidity" SE8=""/>
                 <Bind Id="" Name="WirelessWindowSwitchStatus" SE8="" WirelessWindowSwitchStatus=""/>
@@ -2380,9 +2846,16 @@ function load(evt) {
                     SE8="" WirelessDoorSwitchStatus=""/>
                 <Bind Id="" LocalMotion="" Name="LocalMotion" SE8=""/>
                 <Bind Id="" Name="Units" SE8="" Units=""/>
-                <Bind Id="" Name="Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Units.RelinquishDefault"/>
                 <Bind Id="" Name="Network Units" NetworkUnits="" SE8=""/>
-                <Bind Id="" Name="Network Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Network Units.RelinquishDefault"/>
+                <Bind FanAutoMenu="" FanHighMenu="" FanLowMenu=""
+                    FanMedMenu="" FanOnMenu="" Id="" Name="FanMenu" SE8=""/>
+                <Bind Id="" Name="BI1Config" SE8="" WindowOverride=""/>
+                <Bind Id="" LightingOverride=""
+                    Name="BO 8 Auxilary Binary Output" SE8=""/>
+                <Bind Id="" Name="UserHMI" SE8="" UserHMI=""/>
+                <Bind Id="" Message="" Name="Location" SE8=""/>
             </Component>
             <Component Height="1.0" Left="420.0" Name="RC_43"
                 Top="420.0" Width="1.0">
@@ -2398,12 +2871,16 @@ function load(evt) {
                 <Bind Name="PICoolDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Name="PIHeatDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Header="" Name="OccCommand" Occupancy=""
-                    RCManager="" SE8="" Setpoint=""/>
-                <Bind Name="SystemMode" RCManager="" SE8="" Setpoint="" SystemMode=""/>
+                    OccupancyCommand="" RCManager="" SE8="" Setpoint=""/>
+                <Bind HtgClgAuto="" HtgClgCool="" HtgClgHeat=""
+                    HtgClgOff="" Name="SystemMode" RCManager="" SE8=""
+                    Setpoint="" SystemMode=""/>
                 <Bind NOTE1="" Name="NOTE1" RCManager="" SE8=""/>
                 <Bind Header="" Name="LowBattAlarm" Occupancy=""
                     RCManager="" SE8=""/>
-                <Bind FanMode="" Name="FanMode" RCManager="" SE8=""/>
+                <Bind FanAutoMode="" FanHighMode="" FanLowMode=""
+                    FanMedMode="" FanMode="" FanOnMode="" Name="FanMode"
+                    RCManager="" SE8=""/>
                 <Bind Humidity="" HumidityLabel=""
                     Name="OutdoorHumidity" SE8=""/>
                 <Bind Id="" Name="WirelessWindowSwitchStatus" SE8="" WirelessWindowSwitchStatus=""/>
@@ -2411,9 +2888,16 @@ function load(evt) {
                     SE8="" WirelessDoorSwitchStatus=""/>
                 <Bind Id="" LocalMotion="" Name="LocalMotion" SE8=""/>
                 <Bind Id="" Name="Units" SE8="" Units=""/>
-                <Bind Id="" Name="Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Units.RelinquishDefault"/>
                 <Bind Id="" Name="Network Units" NetworkUnits="" SE8=""/>
-                <Bind Id="" Name="Network Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Network Units.RelinquishDefault"/>
+                <Bind FanAutoMenu="" FanHighMenu="" FanLowMenu=""
+                    FanMedMenu="" FanOnMenu="" Id="" Name="FanMenu" SE8=""/>
+                <Bind Id="" Name="BI1Config" SE8="" WindowOverride=""/>
+                <Bind Id="" LightingOverride=""
+                    Name="BO 8 Auxilary Binary Output" SE8=""/>
+                <Bind Id="" Name="UserHMI" SE8="" UserHMI=""/>
+                <Bind Id="" Message="" Name="Location" SE8=""/>
             </Component>
             <Component Height="1.0" Left="430.0" Name="RC_44"
                 Top="430.0" Width="1.0">
@@ -2429,12 +2913,16 @@ function load(evt) {
                 <Bind Name="PICoolDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Name="PIHeatDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Header="" Name="OccCommand" Occupancy=""
-                    RCManager="" SE8="" Setpoint=""/>
-                <Bind Name="SystemMode" RCManager="" SE8="" Setpoint="" SystemMode=""/>
+                    OccupancyCommand="" RCManager="" SE8="" Setpoint=""/>
+                <Bind HtgClgAuto="" HtgClgCool="" HtgClgHeat=""
+                    HtgClgOff="" Name="SystemMode" RCManager="" SE8=""
+                    Setpoint="" SystemMode=""/>
                 <Bind NOTE1="" Name="NOTE1" RCManager="" SE8=""/>
                 <Bind Header="" Name="LowBattAlarm" Occupancy=""
                     RCManager="" SE8=""/>
-                <Bind FanMode="" Name="FanMode" RCManager="" SE8=""/>
+                <Bind FanAutoMode="" FanHighMode="" FanLowMode=""
+                    FanMedMode="" FanMode="" FanOnMode="" Name="FanMode"
+                    RCManager="" SE8=""/>
                 <Bind Humidity="" HumidityLabel=""
                     Name="OutdoorHumidity" SE8=""/>
                 <Bind Id="" Name="WirelessWindowSwitchStatus" SE8="" WirelessWindowSwitchStatus=""/>
@@ -2442,9 +2930,16 @@ function load(evt) {
                     SE8="" WirelessDoorSwitchStatus=""/>
                 <Bind Id="" LocalMotion="" Name="LocalMotion" SE8=""/>
                 <Bind Id="" Name="Units" SE8="" Units=""/>
-                <Bind Id="" Name="Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Units.RelinquishDefault"/>
                 <Bind Id="" Name="Network Units" NetworkUnits="" SE8=""/>
-                <Bind Id="" Name="Network Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Network Units.RelinquishDefault"/>
+                <Bind FanAutoMenu="" FanHighMenu="" FanLowMenu=""
+                    FanMedMenu="" FanOnMenu="" Id="" Name="FanMenu" SE8=""/>
+                <Bind Id="" Name="BI1Config" SE8="" WindowOverride=""/>
+                <Bind Id="" LightingOverride=""
+                    Name="BO 8 Auxilary Binary Output" SE8=""/>
+                <Bind Id="" Name="UserHMI" SE8="" UserHMI=""/>
+                <Bind Id="" Message="" Name="Location" SE8=""/>
             </Component>
             <Component Height="1.0" Left="440.0" Name="RC_45"
                 Top="440.0" Width="1.0">
@@ -2460,12 +2955,16 @@ function load(evt) {
                 <Bind Name="PICoolDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Name="PIHeatDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Header="" Name="OccCommand" Occupancy=""
-                    RCManager="" SE8="" Setpoint=""/>
-                <Bind Name="SystemMode" RCManager="" SE8="" Setpoint="" SystemMode=""/>
+                    OccupancyCommand="" RCManager="" SE8="" Setpoint=""/>
+                <Bind HtgClgAuto="" HtgClgCool="" HtgClgHeat=""
+                    HtgClgOff="" Name="SystemMode" RCManager="" SE8=""
+                    Setpoint="" SystemMode=""/>
                 <Bind NOTE1="" Name="NOTE1" RCManager="" SE8=""/>
                 <Bind Header="" Name="LowBattAlarm" Occupancy=""
                     RCManager="" SE8=""/>
-                <Bind FanMode="" Name="FanMode" RCManager="" SE8=""/>
+                <Bind FanAutoMode="" FanHighMode="" FanLowMode=""
+                    FanMedMode="" FanMode="" FanOnMode="" Name="FanMode"
+                    RCManager="" SE8=""/>
                 <Bind Humidity="" HumidityLabel=""
                     Name="OutdoorHumidity" SE8=""/>
                 <Bind Id="" Name="WirelessWindowSwitchStatus" SE8="" WirelessWindowSwitchStatus=""/>
@@ -2473,9 +2972,16 @@ function load(evt) {
                     SE8="" WirelessDoorSwitchStatus=""/>
                 <Bind Id="" LocalMotion="" Name="LocalMotion" SE8=""/>
                 <Bind Id="" Name="Units" SE8="" Units=""/>
-                <Bind Id="" Name="Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Units.RelinquishDefault"/>
                 <Bind Id="" Name="Network Units" NetworkUnits="" SE8=""/>
-                <Bind Id="" Name="Network Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Network Units.RelinquishDefault"/>
+                <Bind FanAutoMenu="" FanHighMenu="" FanLowMenu=""
+                    FanMedMenu="" FanOnMenu="" Id="" Name="FanMenu" SE8=""/>
+                <Bind Id="" Name="BI1Config" SE8="" WindowOverride=""/>
+                <Bind Id="" LightingOverride=""
+                    Name="BO 8 Auxilary Binary Output" SE8=""/>
+                <Bind Id="" Name="UserHMI" SE8="" UserHMI=""/>
+                <Bind Id="" Message="" Name="Location" SE8=""/>
             </Component>
             <Component Height="1.0" Left="450.0" Name="RC_46"
                 Top="450.0" Width="1.0">
@@ -2491,12 +2997,16 @@ function load(evt) {
                 <Bind Name="PICoolDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Name="PIHeatDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Header="" Name="OccCommand" Occupancy=""
-                    RCManager="" SE8="" Setpoint=""/>
-                <Bind Name="SystemMode" RCManager="" SE8="" Setpoint="" SystemMode=""/>
+                    OccupancyCommand="" RCManager="" SE8="" Setpoint=""/>
+                <Bind HtgClgAuto="" HtgClgCool="" HtgClgHeat=""
+                    HtgClgOff="" Name="SystemMode" RCManager="" SE8=""
+                    Setpoint="" SystemMode=""/>
                 <Bind NOTE1="" Name="NOTE1" RCManager="" SE8=""/>
                 <Bind Header="" Name="LowBattAlarm" Occupancy=""
                     RCManager="" SE8=""/>
-                <Bind FanMode="" Name="FanMode" RCManager="" SE8=""/>
+                <Bind FanAutoMode="" FanHighMode="" FanLowMode=""
+                    FanMedMode="" FanMode="" FanOnMode="" Name="FanMode"
+                    RCManager="" SE8=""/>
                 <Bind Humidity="" HumidityLabel=""
                     Name="OutdoorHumidity" SE8=""/>
                 <Bind Id="" Name="WirelessWindowSwitchStatus" SE8="" WirelessWindowSwitchStatus=""/>
@@ -2504,9 +3014,16 @@ function load(evt) {
                     SE8="" WirelessDoorSwitchStatus=""/>
                 <Bind Id="" LocalMotion="" Name="LocalMotion" SE8=""/>
                 <Bind Id="" Name="Units" SE8="" Units=""/>
-                <Bind Id="" Name="Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Units.RelinquishDefault"/>
                 <Bind Id="" Name="Network Units" NetworkUnits="" SE8=""/>
-                <Bind Id="" Name="Network Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Network Units.RelinquishDefault"/>
+                <Bind FanAutoMenu="" FanHighMenu="" FanLowMenu=""
+                    FanMedMenu="" FanOnMenu="" Id="" Name="FanMenu" SE8=""/>
+                <Bind Id="" Name="BI1Config" SE8="" WindowOverride=""/>
+                <Bind Id="" LightingOverride=""
+                    Name="BO 8 Auxilary Binary Output" SE8=""/>
+                <Bind Id="" Name="UserHMI" SE8="" UserHMI=""/>
+                <Bind Id="" Message="" Name="Location" SE8=""/>
             </Component>
             <Component Height="1.0" Left="460.0" Name="RC_47"
                 Top="460.0" Width="1.0">
@@ -2522,12 +3039,16 @@ function load(evt) {
                 <Bind Name="PICoolDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Name="PIHeatDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Header="" Name="OccCommand" Occupancy=""
-                    RCManager="" SE8="" Setpoint=""/>
-                <Bind Name="SystemMode" RCManager="" SE8="" Setpoint="" SystemMode=""/>
+                    OccupancyCommand="" RCManager="" SE8="" Setpoint=""/>
+                <Bind HtgClgAuto="" HtgClgCool="" HtgClgHeat=""
+                    HtgClgOff="" Name="SystemMode" RCManager="" SE8=""
+                    Setpoint="" SystemMode=""/>
                 <Bind NOTE1="" Name="NOTE1" RCManager="" SE8=""/>
                 <Bind Header="" Name="LowBattAlarm" Occupancy=""
                     RCManager="" SE8=""/>
-                <Bind FanMode="" Name="FanMode" RCManager="" SE8=""/>
+                <Bind FanAutoMode="" FanHighMode="" FanLowMode=""
+                    FanMedMode="" FanMode="" FanOnMode="" Name="FanMode"
+                    RCManager="" SE8=""/>
                 <Bind Humidity="" HumidityLabel=""
                     Name="OutdoorHumidity" SE8=""/>
                 <Bind Id="" Name="WirelessWindowSwitchStatus" SE8="" WirelessWindowSwitchStatus=""/>
@@ -2535,9 +3056,16 @@ function load(evt) {
                     SE8="" WirelessDoorSwitchStatus=""/>
                 <Bind Id="" LocalMotion="" Name="LocalMotion" SE8=""/>
                 <Bind Id="" Name="Units" SE8="" Units=""/>
-                <Bind Id="" Name="Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Units.RelinquishDefault"/>
                 <Bind Id="" Name="Network Units" NetworkUnits="" SE8=""/>
-                <Bind Id="" Name="Network Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Network Units.RelinquishDefault"/>
+                <Bind FanAutoMenu="" FanHighMenu="" FanLowMenu=""
+                    FanMedMenu="" FanOnMenu="" Id="" Name="FanMenu" SE8=""/>
+                <Bind Id="" Name="BI1Config" SE8="" WindowOverride=""/>
+                <Bind Id="" LightingOverride=""
+                    Name="BO 8 Auxilary Binary Output" SE8=""/>
+                <Bind Id="" Name="UserHMI" SE8="" UserHMI=""/>
+                <Bind Id="" Message="" Name="Location" SE8=""/>
             </Component>
             <Component Height="1.0" Left="470.0" Name="RC_48"
                 Top="470.0" Width="1.0">
@@ -2553,12 +3081,16 @@ function load(evt) {
                 <Bind Name="PICoolDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Name="PIHeatDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Header="" Name="OccCommand" Occupancy=""
-                    RCManager="" SE8="" Setpoint=""/>
-                <Bind Name="SystemMode" RCManager="" SE8="" Setpoint="" SystemMode=""/>
+                    OccupancyCommand="" RCManager="" SE8="" Setpoint=""/>
+                <Bind HtgClgAuto="" HtgClgCool="" HtgClgHeat=""
+                    HtgClgOff="" Name="SystemMode" RCManager="" SE8=""
+                    Setpoint="" SystemMode=""/>
                 <Bind NOTE1="" Name="NOTE1" RCManager="" SE8=""/>
                 <Bind Header="" Name="LowBattAlarm" Occupancy=""
                     RCManager="" SE8=""/>
-                <Bind FanMode="" Name="FanMode" RCManager="" SE8=""/>
+                <Bind FanAutoMode="" FanHighMode="" FanLowMode=""
+                    FanMedMode="" FanMode="" FanOnMode="" Name="FanMode"
+                    RCManager="" SE8=""/>
                 <Bind Humidity="" HumidityLabel=""
                     Name="OutdoorHumidity" SE8=""/>
                 <Bind Id="" Name="WirelessWindowSwitchStatus" SE8="" WirelessWindowSwitchStatus=""/>
@@ -2566,9 +3098,16 @@ function load(evt) {
                     SE8="" WirelessDoorSwitchStatus=""/>
                 <Bind Id="" LocalMotion="" Name="LocalMotion" SE8=""/>
                 <Bind Id="" Name="Units" SE8="" Units=""/>
-                <Bind Id="" Name="Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Units.RelinquishDefault"/>
                 <Bind Id="" Name="Network Units" NetworkUnits="" SE8=""/>
-                <Bind Id="" Name="Network Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Network Units.RelinquishDefault"/>
+                <Bind FanAutoMenu="" FanHighMenu="" FanLowMenu=""
+                    FanMedMenu="" FanOnMenu="" Id="" Name="FanMenu" SE8=""/>
+                <Bind Id="" Name="BI1Config" SE8="" WindowOverride=""/>
+                <Bind Id="" LightingOverride=""
+                    Name="BO 8 Auxilary Binary Output" SE8=""/>
+                <Bind Id="" Name="UserHMI" SE8="" UserHMI=""/>
+                <Bind Id="" Message="" Name="Location" SE8=""/>
             </Component>
             <Component Height="1.0" Left="480.0" Name="RC_49"
                 Top="480.0" Width="1.0">
@@ -2584,12 +3123,16 @@ function load(evt) {
                 <Bind Name="PICoolDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Name="PIHeatDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Header="" Name="OccCommand" Occupancy=""
-                    RCManager="" SE8="" Setpoint=""/>
-                <Bind Name="SystemMode" RCManager="" SE8="" Setpoint="" SystemMode=""/>
+                    OccupancyCommand="" RCManager="" SE8="" Setpoint=""/>
+                <Bind HtgClgAuto="" HtgClgCool="" HtgClgHeat=""
+                    HtgClgOff="" Name="SystemMode" RCManager="" SE8=""
+                    Setpoint="" SystemMode=""/>
                 <Bind NOTE1="" Name="NOTE1" RCManager="" SE8=""/>
                 <Bind Header="" Name="LowBattAlarm" Occupancy=""
                     RCManager="" SE8=""/>
-                <Bind FanMode="" Name="FanMode" RCManager="" SE8=""/>
+                <Bind FanAutoMode="" FanHighMode="" FanLowMode=""
+                    FanMedMode="" FanMode="" FanOnMode="" Name="FanMode"
+                    RCManager="" SE8=""/>
                 <Bind Humidity="" HumidityLabel=""
                     Name="OutdoorHumidity" SE8=""/>
                 <Bind Id="" Name="WirelessWindowSwitchStatus" SE8="" WirelessWindowSwitchStatus=""/>
@@ -2597,9 +3140,16 @@ function load(evt) {
                     SE8="" WirelessDoorSwitchStatus=""/>
                 <Bind Id="" LocalMotion="" Name="LocalMotion" SE8=""/>
                 <Bind Id="" Name="Units" SE8="" Units=""/>
-                <Bind Id="" Name="Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Units.RelinquishDefault"/>
                 <Bind Id="" Name="Network Units" NetworkUnits="" SE8=""/>
-                <Bind Id="" Name="Network Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Network Units.RelinquishDefault"/>
+                <Bind FanAutoMenu="" FanHighMenu="" FanLowMenu=""
+                    FanMedMenu="" FanOnMenu="" Id="" Name="FanMenu" SE8=""/>
+                <Bind Id="" Name="BI1Config" SE8="" WindowOverride=""/>
+                <Bind Id="" LightingOverride=""
+                    Name="BO 8 Auxilary Binary Output" SE8=""/>
+                <Bind Id="" Name="UserHMI" SE8="" UserHMI=""/>
+                <Bind Id="" Message="" Name="Location" SE8=""/>
             </Component>
             <Component Height="1.0" Left="490.0" Name="RC_50"
                 Top="490.0" Width="1.0">
@@ -2615,12 +3165,16 @@ function load(evt) {
                 <Bind Name="PICoolDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Name="PIHeatDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Header="" Name="OccCommand" Occupancy=""
-                    RCManager="" SE8="" Setpoint=""/>
-                <Bind Name="SystemMode" RCManager="" SE8="" Setpoint="" SystemMode=""/>
+                    OccupancyCommand="" RCManager="" SE8="" Setpoint=""/>
+                <Bind HtgClgAuto="" HtgClgCool="" HtgClgHeat=""
+                    HtgClgOff="" Name="SystemMode" RCManager="" SE8=""
+                    Setpoint="" SystemMode=""/>
                 <Bind NOTE1="" Name="NOTE1" RCManager="" SE8=""/>
                 <Bind Header="" Name="LowBattAlarm" Occupancy=""
                     RCManager="" SE8=""/>
-                <Bind FanMode="" Name="FanMode" RCManager="" SE8=""/>
+                <Bind FanAutoMode="" FanHighMode="" FanLowMode=""
+                    FanMedMode="" FanMode="" FanOnMode="" Name="FanMode"
+                    RCManager="" SE8=""/>
                 <Bind Humidity="" HumidityLabel=""
                     Name="OutdoorHumidity" SE8=""/>
                 <Bind Id="" Name="WirelessWindowSwitchStatus" SE8="" WirelessWindowSwitchStatus=""/>
@@ -2628,9 +3182,16 @@ function load(evt) {
                     SE8="" WirelessDoorSwitchStatus=""/>
                 <Bind Id="" LocalMotion="" Name="LocalMotion" SE8=""/>
                 <Bind Id="" Name="Units" SE8="" Units=""/>
-                <Bind Id="" Name="Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Units.RelinquishDefault"/>
                 <Bind Id="" Name="Network Units" NetworkUnits="" SE8=""/>
-                <Bind Id="" Name="Network Units.RelinquishDefault" SE8=""/>
+                <Bind Id="" Name="Network Units.RelinquishDefault"/>
+                <Bind FanAutoMenu="" FanHighMenu="" FanLowMenu=""
+                    FanMedMenu="" FanOnMenu="" Id="" Name="FanMenu" SE8=""/>
+                <Bind Id="" Name="BI1Config" SE8="" WindowOverride=""/>
+                <Bind Id="" LightingOverride=""
+                    Name="BO 8 Auxilary Binary Output" SE8=""/>
+                <Bind Id="" Name="UserHMI" SE8="" UserHMI=""/>
+                <Bind Id="" Message="" Name="Location" SE8=""/>
             </Component>
         </Component>
     </Layer>
@@ -4011,26 +4572,30 @@ function load(evt) {
                         <TargetArea Height="22.0" Left="0.0"
                             Name="UserHMI" SE8="" Top="20.0" UserHMI="" Width="148.37"/>
                     </Component>
-                    <Text FontFamily="Arial" FontSize="15.0"
-                        FontStyle="Normal" FontWeight="Normal"
-                        HorizontalAlign="Center"
-                        Left="154.52589546341915" Opacity="1.0"
-                        Stroke="#000000" TextDecoration="None"
-                        Top="440.72594714164734" VerticalAlign="Top"><![CDATA[Guest Message]]></Text>
-                    <Component Clip="False" ContentHeight="20.0"
-                        ContentWidth="225.0" Height="20.0"
-                        Id="Guest Message" Left="47.00052146811504"
-                        Top="460.72594714164734" Width="225.0">
-                        <Rectangle Fill="#FFFFFF" Height="20.0"
-                            Left="0.0" Opacity="0.4" RadiusX="0.0"
-                            RadiusY="0.0" Stroke="#000000"
-                            StrokeDashArray="0.0" StrokeWidth="1.0"
-                            Top="0.0" Width="225.0"/>
+                    <Component Clip="False" ContentHeight="40.0"
+                        ContentWidth="225.0" Ctrl="MessageCtrl"
+                        Height="40.0" Left="47.0" Name="Guest Message"
+                        SubModel="Message" Top="440.73" Width="225.0">
                         <Text FontFamily="Arial" FontSize="15.0"
                             FontStyle="Normal" FontWeight="Normal"
-                            HorizontalAlign="Center" Left="112.5"
-                            Name="Text" Opacity="1.0" Stroke="#000000"
-                            TextDecoration="None" Top="2.5" VerticalAlign="Top"/>
+                            HorizontalAlign="Center"
+                            Left="107.52589546341915" Opacity="1.0"
+                            Stroke="#000000" TextDecoration="None"
+                            Top="-0.004063844680786" VerticalAlign="Top"><![CDATA[Guest Message]]></Text>
+                        <Rectangle Fill="#FFFFFF" Height="20.0"
+                            Left="0.000522613525391" Opacity="0.4"
+                            RadiusX="0.0" RadiusY="0.0" Stroke="#000000"
+                            StrokeDashArray="0.0" StrokeWidth="1.0"
+                            Top="19.995941162109375" Width="225.0"/>
+                        <Text FontFamily="Arial" FontSize="15.0"
+                            FontStyle="Normal" FontWeight="Normal"
+                            HorizontalAlign="Center"
+                            Left="112.50052261352539" Name="Message"
+                            Opacity="1.0" Stroke="#000000"
+                            TextDecoration="None"
+                            Top="22.495941162109375" VerticalAlign="Top"/>
+                        <TargetArea Height="20.0" Message=""
+                            Name="Location" SE8="" Top="20.0" Width="225.0"/>
                     </Component>
                 </Group>
                 <Group Name="Settings" Visibility="Hidden">
