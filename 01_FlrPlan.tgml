@@ -2,7 +2,7 @@
 
 <!--[DocumentInformation]
 Created: 2014-07-09 07:45
-Modified: 2015-02-11 09:29
+Modified: 2015-02-11 10:26
 -->
 <?tgml version="1.21"?><Tgml ComponentCounter="169" GridSize="5"
     Height="900.0" LayerCounter="4" UseGlobalScripts="True" Width="1710.0">
@@ -439,6 +439,7 @@ function load(evt)
 			if(child.hasAttribute("SubModel")) {
 				var model = String(child.getAttribute("SubModel")),
 					ctrl = String(child.getAttribute("Ctrl"));
+
 				this.models[model] = Object.create(eval("global." + ctrl));
 				this.models[model].init(child);
 			}
@@ -649,12 +650,14 @@ function load(evt) {
 		this.rightValue = +this.node.getAttribute("RightValue");
 		this.leftValue = +this.node.getAttribute("LeftValue");
 		this.value = 0;
+		this.node.setAttribute("Visibility", "Hidden");
 	},
 	
 	update: function(sig) {		
+		this.node.setAttribute("Visibility", "Visible");
 		this.value = +sig.value;
-		this.switchAnimate.update(this.value === this.rightValue);
-		this.bgdAnimate.update(this.value === this.rightValue);
+		this.switchAnimate.update(this.value === this.leftValue);
+		this.bgdAnimate.update(this.value === this.leftValue);
 	},
 	
 	click: function(bind) {
@@ -1015,9 +1018,11 @@ function load(evt) {
 		this.bgdAnimate.init(this.node.getChildByName("BgAni"));
 
 		this.value = false;
+		this.node.setAttribute("Visibility", "Hidden");
 	},
 	
 	update: function(sig) {		
+		this.node.setAttribute("Visibility", "Visible");
 		this.value = global.getBool(sig.value);
 		this.switchAnimate.update(this.value);
 		this.bgdAnimate.update(this.value);
@@ -1052,7 +1057,7 @@ function load(evt) {
 
 function load(evt) {
 }]]></Script>
-        <Script Name="FanModeSelect" OnDocumentLoad="load"><![CDATA[global.FanModeSelect = {
+        <Script Name="ModeSelect" OnDocumentLoad="load"><![CDATA[global.ModeSelect = {
 	init: function(node) {
 		this.node = node;
 		this.mode = 0;
@@ -1090,8 +1095,10 @@ function load(evt) {
                 <Bind Name="PICoolDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Name="PIHeatDemand" RCManager="" SE8="" Setpoint=""/>
                 <Bind Header="" Name="OccCommand" Occupancy=""
-                    RCManager="" SE8="" Setpoint=""/>
-                <Bind Name="SystemMode" RCManager="" SE8="" Setpoint="" SystemMode=""/>
+                    OccupancyCommand="" RCManager="" SE8="" Setpoint=""/>
+                <Bind HtgClgAuto="" HtgClgCool="" HtgClgHeat=""
+                    HtgClgOff="" Name="SystemMode" RCManager="" SE8=""
+                    Setpoint="" SystemMode=""/>
                 <Bind NOTE1="" Name="NOTE1" RCManager="" SE8=""/>
                 <Bind Header="" Name="LowBattAlarm" Occupancy=""
                     RCManager="" SE8=""/>
@@ -1110,6 +1117,10 @@ function load(evt) {
                 <Bind Id="" Name="Network Units.RelinquishDefault"/>
                 <Bind FanAutoMenu="" FanHighMenu="" FanLowMenu=""
                     FanMedMenu="" FanOnMenu="" Id="" Name="FanMenu" SE8=""/>
+                <Bind Id="" Name="BI1Config" SE8="" WindowOverride=""/>
+                <Bind Id="" LightingOverride=""
+                    Name="BO 8 Auxilary Binary Output" SE8=""/>
+                <Bind Id="" Name="UserHMI" SE8="" UserHMI=""/>
             </Component>
             <Component Height="1.0" Left="10.0" Name="RC_02" Top="10.0" Width="1.0">
                 <Bind Name="RoomTemp" RCManager="" RoomTemp="" SE8=""/>
@@ -3218,12 +3229,6 @@ function load(evt) {
                         Left="187.45718574523926" Opacity="1.0"
                         Stroke="#000000" TextDecoration="None"
                         Top="14.998947143554688" VerticalAlign="Top"><![CDATA[Control]]></Text>
-                    <Text FontFamily="Arial" FontSize="15.0"
-                        FontStyle="Normal" FontWeight="Normal"
-                        HorizontalAlign="Right"
-                        Left="129.53871285915375" Opacity="1.0"
-                        Stroke="#000000" TextDecoration="None"
-                        Top="94.27167510986328" VerticalAlign="Top"><![CDATA[Guestroom Units]]></Text>
                     <Component Clip="False" ContentHeight="23.65"
                         ContentWidth="80.16" Ctrl="SwitchMPMCtrl"
                         Height="23.65" Left="22.0" LeftValue="1"
@@ -3279,13 +3284,12 @@ function load(evt) {
                             Top="6.892356514930725" VerticalAlign="Top"><![CDATA[°F]]></Text>
                         <TargetArea Height="23.65" Left="0.0"
                             Name="Units" SE8="" Top="0.0" Units="" Width="80.16"/>
+                        <Text FontFamily="Arial" FontSize="15.0"
+                            FontStyle="Normal" FontWeight="Normal"
+                            HorizontalAlign="Right" Left="107.5387"
+                            Opacity="1.0" Stroke="#000000"
+                            TextDecoration="None" Top="-20.7283" VerticalAlign="Top"><![CDATA[Guestroom Units]]></Text>
                     </Component>
-                    <Text FontFamily="Arial" FontSize="15.0"
-                        FontStyle="Normal" FontWeight="Normal"
-                        HorizontalAlign="Right"
-                        Left="300.35670602321625" Opacity="1.0"
-                        Stroke="#000000" TextDecoration="None"
-                        Top="94.27167510986328" VerticalAlign="Top"><![CDATA[Network Units]]></Text>
                     <Component Clip="False" ContentHeight="23.65"
                         ContentWidth="80.16" Ctrl="SwitchMPMCtrl"
                         Height="23.65" Left="217.82" LeftValue="1"
@@ -3341,6 +3345,11 @@ function load(evt) {
                         <TargetArea Height="23.65" Left="0.0"
                             Name="Network Units" NetworkUnits="" SE8=""
                             Top="0.0" Width="80.16"/>
+                        <Text FontFamily="Arial" FontSize="15.0"
+                            FontStyle="Normal" FontWeight="Normal"
+                            HorizontalAlign="Right" Left="82.5367"
+                            Opacity="1.0" Stroke="#000000"
+                            TextDecoration="None" Top="-20.72832" VerticalAlign="Top"><![CDATA[Network Units]]></Text>
                     </Component>
                     <Component Clip="False" ContentHeight="50.0"
                         ContentWidth="50.0" GridSize="10" Height="50.0"
@@ -3367,7 +3376,7 @@ function load(evt) {
                                 Description="The color of the radio button."
                                 ExposedAttribute="Fill" Name="ButtonColor"/>
                             <Expose ExposedAttribute="Stroke" Name="ButtonEdge"/>
-                            <Ellipse Ctrl="FanModeSelect" Height="12.0"
+                            <Ellipse Ctrl="ModeSelect" Height="12.0"
                                 Left="1.5" Mode="4" Name="Background"
                                 Opacity="1.0" Stroke="#FFFFFF"
                                 StrokeDashArray="0.0" StrokeWidth="4.0"
@@ -3412,7 +3421,7 @@ function load(evt) {
                                 Description="The color of the radio button."
                                 ExposedAttribute="Fill" Name="ButtonColor"/>
                             <Expose ExposedAttribute="Stroke" Name="ButtonEdge"/>
-                            <Ellipse Ctrl="FanModeSelect" Height="12.0"
+                            <Ellipse Ctrl="ModeSelect" Height="12.0"
                                 Left="1.5" Mode="1" Name="Background"
                                 Opacity="1.0" Stroke="#FFFFFF"
                                 StrokeDashArray="0.0" StrokeWidth="4.0"
@@ -3457,7 +3466,7 @@ function load(evt) {
                                 Description="The color of the radio button."
                                 ExposedAttribute="Fill" Name="ButtonColor"/>
                             <Expose ExposedAttribute="Stroke" Name="ButtonEdge"/>
-                            <Ellipse Ctrl="FanModeSelect" Height="12.0"
+                            <Ellipse Ctrl="ModeSelect" Height="12.0"
                                 Left="1.5" Mode="2" Name="Background"
                                 Opacity="1.0" Stroke="#FFFFFF"
                                 StrokeDashArray="0.0" StrokeWidth="4.0"
@@ -3502,7 +3511,7 @@ function load(evt) {
                                 Description="The color of the radio button."
                                 ExposedAttribute="Fill" Name="ButtonColor"/>
                             <Expose ExposedAttribute="Stroke" Name="ButtonEdge"/>
-                            <Ellipse Ctrl="FanModeSelect" Height="12.0"
+                            <Ellipse Ctrl="ModeSelect" Height="12.0"
                                 Left="1.5" Mode="3" Name="Background"
                                 Opacity="1.0" Stroke="#FFFFFF"
                                 StrokeDashArray="0.0" StrokeWidth="4.0"
@@ -3547,7 +3556,7 @@ function load(evt) {
                                 Description="The color of the radio button."
                                 ExposedAttribute="Fill" Name="ButtonColor"/>
                             <Expose ExposedAttribute="Stroke" Name="ButtonEdge"/>
-                            <Ellipse Ctrl="FanModeSelect" Height="12.0"
+                            <Ellipse Ctrl="ModeSelect" Height="12.0"
                                 Left="1.5" Mode="5" Name="Background"
                                 Opacity="1.0" Stroke="#FFFFFF"
                                 StrokeDashArray="0.0" StrokeWidth="4.0"
@@ -3613,10 +3622,11 @@ function load(evt) {
                             Description="The color of the radio button."
                             ExposedAttribute="Fill" Name="ButtonColor"/>
                         <Expose ExposedAttribute="Stroke" Name="ButtonEdge"/>
-                        <Ellipse Height="12.0" Left="1.5"
-                            Name="Background" Opacity="1.0"
-                            Stroke="#FFFFFF" StrokeDashArray="0.0"
-                            StrokeWidth="4.0" Top="1.5"
+                        <Ellipse Ctrl="ModeSelect" Height="12.0"
+                            Left="1.5" Mode="1" Name="Background"
+                            Opacity="1.0" Stroke="#FFFFFF"
+                            StrokeDashArray="0.0" StrokeWidth="4.0"
+                            SubModel="HtgClgOff" Top="1.5"
                             Visibility="Visible" Width="12.0"/>
                         <Ellipse Fill="None" Height="7.0" Left="4.0"
                             Name="EditMode" Opacity="1.0" Stroke="None"
@@ -3627,25 +3637,11 @@ function load(evt) {
                                 <GradientStop Color="#19000000" Offset="1"/>
                             </LinearGradient>
                         </Ellipse>
-                        <Expose
-                            Description="The value to set and indicate."
-                            ExposedAttribute="RadioButtonValue" Name="RadioButtonValue"/>
-                        <Ellipse Fill="None" Height="15.0" Left="0.0"
-                            Name="Hover" Opacity="1.0" Stroke="None"
-                            StrokeDashArray="0.0" StrokeWidth="1.0"
-                            Top="0.0" Visibility="Hidden" Width="15.0">
-                            <LinearGradient EndPoint="0.0,1.0">
-                                <GradientStop Color="None" Offset="0.0"/>
-                                <GradientStop Color="#FFFFFF" Offset="1.0">
-                                    <Expose
-                                    Description="The color of the hover indication."
-                                    ExposedAttribute="Color" Name="HoverColor"/>
-                                </GradientStop>
-                            </LinearGradient>
-                        </Ellipse>
                         <Ellipse Fill="None" Height="13.0" Left="1.0"
                             Name="Edge" Top="1.0" Width="13.0"/>
-                        <TargetArea Height="15.0" Left="0.0" Top="0.0" Width="15.0"/>
+                        <TargetArea Height="15.0" HtgClgOff=""
+                            Left="0.0" Name="SystemMode" SE8=""
+                            Top="0.0" Width="15.0"/>
                     </Component>
                     <Text FontFamily="Arial" FontSize="15.0"
                         FontStyle="Normal" FontWeight="Normal"
@@ -3662,10 +3658,11 @@ function load(evt) {
                             Description="The color of the radio button."
                             ExposedAttribute="Fill" Name="ButtonColor"/>
                         <Expose ExposedAttribute="Stroke" Name="ButtonEdge"/>
-                        <Ellipse Height="12.0" Left="1.5"
-                            Name="Background" Opacity="1.0"
-                            Stroke="#FFFFFF" StrokeDashArray="0.0"
-                            StrokeWidth="4.0" Top="1.5"
+                        <Ellipse Ctrl="ModeSelect" Height="12.0"
+                            Left="1.5" Mode="2" Name="Background"
+                            Opacity="1.0" Stroke="#FFFFFF"
+                            StrokeDashArray="0.0" StrokeWidth="4.0"
+                            SubModel="HtgClgAuto" Top="1.5"
                             Visibility="Visible" Width="12.0"/>
                         <Ellipse Fill="None" Height="7.0" Left="4.0"
                             Name="EditMode" Opacity="1.0" Stroke="None"
@@ -3676,25 +3673,11 @@ function load(evt) {
                                 <GradientStop Color="#19000000" Offset="1"/>
                             </LinearGradient>
                         </Ellipse>
-                        <Expose
-                            Description="The value to set and indicate."
-                            ExposedAttribute="RadioButtonValue" Name="RadioButtonValue"/>
-                        <Ellipse Fill="None" Height="15.0" Left="0.0"
-                            Name="Hover" Opacity="1.0" Stroke="None"
-                            StrokeDashArray="0.0" StrokeWidth="1.0"
-                            Top="0.0" Visibility="Hidden" Width="15.0">
-                            <LinearGradient EndPoint="0.0,1.0">
-                                <GradientStop Color="None" Offset="0.0"/>
-                                <GradientStop Color="#FFFFFF" Offset="1.0">
-                                    <Expose
-                                    Description="The color of the hover indication."
-                                    ExposedAttribute="Color" Name="HoverColor"/>
-                                </GradientStop>
-                            </LinearGradient>
-                        </Ellipse>
                         <Ellipse Fill="None" Height="13.0" Left="1.0"
                             Name="Edge" Top="1.0" Width="13.0"/>
-                        <TargetArea Height="15.0" Left="0.0" Top="0.0" Width="15.0"/>
+                        <TargetArea Height="15.0" HtgClgAuto=""
+                            Left="0.0" Name="SystemMode" SE8=""
+                            Top="0.0" Width="15.0"/>
                     </Component>
                     <Text FontFamily="Arial" FontSize="15.0"
                         FontStyle="Normal" FontWeight="Normal"
@@ -3713,10 +3696,11 @@ function load(evt) {
                                 Description="The color of the radio button."
                                 ExposedAttribute="Fill" Name="ButtonColor"/>
                             <Expose ExposedAttribute="Stroke" Name="ButtonEdge"/>
-                            <Ellipse Height="12.0" Left="1.5"
-                                Name="Background" Opacity="1.0"
-                                Stroke="#FFFFFF" StrokeDashArray="0.0"
-                                StrokeWidth="4.0" Top="1.5"
+                            <Ellipse Ctrl="ModeSelect" Height="12.0"
+                                Left="1.5" Mode="3" Name="Background"
+                                Opacity="1.0" Stroke="#FFFFFF"
+                                StrokeDashArray="0.0" StrokeWidth="4.0"
+                                SubModel="HtgClgCool" Top="1.5"
                                 Visibility="Visible" Width="12.0"/>
                             <Ellipse Fill="None" Height="7.0" Left="4.0"
                                 Name="EditMode" Opacity="1.0"
@@ -3728,26 +3712,10 @@ function load(evt) {
                                     <GradientStop Color="#19000000" Offset="1"/>
                                 </LinearGradient>
                             </Ellipse>
-                            <Expose
-                                Description="The value to set and indicate."
-                                ExposedAttribute="RadioButtonValue" Name="RadioButtonValue"/>
-                            <Ellipse Fill="None" Height="15.0"
-                                Left="0.0" Name="Hover" Opacity="1.0"
-                                Stroke="None" StrokeDashArray="0.0"
-                                StrokeWidth="1.0" Top="0.0"
-                                Visibility="Hidden" Width="15.0">
-                                <LinearGradient EndPoint="0.0,1.0">
-                                    <GradientStop Color="None" Offset="0.0"/>
-                                    <GradientStop Color="#FFFFFF" Offset="1.0">
-                                    <Expose
-                                    Description="The color of the hover indication."
-                                    ExposedAttribute="Color" Name="HoverColor"/>
-                                    </GradientStop>
-                                </LinearGradient>
-                            </Ellipse>
                             <Ellipse Fill="None" Height="13.0"
                                 Left="1.0" Name="Edge" Top="1.0" Width="13.0"/>
-                            <TargetArea Height="15.0" Left="0.0"
+                            <TargetArea Height="15.0" HtgClgCool=""
+                                Left="0.0" Name="SystemMode" SE8=""
                                 Top="0.0" Width="15.0"/>
                         </Component>
                         <Text FontFamily="Arial" FontSize="15.0"
@@ -3769,10 +3737,11 @@ function load(evt) {
                                 Description="The color of the radio button."
                                 ExposedAttribute="Fill" Name="ButtonColor"/>
                             <Expose ExposedAttribute="Stroke" Name="ButtonEdge"/>
-                            <Ellipse Height="12.0" Left="1.5"
-                                Name="Background" Opacity="1.0"
-                                Stroke="#FFFFFF" StrokeDashArray="0.0"
-                                StrokeWidth="4.0" Top="1.5"
+                            <Ellipse Ctrl="ModeSelect" Height="12.0"
+                                Left="1.5" Mode="4" Name="Background"
+                                Opacity="1.0" Stroke="#FFFFFF"
+                                StrokeDashArray="0.0" StrokeWidth="4.0"
+                                SubModel="HtgClgHeat" Top="1.5"
                                 Visibility="Visible" Width="12.0"/>
                             <Ellipse Fill="None" Height="7.0" Left="4.0"
                                 Name="EditMode" Opacity="1.0"
@@ -3784,26 +3753,10 @@ function load(evt) {
                                     <GradientStop Color="#19000000" Offset="1"/>
                                 </LinearGradient>
                             </Ellipse>
-                            <Expose
-                                Description="The value to set and indicate."
-                                ExposedAttribute="RadioButtonValue" Name="RadioButtonValue"/>
-                            <Ellipse Fill="None" Height="15.0"
-                                Left="0.0" Name="Hover" Opacity="1.0"
-                                Stroke="None" StrokeDashArray="0.0"
-                                StrokeWidth="1.0" Top="0.0"
-                                Visibility="Hidden" Width="15.0">
-                                <LinearGradient EndPoint="0.0,1.0">
-                                    <GradientStop Color="None" Offset="0.0"/>
-                                    <GradientStop Color="#FFFFFF" Offset="1.0">
-                                    <Expose
-                                    Description="The color of the hover indication."
-                                    ExposedAttribute="Color" Name="HoverColor"/>
-                                    </GradientStop>
-                                </LinearGradient>
-                            </Ellipse>
                             <Ellipse Fill="None" Height="13.0"
                                 Left="1.0" Name="Edge" Top="1.0" Width="13.0"/>
-                            <TargetArea Height="15.0" Left="0.0"
+                            <TargetArea Height="15.0" HtgClgHeat=""
+                                Left="0.0" Name="SystemMode" SE8=""
                                 Top="0.0" Width="15.0"/>
                         </Component>
                         <Text FontFamily="Arial" FontSize="15.0"
@@ -3813,206 +3766,251 @@ function load(evt) {
                             Stroke="#808080" TextDecoration="None"
                             Top="215.72594714164734" VerticalAlign="Top"><![CDATA[Heat]]></Text>
                     </Group>
-                    <Text FontFamily="Arial" FontSize="15.0"
-                        FontStyle="Normal" FontWeight="Normal"
-                        HorizontalAlign="Right" Left="204.1152681579115"
-                        Opacity="1.0" Stroke="#000000"
-                        TextDecoration="None" Top="240.72594714164734" VerticalAlign="Top"><![CDATA[Window/Balcony]]></Text>
-                    <Text FontFamily="Arial" FontSize="15.0"
-                        FontStyle="Normal" FontWeight="Normal"
-                        HorizontalAlign="Right"
-                        Left="120.34051911730785" Opacity="1.0"
-                        Stroke="#000000" TextDecoration="None"
-                        Top="260.72594714164734" VerticalAlign="Top"><![CDATA[Normal]]></Text>
-                    <Component Clip="False" ContentHeight="22.0"
-                        ContentWidth="40.0" Height="22.0"
-                        Id="WindowBalcony" Left="127.00052146811504"
-                        LeftValue="5" Name="" RightValue="1"
-                        Top="260.72594714164734" Width="40.0">
-                        <Expose ExposedAttribute="LeftValue" Name="Left Value"/>
-                        <Expose ExposedAttribute="RightValue" Name="Right Value"/>
-                        <Rectangle Fill="#87D300" Height="20.0"
-                            Left="0.0" Name="Background" Opacity="1.0"
-                            RadiusX="10" RadiusY="10" Stroke="#9FA0A4"
-                            StrokeDashArray="0.0" StrokeWidth="1.0"
-                            Top="0.0" Width="40.0">
-                            <Animate Animation="Stop" Attribute="Fill"
-                                CalcMode="Linear" Duration=".25"
-                                Freeze="True" From="#87D300"
-                                Name="BgAni" Repeat="1" To="#CCCCCC"/>
-                        </Rectangle>
+                    <Component Clip="False" ContentHeight="42.0"
+                        ContentWidth="208.38" Ctrl="SwitchCtrl"
+                        Height="42.0" Left="72.0" LeftValue="5"
+                        Name="WindowOverride" RightValue="1"
+                        SubModel="WindowOverride" Top="240.73" Width="208.38">
+                        <Text FontFamily="Arial" FontSize="15.0"
+                            FontStyle="Normal" FontWeight="Normal"
+                            HorizontalAlign="Right"
+                            Left="132.1152681579115" Opacity="1.0"
+                            Stroke="#000000" TextDecoration="None"
+                            Top="-0.004048585891724" VerticalAlign="Top"><![CDATA[Window/Balcony]]></Text>
+                        <Text FontFamily="Arial" FontSize="15.0"
+                            FontStyle="Normal" FontWeight="Normal"
+                            HorizontalAlign="Right"
+                            Left="48.34051911730785" Opacity="1.0"
+                            Stroke="#000000" TextDecoration="None"
+                            Top="19.995951414108276" VerticalAlign="Top"><![CDATA[Normal]]></Text>
                         <Component Clip="False" ContentHeight="22.0"
-                            ContentWidth="20.5" Height="22.0" Left="0.0"
-                            Name="Switch" Top="0.0" Width="20.5">
-                            <Ellipse Fill="#2F000000" Height="20.0"
-                                Left="0.500034689903259" Opacity="1.0"
-                                Stroke="None" StrokeDashArray="0.0"
-                                StrokeWidth="1.0" Top="2.0" Width="20.0"/>
-                            <Ellipse Fill="#EEEEEE" Height="20.0"
-                                Left="0.0" Opacity="1.0"
-                                Stroke="#808080" StrokeDashArray="0.0"
-                                StrokeWidth="1.0" Top="0.0" Width="20.0"/>
-                            <Animate Animation="Stop" Attribute="Left"
-                                CalcMode="Linear" Duration=".25"
-                                Freeze="True" From="20" Name="SwAni"
-                                Repeat="1" To="0"/>
+                            ContentWidth="40.0" Height="22.0"
+                            Id="WindowBalcony" Left="55.00052146811504"
+                            Name="" Top="19.995951414108276" Width="40.0">
+                            <Rectangle Fill="#87D300" Height="20.0"
+                                Left="0.0" Name="Background"
+                                Opacity="1.0" RadiusX="10" RadiusY="10"
+                                Stroke="#9FA0A4" StrokeDashArray="0.0"
+                                StrokeWidth="1.0" Top="0.0" Width="40.0">
+                                <Animate Animation="Stop"
+                                    Attribute="Fill" CalcMode="Linear"
+                                    Duration=".25" Freeze="True"
+                                    From="#87D300" Name="BgAni"
+                                    Repeat="1" To="#FF0000"/>
+                            </Rectangle>
+                            <Component Clip="False" ContentHeight="22.0"
+                                ContentWidth="20.5" Height="22.0"
+                                Left="0.0" Name="Switch" Top="0.0" Width="20.5">
+                                <Ellipse Fill="#2F000000" Height="20.0"
+                                    Left="0.500034689903259"
+                                    Opacity="1.0" Stroke="None"
+                                    StrokeDashArray="0.0"
+                                    StrokeWidth="1.0" Top="2.0" Width="20.0"/>
+                                <Ellipse Fill="#EEEEEE" Height="20.0"
+                                    Left="0.0" Opacity="1.0"
+                                    Stroke="#808080"
+                                    StrokeDashArray="0.0"
+                                    StrokeWidth="1.0" Top="0.0" Width="20.0"/>
+                                <Animate Animation="Stop"
+                                    Attribute="Left" CalcMode="Linear"
+                                    Duration=".25" Freeze="True"
+                                    From="0" Name="SwAni" Repeat="1" To="20"/>
+                            </Component>
                         </Component>
+                        <Text FontFamily="Arial" FontSize="15.0"
+                            FontStyle="Normal" FontWeight="Normal"
+                            HorizontalAlign="Left"
+                            Left="100.00052146811504" Opacity="1.0"
+                            Stroke="#000000" TextDecoration="None"
+                            Top="19.995951414108276" VerticalAlign="Top"><![CDATA[Override Closed]]></Text>
+                        <TargetArea Height="22.0" Left="0.0"
+                            Name="BI1Config" SE8="" Top="20.0"
+                            Width="208.38" WindowOverride=""/>
                     </Component>
-                    <Text FontFamily="Arial" FontSize="15.0"
-                        FontStyle="Normal" FontWeight="Normal"
-                        HorizontalAlign="Left" Left="172.00052146811504"
-                        Opacity="1.0" Stroke="#000000"
-                        TextDecoration="None" Top="260.72594714164734" VerticalAlign="Top"><![CDATA[Override Closed]]></Text>
-                    <Text FontFamily="Arial" FontSize="15.0"
-                        FontStyle="Normal" FontWeight="Normal"
-                        HorizontalAlign="Right" Left="174.946567403269"
-                        Opacity="1.0" Stroke="#000000"
-                        TextDecoration="None" Top="290.72594714164734" VerticalAlign="Top"><![CDATA[Lighting]]></Text>
-                    <Text FontFamily="Arial" FontSize="15.0"
-                        FontStyle="Normal" FontWeight="Normal"
-                        HorizontalAlign="Right"
-                        Left="122.85751913685817" Opacity="1.0"
-                        Stroke="#000000" TextDecoration="None"
-                        Top="310.72594714164734" VerticalAlign="Top"><![CDATA[Auto]]></Text>
-                    <Component Clip="False" ContentHeight="22.0"
-                        ContentWidth="40.0" Height="22.0" Id="Lighting"
-                        Left="127.00052146811504" LeftValue="null"
-                        Name="" RightValue="true"
-                        Top="310.72594714164734" Width="40.0">
-                        <Expose ExposedAttribute="LeftValue" Name="Left Value"/>
-                        <Expose ExposedAttribute="RightValue" Name="Right Value"/>
-                        <Rectangle Fill="#87D300" Height="20.0"
-                            Left="0.0" Name="Background" Opacity="1.0"
-                            RadiusX="10" RadiusY="10" Stroke="#9FA0A4"
-                            StrokeDashArray="0.0" StrokeWidth="1.0"
-                            Top="0.0" Width="40.0">
-                            <Animate Animation="Stop" Attribute="Fill"
-                                CalcMode="Linear" Duration=".25"
-                                Freeze="True" From="#87D300"
-                                Name="BgAni" Repeat="1" To="#CCCCCC"/>
-                        </Rectangle>
+                    <Component Clip="False" ContentHeight="42.0"
+                        ContentWidth="161.69" Ctrl="SwitchCtrl"
+                        Height="42.0" Left="92.0" LeftValue="null"
+                        Name="LightingOverride" RightValue="true"
+                        SubModel="LightingOverride" Top="290.73" Width="161.69">
+                        <Text FontFamily="Arial" FontSize="15.0"
+                            FontStyle="Normal" FontWeight="Normal"
+                            HorizontalAlign="Right"
+                            Left="82.946567403269" Opacity="1.0"
+                            Stroke="#000000" TextDecoration="None"
+                            Top="-0.004063844680786" VerticalAlign="Top"><![CDATA[Lighting]]></Text>
+                        <Text FontFamily="Arial" FontSize="15.0"
+                            FontStyle="Normal" FontWeight="Normal"
+                            HorizontalAlign="Right"
+                            Left="30.857519136858173" Opacity="1.0"
+                            Stroke="#000000" TextDecoration="None"
+                            Top="19.995936155319214" VerticalAlign="Top"><![CDATA[Auto]]></Text>
                         <Component Clip="False" ContentHeight="22.0"
-                            ContentWidth="20.5" Height="22.0" Left="0.0"
-                            Name="Switch" Top="0.0" Width="20.5">
-                            <Ellipse Fill="#2F000000" Height="20.0"
-                                Left="0.500034689903259" Opacity="1.0"
-                                Stroke="None" StrokeDashArray="0.0"
-                                StrokeWidth="1.0" Top="2.0" Width="20.0"/>
-                            <Ellipse Fill="#EEEEEE" Height="20.0"
-                                Left="0.0" Opacity="1.0"
-                                Stroke="#808080" StrokeDashArray="0.0"
-                                StrokeWidth="1.0" Top="0.0" Width="20.0"/>
-                            <Animate Animation="Stop" Attribute="Left"
-                                CalcMode="Linear" Duration=".25"
-                                Freeze="True" From="20" Name="SwAni"
-                                Repeat="1" To="0"/>
+                            ContentWidth="40.0" Height="22.0"
+                            Id="Lighting" Left="35.00052146811504"
+                            Name="" Top="19.995936155319214" Width="40.0">
+                            <Rectangle Fill="#87D300" Height="20.0"
+                                Left="0.0" Name="Background"
+                                Opacity="1.0" RadiusX="10" RadiusY="10"
+                                Stroke="#9FA0A4" StrokeDashArray="0.0"
+                                StrokeWidth="1.0" Top="0.0" Width="40.0">
+                                <Animate Animation="Stop"
+                                    Attribute="Fill" CalcMode="Linear"
+                                    Duration=".25" Freeze="True"
+                                    From="#87D300" Name="BgAni"
+                                    Repeat="1" To="#FF0000"/>
+                            </Rectangle>
+                            <Component Clip="False" ContentHeight="22.0"
+                                ContentWidth="20.5" Height="22.0"
+                                Left="0.0" Name="Switch" Top="0.0" Width="20.5">
+                                <Ellipse Fill="#2F000000" Height="20.0"
+                                    Left="0.500034689903259"
+                                    Opacity="1.0" Stroke="None"
+                                    StrokeDashArray="0.0"
+                                    StrokeWidth="1.0" Top="2.0" Width="20.0"/>
+                                <Ellipse Fill="#EEEEEE" Height="20.0"
+                                    Left="0.0" Opacity="1.0"
+                                    Stroke="#808080"
+                                    StrokeDashArray="0.0"
+                                    StrokeWidth="1.0" Top="0.0" Width="20.0"/>
+                                <Animate Animation="Stop"
+                                    Attribute="Left" CalcMode="Linear"
+                                    Duration=".25" Freeze="True"
+                                    From="0" Name="SwAni" Repeat="1" To="20"/>
+                            </Component>
                         </Component>
+                        <Text FontFamily="Arial" FontSize="15.0"
+                            FontStyle="Normal" FontWeight="Normal"
+                            HorizontalAlign="Left"
+                            Left="80.00052146811504" Opacity="1.0"
+                            Stroke="#000000" TextDecoration="None"
+                            Top="19.995936155319214" VerticalAlign="Top"><![CDATA[Override On]]></Text>
+                        <TargetArea Height="22.0" Left="0.0"
+                            LightingOverride=""
+                            Name="BO 8 Auxilary Binary Output" SE8=""
+                            Top="20.0" Width="161.69"/>
                     </Component>
-                    <Text FontFamily="Arial" FontSize="15.0"
-                        FontStyle="Normal" FontWeight="Normal"
-                        HorizontalAlign="Left" Left="172.00052146811504"
-                        Opacity="1.0" Stroke="#000000"
-                        TextDecoration="None" Top="310.72594714164734" VerticalAlign="Top"><![CDATA[Override On]]></Text>
-                    <Text FontFamily="Arial" FontSize="15.0"
-                        FontStyle="Normal" FontWeight="Normal"
-                        HorizontalAlign="Right"
-                        Left="186.19289539952297" Opacity="1.0"
-                        Stroke="#000000" TextDecoration="None"
-                        Top="340.72594714164734" VerticalAlign="Top"><![CDATA[Occupancy]]></Text>
-                    <Text FontFamily="Arial" FontSize="15.0"
-                        FontStyle="Normal" FontWeight="Normal"
-                        HorizontalAlign="Right" Left="122.0325191487791"
-                        Opacity="1.0" Stroke="#000000"
-                        TextDecoration="None" Top="360.72594714164734" VerticalAlign="Top"><![CDATA[Local PIR]]></Text>
-                    <Component Clip="False" ContentHeight="22.0"
-                        ContentWidth="40.0" Height="22.0"
-                        Id="Occupancy Command" Left="127.00052146811504"
-                        LeftValue="1" Name="" RightValue="3"
-                        Top="360.72594714164734" Width="40.0">
-                        <Expose ExposedAttribute="LeftValue" Name="Left Value"/>
-                        <Expose ExposedAttribute="RightValue" Name="Right Value"/>
-                        <Rectangle Fill="#87D300" Height="20.0"
-                            Left="0.0" Name="Background" Opacity="1.0"
-                            RadiusX="10" RadiusY="10" Stroke="#9FA0A4"
-                            StrokeDashArray="0.0" StrokeWidth="1.0"
-                            Top="0.0" Width="40.0">
-                            <Animate Animation="Stop" Attribute="Fill"
-                                CalcMode="Linear" Duration=".25"
-                                Freeze="True" From="#87D300"
-                                Name="BgAni" Repeat="1" To="#CCCCCC"/>
-                        </Rectangle>
+                    <Component Clip="False" ContentHeight="42.0"
+                        ContentWidth="181.7" Ctrl="SwitchCtrl"
+                        Height="42.0" Left="57.0" LeftValue="1"
+                        Name="OccupancyCommand" RightValue="3"
+                        SubModel="OccupancyCommand" Top="340.73" Width="181.7">
+                        <Text FontFamily="Arial" FontSize="15.0"
+                            FontStyle="Normal" FontWeight="Normal"
+                            HorizontalAlign="Right"
+                            Left="129.19289539952297" Opacity="1.0"
+                            Stroke="#000000" TextDecoration="None"
+                            Top="-0.004063844680786" VerticalAlign="Top"><![CDATA[Occupancy]]></Text>
+                        <Text FontFamily="Arial" FontSize="15.0"
+                            FontStyle="Normal" FontWeight="Normal"
+                            HorizontalAlign="Right"
+                            Left="65.0325191487791" Opacity="1.0"
+                            Stroke="#000000" TextDecoration="None"
+                            Top="19.995936155319214" VerticalAlign="Top"><![CDATA[Local PIR]]></Text>
                         <Component Clip="False" ContentHeight="22.0"
-                            ContentWidth="20.5" Height="22.0" Left="0.0"
-                            Name="Switch" Top="0.0" Width="20.5">
-                            <Ellipse Fill="#2F000000" Height="20.0"
-                                Left="0.500034689903259" Opacity="1.0"
-                                Stroke="None" StrokeDashArray="0.0"
-                                StrokeWidth="1.0" Top="2.0" Width="20.0"/>
-                            <Ellipse Fill="#EEEEEE" Height="20.0"
-                                Left="0.0" Opacity="1.0"
-                                Stroke="#808080" StrokeDashArray="0.0"
-                                StrokeWidth="1.0" Top="0.0" Width="20.0"/>
-                            <Animate Animation="Stop" Attribute="Left"
-                                CalcMode="Linear" Duration=".25"
-                                Freeze="True" From="20" Name="SwAni"
-                                Repeat="1" To="0"/>
+                            ContentWidth="40.0" Height="22.0"
+                            Id="Occupancy Command"
+                            Left="70.00052146811504" Name=""
+                            Top="19.995936155319214" Width="40.0">
+                            <Rectangle Fill="#87D300" Height="20.0"
+                                Left="0.0" Name="Background"
+                                Opacity="1.0" RadiusX="10" RadiusY="10"
+                                Stroke="#9FA0A4" StrokeDashArray="0.0"
+                                StrokeWidth="1.0" Top="0.0" Width="40.0">
+                                <Animate Animation="Stop"
+                                    Attribute="Fill" CalcMode="Linear"
+                                    Duration=".25" Freeze="True"
+                                    From="#87D300" Name="BgAni"
+                                    Repeat="1" To="#CCCCCC"/>
+                            </Rectangle>
+                            <Component Clip="False" ContentHeight="22.0"
+                                ContentWidth="20.5" Height="22.0"
+                                Left="0.0" Name="Switch" Top="0.0" Width="20.5">
+                                <Ellipse Fill="#2F000000" Height="20.0"
+                                    Left="0.500034689903259"
+                                    Opacity="1.0" Stroke="None"
+                                    StrokeDashArray="0.0"
+                                    StrokeWidth="1.0" Top="2.0" Width="20.0"/>
+                                <Ellipse Fill="#EEEEEE" Height="20.0"
+                                    Left="0.0" Opacity="1.0"
+                                    Stroke="#808080"
+                                    StrokeDashArray="0.0"
+                                    StrokeWidth="1.0" Top="0.0" Width="20.0"/>
+                                <Animate Animation="Stop"
+                                    Attribute="Left" CalcMode="Linear"
+                                    Duration=".25" Freeze="True"
+                                    From="0" Name="SwAni" Repeat="1" To="20"/>
+                            </Component>
                         </Component>
+                        <Text FontFamily="Arial" FontSize="15.0"
+                            FontStyle="Normal" FontWeight="Normal"
+                            HorizontalAlign="Left"
+                            Left="115.00052146811504" Opacity="1.0"
+                            Stroke="#000000" TextDecoration="None"
+                            Top="19.995936155319214" VerticalAlign="Top"><![CDATA[Un-rented]]></Text>
+                        <TargetArea Height="22.0" Left="0.0"
+                            Name="OccCommand" OccupancyCommand="" SE8=""
+                            Top="20.0" Width="181.7"/>
                     </Component>
-                    <Text FontFamily="Arial" FontSize="15.0"
-                        FontStyle="Normal" FontWeight="Normal"
-                        HorizontalAlign="Left" Left="172.00052146811504"
-                        Opacity="1.0" Stroke="#000000"
-                        TextDecoration="None" Top="360.72594714164734" VerticalAlign="Top"><![CDATA[Un-rented]]></Text>
-                    <Text FontFamily="Arial" FontSize="15.0"
-                        FontStyle="Normal" FontWeight="Normal"
-                        HorizontalAlign="Right"
-                        Left="180.34814022679348" Opacity="1.0"
-                        Stroke="#000000" TextDecoration="None"
-                        Top="390.72594714164734" VerticalAlign="Top"><![CDATA[Lock HMI]]></Text>
-                    <Text FontFamily="Arial" FontSize="15.0"
-                        FontStyle="Normal" FontWeight="Normal"
-                        HorizontalAlign="Right"
-                        Left="120.34051911730785" Opacity="1.0"
-                        Stroke="#000000" TextDecoration="None"
-                        Top="410.72594714164734" VerticalAlign="Top"><![CDATA[Normal]]></Text>
-                    <Component Clip="False" ContentHeight="22.0"
-                        ContentWidth="40.0" Height="22.0" Id="User HMI"
-                        Left="127.00052146811504" LeftValue="2" Name=""
-                        RightValue="4" Top="410.72594714164734" Width="40.0">
-                        <Expose ExposedAttribute="LeftValue" Name="Left Value"/>
-                        <Expose ExposedAttribute="RightValue" Name="Right Value"/>
-                        <Rectangle Fill="#87D300" Height="20.0"
-                            Left="0.0" Name="Background" Opacity="1.0"
-                            RadiusX="10" RadiusY="10" Stroke="#9FA0A4"
-                            StrokeDashArray="0.0" StrokeWidth="1.0"
-                            Top="0.0" Width="40.0">
-                            <Animate Animation="Stop" Attribute="Fill"
-                                CalcMode="Linear" Duration=".25"
-                                Freeze="True" From="#87D300"
-                                Name="BgAni" Repeat="1" To="#CCCCCC"/>
-                        </Rectangle>
+                    <Component Clip="False" ContentHeight="42.0"
+                        ContentWidth="148.37" Ctrl="SwitchCtrl"
+                        Height="42.0" Left="72.0" LeftValue="2"
+                        Name="UserHMI" RightValue="4" SubModel="UserHMI"
+                        Top="390.73" Width="148.37">
+                        <Text FontFamily="Arial" FontSize="15.0"
+                            FontStyle="Normal" FontWeight="Normal"
+                            HorizontalAlign="Right"
+                            Left="108.34814022679348" Opacity="1.0"
+                            Stroke="#000000" TextDecoration="None"
+                            Top="-0.004063844680786" VerticalAlign="Top"><![CDATA[Lock HMI]]></Text>
+                        <Text FontFamily="Arial" FontSize="15.0"
+                            FontStyle="Normal" FontWeight="Normal"
+                            HorizontalAlign="Right"
+                            Left="48.34051911730785" Opacity="1.0"
+                            Stroke="#000000" TextDecoration="None"
+                            Top="19.995936155319214" VerticalAlign="Top"><![CDATA[Normal]]></Text>
                         <Component Clip="False" ContentHeight="22.0"
-                            ContentWidth="20.5" Height="22.0" Left="0.0"
-                            Name="Switch" Top="0.0" Width="20.5">
-                            <Ellipse Fill="#2F000000" Height="20.0"
-                                Left="0.500034689903259" Opacity="1.0"
-                                Stroke="None" StrokeDashArray="0.0"
-                                StrokeWidth="1.0" Top="2.0" Width="20.0"/>
-                            <Ellipse Fill="#EEEEEE" Height="20.0"
-                                Left="0.0" Opacity="1.0"
-                                Stroke="#808080" StrokeDashArray="0.0"
-                                StrokeWidth="1.0" Top="0.0" Width="20.0"/>
-                            <Animate Animation="Stop" Attribute="Left"
-                                CalcMode="Linear" Duration=".25"
-                                Freeze="True" From="20" Name="SwAni"
-                                Repeat="1" To="0"/>
+                            ContentWidth="40.0" Height="22.0"
+                            Id="User HMI" Left="55.00052146811504"
+                            Name="" Top="19.995936155319214" Width="40.0">
+                            <Rectangle Fill="#87D300" Height="20.0"
+                                Left="0.0" Name="Background"
+                                Opacity="1.0" RadiusX="10" RadiusY="10"
+                                Stroke="#9FA0A4" StrokeDashArray="0.0"
+                                StrokeWidth="1.0" Top="0.0" Width="40.0">
+                                <Animate Animation="Stop"
+                                    Attribute="Fill" CalcMode="Linear"
+                                    Duration=".25" Freeze="True"
+                                    From="#87D300" Name="BgAni"
+                                    Repeat="1" To="#87D300"/>
+                            </Rectangle>
+                            <Component Clip="False" ContentHeight="22.0"
+                                ContentWidth="20.5" Height="22.0"
+                                Left="0.0" Name="Switch" Top="0.0" Width="20.5">
+                                <Ellipse Fill="#2F000000" Height="20.0"
+                                    Left="0.500034689903259"
+                                    Opacity="1.0" Stroke="None"
+                                    StrokeDashArray="0.0"
+                                    StrokeWidth="1.0" Top="2.0" Width="20.0"/>
+                                <Ellipse Fill="#EEEEEE" Height="20.0"
+                                    Left="0.0" Opacity="1.0"
+                                    Stroke="#808080"
+                                    StrokeDashArray="0.0"
+                                    StrokeWidth="1.0" Top="0.0" Width="20.0"/>
+                                <Animate Animation="Stop"
+                                    Attribute="Left" CalcMode="Linear"
+                                    Duration=".25" Freeze="True"
+                                    From="20" Name="SwAni" Repeat="1" To="0"/>
+                            </Component>
                         </Component>
+                        <Text FontFamily="Arial" FontSize="15.0"
+                            FontStyle="Normal" FontWeight="Normal"
+                            HorizontalAlign="Left"
+                            Left="100.00052146811504" Opacity="1.0"
+                            Stroke="#000000" TextDecoration="None"
+                            Top="19.995936155319214" VerticalAlign="Top"><![CDATA[Locked]]></Text>
+                        <TargetArea Height="22.0" Left="0.0"
+                            Name="UserHMI" SE8="" Top="20.0" UserHMI="" Width="148.37"/>
                     </Component>
-                    <Text FontFamily="Arial" FontSize="15.0"
-                        FontStyle="Normal" FontWeight="Normal"
-                        HorizontalAlign="Left" Left="172.00052146811504"
-                        Opacity="1.0" Stroke="#000000"
-                        TextDecoration="None" Top="410.72594714164734" VerticalAlign="Top"><![CDATA[Locked]]></Text>
                     <Text FontFamily="Arial" FontSize="15.0"
                         FontStyle="Normal" FontWeight="Normal"
                         HorizontalAlign="Center"
