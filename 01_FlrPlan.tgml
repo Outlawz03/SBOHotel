@@ -2,7 +2,7 @@
 
 <!--[DocumentInformation]
 Created: 2014-07-09 07:45
-Modified: 2015-02-11 19:11
+Modified: 2015-02-11 19:44
 -->
 <?tgml version="1.21"?><Tgml ComponentCounter="218" GridSize="5"
     Height="900.0" LayerCounter="4" UseGlobalScripts="True" Width="1710.0">
@@ -1333,6 +1333,18 @@ function load(evt) {
                 <Bind DefaultHeatMinusBox="" DefaultHeatPlusBox=""
                     DefaultHeatValue="" DefaultHeatValueBox=""
                     DefaultHeatWaitBox="" Id="" Name="DefaultHeat" SE8=""/>
+                <Bind HtgSptLimitMinusBox="" HtgSptLimitPlusBox=""
+                    HtgSptLimitValue="" HtgSptLimitValueBox=""
+                    HtgSptLimitWaitBox="" Id=""
+                    Name="Heating Setpoint Limit" SE8=""/>
+                <Bind ClgSptLimitMinusBox="" ClgSptLimitPlusBox=""
+                    ClgSptLimitValue="" ClgSptLimitValueBox=""
+                    ClgSptLimitWaitBox="" Id=""
+                    Name="Cooling Setpoint Limit" SE8=""/>
+                <Bind Id="" Name="StandbyMode" SE8="" StandbyMode=""/>
+                <Bind Id="" Name="StandbyDiff" SE8=""
+                    StandbyDiffMinusBox="" StandbyDiffPlusBox=""
+                    StandbyDiffValue="" StandbyDiffValueBox="" StandbyDiffWaitBox=""/>
             </Component>
             <Component Height="1.0" Left="10.0" Name="RC_02" Top="10.0" Width="1.0">
                 <Bind Name="RoomTemp" RCManager="" RoomTemp="" SE8=""/>
@@ -4797,21 +4809,6 @@ function load(evt) {
                         Left="299.4972324371338" Opacity="1.0"
                         Stroke="#000000" TextDecoration="None"
                         Top="15.010000228881836" VerticalAlign="Top"><![CDATA[Settings]]></Text>
-                    <Text FontFamily="Arial" FontSize="15.0"
-                        FontStyle="Normal" FontWeight="Normal"
-                        HorizontalAlign="Right" Left="148.3659172654152"
-                        Opacity="1.0" Stroke="#000000"
-                        TextDecoration="None" Top="173.3719940185547" VerticalAlign="Top"><![CDATA[Setpoint Mode]]></Text>
-                    <Text FontFamily="Arial" FontSize="15.0"
-                        FontStyle="Normal" FontWeight="Normal"
-                        HorizontalAlign="Left" Left="11.821640014648438"
-                        Opacity="1.0" Stroke="#000000"
-                        TextDecoration="None" Top="196.3719940185547" VerticalAlign="Top"><![CDATA[Absolute]]></Text>
-                    <Text FontFamily="Arial" FontSize="15.0"
-                        FontStyle="Normal" FontWeight="Normal"
-                        HorizontalAlign="Left" Left="124.82164001464844"
-                        Opacity="1.0" Stroke="#000000"
-                        TextDecoration="None" Top="196.3719940185547" VerticalAlign="Top"><![CDATA[Relative]]></Text>
                     <Component Clip="False" ContentHeight="50"
                         ContentWidth="50" GridSize="10" Height="40.0"
                         Left="137.0148468017578" Name="Cool_001"
@@ -4881,242 +4878,205 @@ function load(evt) {
                         HorizontalAlign="Left" Left="218.1674346923828"
                         Opacity="1.0" Stroke="#000000"
                         TextDecoration="None" Top="283.1251678466797" VerticalAlign="Top"><![CDATA[Unoccupied]]></Text>
-                    <Text FontFamily="Arial" FontSize="15.0"
-                        FontStyle="Normal" FontWeight="Normal"
-                        HorizontalAlign="Left" Left="92.51499938964844"
-                        Opacity="1.0" Stroke="#000000"
-                        TextDecoration="None" Top="120.74267578125" VerticalAlign="Top"><![CDATA[Upper Limit]]></Text>
-                    <Text FontFamily="Arial" FontSize="15.0"
-                        FontStyle="Normal" FontWeight="Normal"
-                        HorizontalAlign="Left" Left="92.83500671386719"
-                        Opacity="1.0" Stroke="#000000"
-                        TextDecoration="None" Top="146.26266479492188" VerticalAlign="Top"><![CDATA[Lower Limit]]></Text>
-                    <Component ContentHeight="20" ContentWidth="100"
-                        Height="20.0" Id="Default Heating Setpoint"
-                        Left="180" Name="" Top="95" Width="100.0">
+                    <Component Clip="False" ContentHeight="20"
+                        ContentWidth="100" Height="20.0" Id=""
+                        Left="180" Name="Default Heating Setpoint"
+                        Top="95" Width="100.0">
                         <Component Clip="False" ContentHeight="20.0"
                             ContentWidth="100.0" Ctrl="ValueBoxCtrl"
                             Height="20.0" Left="0.0" Name="AnalogPoint"
                             SubModel="DefaultHeatValueBox" Top="0.0" Width="100.0">
-                            <Expose ExposedAttribute="Units" Name="Units"/>
-                            <Group Name="display" Visibility="Visible">
-                                <Component Clip="False"
-                                    ContentHeight="20.0"
-                                    ContentWidth="60.5"
-                                    Ctrl="OverBoxCtrl" Height="20.0"
-                                    Left="20.0" Name="onOverBox"
-                                    SubModel="DefaultHeatOverBox"
-                                    Top="0.0" Visibility="Visible" Width="60.5">
-                                    <Rectangle Fill="#F7F7F6"
-                                    Height="20.0" Left="0.0"
-                                    Opacity="1.0" RadiusX="0"
+                            <Text FontFamily="Arial" FontSize="15.0"
+                                FontStyle="Normal" FontWeight="Normal"
+                                HorizontalAlign="Left" Left="-93.9396"
+                                Opacity="1.0" Stroke="#000000"
+                                TextDecoration="None" Top="1.015404" VerticalAlign="Top"><![CDATA[Default Heat]]></Text>
+                            <Component Clip="False" ContentHeight="20.0"
+                                ContentWidth="60.5" Ctrl="OverBoxCtrl"
+                                Height="20.0" Left="20.0"
+                                Name="onOverBox"
+                                SubModel="DefaultHeatOverBox" Top="0.0"
+                                Visibility="Visible" Width="60.5">
+                                <Rectangle Fill="#F7F7F6" Height="20.0"
+                                    Left="0.0" Opacity="1.0" RadiusX="0"
                                     RadiusY="0" Stroke="#9FA0A4"
                                     StrokeDashArray="0.0"
                                     StrokeWidth="1.0" Top="0.0" Width="60.0"/>
-                                    <Polygon Opacity="1.0"
+                                <Polygon Opacity="1.0"
                                     Points="0.5,0.5 60.5,0.5 60.5,4.5 4.5,4.5"
-                                    Stroke="None"
-                                    StrokeDashArray="0.0" StrokeWidth="1.0">
+                                    Stroke="None" StrokeDashArray="0.0" StrokeWidth="1.0">
                                     <LinearGradient Attribute="Fill"
                                     EndPoint="0,1"
                                     SpreadMethod="Pad" StartPoint="0.0,0.0">
-                                    <GradientStop
-                                    Color="#CECFD2" Offset="0.0"/>
-                                    <GradientStop
-                                    Color="#F7F7F6" Offset=".75"/>
+                                    <GradientStop Color="#CECFD2" Offset="0.0"/>
+                                    <GradientStop Color="#F7F7F6" Offset=".75"/>
                                     </LinearGradient>
-                                    </Polygon>
-                                    <Polygon Opacity="1.0"
+                                </Polygon>
+                                <Polygon Opacity="1.0"
                                     Points="4.5,4.5 4.5,19.5 0.5,19.5 0.5,0.5"
-                                    Stroke="None"
-                                    StrokeDashArray="0.0" StrokeWidth="1.0">
+                                    Stroke="None" StrokeDashArray="0.0" StrokeWidth="1.0">
                                     <LinearGradient Attribute="Fill"
                                     EndPoint="1,0"
                                     SpreadMethod="Pad" StartPoint="0.0,0.0">
-                                    <GradientStop
-                                    Color="#CECFD2" Offset="0.0"/>
-                                    <GradientStop
-                                    Color="#F7F7F6" Offset=".75"/>
+                                    <GradientStop Color="#CECFD2" Offset="0.0"/>
+                                    <GradientStop Color="#F7F7F6" Offset=".75"/>
                                     </LinearGradient>
-                                    </Polygon>
-                                </Component>
-                                <Line Name="marker" Opacity="1.0"
-                                    Stroke="#626469"
-                                    StrokeDashArray="0.0"
-                                    StrokeWidth="4" Visibility="Hidden"
-                                    X1="51.0" X2="51.0" Y1="19.5" Y2="20.5"/>
-                                <Path Ctrl="IncBoxCtrl" Increment="-1"
-                                    LowLimit="1" Name="minusBox"
-                                    PathData="M20.0,0.0 C15.0,0.0 10.0,0.0 5.0,0.0 2.0,0.0 0.0,2.0 0.0,5.0 0.0,8.0 0.0,12.0 0.0,15.0 0.0,18.0 2.035014,19.930005 5.0,20.0 10.0,20.0 15.0,20.0 20.0,20.0 20.0,15.0 20.0,5.0 20.0,0.0"
-                                    Stroke="#626469"
-                                    StrokeDashArray="0.0"
-                                    StrokeWidth="1.0"
-                                    SubModel="DefaultHeatMinusBox" Visibility="Visible">
-                                    <LinearGradient Attribute="Fill"
-                                    EndPoint="0,1"
-                                    SpreadMethod="Pad" StartPoint="0.0,0.0">
+                                </Polygon>
+                            </Component>
+                            <Line Name="marker" Opacity="1.0"
+                                Stroke="#626469" StrokeDashArray="0.0"
+                                StrokeWidth="4" Visibility="Hidden"
+                                X1="51.0" X2="51.0" Y1="19.5" Y2="20.5"/>
+                            <Path Ctrl="IncBoxCtrl" Increment="-1"
+                                LowLimit="1" Name="minusBox"
+                                PathData="M20.0,0.0 C15.0,0.0 10.0,0.0 5.0,0.0 2.0,0.0 0.0,2.0 0.0,5.0 0.0,8.0 0.0,12.0 0.0,15.0 0.0,18.0 2.035014,19.930005 5.0,20.0 10.0,20.0 15.0,20.0 20.0,20.0 20.0,15.0 20.0,5.0 20.0,0.0"
+                                Stroke="#626469" StrokeDashArray="0.0"
+                                StrokeWidth="1.0"
+                                SubModel="DefaultHeatMinusBox" Visibility="Visible">
+                                <LinearGradient Attribute="Fill"
+                                    EndPoint="0,1" SpreadMethod="Pad" StartPoint="0.0,0.0">
                                     <GradientStop Color="#FCFCFC" Offset="0"/>
                                     <GradientStop Color="#DEDFE0" Offset="1"/>
-                                    </LinearGradient>
-                                    <Expose ExposedAttribute="LowLimit" Name="LowLimit"/>
-                                </Path>
-                                <Path Ctrl="IncBoxCtrl" HighLimit="100"
-                                    Increment="1" Name="plusBox"
-                                    PathData="M80.0,0.0 C85.0,0.0 90.0,0.0 95.0,0.0 98.0,0.0 100.0,2.0 100.0,5.0 100.0,8.0 100.0,12.0 100.0,15.0 100.0,18.0 97.9650001,19.93 95.0,20.0 90.0,20.0 85.0,20.0 80.0,20.0 80.0,15.0 80.0,5.0 80.0,0.0"
-                                    Stroke="#626469"
-                                    StrokeDashArray="0.0"
-                                    SubModel="DefaultHeatPlusBox" Visibility="Visible">
-                                    <LinearGradient Attribute="Fill"
-                                    EndPoint="0,1"
-                                    SpreadMethod="Pad" StartPoint="0.0,0.0">
+                                </LinearGradient>
+                                <Expose ExposedAttribute="LowLimit" Name="LowLimit"/>
+                            </Path>
+                            <Path Ctrl="IncBoxCtrl" HighLimit="100"
+                                Increment="1" Name="plusBox"
+                                PathData="M80.0,0.0 C85.0,0.0 90.0,0.0 95.0,0.0 98.0,0.0 100.0,2.0 100.0,5.0 100.0,8.0 100.0,12.0 100.0,15.0 100.0,18.0 97.9650001,19.93 95.0,20.0 90.0,20.0 85.0,20.0 80.0,20.0 80.0,15.0 80.0,5.0 80.0,0.0"
+                                Stroke="#626469" StrokeDashArray="0.0"
+                                SubModel="DefaultHeatPlusBox" Visibility="Visible">
+                                <LinearGradient Attribute="Fill"
+                                    EndPoint="0,1" SpreadMethod="Pad" StartPoint="0.0,0.0">
                                     <GradientStop Color="#FCFCFC" Offset="0.0"/>
                                     <GradientStop Color="#DEDFE0" Offset="1.0"/>
-                                    </LinearGradient>
-                                    <Expose ExposedAttribute="HighLimit" Name="HighLimit"/>
-                                </Path>
-                                <Line Ctrl="IconCtrl" Name="minus"
-                                    Opacity="1.0" Stroke="#626469"
-                                    StrokeDashArray="0.0"
-                                    StrokeWidth="2"
-                                    SubModel="DefaultHeatMinus" X1="7"
-                                    X2="13" Y1="10" Y2="10"/>
-                                <Path Ctrl="IconCtrl" Fill="#FFFFFF"
-                                    Name="plus"
-                                    PathData="M87,10 L93,10 M90,13 L90,7"
-                                    Stroke="#626469"
-                                    StrokeDashArray="0.0"
-                                    StrokeWidth="2" SubModel="DefaultHeatPlus"/>
-                                <Component Clip="False"
-                                    ContentHeight="20.0"
-                                    ContentWidth="60.0"
-                                    Ctrl="OutBoxCtrl" Height="20.0"
-                                    Left="20" Name="onOutBox"
-                                    SubModel="DefaultHeatOutBox" Top="0"
-                                    Visibility="Hidden" Width="60.0">
-                                    <Rectangle Fill="#F7F7F6"
-                                    Height="20.0" Left="0.0"
-                                    Opacity="1.0" RadiusX="5"
+                                </LinearGradient>
+                                <Expose ExposedAttribute="HighLimit" Name="HighLimit"/>
+                            </Path>
+                            <Line Ctrl="IconCtrl" Name="minus"
+                                Opacity="1.0" Stroke="#626469"
+                                StrokeDashArray="0.0" StrokeWidth="2"
+                                SubModel="DefaultHeatMinus" X1="7"
+                                X2="13" Y1="10" Y2="10"/>
+                            <Path Ctrl="IconCtrl" Fill="#FFFFFF"
+                                Name="plus"
+                                PathData="M87,10 L93,10 M90,13 L90,7"
+                                Stroke="#626469" StrokeDashArray="0.0"
+                                StrokeWidth="2" SubModel="DefaultHeatPlus"/>
+                            <Component Clip="False" ContentHeight="20.0"
+                                ContentWidth="60.0" Ctrl="OutBoxCtrl"
+                                Height="20.0" Left="20" Name="onOutBox"
+                                SubModel="DefaultHeatOutBox" Top="0"
+                                Visibility="Hidden" Width="60.0">
+                                <Rectangle Fill="#F7F7F6" Height="20.0"
+                                    Left="0.0" Opacity="1.0" RadiusX="5"
                                     RadiusY="5" Stroke="#9FA0A4"
                                     StrokeDashArray="0.0"
                                     StrokeWidth="1.0" Top="0.0" Width="60.0"/>
-                                    <Polygon Opacity="1.0"
+                                <Polygon Opacity="1.0"
                                     Points="3.5,0.5 56.5,0.5 59.574523925781,4.57452392578102 4.5,4.5"
-                                    Stroke="None"
-                                    StrokeDashArray="0.0" StrokeWidth="1.0">
+                                    Stroke="None" StrokeDashArray="0.0" StrokeWidth="1.0">
                                     <LinearGradient Attribute="Fill"
                                     EndPoint="0,1"
                                     SpreadMethod="Pad" StartPoint="0.0,0.0">
-                                    <GradientStop
-                                    Color="#CECFD2" Offset="0.0"/>
-                                    <GradientStop
-                                    Color="#F7F7F6" Offset=".75"/>
+                                    <GradientStop Color="#CECFD2" Offset="0.0"/>
+                                    <GradientStop Color="#F7F7F6" Offset=".75"/>
                                     </LinearGradient>
-                                    </Polygon>
-                                    <Polygon Opacity="1.0"
+                                </Polygon>
+                                <Polygon Opacity="1.0"
                                     Points="4.5,4.5 4.5,19.5 0.5,16.5 0.5,3.5"
-                                    Stroke="None"
-                                    StrokeDashArray="0.0" StrokeWidth="1.0">
+                                    Stroke="None" StrokeDashArray="0.0" StrokeWidth="1.0">
                                     <LinearGradient Attribute="Fill"
                                     EndPoint="1,0"
                                     SpreadMethod="Pad" StartPoint="0.0,0.0">
-                                    <GradientStop
-                                    Color="#CECFD2" Offset="0.0"/>
-                                    <GradientStop
-                                    Color="#F7F7F6" Offset=".75"/>
+                                    <GradientStop Color="#CECFD2" Offset="0.0"/>
+                                    <GradientStop Color="#F7F7F6" Offset=".75"/>
                                     </LinearGradient>
-                                    </Polygon>
-                                    <Polygon Fill="#CECFD2"
-                                    Opacity="1.0"
+                                </Polygon>
+                                <Polygon Fill="#CECFD2" Opacity="1.0"
                                     Points="0.5,3.5 3.5,0.5 4.5,4.5"
-                                    Stroke="None"
-                                    StrokeDashArray="0.0" StrokeWidth="1.0">
+                                    Stroke="None" StrokeDashArray="0.0" StrokeWidth="1.0">
                                     <LinearGradient Attribute="Fill"
                                     EndPoint="1,1"
                                     SpreadMethod="Pad" StartPoint=".25,.2">
-                                    <GradientStop
-                                    Color="#CECFD2" Offset="0.0"/>
-                                    <GradientStop
-                                    Color="#F7F7F6" Offset=".75"/>
+                                    <GradientStop Color="#CECFD2" Offset="0.0"/>
+                                    <GradientStop Color="#F7F7F6" Offset=".75"/>
                                     </LinearGradient>
-                                    </Polygon>
-                                </Component>
-                                <TextBox Ctrl="AnalogValueCtrl"
-                                    Fill="None" FontFamily="Arial"
-                                    FontSize="15.0" FontStyle="Normal"
-                                    FontWeight="Normal" Height="20.0"
-                                    HorizontalAlign="Center"
-                                    Id="Default Heating Setpoint_Display"
-                                    Left="0.0" Name="foreground"
-                                    Stroke="#626469"
-                                    SubModel="DefaultHeatValue"
-                                    TextDecoration="None" Top="0.0"
-                                    VerticalAlign="Middle"
-                                    Visibility="Visible"
+                                </Polygon>
+                            </Component>
+                            <TextBox Ctrl="AnalogValueCtrl" Fill="None"
+                                FontFamily="Arial" FontSize="15.0"
+                                FontStyle="Normal" FontWeight="Normal"
+                                Height="20.0" HorizontalAlign="Center"
+                                Id="" Left="0.0" Name="Value"
+                                Stroke="#626469"
+                                SubModel="DefaultHeatValue"
+                                TextDecoration="None" Top="0.0"
+                                VerticalAlign="Middle"
+                                Visibility="Visible"
                                     Width="100.0"><![CDATA[...]]><Expose
                                     ExposedAttribute="Content" Name="Point Content"/>
-                                    <Expose ExposedAttribute="Stroke" Name="Test Colour"/>
-                                </TextBox>
-                                <TargetArea DefaultHeatMinus:out=""
-                                    DefaultHeatMinus:over=""
-                                    DefaultHeatMinusBox:out=""
-                                    DefaultHeatMinusBox:over=""
-                                    DefaultHeatOutBox:out=""
-                                    DefaultHeatOutBox:over=""
-                                    DefaultHeatOverBox:out=""
-                                    DefaultHeatOverBox:over=""
-                                    DefaultHeatPlus:out=""
-                                    DefaultHeatPlus:over=""
-                                    DefaultHeatPlusBox:out=""
-                                    DefaultHeatPlusBox:over=""
-                                    DefaultHeatValue:click=""
-                                    DefaultHeatValueBox:click=""
-                                    DefaultHeatWaitBox:click=""
-                                    Height="20.0" Left="20.0"
-                                    Name="DefaultHeat" SE8:click=""
-                                    SE8:down="" SE8:out="" SE8:over="" Width="60.0"/>
-                                <TargetArea DefaultHeatMinus:down=""
-                                    DefaultHeatMinus:out=""
-                                    DefaultHeatMinus:over=""
-                                    DefaultHeatMinusBox:click=""
-                                    DefaultHeatMinusBox:down=""
-                                    DefaultHeatMinusBox:out=""
-                                    DefaultHeatMinusBox:over=""
-                                    DefaultHeatOutBox:out=""
-                                    DefaultHeatOutBox:over=""
-                                    DefaultHeatOverBox:out=""
-                                    DefaultHeatOverBox:over=""
-                                    DefaultHeatPlus:out=""
-                                    DefaultHeatPlus:over=""
-                                    DefaultHeatPlusBox:out=""
-                                    DefaultHeatPlusBox:over=""
-                                    DefaultHeatValue:click=""
-                                    DefaultHeatValueBox:click=""
-                                    DefaultHeatWaitBox:click=""
-                                    Height="20.0" Left="0.0"
-                                    Name="DefaultHeat" SE8:click=""
-                                    SE8:down="" SE8:out="" SE8:over="" Width="20.0"/>
-                                <TargetArea DefaultHeatMinus:out=""
-                                    DefaultHeatMinus:over=""
-                                    DefaultHeatMinusBox:out=""
-                                    DefaultHeatMinusBox:over=""
-                                    DefaultHeatOutBox:out=""
-                                    DefaultHeatOutBox:over=""
-                                    DefaultHeatOverBox:out=""
-                                    DefaultHeatOverBox:over=""
-                                    DefaultHeatPlus:down=""
-                                    DefaultHeatPlus:out=""
-                                    DefaultHeatPlus:over=""
-                                    DefaultHeatPlusBox:click=""
-                                    DefaultHeatPlusBox:down=""
-                                    DefaultHeatPlusBox:out=""
-                                    DefaultHeatPlusBox:over=""
-                                    DefaultHeatValue:click=""
-                                    DefaultHeatValueBox:click=""
-                                    DefaultHeatWaitBox:click=""
-                                    Height="20.0" Left="80.0"
-                                    Name="DefaultHeat" SE8:click=""
-                                    SE8:down="" SE8:out="" SE8:over="" Width="20.0"/>
-                            </Group>
+                                <Expose ExposedAttribute="Stroke" Name="Test Colour"/>
+                            </TextBox>
+                            <TargetArea DefaultHeatMinus:out=""
+                                DefaultHeatMinus:over=""
+                                DefaultHeatMinusBox:out=""
+                                DefaultHeatMinusBox:over=""
+                                DefaultHeatOutBox:out=""
+                                DefaultHeatOutBox:over=""
+                                DefaultHeatOverBox:out=""
+                                DefaultHeatOverBox:over=""
+                                DefaultHeatPlus:out=""
+                                DefaultHeatPlus:over=""
+                                DefaultHeatPlusBox:out=""
+                                DefaultHeatPlusBox:over=""
+                                DefaultHeatValue:click=""
+                                DefaultHeatValueBox:click=""
+                                DefaultHeatWaitBox:click=""
+                                Height="20.0" Left="20.0"
+                                Name="DefaultHeat" SE8:click=""
+                                SE8:down="" SE8:out="" SE8:over="" Width="60.0"/>
+                            <TargetArea DefaultHeatMinus:down=""
+                                DefaultHeatMinus:out=""
+                                DefaultHeatMinus:over=""
+                                DefaultHeatMinusBox:click=""
+                                DefaultHeatMinusBox:down=""
+                                DefaultHeatMinusBox:out=""
+                                DefaultHeatMinusBox:over=""
+                                DefaultHeatOutBox:out=""
+                                DefaultHeatOutBox:over=""
+                                DefaultHeatOverBox:out=""
+                                DefaultHeatOverBox:over=""
+                                DefaultHeatPlus:out=""
+                                DefaultHeatPlus:over=""
+                                DefaultHeatPlusBox:out=""
+                                DefaultHeatPlusBox:over=""
+                                DefaultHeatValue:click=""
+                                DefaultHeatValueBox:click=""
+                                DefaultHeatWaitBox:click=""
+                                Height="20.0" Left="0.0"
+                                Name="DefaultHeat" SE8:click=""
+                                SE8:down="" SE8:out="" SE8:over="" Width="20.0"/>
+                            <TargetArea DefaultHeatMinus:out=""
+                                DefaultHeatMinus:over=""
+                                DefaultHeatMinusBox:out=""
+                                DefaultHeatMinusBox:over=""
+                                DefaultHeatOutBox:out=""
+                                DefaultHeatOutBox:over=""
+                                DefaultHeatOverBox:out=""
+                                DefaultHeatOverBox:over=""
+                                DefaultHeatPlus:down=""
+                                DefaultHeatPlus:out=""
+                                DefaultHeatPlus:over=""
+                                DefaultHeatPlusBox:click=""
+                                DefaultHeatPlusBox:down=""
+                                DefaultHeatPlusBox:out=""
+                                DefaultHeatPlusBox:over=""
+                                DefaultHeatValue:click=""
+                                DefaultHeatValueBox:click=""
+                                DefaultHeatWaitBox:click=""
+                                Height="20.0" Left="80.0"
+                                Name="DefaultHeat" SE8:click=""
+                                SE8:down="" SE8:out="" SE8:over="" Width="20.0"/>
                         </Component>
                         <TextBox Ctrl="WaitBoxCtrl" Fill="#FFFFFF"
                             FontFamily="Arial" FontSize="15.0"
@@ -5127,542 +5087,692 @@ function load(evt) {
                             TextDecoration="None" Top="-2"
                             VerticalAlign="Middle" Visibility="Hidden" Width="104"><![CDATA[Please Wait]]></TextBox>
                     </Component>
-                    <Component ContentHeight="20" ContentWidth="100"
-                        Height="20.0" Id="Heating Setpoint Limit"
-                        Left="180" Name="" Top="120" Width="100.0">
+                    <Component Clip="False" ContentHeight="20"
+                        ContentWidth="100" Height="20.0" Id=""
+                        Left="180.0" Name="Heating Setpoint Limit"
+                        Top="120.0" Width="100.0">
                         <Component Clip="False" ContentHeight="20.0"
-                            ContentWidth="100.0" Decimals="1"
-                            Height="20.0" HighLimit="100"
-                            Increment="0.25" Left="0.0" LowLimit="1"
-                            Name="AnalogPoint" Top="0.0" Units="" Width="100.0">
-                            <Expose ExposedAttribute="Decimals" Name="Decimals"/>
-                            <Expose ExposedAttribute="Units" Name="Units"/>
-                            <Expose ExposedAttribute="Increment" Name="Increment"/>
-                            <Expose ExposedAttribute="HighLimit" Name="High Limit"/>
-                            <Expose ExposedAttribute="LowLimit" Name="Low Limit"/>
-                            <Group Name="display" Visibility="Visible">
-                                <Component Clip="False"
-                                    ContentHeight="20.0"
-                                    ContentWidth="60.5" Height="20.0"
-                                    Left="20.0" Name="onOverBox"
-                                    Top="0.0" Visibility="Visible" Width="60.5">
-                                    <Rectangle Fill="#F7F7F6"
-                                    Height="20.0" Left="0.0"
-                                    Opacity="1.0" RadiusX="0"
+                            ContentWidth="100.0" Ctrl="ValueBoxCtrl"
+                            Height="20.0" Left="0.0" Name="AnalogPoint"
+                            SubModel="HtgSptLimitValueBox" Top="0.0" Width="100.0">
+                            <Text FontFamily="Arial" FontSize="15.0"
+                                FontStyle="Normal" FontWeight="Normal"
+                                HorizontalAlign="Left" Left="-87.485"
+                                Opacity="1.0" Stroke="#000000"
+                                TextDecoration="None" Top="0.742676" VerticalAlign="Top"><![CDATA[Upper Limit]]></Text>
+                            <Component Clip="False" ContentHeight="20.0"
+                                ContentWidth="60.5" Ctrl="OverBoxCtrl"
+                                Height="20.0" Left="20.0"
+                                Name="onOverBox"
+                                SubModel="HtgSptLimitOverBox" Top="0.0"
+                                Visibility="Visible" Width="60.5">
+                                <Rectangle Fill="#F7F7F6" Height="20.0"
+                                    Left="0.0" Opacity="1.0" RadiusX="0"
                                     RadiusY="0" Stroke="#9FA0A4"
                                     StrokeDashArray="0.0"
                                     StrokeWidth="1.0" Top="0.0" Width="60.0"/>
-                                    <Polygon Opacity="1.0"
+                                <Polygon Opacity="1.0"
                                     Points="0.5,0.5 60.5,0.5 60.5,4.5 4.5,4.5"
-                                    Stroke="None"
-                                    StrokeDashArray="0.0" StrokeWidth="1.0">
+                                    Stroke="None" StrokeDashArray="0.0" StrokeWidth="1.0">
                                     <LinearGradient Attribute="Fill"
                                     EndPoint="0,1"
                                     SpreadMethod="Pad" StartPoint="0.0,0.0">
-                                    <GradientStop
-                                    Color="#CECFD2" Offset="0.0"/>
-                                    <GradientStop
-                                    Color="#F7F7F6" Offset=".75"/>
+                                    <GradientStop Color="#CECFD2" Offset="0.0"/>
+                                    <GradientStop Color="#F7F7F6" Offset=".75"/>
                                     </LinearGradient>
-                                    </Polygon>
-                                    <Polygon Opacity="1.0"
+                                </Polygon>
+                                <Polygon Opacity="1.0"
                                     Points="4.5,4.5 4.5,19.5 0.5,19.5 0.5,0.5"
-                                    Stroke="None"
-                                    StrokeDashArray="0.0" StrokeWidth="1.0">
+                                    Stroke="None" StrokeDashArray="0.0" StrokeWidth="1.0">
                                     <LinearGradient Attribute="Fill"
                                     EndPoint="1,0"
                                     SpreadMethod="Pad" StartPoint="0.0,0.0">
-                                    <GradientStop
-                                    Color="#CECFD2" Offset="0.0"/>
-                                    <GradientStop
-                                    Color="#F7F7F6" Offset=".75"/>
+                                    <GradientStop Color="#CECFD2" Offset="0.0"/>
+                                    <GradientStop Color="#F7F7F6" Offset=".75"/>
                                     </LinearGradient>
-                                    </Polygon>
-                                </Component>
-                                <Line Name="marker" Opacity="1.0"
-                                    Stroke="#626469"
-                                    StrokeDashArray="0.0"
-                                    StrokeWidth="4" Visibility="Hidden"
-                                    X1="51.0" X2="51.0" Y1="19.5" Y2="20.5"/>
-                                <Path Name="minusBox"
-                                    PathData="M20.0,0.0 C15.0,0.0 10.0,0.0 5.0,0.0 2.0,0.0 0.0,2.0 0.0,5.0 0.0,8.0 0.0,12.0 0.0,15.0 0.0,18.0 2.035014,19.930005 5.0,20.0 10.0,20.0 15.0,20.0 20.0,20.0 20.0,15.0 20.0,5.0 20.0,0.0"
-                                    Stroke="#626469"
-                                    StrokeDashArray="0.0"
-                                    StrokeWidth="1.0"
-                                    Tooltip="Low Limit = " Visibility="Visible">
-                                    <LinearGradient Attribute="Fill"
-                                    EndPoint="0,1"
-                                    SpreadMethod="Pad" StartPoint="0.0,0.0">
+                                </Polygon>
+                            </Component>
+                            <Line Name="marker" Opacity="1.0"
+                                Stroke="#626469" StrokeDashArray="0.0"
+                                StrokeWidth="4" Visibility="Hidden"
+                                X1="51.0" X2="51.0" Y1="19.5" Y2="20.5"/>
+                            <Path Ctrl="IncBoxCtrl" Increment="-1"
+                                LowLimit="1" Name="minusBox"
+                                PathData="M20.0,0.0 C15.0,0.0 10.0,0.0 5.0,0.0 2.0,0.0 0.0,2.0 0.0,5.0 0.0,8.0 0.0,12.0 0.0,15.0 0.0,18.0 2.035014,19.930005 5.0,20.0 10.0,20.0 15.0,20.0 20.0,20.0 20.0,15.0 20.0,5.0 20.0,0.0"
+                                Stroke="#626469" StrokeDashArray="0.0"
+                                StrokeWidth="1.0"
+                                SubModel="HtgSptLimitMinusBox" Visibility="Visible">
+                                <LinearGradient Attribute="Fill"
+                                    EndPoint="0,1" SpreadMethod="Pad" StartPoint="0.0,0.0">
                                     <GradientStop Color="#FCFCFC" Offset="0"/>
                                     <GradientStop Color="#DEDFE0" Offset="1"/>
-                                    </LinearGradient>
-                                </Path>
-                                <Path Name="plusBox"
-                                    PathData="M80.0,0.0 C85.0,0.0 90.0,0.0 95.0,0.0 98.0,0.0 100.0,2.0 100.0,5.0 100.0,8.0 100.0,12.0 100.0,15.0 100.0,18.0 97.965,19.93 95.0,20.0 90.0,20.0 85.0,20.0 80.0,20.0 80.0,15.0 80.0,5.0 80.0,0.0"
-                                    Stroke="#626469"
-                                    StrokeDashArray="0.0"
-                                    StrokeWidth="1.0"
-                                    Tooltip="High Limit = " Visibility="Visible">
-                                    <LinearGradient Attribute="Fill"
-                                    EndPoint="0,1"
-                                    SpreadMethod="Pad" StartPoint="0.0,0.0">
+                                </LinearGradient>
+                                <Expose ExposedAttribute="LowLimit" Name="LowLimit"/>
+                            </Path>
+                            <Path Ctrl="IncBoxCtrl" HighLimit="100"
+                                Increment="1" Name="plusBox"
+                                PathData="M80.0,0.0 C85.0,0.0 90.0,0.0 95.0,0.0 98.0,0.0 100.0,2.0 100.0,5.0 100.0,8.0 100.0,12.0 100.0,15.0 100.0,18.0 97.9650001,19.93 95.0,20.0 90.0,20.0 85.0,20.0 80.0,20.0 80.0,15.0 80.0,5.0 80.0,0.0"
+                                Stroke="#626469" StrokeDashArray="0.0"
+                                SubModel="HtgSptLimitPlusBox" Visibility="Visible">
+                                <LinearGradient Attribute="Fill"
+                                    EndPoint="0,1" SpreadMethod="Pad" StartPoint="0.0,0.0">
                                     <GradientStop Color="#FCFCFC" Offset="0.0"/>
                                     <GradientStop Color="#DEDFE0" Offset="1.0"/>
-                                    </LinearGradient>
-                                </Path>
-                                <Line Name="minus" Opacity="1.0"
-                                    Stroke="#626469"
-                                    StrokeDashArray="0.0"
-                                    StrokeWidth="2" X1="7" X2="13"
-                                    Y1="10" Y2="10"/>
-                                <Path Fill="#FFFFFF" Name="plus"
-                                    PathData="M87,10 L93,10 M90,13 L90,7"
-                                    Stroke="#626469"
-                                    StrokeDashArray="0.0" StrokeWidth="2"/>
-                                <Component Clip="False"
-                                    ContentHeight="20.0"
-                                    ContentWidth="60.0" Height="20.0"
-                                    Left="20" Name="onOutBox" Top="0"
-                                    Visibility="Hidden" Width="60.0">
-                                    <Rectangle Fill="#F7F7F6"
-                                    Height="20.0" Left="0.0"
-                                    Opacity="1.0" RadiusX="5"
+                                </LinearGradient>
+                                <Expose ExposedAttribute="HighLimit" Name="HighLimit"/>
+                            </Path>
+                            <Line Ctrl="IconCtrl" Name="minus"
+                                Opacity="1.0" Stroke="#626469"
+                                StrokeDashArray="0.0" StrokeWidth="2"
+                                SubModel="HtgSptLimitMinus" X1="7"
+                                X2="13" Y1="10" Y2="10"/>
+                            <Path Ctrl="IconCtrl" Fill="#FFFFFF"
+                                Name="plus"
+                                PathData="M87,10 L93,10 M90,13 L90,7"
+                                Stroke="#626469" StrokeDashArray="0.0"
+                                StrokeWidth="2" SubModel="HtgSptLimitPlus"/>
+                            <Component Clip="False" ContentHeight="20.0"
+                                ContentWidth="60.0" Ctrl="OutBoxCtrl"
+                                Height="20.0" Left="20" Name="onOutBox"
+                                SubModel="HtgSptLimitOutBox" Top="0"
+                                Visibility="Hidden" Width="60.0">
+                                <Rectangle Fill="#F7F7F6" Height="20.0"
+                                    Left="0.0" Opacity="1.0" RadiusX="5"
                                     RadiusY="5" Stroke="#9FA0A4"
                                     StrokeDashArray="0.0"
                                     StrokeWidth="1.0" Top="0.0" Width="60.0"/>
-                                    <Polygon Opacity="1.0"
+                                <Polygon Opacity="1.0"
                                     Points="3.5,0.5 56.5,0.5 59.574523925781,4.57452392578102 4.5,4.5"
-                                    Stroke="None"
-                                    StrokeDashArray="0.0" StrokeWidth="1.0">
+                                    Stroke="None" StrokeDashArray="0.0" StrokeWidth="1.0">
                                     <LinearGradient Attribute="Fill"
                                     EndPoint="0,1"
                                     SpreadMethod="Pad" StartPoint="0.0,0.0">
-                                    <GradientStop
-                                    Color="#CECFD2" Offset="0.0"/>
-                                    <GradientStop
-                                    Color="#F7F7F6" Offset=".75"/>
+                                    <GradientStop Color="#CECFD2" Offset="0.0"/>
+                                    <GradientStop Color="#F7F7F6" Offset=".75"/>
                                     </LinearGradient>
-                                    </Polygon>
-                                    <Polygon Opacity="1.0"
+                                </Polygon>
+                                <Polygon Opacity="1.0"
                                     Points="4.5,4.5 4.5,19.5 0.5,16.5 0.5,3.5"
-                                    Stroke="None"
-                                    StrokeDashArray="0.0" StrokeWidth="1.0">
+                                    Stroke="None" StrokeDashArray="0.0" StrokeWidth="1.0">
                                     <LinearGradient Attribute="Fill"
                                     EndPoint="1,0"
                                     SpreadMethod="Pad" StartPoint="0.0,0.0">
-                                    <GradientStop
-                                    Color="#CECFD2" Offset="0.0"/>
-                                    <GradientStop
-                                    Color="#F7F7F6" Offset=".75"/>
+                                    <GradientStop Color="#CECFD2" Offset="0.0"/>
+                                    <GradientStop Color="#F7F7F6" Offset=".75"/>
                                     </LinearGradient>
-                                    </Polygon>
-                                    <Polygon Fill="#CECFD2"
-                                    Opacity="1.0"
+                                </Polygon>
+                                <Polygon Fill="#CECFD2" Opacity="1.0"
                                     Points="0.5,3.5 3.5,0.5 4.5,4.5"
-                                    Stroke="None"
-                                    StrokeDashArray="0.0" StrokeWidth="1.0">
+                                    Stroke="None" StrokeDashArray="0.0" StrokeWidth="1.0">
                                     <LinearGradient Attribute="Fill"
                                     EndPoint="1,1"
                                     SpreadMethod="Pad" StartPoint=".25,.2">
-                                    <GradientStop
-                                    Color="#CECFD2" Offset="0.0"/>
-                                    <GradientStop
-                                    Color="#F7F7F6" Offset=".75"/>
+                                    <GradientStop Color="#CECFD2" Offset="0.0"/>
+                                    <GradientStop Color="#F7F7F6" Offset=".75"/>
                                     </LinearGradient>
-                                    </Polygon>
-                                </Component>
-                                <TextBox Fill="None" FontFamily="Arial"
-                                    FontSize="15.0" FontStyle="Normal"
-                                    FontWeight="Normal" Height="20.0"
-                                    HorizontalAlign="Center"
-                                    Id="Heating Setpoint Limit_Display"
-                                    Left="0.0" Name="foreground"
-                                    Stroke="#626469"
-                                    TextDecoration="None" Top="0.0"
-                                    VerticalAlign="Middle"
-                                    Visibility="Visible"
+                                </Polygon>
+                            </Component>
+                            <TextBox Ctrl="AnalogValueCtrl" Fill="None"
+                                FontFamily="Arial" FontSize="15.0"
+                                FontStyle="Normal" FontWeight="Normal"
+                                Height="20.0" HorizontalAlign="Center"
+                                Id="" Left="0.0" Name="Value"
+                                Stroke="#626469"
+                                SubModel="HtgSptLimitValue"
+                                TextDecoration="None" Top="0.0"
+                                VerticalAlign="Middle"
+                                Visibility="Visible"
                                     Width="100.0"><![CDATA[...]]><Expose
                                     ExposedAttribute="Content" Name="Point Content"/>
-                                    <Expose ExposedAttribute="Stroke" Name="Test Colour"/>
-                                </TextBox>
-                            </Group>
+                                <Expose ExposedAttribute="Stroke" Name="Test Colour"/>
+                            </TextBox>
+                            <TargetArea Height="20.0"
+                                HtgSptLimitMinus:out=""
+                                HtgSptLimitMinus:over=""
+                                HtgSptLimitMinusBox:out=""
+                                HtgSptLimitMinusBox:over=""
+                                HtgSptLimitOutBox:out=""
+                                HtgSptLimitOutBox:over=""
+                                HtgSptLimitOverBox:out=""
+                                HtgSptLimitOverBox:over=""
+                                HtgSptLimitPlus:out=""
+                                HtgSptLimitPlus:over=""
+                                HtgSptLimitPlusBox:out=""
+                                HtgSptLimitPlusBox:over=""
+                                HtgSptLimitValue:click=""
+                                HtgSptLimitValueBox:click=""
+                                HtgSptLimitWaitBox:click="" Left="20.0"
+                                Name="Heating Setpoint Limit"
+                                SE8:click="" SE8:down="" SE8:out=""
+                                SE8:over="" Width="60.0"/>
+                            <TargetArea Height="20.0"
+                                HtgSptLimitMinus:down=""
+                                HtgSptLimitMinus:out=""
+                                HtgSptLimitMinus:over=""
+                                HtgSptLimitMinusBox:click=""
+                                HtgSptLimitMinusBox:down=""
+                                HtgSptLimitMinusBox:out=""
+                                HtgSptLimitMinusBox:over=""
+                                HtgSptLimitOutBox:out=""
+                                HtgSptLimitOutBox:over=""
+                                HtgSptLimitOverBox:out=""
+                                HtgSptLimitOverBox:over=""
+                                HtgSptLimitPlus:out=""
+                                HtgSptLimitPlus:over=""
+                                HtgSptLimitPlusBox:out=""
+                                HtgSptLimitPlusBox:over=""
+                                HtgSptLimitValue:click=""
+                                HtgSptLimitValueBox:click=""
+                                HtgSptLimitWaitBox:click="" Left="0.0"
+                                Name="Heating Setpoint Limit"
+                                SE8:click="" SE8:down="" SE8:out=""
+                                SE8:over="" Width="20.0"/>
+                            <TargetArea Height="20.0"
+                                HtgSptLimitMinus:out=""
+                                HtgSptLimitMinus:over=""
+                                HtgSptLimitMinusBox:out=""
+                                HtgSptLimitMinusBox:over=""
+                                HtgSptLimitOutBox:out=""
+                                HtgSptLimitOutBox:over=""
+                                HtgSptLimitOverBox:out=""
+                                HtgSptLimitOverBox:over=""
+                                HtgSptLimitPlus:down=""
+                                HtgSptLimitPlus:out=""
+                                HtgSptLimitPlus:over=""
+                                HtgSptLimitPlusBox:click=""
+                                HtgSptLimitPlusBox:down=""
+                                HtgSptLimitPlusBox:out=""
+                                HtgSptLimitPlusBox:over=""
+                                HtgSptLimitValue:click=""
+                                HtgSptLimitValueBox:click=""
+                                HtgSptLimitWaitBox:click="" Left="80.0"
+                                Name="Heating Setpoint Limit"
+                                SE8:click="" SE8:down="" SE8:out=""
+                                SE8:over="" Width="20.0"/>
                         </Component>
-                        <TextBox Fill="#FFFFFF" FontFamily="Arial"
-                            FontSize="15.0" FontStyle="Normal"
-                            FontWeight="Normal" Height="24"
-                            HorizontalAlign="Center" Id="" Left="-2"
-                            Name="waitbox" Stroke="#626469"
+                        <TextBox Ctrl="WaitBoxCtrl" Fill="#FFFFFF"
+                            FontFamily="Arial" FontSize="15.0"
+                            FontStyle="Normal" FontWeight="Normal"
+                            Height="24" HorizontalAlign="Center" Id=""
+                            Left="-2" Name="waitbox" Stroke="#626469"
+                            SubModel="HtgSptLimitWaitBox"
                             TextDecoration="None" Top="-2"
                             VerticalAlign="Middle" Visibility="Hidden" Width="104"><![CDATA[Please Wait]]></TextBox>
                     </Component>
-                    <Component ContentHeight="20" ContentWidth="100"
-                        Height="20.0" Id="Cooling Setpoint Limit"
-                        Left="180.0" Name="" Top="145" Width="100.0">
+                    <Component Clip="False" ContentHeight="20"
+                        ContentWidth="100" Height="20.0" Id=""
+                        Left="180.0" Name="Cooling Setpoint Limit"
+                        Top="145.0" Width="100.0">
                         <Component Clip="False" ContentHeight="20.0"
-                            ContentWidth="100.0" Decimals="1"
-                            Height="20.0" HighLimit="100"
-                            Increment="0.25" Left="0.0" LowLimit="1"
-                            Name="AnalogPoint" Top="0.0" Units="" Width="100.0">
-                            <Expose ExposedAttribute="Decimals" Name="Decimals"/>
-                            <Expose ExposedAttribute="Units" Name="Units"/>
-                            <Expose ExposedAttribute="Increment" Name="Increment"/>
-                            <Expose ExposedAttribute="HighLimit" Name="High Limit"/>
-                            <Expose ExposedAttribute="LowLimit" Name="Low Limit"/>
-                            <Group Name="display" Visibility="Visible">
-                                <Component Clip="False"
-                                    ContentHeight="20.0"
-                                    ContentWidth="60.5" Height="20.0"
-                                    Left="20.0" Name="onOverBox"
-                                    Top="0.0" Visibility="Visible" Width="60.5">
-                                    <Rectangle Fill="#F7F7F6"
-                                    Height="20.0" Left="0.0"
-                                    Opacity="1.0" RadiusX="0"
+                            ContentWidth="100.0" Ctrl="ValueBoxCtrl"
+                            Height="20.0" Left="0.0" Name="AnalogPoint"
+                            SubModel="ClgSptLimitValueBox" Top="0.0" Width="100.0">
+                            <Text FontFamily="Arial" FontSize="15.0"
+                                FontStyle="Normal" FontWeight="Normal"
+                                HorizontalAlign="Left" Left="-87.485"
+                                Opacity="1.0" Stroke="#000000"
+                                TextDecoration="None" Top="0.742676" VerticalAlign="Top"><![CDATA[Lower Limit]]></Text>
+                            <Component Clip="False" ContentHeight="20.0"
+                                ContentWidth="60.5" Ctrl="OverBoxCtrl"
+                                Height="20.0" Left="20.0"
+                                Name="onOverBox"
+                                SubModel="ClgSptLimitOverBox" Top="0.0"
+                                Visibility="Visible" Width="60.5">
+                                <Rectangle Fill="#F7F7F6" Height="20.0"
+                                    Left="0.0" Opacity="1.0" RadiusX="0"
                                     RadiusY="0" Stroke="#9FA0A4"
                                     StrokeDashArray="0.0"
                                     StrokeWidth="1.0" Top="0.0" Width="60.0"/>
-                                    <Polygon Opacity="1.0"
+                                <Polygon Opacity="1.0"
                                     Points="0.5,0.5 60.5,0.5 60.5,4.5 4.5,4.5"
-                                    Stroke="None"
-                                    StrokeDashArray="0.0" StrokeWidth="1.0">
+                                    Stroke="None" StrokeDashArray="0.0" StrokeWidth="1.0">
                                     <LinearGradient Attribute="Fill"
                                     EndPoint="0,1"
                                     SpreadMethod="Pad" StartPoint="0.0,0.0">
-                                    <GradientStop
-                                    Color="#CECFD2" Offset="0.0"/>
-                                    <GradientStop
-                                    Color="#F7F7F6" Offset=".75"/>
+                                    <GradientStop Color="#CECFD2" Offset="0.0"/>
+                                    <GradientStop Color="#F7F7F6" Offset=".75"/>
                                     </LinearGradient>
-                                    </Polygon>
-                                    <Polygon Opacity="1.0"
+                                </Polygon>
+                                <Polygon Opacity="1.0"
                                     Points="4.5,4.5 4.5,19.5 0.5,19.5 0.5,0.5"
-                                    Stroke="None"
-                                    StrokeDashArray="0.0" StrokeWidth="1.0">
+                                    Stroke="None" StrokeDashArray="0.0" StrokeWidth="1.0">
                                     <LinearGradient Attribute="Fill"
                                     EndPoint="1,0"
                                     SpreadMethod="Pad" StartPoint="0.0,0.0">
-                                    <GradientStop
-                                    Color="#CECFD2" Offset="0.0"/>
-                                    <GradientStop
-                                    Color="#F7F7F6" Offset=".75"/>
+                                    <GradientStop Color="#CECFD2" Offset="0.0"/>
+                                    <GradientStop Color="#F7F7F6" Offset=".75"/>
                                     </LinearGradient>
-                                    </Polygon>
-                                </Component>
-                                <Line Name="marker" Opacity="1.0"
-                                    Stroke="#626469"
-                                    StrokeDashArray="0.0"
-                                    StrokeWidth="4" Visibility="Hidden"
-                                    X1="51.0" X2="51.0" Y1="19.5" Y2="20.5"/>
-                                <Path Name="minusBox"
-                                    PathData="M20.0,0.0 C15.0,0.0 10.0,0.0 5.0,0.0 2.0,0.0 0.0,2.0 0.0,5.0 0.0,8.0 0.0,12.0 0.0,15.0 0.0,18.0 2.035014,19.930005 5.0,20.0 10.0,20.0 15.0,20.0 20.0,20.0 20.0,15.0 20.0,5.0 20.0,0.0"
-                                    Stroke="#626469"
-                                    StrokeDashArray="0.0"
-                                    StrokeWidth="1.0"
-                                    Tooltip="Low Limit = " Visibility="Visible">
-                                    <LinearGradient Attribute="Fill"
-                                    EndPoint="0,1"
-                                    SpreadMethod="Pad" StartPoint="0.0,0.0">
+                                </Polygon>
+                            </Component>
+                            <Line Name="marker" Opacity="1.0"
+                                Stroke="#626469" StrokeDashArray="0.0"
+                                StrokeWidth="4" Visibility="Hidden"
+                                X1="51.0" X2="51.0" Y1="19.5" Y2="20.5"/>
+                            <Path Ctrl="IncBoxCtrl" Increment="-1"
+                                LowLimit="1" Name="minusBox"
+                                PathData="M20.0,0.0 C15.0,0.0 10.0,0.0 5.0,0.0 2.0,0.0 0.0,2.0 0.0,5.0 0.0,8.0 0.0,12.0 0.0,15.0 0.0,18.0 2.035014,19.930005 5.0,20.0 10.0,20.0 15.0,20.0 20.0,20.0 20.0,15.0 20.0,5.0 20.0,0.0"
+                                Stroke="#626469" StrokeDashArray="0.0"
+                                StrokeWidth="1.0"
+                                SubModel="ClgSptLimitMinusBox" Visibility="Visible">
+                                <LinearGradient Attribute="Fill"
+                                    EndPoint="0,1" SpreadMethod="Pad" StartPoint="0.0,0.0">
                                     <GradientStop Color="#FCFCFC" Offset="0"/>
                                     <GradientStop Color="#DEDFE0" Offset="1"/>
-                                    </LinearGradient>
-                                </Path>
-                                <Path Name="plusBox"
-                                    PathData="M80.0,0.0 C85.0,0.0 90.0,0.0 95.0,0.0 98.0,0.0 100.0,2.0 100.0,5.0 100.0,8.0 100.0,12.0 100.0,15.0 100.0,18.0 97.965,19.93 95.0,20.0 90.0,20.0 85.0,20.0 80.0,20.0 80.0,15.0 80.0,5.0 80.0,0.0"
-                                    Stroke="#626469"
-                                    StrokeDashArray="0.0"
-                                    StrokeWidth="1.0"
-                                    Tooltip="High Limit = " Visibility="Visible">
-                                    <LinearGradient Attribute="Fill"
-                                    EndPoint="0,1"
-                                    SpreadMethod="Pad" StartPoint="0.0,0.0">
+                                </LinearGradient>
+                                <Expose ExposedAttribute="LowLimit" Name="LowLimit"/>
+                            </Path>
+                            <Path Ctrl="IncBoxCtrl" HighLimit="100"
+                                Increment="1" Name="plusBox"
+                                PathData="M80.0,0.0 C85.0,0.0 90.0,0.0 95.0,0.0 98.0,0.0 100.0,2.0 100.0,5.0 100.0,8.0 100.0,12.0 100.0,15.0 100.0,18.0 97.9650001,19.93 95.0,20.0 90.0,20.0 85.0,20.0 80.0,20.0 80.0,15.0 80.0,5.0 80.0,0.0"
+                                Stroke="#626469" StrokeDashArray="0.0"
+                                SubModel="ClgSptLimitPlusBox" Visibility="Visible">
+                                <LinearGradient Attribute="Fill"
+                                    EndPoint="0,1" SpreadMethod="Pad" StartPoint="0.0,0.0">
                                     <GradientStop Color="#FCFCFC" Offset="0.0"/>
                                     <GradientStop Color="#DEDFE0" Offset="1.0"/>
-                                    </LinearGradient>
-                                </Path>
-                                <Line Name="minus" Opacity="1.0"
-                                    Stroke="#626469"
-                                    StrokeDashArray="0.0"
-                                    StrokeWidth="2" X1="7" X2="13"
-                                    Y1="10" Y2="10"/>
-                                <Path Fill="#FFFFFF" Name="plus"
-                                    PathData="M87,10 L93,10 M90,13 L90,7"
-                                    Stroke="#626469"
-                                    StrokeDashArray="0.0" StrokeWidth="2"/>
-                                <Component Clip="False"
-                                    ContentHeight="20.0"
-                                    ContentWidth="60.0" Height="20.0"
-                                    Left="20" Name="onOutBox" Top="0"
-                                    Visibility="Hidden" Width="60.0">
-                                    <Rectangle Fill="#F7F7F6"
-                                    Height="20.0" Left="0.0"
-                                    Opacity="1.0" RadiusX="5"
+                                </LinearGradient>
+                                <Expose ExposedAttribute="HighLimit" Name="HighLimit"/>
+                            </Path>
+                            <Line Ctrl="IconCtrl" Name="minus"
+                                Opacity="1.0" Stroke="#626469"
+                                StrokeDashArray="0.0" StrokeWidth="2"
+                                SubModel="ClgSptLimitMinus" X1="7"
+                                X2="13" Y1="10" Y2="10"/>
+                            <Path Ctrl="IconCtrl" Fill="#FFFFFF"
+                                Name="plus"
+                                PathData="M87,10 L93,10 M90,13 L90,7"
+                                Stroke="#626469" StrokeDashArray="0.0"
+                                StrokeWidth="2" SubModel="ClgSptLimitPlus"/>
+                            <Component Clip="False" ContentHeight="20.0"
+                                ContentWidth="60.0" Ctrl="OutBoxCtrl"
+                                Height="20.0" Left="20" Name="onOutBox"
+                                SubModel="ClgSptLimitOutBox" Top="0"
+                                Visibility="Hidden" Width="60.0">
+                                <Rectangle Fill="#F7F7F6" Height="20.0"
+                                    Left="0.0" Opacity="1.0" RadiusX="5"
                                     RadiusY="5" Stroke="#9FA0A4"
                                     StrokeDashArray="0.0"
                                     StrokeWidth="1.0" Top="0.0" Width="60.0"/>
-                                    <Polygon Opacity="1.0"
+                                <Polygon Opacity="1.0"
                                     Points="3.5,0.5 56.5,0.5 59.574523925781,4.57452392578102 4.5,4.5"
-                                    Stroke="None"
-                                    StrokeDashArray="0.0" StrokeWidth="1.0">
+                                    Stroke="None" StrokeDashArray="0.0" StrokeWidth="1.0">
                                     <LinearGradient Attribute="Fill"
                                     EndPoint="0,1"
                                     SpreadMethod="Pad" StartPoint="0.0,0.0">
-                                    <GradientStop
-                                    Color="#CECFD2" Offset="0.0"/>
-                                    <GradientStop
-                                    Color="#F7F7F6" Offset=".75"/>
+                                    <GradientStop Color="#CECFD2" Offset="0.0"/>
+                                    <GradientStop Color="#F7F7F6" Offset=".75"/>
                                     </LinearGradient>
-                                    </Polygon>
-                                    <Polygon Opacity="1.0"
+                                </Polygon>
+                                <Polygon Opacity="1.0"
                                     Points="4.5,4.5 4.5,19.5 0.5,16.5 0.5,3.5"
-                                    Stroke="None"
-                                    StrokeDashArray="0.0" StrokeWidth="1.0">
+                                    Stroke="None" StrokeDashArray="0.0" StrokeWidth="1.0">
                                     <LinearGradient Attribute="Fill"
                                     EndPoint="1,0"
                                     SpreadMethod="Pad" StartPoint="0.0,0.0">
-                                    <GradientStop
-                                    Color="#CECFD2" Offset="0.0"/>
-                                    <GradientStop
-                                    Color="#F7F7F6" Offset=".75"/>
+                                    <GradientStop Color="#CECFD2" Offset="0.0"/>
+                                    <GradientStop Color="#F7F7F6" Offset=".75"/>
                                     </LinearGradient>
-                                    </Polygon>
-                                    <Polygon Fill="#CECFD2"
-                                    Opacity="1.0"
+                                </Polygon>
+                                <Polygon Fill="#CECFD2" Opacity="1.0"
                                     Points="0.5,3.5 3.5,0.5 4.5,4.5"
-                                    Stroke="None"
-                                    StrokeDashArray="0.0" StrokeWidth="1.0">
+                                    Stroke="None" StrokeDashArray="0.0" StrokeWidth="1.0">
                                     <LinearGradient Attribute="Fill"
                                     EndPoint="1,1"
                                     SpreadMethod="Pad" StartPoint=".25,.2">
-                                    <GradientStop
-                                    Color="#CECFD2" Offset="0.0"/>
-                                    <GradientStop
-                                    Color="#F7F7F6" Offset=".75"/>
+                                    <GradientStop Color="#CECFD2" Offset="0.0"/>
+                                    <GradientStop Color="#F7F7F6" Offset=".75"/>
                                     </LinearGradient>
-                                    </Polygon>
-                                </Component>
-                                <TextBox Fill="None" FontFamily="Arial"
-                                    FontSize="15.0" FontStyle="Normal"
-                                    FontWeight="Normal" Height="20.0"
-                                    HorizontalAlign="Center"
-                                    Id="Cooling Setpoint Limit_Display"
-                                    Left="0.0" Name="foreground"
-                                    Stroke="#626469"
-                                    TextDecoration="None" Top="0.0"
-                                    VerticalAlign="Middle"
-                                    Visibility="Visible"
+                                </Polygon>
+                            </Component>
+                            <TextBox Ctrl="AnalogValueCtrl" Fill="None"
+                                FontFamily="Arial" FontSize="15.0"
+                                FontStyle="Normal" FontWeight="Normal"
+                                Height="20.0" HorizontalAlign="Center"
+                                Id="" Left="0.0" Name="Value"
+                                Stroke="#626469"
+                                SubModel="ClgSptLimitValue"
+                                TextDecoration="None" Top="0.0"
+                                VerticalAlign="Middle"
+                                Visibility="Visible"
                                     Width="100.0"><![CDATA[...]]><Expose
                                     ExposedAttribute="Content" Name="Point Content"/>
-                                    <Expose ExposedAttribute="Stroke" Name="Test Colour"/>
-                                </TextBox>
-                            </Group>
+                                <Expose ExposedAttribute="Stroke" Name="Test Colour"/>
+                            </TextBox>
+                            <TargetArea ClgSptLimitMinus:out=""
+                                ClgSptLimitMinus:over=""
+                                ClgSptLimitMinusBox:out=""
+                                ClgSptLimitMinusBox:over=""
+                                ClgSptLimitOutBox:out=""
+                                ClgSptLimitOutBox:over=""
+                                ClgSptLimitOverBox:out=""
+                                ClgSptLimitOverBox:over=""
+                                ClgSptLimitPlus:out=""
+                                ClgSptLimitPlus:over=""
+                                ClgSptLimitPlusBox:out=""
+                                ClgSptLimitPlusBox:over=""
+                                ClgSptLimitValue:click=""
+                                ClgSptLimitValueBox:click=""
+                                ClgSptLimitWaitBox:click=""
+                                Height="20.0" Left="20.0"
+                                Name="Cooling Setpoint Limit"
+                                SE8:click="" SE8:down="" SE8:out=""
+                                SE8:over="" Width="60.0"/>
+                            <TargetArea ClgSptLimitMinus:down=""
+                                ClgSptLimitMinus:out=""
+                                ClgSptLimitMinus:over=""
+                                ClgSptLimitMinusBox:click=""
+                                ClgSptLimitMinusBox:down=""
+                                ClgSptLimitMinusBox:out=""
+                                ClgSptLimitMinusBox:over=""
+                                ClgSptLimitOutBox:out=""
+                                ClgSptLimitOutBox:over=""
+                                ClgSptLimitOverBox:out=""
+                                ClgSptLimitOverBox:over=""
+                                ClgSptLimitPlus:out=""
+                                ClgSptLimitPlus:over=""
+                                ClgSptLimitPlusBox:out=""
+                                ClgSptLimitPlusBox:over=""
+                                ClgSptLimitValue:click=""
+                                ClgSptLimitValueBox:click=""
+                                ClgSptLimitWaitBox:click=""
+                                Height="20.0" Left="0.0"
+                                Name="Cooling Setpoint Limit"
+                                SE8:click="" SE8:down="" SE8:out=""
+                                SE8:over="" Width="20.0"/>
+                            <TargetArea ClgSptLimitMinus:out=""
+                                ClgSptLimitMinus:over=""
+                                ClgSptLimitMinusBox:out=""
+                                ClgSptLimitMinusBox:over=""
+                                ClgSptLimitOutBox:out=""
+                                ClgSptLimitOutBox:over=""
+                                ClgSptLimitOverBox:out=""
+                                ClgSptLimitOverBox:over=""
+                                ClgSptLimitPlus:down=""
+                                ClgSptLimitPlus:out=""
+                                ClgSptLimitPlus:over=""
+                                ClgSptLimitPlusBox:click=""
+                                ClgSptLimitPlusBox:down=""
+                                ClgSptLimitPlusBox:out=""
+                                ClgSptLimitPlusBox:over=""
+                                ClgSptLimitValue:click=""
+                                ClgSptLimitValueBox:click=""
+                                ClgSptLimitWaitBox:click=""
+                                Height="20.0" Left="80.0"
+                                Name="Cooling Setpoint Limit"
+                                SE8:click="" SE8:down="" SE8:out=""
+                                SE8:over="" Width="20.0"/>
                         </Component>
-                        <TextBox Fill="#FFFFFF" FontFamily="Arial"
-                            FontSize="15.0" FontStyle="Normal"
-                            FontWeight="Normal" Height="24"
-                            HorizontalAlign="Center" Id="" Left="-2"
-                            Name="waitbox" Stroke="#626469"
+                        <TextBox Ctrl="WaitBoxCtrl" Fill="#FFFFFF"
+                            FontFamily="Arial" FontSize="15.0"
+                            FontStyle="Normal" FontWeight="Normal"
+                            Height="24" HorizontalAlign="Center" Id=""
+                            Left="-2" Name="waitbox" Stroke="#626469"
+                            SubModel="ClgSptLimitWaitBox"
                             TextDecoration="None" Top="-2"
                             VerticalAlign="Middle" Visibility="Hidden" Width="104"><![CDATA[Please Wait]]></TextBox>
                     </Component>
-                    <Component Clip="False" ContentHeight="22.0"
-                        ContentWidth="40.0" Height="22.0"
-                        Id="Standby Mode Configuration"
-                        Left="77.23271179199219" LeftValue="1" Name=""
-                        RightValue="2" Top="196.1918487548828" Width="40.0">
-                        <Expose ExposedAttribute="LeftValue" Name="Left Value"/>
-                        <Expose ExposedAttribute="RightValue" Name="Right Value"/>
-                        <Rectangle Fill="#87D300" Height="20.0"
-                            Left="0.0" Name="Background" Opacity="1.0"
-                            RadiusX="10" RadiusY="10" Stroke="#9FA0A4"
-                            StrokeDashArray="0.0" StrokeWidth="1.0"
-                            Top="0.0" Width="40.0">
-                            <Animate Animation="Stop" Attribute="Fill"
-                                CalcMode="Linear" Duration=".25"
-                                Freeze="True" From="#87D300"
-                                Name="BgAni" Repeat="1" To="#CCCCCC"/>
-                        </Rectangle>
+                    <Component Clip="False" ContentHeight="44.82"
+                        ContentWidth="167.19" Ctrl="SwitchCtrl"
+                        Height="44.82" Left="11.82" LeftValue="1"
+                        Name="StandbyMode" RightValue="2"
+                        SubModel="StandbyMode" Top="173.37" Width="167.19">
+                        <Text FontFamily="Arial" FontSize="15.0"
+                            FontStyle="Normal" FontWeight="Normal"
+                            HorizontalAlign="Right"
+                            Left="136.54591757059097" Opacity="1.0"
+                            Stroke="#000000" TextDecoration="None"
+                            Top="0.001998901367188" VerticalAlign="Top"><![CDATA[Setpoint Mode]]></Text>
+                        <Text FontFamily="Arial" FontSize="15.0"
+                            FontStyle="Normal" FontWeight="Normal"
+                            HorizontalAlign="Left"
+                            Left="0.001640319824219" Opacity="1.0"
+                            Stroke="#000000" TextDecoration="None"
+                            Top="23.001998901367188" VerticalAlign="Top"><![CDATA[Absolute]]></Text>
+                        <Text FontFamily="Arial" FontSize="15.0"
+                            FontStyle="Normal" FontWeight="Normal"
+                            HorizontalAlign="Left"
+                            Left="113.00164031982422" Opacity="1.0"
+                            Stroke="#000000" TextDecoration="None"
+                            Top="23.001998901367188" VerticalAlign="Top"><![CDATA[Relative]]></Text>
                         <Component Clip="False" ContentHeight="22.0"
-                            ContentWidth="20.5" Height="22.0" Left="0.0"
-                            Name="Switch" Top="0.0" Width="20.5">
-                            <Ellipse Fill="#2F000000" Height="20.0"
-                                Left="0.500034689903259" Opacity="1.0"
-                                Stroke="None" StrokeDashArray="0.0"
-                                StrokeWidth="1.0" Top="2.0" Width="20.0"/>
-                            <Ellipse Fill="#EEEEEE" Height="20.0"
-                                Left="0.0" Opacity="1.0"
-                                Stroke="#808080" StrokeDashArray="0.0"
-                                StrokeWidth="1.0" Top="0.0" Width="20.0"/>
-                            <Animate Animation="Stop" Attribute="Left"
-                                CalcMode="Linear" Duration=".25"
-                                Freeze="True" From="20" Name="SwAni"
-                                Repeat="1" To="0"/>
+                            ContentWidth="40.0" Height="22.0"
+                            Id="StandbyMode" Left="65.41271209716797"
+                            Name="" Top="22.821853637695312" Width="40.0">
+                            <Rectangle Fill="#87D300" Height="20.0"
+                                Left="0.0" Name="Background"
+                                Opacity="1.0" RadiusX="10" RadiusY="10"
+                                Stroke="#9FA0A4" StrokeDashArray="0.0"
+                                StrokeWidth="1.0" Top="0.0" Width="40.0">
+                                <Animate Animation="Stop"
+                                    Attribute="Fill" CalcMode="Linear"
+                                    Duration=".25" Freeze="True"
+                                    From="#87D300" Name="BgAni"
+                                    Repeat="1" To="#87D300"/>
+                            </Rectangle>
+                            <Component Clip="False" ContentHeight="22.0"
+                                ContentWidth="20.5" Height="22.0"
+                                Left="0.0" Name="Switch" Top="0.0" Width="20.5">
+                                <Ellipse Fill="#2F000000" Height="20.0"
+                                    Left="0.500034689903259"
+                                    Opacity="1.0" Stroke="None"
+                                    StrokeDashArray="0.0"
+                                    StrokeWidth="1.0" Top="2.0" Width="20.0"/>
+                                <Ellipse Fill="#EEEEEE" Height="20.0"
+                                    Left="0.0" Opacity="1.0"
+                                    Stroke="#808080"
+                                    StrokeDashArray="0.0"
+                                    StrokeWidth="1.0" Top="0.0" Width="20.0"/>
+                                <Animate Animation="Stop"
+                                    Attribute="Left" CalcMode="Linear"
+                                    Duration=".25" Freeze="True"
+                                    From="0" Name="SwAni" Repeat="1" To="20"/>
+                            </Component>
+                            <TargetArea Height="22.0" Name="StandbyMode"
+                                SE8:click="" StandbyMode:click="" Width="40.0"/>
                         </Component>
                     </Component>
-                    <Component ContentHeight="20" ContentWidth="100"
-                        Height="20.0"
-                        Id="Standby Temperature Differential"
-                        Left="190.0" Name="" Top="195.0" Width="100.0">
+                    <Component Clip="False" ContentHeight="20"
+                        ContentWidth="100" Height="20.0" Id=""
+                        Left="190.0"
+                        Name="Standby Temperature Differential"
+                        Top="195.0" Width="100.0">
                         <Component Clip="False" ContentHeight="20.0"
-                            ContentWidth="100.0" Decimals="1"
-                            Height="20.0" HighLimit="100"
-                            Increment="0.25" Left="0.0" LowLimit="1"
-                            Name="AnalogPoint" Top="0.0" Units="" Width="100.0">
-                            <Expose ExposedAttribute="Decimals" Name="Decimals"/>
-                            <Expose ExposedAttribute="Units" Name="Units"/>
-                            <Expose ExposedAttribute="Increment" Name="Increment"/>
-                            <Expose ExposedAttribute="HighLimit" Name="High Limit"/>
-                            <Expose ExposedAttribute="LowLimit" Name="Low Limit"/>
-                            <Group Name="display" Visibility="Visible">
-                                <Component Clip="False"
-                                    ContentHeight="20.0"
-                                    ContentWidth="60.5" Height="20.0"
-                                    Left="20.0" Name="onOverBox"
-                                    Top="0.0" Visibility="Visible" Width="60.5">
-                                    <Rectangle Fill="#F7F7F6"
-                                    Height="20.0" Left="0.0"
-                                    Opacity="1.0" RadiusX="0"
+                            ContentWidth="100.0" Ctrl="ValueBoxCtrl"
+                            Height="20.0" Left="0.0" Name="AnalogPoint"
+                            SubModel="StandbyDiffValueBox" Top="0.0" Width="100.0">
+                            <Component Clip="False" ContentHeight="20.0"
+                                ContentWidth="60.5" Ctrl="OverBoxCtrl"
+                                Height="20.0" Left="20.0"
+                                Name="onOverBox"
+                                SubModel="StandbyDiffOverBox" Top="0.0"
+                                Visibility="Visible" Width="60.5">
+                                <Rectangle Fill="#F7F7F6" Height="20.0"
+                                    Left="0.0" Opacity="1.0" RadiusX="0"
                                     RadiusY="0" Stroke="#9FA0A4"
                                     StrokeDashArray="0.0"
                                     StrokeWidth="1.0" Top="0.0" Width="60.0"/>
-                                    <Polygon Opacity="1.0"
+                                <Polygon Opacity="1.0"
                                     Points="0.5,0.5 60.5,0.5 60.5,4.5 4.5,4.5"
-                                    Stroke="None"
-                                    StrokeDashArray="0.0" StrokeWidth="1.0">
+                                    Stroke="None" StrokeDashArray="0.0" StrokeWidth="1.0">
                                     <LinearGradient Attribute="Fill"
                                     EndPoint="0,1"
                                     SpreadMethod="Pad" StartPoint="0.0,0.0">
-                                    <GradientStop
-                                    Color="#CECFD2" Offset="0.0"/>
-                                    <GradientStop
-                                    Color="#F7F7F6" Offset=".75"/>
+                                    <GradientStop Color="#CECFD2" Offset="0.0"/>
+                                    <GradientStop Color="#F7F7F6" Offset=".75"/>
                                     </LinearGradient>
-                                    </Polygon>
-                                    <Polygon Opacity="1.0"
+                                </Polygon>
+                                <Polygon Opacity="1.0"
                                     Points="4.5,4.5 4.5,19.5 0.5,19.5 0.5,0.5"
-                                    Stroke="None"
-                                    StrokeDashArray="0.0" StrokeWidth="1.0">
+                                    Stroke="None" StrokeDashArray="0.0" StrokeWidth="1.0">
                                     <LinearGradient Attribute="Fill"
                                     EndPoint="1,0"
                                     SpreadMethod="Pad" StartPoint="0.0,0.0">
-                                    <GradientStop
-                                    Color="#CECFD2" Offset="0.0"/>
-                                    <GradientStop
-                                    Color="#F7F7F6" Offset=".75"/>
+                                    <GradientStop Color="#CECFD2" Offset="0.0"/>
+                                    <GradientStop Color="#F7F7F6" Offset=".75"/>
                                     </LinearGradient>
-                                    </Polygon>
-                                </Component>
-                                <Line Name="marker" Opacity="1.0"
-                                    Stroke="#626469"
-                                    StrokeDashArray="0.0"
-                                    StrokeWidth="4" Visibility="Hidden"
-                                    X1="51.0" X2="51.0" Y1="19.5" Y2="20.5"/>
-                                <Path Name="minusBox"
-                                    PathData="M20.0,0.0 C15.0,0.0 10.0,0.0 5.0,0.0 2.0,0.0 0.0,2.0 0.0,5.0 0.0,8.0 0.0,12.0 0.0,15.0 0.0,18.0 2.035014,19.930005 5.0,20.0 10.0,20.0 15.0,20.0 20.0,20.0 20.0,15.0 20.0,5.0 20.0,0.0"
-                                    Stroke="#626469"
-                                    StrokeDashArray="0.0"
-                                    StrokeWidth="1.0"
-                                    Tooltip="Low Limit = " Visibility="Visible">
-                                    <LinearGradient Attribute="Fill"
-                                    EndPoint="0,1"
-                                    SpreadMethod="Pad" StartPoint="0.0,0.0">
+                                </Polygon>
+                            </Component>
+                            <Line Name="marker" Opacity="1.0"
+                                Stroke="#626469" StrokeDashArray="0.0"
+                                StrokeWidth="4" Visibility="Hidden"
+                                X1="51.0" X2="51.0" Y1="19.5" Y2="20.5"/>
+                            <Path Ctrl="IncBoxCtrl" Increment="-1"
+                                LowLimit="1" Name="minusBox"
+                                PathData="M20.0,0.0 C15.0,0.0 10.0,0.0 5.0,0.0 2.0,0.0 0.0,2.0 0.0,5.0 0.0,8.0 0.0,12.0 0.0,15.0 0.0,18.0 2.035014,19.930005 5.0,20.0 10.0,20.0 15.0,20.0 20.0,20.0 20.0,15.0 20.0,5.0 20.0,0.0"
+                                Stroke="#626469" StrokeDashArray="0.0"
+                                StrokeWidth="1.0"
+                                SubModel="StandbyDiffMinusBox" Visibility="Visible">
+                                <LinearGradient Attribute="Fill"
+                                    EndPoint="0,1" SpreadMethod="Pad" StartPoint="0.0,0.0">
                                     <GradientStop Color="#FCFCFC" Offset="0"/>
                                     <GradientStop Color="#DEDFE0" Offset="1"/>
-                                    </LinearGradient>
-                                </Path>
-                                <Path Name="plusBox"
-                                    PathData="M80.0,0.0 C85.0,0.0 90.0,0.0 95.0,0.0 98.0,0.0 100.0,2.0 100.0,5.0 100.0,8.0 100.0,12.0 100.0,15.0 100.0,18.0 97.965,19.93 95.0,20.0 90.0,20.0 85.0,20.0 80.0,20.0 80.0,15.0 80.0,5.0 80.0,0.0"
-                                    Stroke="#626469"
-                                    StrokeDashArray="0.0"
-                                    StrokeWidth="1.0"
-                                    Tooltip="High Limit = " Visibility="Visible">
-                                    <LinearGradient Attribute="Fill"
-                                    EndPoint="0,1"
-                                    SpreadMethod="Pad" StartPoint="0.0,0.0">
+                                </LinearGradient>
+                                <Expose ExposedAttribute="LowLimit" Name="LowLimit"/>
+                            </Path>
+                            <Path Ctrl="IncBoxCtrl" HighLimit="100"
+                                Increment="1" Name="plusBox"
+                                PathData="M80.0,0.0 C85.0,0.0 90.0,0.0 95.0,0.0 98.0,0.0 100.0,2.0 100.0,5.0 100.0,8.0 100.0,12.0 100.0,15.0 100.0,18.0 97.9650001,19.93 95.0,20.0 90.0,20.0 85.0,20.0 80.0,20.0 80.0,15.0 80.0,5.0 80.0,0.0"
+                                Stroke="#626469" StrokeDashArray="0.0"
+                                SubModel="StandbyDiffPlusBox" Visibility="Visible">
+                                <LinearGradient Attribute="Fill"
+                                    EndPoint="0,1" SpreadMethod="Pad" StartPoint="0.0,0.0">
                                     <GradientStop Color="#FCFCFC" Offset="0.0"/>
                                     <GradientStop Color="#DEDFE0" Offset="1.0"/>
-                                    </LinearGradient>
-                                </Path>
-                                <Line Name="minus" Opacity="1.0"
-                                    Stroke="#626469"
-                                    StrokeDashArray="0.0"
-                                    StrokeWidth="2" X1="7" X2="13"
-                                    Y1="10" Y2="10"/>
-                                <Path Fill="#FFFFFF" Name="plus"
-                                    PathData="M87,10 L93,10 M90,13 L90,7"
-                                    Stroke="#626469"
-                                    StrokeDashArray="0.0" StrokeWidth="2"/>
-                                <Component Clip="False"
-                                    ContentHeight="20.0"
-                                    ContentWidth="60.0" Height="20.0"
-                                    Left="20" Name="onOutBox" Top="0"
-                                    Visibility="Hidden" Width="60.0">
-                                    <Rectangle Fill="#F7F7F6"
-                                    Height="20.0" Left="0.0"
-                                    Opacity="1.0" RadiusX="5"
+                                </LinearGradient>
+                                <Expose ExposedAttribute="HighLimit" Name="HighLimit"/>
+                            </Path>
+                            <Line Ctrl="IconCtrl" Name="minus"
+                                Opacity="1.0" Stroke="#626469"
+                                StrokeDashArray="0.0" StrokeWidth="2"
+                                SubModel="StandbyDiffMinus" X1="7"
+                                X2="13" Y1="10" Y2="10"/>
+                            <Path Ctrl="IconCtrl" Fill="#FFFFFF"
+                                Name="plus"
+                                PathData="M87,10 L93,10 M90,13 L90,7"
+                                Stroke="#626469" StrokeDashArray="0.0"
+                                StrokeWidth="2" SubModel="StandbyDiffPlus"/>
+                            <Component Clip="False" ContentHeight="20.0"
+                                ContentWidth="60.0" Ctrl="OutBoxCtrl"
+                                Height="20.0" Left="20" Name="onOutBox"
+                                SubModel="StandbyDiffOutBox" Top="0"
+                                Visibility="Hidden" Width="60.0">
+                                <Rectangle Fill="#F7F7F6" Height="20.0"
+                                    Left="0.0" Opacity="1.0" RadiusX="5"
                                     RadiusY="5" Stroke="#9FA0A4"
                                     StrokeDashArray="0.0"
                                     StrokeWidth="1.0" Top="0.0" Width="60.0"/>
-                                    <Polygon Opacity="1.0"
+                                <Polygon Opacity="1.0"
                                     Points="3.5,0.5 56.5,0.5 59.574523925781,4.57452392578102 4.5,4.5"
-                                    Stroke="None"
-                                    StrokeDashArray="0.0" StrokeWidth="1.0">
+                                    Stroke="None" StrokeDashArray="0.0" StrokeWidth="1.0">
                                     <LinearGradient Attribute="Fill"
                                     EndPoint="0,1"
                                     SpreadMethod="Pad" StartPoint="0.0,0.0">
-                                    <GradientStop
-                                    Color="#CECFD2" Offset="0.0"/>
-                                    <GradientStop
-                                    Color="#F7F7F6" Offset=".75"/>
+                                    <GradientStop Color="#CECFD2" Offset="0.0"/>
+                                    <GradientStop Color="#F7F7F6" Offset=".75"/>
                                     </LinearGradient>
-                                    </Polygon>
-                                    <Polygon Opacity="1.0"
+                                </Polygon>
+                                <Polygon Opacity="1.0"
                                     Points="4.5,4.5 4.5,19.5 0.5,16.5 0.5,3.5"
-                                    Stroke="None"
-                                    StrokeDashArray="0.0" StrokeWidth="1.0">
+                                    Stroke="None" StrokeDashArray="0.0" StrokeWidth="1.0">
                                     <LinearGradient Attribute="Fill"
                                     EndPoint="1,0"
                                     SpreadMethod="Pad" StartPoint="0.0,0.0">
-                                    <GradientStop
-                                    Color="#CECFD2" Offset="0.0"/>
-                                    <GradientStop
-                                    Color="#F7F7F6" Offset=".75"/>
+                                    <GradientStop Color="#CECFD2" Offset="0.0"/>
+                                    <GradientStop Color="#F7F7F6" Offset=".75"/>
                                     </LinearGradient>
-                                    </Polygon>
-                                    <Polygon Fill="#CECFD2"
-                                    Opacity="1.0"
+                                </Polygon>
+                                <Polygon Fill="#CECFD2" Opacity="1.0"
                                     Points="0.5,3.5 3.5,0.5 4.5,4.5"
-                                    Stroke="None"
-                                    StrokeDashArray="0.0" StrokeWidth="1.0">
+                                    Stroke="None" StrokeDashArray="0.0" StrokeWidth="1.0">
                                     <LinearGradient Attribute="Fill"
                                     EndPoint="1,1"
                                     SpreadMethod="Pad" StartPoint=".25,.2">
-                                    <GradientStop
-                                    Color="#CECFD2" Offset="0.0"/>
-                                    <GradientStop
-                                    Color="#F7F7F6" Offset=".75"/>
+                                    <GradientStop Color="#CECFD2" Offset="0.0"/>
+                                    <GradientStop Color="#F7F7F6" Offset=".75"/>
                                     </LinearGradient>
-                                    </Polygon>
-                                </Component>
-                                <TextBox Fill="None" FontFamily="Arial"
-                                    FontSize="15.0" FontStyle="Normal"
-                                    FontWeight="Normal" Height="20.0"
-                                    HorizontalAlign="Center"
-                                    Id="Standby Temperature Differential_Display"
-                                    Left="0.0" Name="foreground"
-                                    Stroke="#626469"
-                                    TextDecoration="None" Top="0.0"
-                                    VerticalAlign="Middle"
-                                    Visibility="Visible"
+                                </Polygon>
+                            </Component>
+                            <TextBox Ctrl="AnalogValueCtrl" Fill="None"
+                                FontFamily="Arial" FontSize="15.0"
+                                FontStyle="Normal" FontWeight="Normal"
+                                Height="20.0" HorizontalAlign="Center"
+                                Id="" Left="0.0" Name="Value"
+                                Stroke="#626469"
+                                SubModel="StandbyDiffValue"
+                                TextDecoration="None" Top="0.0"
+                                VerticalAlign="Middle"
+                                Visibility="Visible"
                                     Width="100.0"><![CDATA[...]]><Expose
                                     ExposedAttribute="Content" Name="Point Content"/>
-                                    <Expose ExposedAttribute="Stroke" Name="Test Colour"/>
-                                </TextBox>
-                            </Group>
+                                <Expose ExposedAttribute="Stroke" Name="Test Colour"/>
+                            </TextBox>
+                            <TargetArea Height="20.0" Left="20.0"
+                                Name="StandbyDiff" SE8:click=""
+                                SE8:down="" SE8:out="" SE8:over=""
+                                StandbyDiffMinus:out=""
+                                StandbyDiffMinus:over=""
+                                StandbyDiffMinusBox:out=""
+                                StandbyDiffMinusBox:over=""
+                                StandbyDiffOutBox:out=""
+                                StandbyDiffOutBox:over=""
+                                StandbyDiffOverBox:out=""
+                                StandbyDiffOverBox:over=""
+                                StandbyDiffPlus:out=""
+                                StandbyDiffPlus:over=""
+                                StandbyDiffPlusBox:out=""
+                                StandbyDiffPlusBox:over=""
+                                StandbyDiffValue:click=""
+                                StandbyDiffValueBox:click=""
+                                StandbyDiffWaitBox:click="" Width="60.0"/>
+                            <TargetArea Height="20.0" Left="0.0"
+                                Name="StandbyDiff" SE8:click=""
+                                SE8:down="" SE8:out="" SE8:over=""
+                                StandbyDiffMinus:down=""
+                                StandbyDiffMinus:out=""
+                                StandbyDiffMinus:over=""
+                                StandbyDiffMinusBox:click=""
+                                StandbyDiffMinusBox:down=""
+                                StandbyDiffMinusBox:out=""
+                                StandbyDiffMinusBox:over=""
+                                StandbyDiffOutBox:out=""
+                                StandbyDiffOutBox:over=""
+                                StandbyDiffOverBox:out=""
+                                StandbyDiffOverBox:over=""
+                                StandbyDiffPlus:out=""
+                                StandbyDiffPlus:over=""
+                                StandbyDiffPlusBox:out=""
+                                StandbyDiffPlusBox:over=""
+                                StandbyDiffValue:click=""
+                                StandbyDiffValueBox:click=""
+                                StandbyDiffWaitBox:click="" Width="20.0"/>
+                            <TargetArea Height="20.0" Left="80.0"
+                                Name="StandbyDiff" SE8:click=""
+                                SE8:down="" SE8:out="" SE8:over=""
+                                StandbyDiffMinus:out=""
+                                StandbyDiffMinus:over=""
+                                StandbyDiffMinusBox:out=""
+                                StandbyDiffMinusBox:over=""
+                                StandbyDiffOutBox:out=""
+                                StandbyDiffOutBox:over=""
+                                StandbyDiffOverBox:out=""
+                                StandbyDiffOverBox:over=""
+                                StandbyDiffPlus:down=""
+                                StandbyDiffPlus:out=""
+                                StandbyDiffPlus:over=""
+                                StandbyDiffPlusBox:click=""
+                                StandbyDiffPlusBox:down=""
+                                StandbyDiffPlusBox:out=""
+                                StandbyDiffPlusBox:over=""
+                                StandbyDiffValue:click=""
+                                StandbyDiffValueBox:click=""
+                                StandbyDiffWaitBox:click="" Width="20.0"/>
                         </Component>
-                        <TextBox Fill="#FFFFFF" FontFamily="Arial"
-                            FontSize="15.0" FontStyle="Normal"
-                            FontWeight="Normal" Height="24"
-                            HorizontalAlign="Center" Id="" Left="-2"
-                            Name="waitbox" Stroke="#626469"
+                        <TextBox Ctrl="WaitBoxCtrl" Fill="#FFFFFF"
+                            FontFamily="Arial" FontSize="15.0"
+                            FontStyle="Normal" FontWeight="Normal"
+                            Height="24" HorizontalAlign="Center" Id=""
+                            Left="-2" Name="waitbox" Stroke="#626469"
+                            SubModel="StandbyDiffWaitBox"
                             TextDecoration="None" Top="-2"
                             VerticalAlign="Middle" Visibility="Hidden" Width="104"><![CDATA[Please Wait]]></TextBox>
                     </Component>
@@ -6834,11 +6944,6 @@ function load(evt) {
                             </Group>
                         </Component>
                     </Component>
-                    <Text FontFamily="Arial" FontSize="15.0"
-                        FontStyle="Normal" FontWeight="Normal"
-                        HorizontalAlign="Left" Left="86.06040954589844"
-                        Opacity="1.0" Stroke="#000000"
-                        TextDecoration="None" Top="96.0154037475586" VerticalAlign="Top"><![CDATA[Default Heat]]></Text>
                     <Text FontFamily="Arial" FontSize="15.0"
                         FontStyle="Normal" FontWeight="Normal"
                         HorizontalAlign="Left" Left="37.66099548339844"
