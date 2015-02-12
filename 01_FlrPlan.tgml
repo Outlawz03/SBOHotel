@@ -2,7 +2,7 @@
 
 <!--[DocumentInformation]
 Created: 2014-07-09 07:45
-Modified: 2015-02-12 10:31
+Modified: 2015-02-12 10:39
 -->
 <?tgml version="1.21"?><Tgml ComponentCounter="274" GridSize="5"
     Height="900.0" LayerCounter="4" UseGlobalScripts="True" Width="1710.0">
@@ -367,12 +367,14 @@ function load(evt) {
 		this.higher = node.getChild("Higher");
 		
 		this.lower.setAttribute("Visibility", "Hidden");
-		this.higher.setAttribute("Visibility", this.containers.length > 1 ? "Visible" : "Hidden");
+		this.higher.setAttribute("Visibility", "Hidden");
 		
 		// get Template
 		this.template = node.getChildByName("RoomController");
 		
 		this.rcs = {};		
+		
+		this.highest = 1;
 	},
 	
 	update: function(e) {
@@ -382,6 +384,8 @@ function load(evt) {
 		if(RCName.slice(0,2) === "RC") {
 			// check if the RC exists
 			var rcNum = +RCName.slice(-2);
+			this.highest = rcNum;
+			this.higher.setAttribute("Visibility", this.activeContainer === (Math.ceil(this.highest / this.per) - 1) ? "Hidden" : "Visible");
 			if(!_.has(this.rcs, rcNum)) {
 				this.rcs[rcNum] = Object.create(global.RCObject);					
 				this.rcs[rcNum].init({	model: this.template, 
@@ -408,11 +412,11 @@ function load(evt) {
 			if(name === "Lower") {
 				this.activeContainer = Math.max(this.activeContainer - 1, 0);	
 			} else if(name === "Higher") {
-				this.activeContainer = Math.min(this.activeContainer + 1, this.containers.length - 1);				
+				this.activeContainer = Math.min(this.activeContainer + 1, Math.ceil(this.highest / this.per) - 1);				
 			}		
 			
 			this.lower.setAttribute("Visibility", this.activeContainer === 0 ? "Hidden" : "Visible");
-			this.higher.setAttribute("Visibility", this.activeContainer === (this.containers.length - 1) ? "Hidden" : "Visible");
+			this.higher.setAttribute("Visibility", this.activeContainer === (Math.ceil(this.highest / this.per) - 1) ? "Hidden" : "Visible");
 			
 			for(var i = 0, max = this.containers.length; i < max; i += 1) {
 				this.containers[i].update(false);
