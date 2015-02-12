@@ -2,7 +2,7 @@
 
 <!--[DocumentInformation]
 Created: 2014-07-09 07:45
-Modified: 2015-02-11 10:44
+Modified: 2015-02-11 19:11
 -->
 <?tgml version="1.21"?><Tgml ComponentCounter="218" GridSize="5"
     Height="900.0" LayerCounter="4" UseGlobalScripts="True" Width="1710.0">
@@ -501,16 +501,68 @@ function load(evt)
 		}
 		
 		for(var i = 0, max = attbList.length; i < max; i += 1) {
-			var attb = attbList.item(i).nodeName;
-			
-			if(this.models.hasOwnProperty(attb) && this.active !== null && this.binds[this.active].hasOwnProperty(targetName)) {
-				this.models[attb].click(this.binds[this.active][targetName])
-//				if(!this.models[attb].click(this.binds[this.active][targetName])) {
-//					var name = targetName.split(".")[0];
-//					if(this.binds[this.active].hasOwnProperty(name)) {
-//						this.models[attb].click(this.binds[this.active][name]);
-//					}
-//				}
+			var attb = String(attbList.item(i).nodeName).split(":")[0],
+				event = String(attbList.item(i).nodeName).split(":")[1];
+
+			if(event === "click") {
+//				alert(attb);
+				if(this.models.hasOwnProperty(attb) && this.active !== null && this.binds[this.active].hasOwnProperty(targetName)) {
+					if(!global.isUndefined(this.models[attb].click)) {
+//						alert(attb);
+						this.models[attb].click(this.binds[this.active][targetName]);
+					}
+	//				if(!this.models[attb].click(this.binds[this.active][targetName])) {
+	//					var name = targetName.split(".")[0];
+	//					if(this.binds[this.active].hasOwnProperty(name)) {
+	//						this.models[attb].click(this.binds[this.active][name]);
+	//					}
+	//				}
+				}
+			}
+		}
+	},
+	over: function(e) {
+		var attbList = e.getTarget().attributes;;
+		
+		for(var i = 0, max = attbList.length; i < max; i += 1) {
+			var attb = String(attbList.item(i).nodeName).split(":")[0],
+				event = String(attbList.item(i).nodeName).split(":")[1];
+			if(event === "over") {			
+				if(this.models.hasOwnProperty(attb) && this.active !== null) {
+					if(!global.isUndefined(this.models[attb].over)) {
+						this.models[attb].over();
+					}
+				}
+			}
+		}
+	},
+	out: function(e) {
+		var attbList = e.getTarget().attributes;;
+		
+		for(var i = 0, max = attbList.length; i < max; i += 1) {
+			var attb = String(attbList.item(i).nodeName).split(":")[0],
+				event = String(attbList.item(i).nodeName).split(":")[1];
+			if(event === "out") {			
+				if(this.models.hasOwnProperty(attb) && this.active !== null) {
+					if(!global.isUndefined(this.models[attb].out)) {
+						this.models[attb].out();
+					}
+				}
+			}
+		}
+	},
+	down: function(e) {
+		var attbList = e.getTarget().attributes;;
+		
+		for(var i = 0, max = attbList.length; i < max; i += 1) {
+			var attb = String(attbList.item(i).nodeName).split(":")[0],
+				event = String(attbList.item(i).nodeName).split(":")[1];
+			if(event === "down") {			
+				if(this.models.hasOwnProperty(attb) && this.active !== null) {
+					if(!global.isUndefined(this.models[attb].down)) {
+						this.models[attb].down();
+					}
+				}
 			}
 		}
 	},
@@ -606,10 +658,12 @@ function load(evt) {
 			attbList = target.attributes;
 		
 		for(var i = 0, max = attbList.length; i < max; i += 1) {
-			var attb = attbList.item(i).nodeName;
-			
-			if(this.models.hasOwnProperty(attb) && this.binds.hasOwnProperty(name)) {
-				this.models[attb].click(this.binds[name]);
+			var attb = String(attbList.item(i).nodeName).split(":")[0],
+				event = String(attbList.item(i).nodeName).split(":")[1];
+			if(event === "click") {
+				if(this.models.hasOwnProperty(attb) && this.binds.hasOwnProperty(name)) {
+					this.models[attb].click(this.binds[name]);
+				}
 			}
 		}
 	}
@@ -912,9 +966,9 @@ function load(evt) {
 			"OccCommand"	: 0,
 		};
 		
-		this.fills = ["#FFD100", "#339999", "#87D300", "#4FA600", "#42B4E6"];
-		this.strokes = ["#404040", "#FFFFFF", "#404040", "#FFFFFF", "#FFFFFF"];
-		this.contents = ["Low Battery", "Rented/Occupied", "Unrented/Unoccupied", "Unrented/Occupied", "Rented/Unoccupied"];
+		this.fills = ["#FF0000", "#339999", "#87D300", "#4FA600", "#42B4E6"];
+		this.strokes = ["#FFFFFF", "#FFFFFF", "#404040", "#FFFFFF", "#FFFFFF"];
+		this.contents = ["No Communication", "Rented/Occupied", "Unrented/Unoccupied", "Unrented/Occupied", "Rented/Unoccupied"];
 
 		this.bgd = Object.create(global.Rectangle);
 		this.bgd.init(this.node.getChildByName("background"));
@@ -946,9 +1000,9 @@ function load(evt) {
 		var fill = "#404040";
 		var stroke = "#FFFFFF";
 		if(this.values["LowBattAlarm"] === 1) {
-			fill = this.fills[0];
-			content = this.contents[0];
-			stroke = this.strokes[0];
+			fill = "#FFD100";
+			content = "Low Battery";
+			stroke = "#404040";
 		} else {
 			fill = this.fills[this.values["EffectiveOcc"]];
 			content = this.contents[this.values["EffectiveOcc"]];
@@ -972,7 +1026,7 @@ function load(evt) {
 			"OccCommand"	: 0,
 		};
 		
-		this.fills = ["#FFD100", "#339999", "#87D300", "#4FA600", "#42B4E6"];
+		this.fills = ["#FF0000", "#339999", "#87D300", "#4FA600", "#42B4E6"];
 		
 		this.bgd = Object.create(global.Rectangle);
 		this.bgd.init(node);		
@@ -984,7 +1038,7 @@ function load(evt) {
 		
 			var fill = "#404040";
 			if(this.values["LowBattAlarm"] === 1) {
-				fill = this.fills[0];
+				fill = this.fills["#FFD100"];
 			} else {
 				fill = this.fills[this.values["EffectiveOcc"]];
 			}
@@ -1098,6 +1152,139 @@ function load(evt) {
 
 function load(evt) {
 }]]></Script>
+        <Script Name="WindowStateCtrl" OnDocumentLoad="load"><![CDATA[global.WindowStateCtrl = {
+	init: function(node) {
+		this.node = node;this.node.setAttribute("Visibility", "Hidden");
+	},
+	
+	update: function(sig) {
+		this.node.setAttribute("Visibility", +sig.value === 1 ? "Visible" : "Hidden");
+	}
+};
+
+function load(evt) {
+}]]></Script>
+        <Script Name="OverBoxCtrl" OnDocumentLoad="load"><![CDATA[global.OverBoxCtrl = {
+	init: function(node) {
+		this.node = node;
+		this.node.setAttribute("Visibility", "Hidden");
+	},
+	
+	over: function(sig) {
+		this.node.setAttribute("Visibility", "Visible");
+	},
+	out: function(sig) {
+		this.node.setAttribute("Visibility", "Hidden");
+	}
+};
+
+function load(evt) {
+}]]></Script>
+        <Script Name="IncBoxCtrl" OnDocumentLoad="load"><![CDATA[global.IncBoxCtrl = {
+	init: function(node) {
+		this.node = node;
+		this.node.setAttribute("Visibility", "Hidden");
+		this.gs0 = this.node.getElementsByTagName("LinearGradient").item(0).getElementsByTagName("GradientStop").item(0);
+		this.gs1 = this.node.getElementsByTagName("LinearGradient").item(0).getElementsByTagName("GradientStop").item(1);
+		this.color0 = this.gs0.getAttribute("Color");
+		this.color1 = this.gs1.getAttribute("Color");
+		this.value = 0;
+		this.inc = +this.node.getAttribute("Increment");
+	},
+	
+	over: function() {
+		this.gs0.setAttribute("Color", this.color0);
+		this.gs1.setAttribute("Color", this.color1);
+		this.node.setAttribute("Visibility", "Visible");
+	},	
+	out: function() {
+		this.gs0.setAttribute("Color", this.color0);
+		this.gs1.setAttribute("Color", this.color1);
+		this.node.setAttribute("Visibility", "Hidden");
+	},	
+	down: function() {
+		this.gs0.setAttribute("Color", "#626469");
+		this.gs1.setAttribute("Color", "#626469");
+	},
+	click: function(bind) {
+		this.gs0.setAttribute("Color", this.color0);
+		this.gs1.setAttribute("Color", this.color1);
+		
+		bind.write(this.value + this.inc);
+	},
+	update: function(sig) {
+		this.value = +sig.value;
+	}
+};
+
+function load(evt) {
+}]]></Script>
+        <Script Name="OutBoxCtrl" OnDocumentLoad="load"><![CDATA[global.OutBoxCtrl = {
+	init: function(node) {
+		this.node = node;
+		this.node.setAttribute("Visibility", "Visible");
+	},
+	
+	over: function(sig) {
+		this.node.setAttribute("Visibility", "Hidden");
+	},
+	out: function(sig) {
+		this.node.setAttribute("Visibility", "Visible");
+	}
+};
+
+function load(evt) {
+}]]></Script>
+        <Script Name="IconCtrl" OnDocumentLoad="load"><![CDATA[global.IconCtrl = {
+	init: function(node) {
+		this.node = node;
+		this.node.setAttribute("Visibility", "Hidden");
+	},
+	
+	over: function() {
+		this.node.setAttribute("Stroke", "#626469");
+		this.node.setAttribute("Visibility", "Visible");
+	},
+	out: function() {
+		this.node.setAttribute("Stroke", "#626469");
+		this.node.setAttribute("Visibility", "Hidden");
+	},
+	down: function() {
+		this.node.setAttribute("Stroke", "#FFFFFF");
+	}
+};
+
+function load(evt) {
+}]]></Script>
+        <Script Name="ValueBoxCtrl" OnDocumentLoad="load"><![CDATA[global.ValueBoxCtrl = {
+	init: function(node) {
+		this.node = node;
+		this.node.setAttribute("Visibility", "Hidden");
+	},
+	click: function() {		
+		this.node.setAttribute("Visibility", "Hidden");
+	},
+	update: function() {
+		this.node.setAttribute("Visibility", "Visible");
+	}
+};
+
+function load(evt) {
+}]]></Script>
+        <Script Name="WaitBoxCtrl" OnDocumentLoad="load"><![CDATA[global.WaitBoxCtrl = {
+	init: function(node) {
+		this.node = node;
+	},
+	click: function() {		
+		this.node.setAttribute("Visibility", "Visible");
+	},
+	update: function() {
+		this.node.setAttribute("Visibility", "Hidden");
+	}
+};
+
+function load(evt) {
+}]]></Script>
     </Layer>
     <Layer Name="Binds">
         <Component Clip="False" ContentHeight="491.0"
@@ -1138,11 +1325,14 @@ function load(evt) {
                 <Bind Id="" Name="Network Units.RelinquishDefault"/>
                 <Bind FanAutoMenu="" FanHighMenu="" FanLowMenu=""
                     FanMedMenu="" FanOnMenu="" Id="" Name="FanMenu" SE8=""/>
-                <Bind Id="" Name="BI1Config" SE8="" WindowOverride=""/>
+                <Bind Id="" Name="BI1Config" SE8="" WindowOverride="" WindowState=""/>
                 <Bind Id="" LightingOverride=""
                     Name="BO 8 Auxilary Binary Output" SE8=""/>
                 <Bind Id="" Name="UserHMI" SE8="" UserHMI=""/>
                 <Bind Id="" Message="" Name="Location" SE8=""/>
+                <Bind DefaultHeatMinusBox="" DefaultHeatPlusBox=""
+                    DefaultHeatValue="" DefaultHeatValueBox=""
+                    DefaultHeatWaitBox="" Id="" Name="DefaultHeat" SE8=""/>
             </Component>
             <Component Height="1.0" Left="10.0" Name="RC_02" Top="10.0" Width="1.0">
                 <Bind Name="RoomTemp" RCManager="" RoomTemp="" SE8=""/>
@@ -3324,7 +3514,7 @@ function load(evt) {
                     Stroke="#FFFFFF" StrokeDashArray="0.0"
                     StrokeWidth=".8" Top="1.0" Width="223.0"/>
                 <TextBox FontFamily="Arial" FontSize="15"
-                    FontStyle="Normal" FontWeight="Normal" Height="30.0"
+                    FontStyle="Normal" FontWeight="Bold" Height="30.0"
                     HorizontalAlign="Center" Left="0.0" Name="Text"
                     Opacity="1.0" Stroke="#FFFFFF" TextDecoration="None"
                     Top="0.0" VerticalAlign="Middle" Width="225.0"><![CDATA[...]]></TextBox>
@@ -3463,9 +3653,9 @@ function load(evt) {
                     Angle="-90.0" Center="0.5,0.5"/>
             </Text>
             <TargetArea Height="200.0" NOTE1="" Name="NOTE1"
-                RCManager="" Width="65.0"/>
-            <TargetArea Height="200.0" Left="65.0" Name="SE8" SE8=""
-                Top="0.0" Width="265.0"/>
+                RCManager:click="" Width="65.0"/>
+            <TargetArea Height="200.0" Left="65.0" Name="SE8"
+                SE8:click="" Top="0.0" Width="265.0"/>
         </Component>
         <Component ContentHeight="620.0" ContentWidth="1350.0"
             Height="620.0" Left="10.0" Name="RCView" Top="270.0" Width="1350.0">
@@ -3776,14 +3966,14 @@ function load(evt) {
                         PathData="M169.01566657226562,422.54654402734377 c-0.23507675400000494,0.0 -0.47015351600001054,-0.03917945910001208 -0.7052302689999976,-0.13712810700002365 l-16.905936800000006,-6.523380009999983 c-1.0186659400000053,-0.3917945960000111 -1.5084091600000136,-1.527998910000008 -1.116614559999988,-2.5270750899999825 0.3917945999999972,-1.0186659400000053 1.5279989599999908,-1.5084091499999772 2.5270752099999925,-1.1166145700000243 l14.241733799999992,5.504714139999976 L167.05669357226563,381.3101610273437 148.89701357226562,376.6673970273437 l0.0,36.201820999999995 c0.0,1.0774351499999852 -0.8815378420000002,1.9589730000000145 -1.9589729699999907,1.9589730000000145 L140.55178857226562,414.82819002734374 c-1.0774351199999899,0.0 -1.9589729699999907,-0.8815378420000002 -1.9589729699999907,-1.9589729499999748 L138.59281657226563,368.00873602734373 c0.0,-1.0774351200000183 0.8815378449999969,-1.9589729599999828 1.958972999999986,-1.9589729599999828 L174.6575085722656,366.0497630273438 c1.0774351599999932,0.0 1.958972999999986,0.8815378460000147 1.958972999999986,1.9589730299999815 l0.0,44.44909740000003 2.50748544999999,0.0 0.0,-48.77842700000002 -43.09740550000001,0.0 0.0,48.660889499999996 c0.0,1.0774351499999852 -0.8815378420000002,1.9589730000000145 -1.9589729699999907,1.9589730000000145 s-1.9589729699999907,-0.8815378420000002 -1.9589729699999907,-1.9589729499999748 L132.10861557226562,361.72043302734374 c0.0,-1.0774351200000183 0.8815378449999969,-1.9589729599999828 1.958972999999986,-1.9589729599999828 l47.0153521,0.0 c1.0774351599999932,0.0 1.958972999999986,0.8815378460000147 1.958972999999986,1.9589730000000145 l0.0,52.69637349999999 c0.0,1.0774351499999852 -0.8815378420000002,1.9589730000000145 -1.9589729699999907,1.9589730000000145 L174.6575085722656,416.37577802734376 c-1.0774351199999899,0.0 -1.9589729699999907,-0.8815378420000002 -1.9589729699999907,-1.9589729499999748 L172.69853557226563,369.96770802734375 142.51076057226564,369.96770802734375 l0.0,40.96212539999999 2.487895729999991,0.0 L144.9986585722656,374.15991102734375 c0.0,-0.6072816189999912 0.2742562219999911,-1.1753837800000042 0.763999468999998,-1.5475886500000229 0.4701535209999861,-0.37220486600000413 1.0970248799999922,-0.5093329740000172 1.6847167900000102,-0.3526151340000183 l22.077626199999997,5.62225251000001 c0.8619481199999939,0.21548703199999864 1.4692297599999904,0.9990762489999838 1.4692297599999904,1.9002038099999936 l0.0,40.80540789999998 c0.0,0.6464610909999919 -0.3134356710000077,1.253742750000015 -0.8423583830000041,1.6063578499999949 C169.79925557226562,422.42900502734375 169.40746057226562,422.54654402734377 169.01566657226562,422.54654402734377 z"
                         State0Color="#009530" State1Color="#FF0000"
                         Stroke="#E0E0E0" SubModel="WirelessDoorSwitchStatus"/>
-                    <Text FontFamily="Arial" FontSize="10"
-                        FontStyle="Normal" FontWeight="Bold"
-                        HorizontalAlign="Left" Id="windowstate"
-                        Left="26" Name="FixMe" Opacity="1.0"
-                        Stroke="#FFFFFF" TextDecoration="None"
-                        Top="341.3238220214844" VerticalAlign="Top"><![CDATA[Override Closed]]></Text>
+                    <Text Ctrl="WindowStateCtrl" FontFamily="Arial"
+                        FontSize="10" FontStyle="Normal"
+                        FontWeight="Bold" HorizontalAlign="Left" Id=""
+                        Left="26" Name="WindowState" Opacity="1.0"
+                        Stroke="#FF0000" SubModel="WindowState"
+                        TextDecoration="None" Top="341.3238220214844" VerticalAlign="Top"><![CDATA[Override Closed]]></Text>
                 </Group>
-                <Group Id="" Name="Control" Visibility="Visible">
+                <Group Id="" Name="Control" Visibility="Hidden">
                     <Text FontFamily="Arial" FontSize="18"
                         FontStyle="Normal" FontWeight="Normal"
                         HorizontalAlign="Right"
@@ -3844,7 +4034,8 @@ function load(evt) {
                             Stroke="#000000" TextDecoration="None"
                             Top="6.892356514930725" VerticalAlign="Top"><![CDATA[°F]]></Text>
                         <TargetArea Height="23.65" Left="0.0"
-                            Name="Units" SE8="" Top="0.0" Units="" Width="80.16"/>
+                            Name="Units" SE8:click="" Top="0.0"
+                            Units:click="" Width="80.16"/>
                         <Text FontFamily="Arial" FontSize="15.0"
                             FontStyle="Normal" FontWeight="Normal"
                             HorizontalAlign="Right" Left="107.5387"
@@ -3904,8 +4095,8 @@ function load(evt) {
                             Stroke="#000000" TextDecoration="None"
                             Top="6.892356514930725" VerticalAlign="Top"><![CDATA[°F]]></Text>
                         <TargetArea Height="23.65" Left="0.0"
-                            Name="Network Units" NetworkUnits="" SE8=""
-                            Top="0.0" Width="80.16"/>
+                            Name="Network Units" NetworkUnits:click=""
+                            SE8:click="" Top="0.0" Width="80.16"/>
                         <Text FontFamily="Arial" FontSize="15.0"
                             FontStyle="Normal" FontWeight="Normal"
                             HorizontalAlign="Right" Left="82.5367"
@@ -3955,9 +4146,9 @@ function load(evt) {
                             </Ellipse>
                             <Ellipse Fill="None" Height="13.0"
                                 Left="1.0" Name="Edge" Top="1.0" Width="13.0"/>
-                            <TargetArea FanAutoMode="" Height="15.0"
-                                Left="0.0" Name="FanMode" SE8=""
-                                Top="0.0" Width="15.0"/>
+                            <TargetArea FanAutoMode:click=""
+                                Height="15.0" Left="0.0" Name="FanMode"
+                                SE8:click="" Top="0.0" Width="15.0"/>
                         </Component>
                         <Text FontFamily="Arial" FontSize="15.0"
                             FontStyle="Normal" FontWeight="Normal"
@@ -4000,9 +4191,9 @@ function load(evt) {
                             </Ellipse>
                             <Ellipse Fill="None" Height="13.0"
                                 Left="1.0" Name="Edge" Top="1.0" Width="13.0"/>
-                            <TargetArea FanLowMode="" Height="15.0"
-                                Left="0.0" Name="FanMode" SE8=""
-                                Top="0.0" Width="15.0"/>
+                            <TargetArea FanLowMode:click=""
+                                Height="15.0" Left="0.0" Name="FanMode"
+                                SE8:click="" Top="0.0" Width="15.0"/>
                         </Component>
                         <Text FontFamily="Arial" FontSize="15.0"
                             FontStyle="Normal" FontWeight="Normal"
@@ -4045,9 +4236,9 @@ function load(evt) {
                             </Ellipse>
                             <Ellipse Fill="None" Height="13.0"
                                 Left="1.0" Name="Edge" Top="1.0" Width="13.0"/>
-                            <TargetArea FanMedMode="" Height="15.0"
-                                Left="0.0" Name="FanMode" SE8=""
-                                Top="0.0" Width="15.0"/>
+                            <TargetArea FanMedMode:click=""
+                                Height="15.0" Left="0.0" Name="FanMode"
+                                SE8:click="" Top="0.0" Width="15.0"/>
                         </Component>
                         <Text FontFamily="Arial" FontSize="15.0"
                             FontStyle="Normal" FontWeight="Normal"
@@ -4090,9 +4281,9 @@ function load(evt) {
                             </Ellipse>
                             <Ellipse Fill="None" Height="13.0"
                                 Left="1.0" Name="Edge" Top="1.0" Width="13.0"/>
-                            <TargetArea FanHighMode="" Height="15.0"
-                                Left="0.0" Name="FanMode" SE8=""
-                                Top="0.0" Width="15.0"/>
+                            <TargetArea FanHighMode:click=""
+                                Height="15.0" Left="0.0" Name="FanMode"
+                                SE8:click="" Top="0.0" Width="15.0"/>
                         </Component>
                         <Text FontFamily="Arial" FontSize="15.0"
                             FontStyle="Normal" FontWeight="Normal"
@@ -4135,8 +4326,8 @@ function load(evt) {
                             </Ellipse>
                             <Ellipse Fill="None" Height="13.0"
                                 Left="1.0" Name="Edge" Top="1.0" Width="13.0"/>
-                            <TargetArea FanOnMode="" Height="15.0"
-                                Left="0.0" Name="FanMode" SE8=""
+                            <TargetArea FanOnMode:click="" Height="15.0"
+                                Left="0.0" Name="FanMode" SE8:click=""
                                 Top="0.0" Width="15.0"/>
                         </Component>
                         <Text FontFamily="Arial" FontSize="15.0"
@@ -4200,8 +4391,8 @@ function load(evt) {
                         </Ellipse>
                         <Ellipse Fill="None" Height="13.0" Left="1.0"
                             Name="Edge" Top="1.0" Width="13.0"/>
-                        <TargetArea Height="15.0" HtgClgOff=""
-                            Left="0.0" Name="SystemMode" SE8=""
+                        <TargetArea Height="15.0" HtgClgOff:click=""
+                            Left="0.0" Name="SystemMode" SE8:click=""
                             Top="0.0" Width="15.0"/>
                     </Component>
                     <Text FontFamily="Arial" FontSize="15.0"
@@ -4236,8 +4427,8 @@ function load(evt) {
                         </Ellipse>
                         <Ellipse Fill="None" Height="13.0" Left="1.0"
                             Name="Edge" Top="1.0" Width="13.0"/>
-                        <TargetArea Height="15.0" HtgClgAuto=""
-                            Left="0.0" Name="SystemMode" SE8=""
+                        <TargetArea Height="15.0" HtgClgAuto:click=""
+                            Left="0.0" Name="SystemMode" SE8:click=""
                             Top="0.0" Width="15.0"/>
                     </Component>
                     <Text FontFamily="Arial" FontSize="15.0"
@@ -4275,9 +4466,9 @@ function load(evt) {
                             </Ellipse>
                             <Ellipse Fill="None" Height="13.0"
                                 Left="1.0" Name="Edge" Top="1.0" Width="13.0"/>
-                            <TargetArea Height="15.0" HtgClgCool=""
-                                Left="0.0" Name="SystemMode" SE8=""
-                                Top="0.0" Width="15.0"/>
+                            <TargetArea Height="15.0"
+                                HtgClgCool:click="" Left="0.0"
+                                Name="SystemMode" SE8:click="" Top="0.0" Width="15.0"/>
                         </Component>
                         <Text FontFamily="Arial" FontSize="15.0"
                             FontStyle="Normal" FontWeight="Normal"
@@ -4316,9 +4507,9 @@ function load(evt) {
                             </Ellipse>
                             <Ellipse Fill="None" Height="13.0"
                                 Left="1.0" Name="Edge" Top="1.0" Width="13.0"/>
-                            <TargetArea Height="15.0" HtgClgHeat=""
-                                Left="0.0" Name="SystemMode" SE8=""
-                                Top="0.0" Width="15.0"/>
+                            <TargetArea Height="15.0"
+                                HtgClgHeat:click="" Left="0.0"
+                                Name="SystemMode" SE8:click="" Top="0.0" Width="15.0"/>
                         </Component>
                         <Text FontFamily="Arial" FontSize="15.0"
                             FontStyle="Normal" FontWeight="Normal"
@@ -4385,8 +4576,8 @@ function load(evt) {
                             Stroke="#000000" TextDecoration="None"
                             Top="19.995951414108276" VerticalAlign="Top"><![CDATA[Override Closed]]></Text>
                         <TargetArea Height="22.0" Left="0.0"
-                            Name="BI1Config" SE8="" Top="20.0"
-                            Width="208.38" WindowOverride=""/>
+                            Name="BI1Config" SE8:click="" Top="20.0"
+                            Width="208.38" WindowOverride:click=""/>
                     </Component>
                     <Component Clip="False" ContentHeight="42.0"
                         ContentWidth="161.69" Ctrl="SwitchCtrl"
@@ -4446,9 +4637,9 @@ function load(evt) {
                             Stroke="#000000" TextDecoration="None"
                             Top="19.995936155319214" VerticalAlign="Top"><![CDATA[Override On]]></Text>
                         <TargetArea Height="22.0" Left="0.0"
-                            LightingOverride=""
-                            Name="BO 8 Auxilary Binary Output" SE8=""
-                            Top="20.0" Width="161.69"/>
+                            LightingOverride:click=""
+                            Name="BO 8 Auxilary Binary Output"
+                            SE8:click="" Top="20.0" Width="161.69"/>
                     </Component>
                     <Component Clip="False" ContentHeight="42.0"
                         ContentWidth="181.7" Ctrl="SwitchCtrl"
@@ -4509,8 +4700,8 @@ function load(evt) {
                             Stroke="#000000" TextDecoration="None"
                             Top="19.995936155319214" VerticalAlign="Top"><![CDATA[Un-rented]]></Text>
                         <TargetArea Height="22.0" Left="0.0"
-                            Name="OccCommand" OccupancyCommand="" SE8=""
-                            Top="20.0" Width="181.7"/>
+                            Name="OccCommand" OccupancyCommand:click=""
+                            SE8:click="" Top="20.0" Width="181.7"/>
                     </Component>
                     <Component Clip="False" ContentHeight="42.0"
                         ContentWidth="148.37" Ctrl="SwitchCtrl"
@@ -4570,7 +4761,8 @@ function load(evt) {
                             Stroke="#000000" TextDecoration="None"
                             Top="19.995936155319214" VerticalAlign="Top"><![CDATA[Locked]]></Text>
                         <TargetArea Height="22.0" Left="0.0"
-                            Name="UserHMI" SE8="" Top="20.0" UserHMI="" Width="148.37"/>
+                            Name="UserHMI" SE8:click="" Top="20.0"
+                            UserHMI:click="" Width="148.37"/>
                     </Component>
                     <Component Clip="False" ContentHeight="40.0"
                         ContentWidth="225.0" Ctrl="MessageCtrl"
@@ -4594,11 +4786,11 @@ function load(evt) {
                             Opacity="1.0" Stroke="#000000"
                             TextDecoration="None"
                             Top="22.495941162109375" VerticalAlign="Top"/>
-                        <TargetArea Height="20.0" Message=""
-                            Name="Location" SE8="" Top="20.0" Width="225.0"/>
+                        <TargetArea Height="20.0" Message:click=""
+                            Name="Location" SE8:click="" Top="20.0" Width="225.0"/>
                     </Component>
                 </Group>
-                <Group Name="Settings" Visibility="Hidden">
+                <Group Name="Settings" Visibility="Visible">
                     <Text FontFamily="Arial" FontSize="18"
                         FontStyle="Normal" FontWeight="Normal"
                         HorizontalAlign="Right" Id=""
@@ -4703,20 +4895,17 @@ function load(evt) {
                         Height="20.0" Id="Default Heating Setpoint"
                         Left="180" Name="" Top="95" Width="100.0">
                         <Component Clip="False" ContentHeight="20.0"
-                            ContentWidth="100.0" Decimals="1"
-                            Height="20.0" HighLimit="100" Increment="1"
-                            Left="0.0" LowLimit="1" Name="AnalogPoint"
-                            Top="0.0" Units="" Width="100.0">
-                            <Expose ExposedAttribute="Decimals" Name="Decimals"/>
+                            ContentWidth="100.0" Ctrl="ValueBoxCtrl"
+                            Height="20.0" Left="0.0" Name="AnalogPoint"
+                            SubModel="DefaultHeatValueBox" Top="0.0" Width="100.0">
                             <Expose ExposedAttribute="Units" Name="Units"/>
-                            <Expose ExposedAttribute="Increment" Name="Increment"/>
-                            <Expose ExposedAttribute="HighLimit" Name="High Limit"/>
-                            <Expose ExposedAttribute="LowLimit" Name="Low Limit"/>
                             <Group Name="display" Visibility="Visible">
                                 <Component Clip="False"
                                     ContentHeight="20.0"
-                                    ContentWidth="60.5" Height="20.0"
+                                    ContentWidth="60.5"
+                                    Ctrl="OverBoxCtrl" Height="20.0"
                                     Left="20.0" Name="onOverBox"
+                                    SubModel="DefaultHeatOverBox"
                                     Top="0.0" Visibility="Visible" Width="60.5">
                                     <Rectangle Fill="#F7F7F6"
                                     Height="20.0" Left="0.0"
@@ -4756,45 +4945,53 @@ function load(evt) {
                                     StrokeDashArray="0.0"
                                     StrokeWidth="4" Visibility="Hidden"
                                     X1="51.0" X2="51.0" Y1="19.5" Y2="20.5"/>
-                                <Path Name="minusBox"
+                                <Path Ctrl="IncBoxCtrl" Increment="-1"
+                                    LowLimit="1" Name="minusBox"
                                     PathData="M20.0,0.0 C15.0,0.0 10.0,0.0 5.0,0.0 2.0,0.0 0.0,2.0 0.0,5.0 0.0,8.0 0.0,12.0 0.0,15.0 0.0,18.0 2.035014,19.930005 5.0,20.0 10.0,20.0 15.0,20.0 20.0,20.0 20.0,15.0 20.0,5.0 20.0,0.0"
                                     Stroke="#626469"
                                     StrokeDashArray="0.0"
                                     StrokeWidth="1.0"
-                                    Tooltip="Low Limit = " Visibility="Visible">
+                                    SubModel="DefaultHeatMinusBox" Visibility="Visible">
                                     <LinearGradient Attribute="Fill"
                                     EndPoint="0,1"
                                     SpreadMethod="Pad" StartPoint="0.0,0.0">
                                     <GradientStop Color="#FCFCFC" Offset="0"/>
                                     <GradientStop Color="#DEDFE0" Offset="1"/>
                                     </LinearGradient>
+                                    <Expose ExposedAttribute="LowLimit" Name="LowLimit"/>
                                 </Path>
-                                <Path Name="plusBox"
-                                    PathData="M80.0,0.0 C85.0,0.0 90.0,0.0 95.0,0.0 98.0,0.0 100.0,2.0 100.0,5.0 100.0,8.0 100.0,12.0 100.0,15.0 100.0,18.0 97.965,19.93 95.0,20.0 90.0,20.0 85.0,20.0 80.0,20.0 80.0,15.0 80.0,5.0 80.0,0.0"
+                                <Path Ctrl="IncBoxCtrl" HighLimit="100"
+                                    Increment="1" Name="plusBox"
+                                    PathData="M80.0,0.0 C85.0,0.0 90.0,0.0 95.0,0.0 98.0,0.0 100.0,2.0 100.0,5.0 100.0,8.0 100.0,12.0 100.0,15.0 100.0,18.0 97.9650001,19.93 95.0,20.0 90.0,20.0 85.0,20.0 80.0,20.0 80.0,15.0 80.0,5.0 80.0,0.0"
                                     Stroke="#626469"
                                     StrokeDashArray="0.0"
-                                    StrokeWidth="1.0"
-                                    Tooltip="High Limit = " Visibility="Visible">
+                                    SubModel="DefaultHeatPlusBox" Visibility="Visible">
                                     <LinearGradient Attribute="Fill"
                                     EndPoint="0,1"
                                     SpreadMethod="Pad" StartPoint="0.0,0.0">
                                     <GradientStop Color="#FCFCFC" Offset="0.0"/>
                                     <GradientStop Color="#DEDFE0" Offset="1.0"/>
                                     </LinearGradient>
+                                    <Expose ExposedAttribute="HighLimit" Name="HighLimit"/>
                                 </Path>
-                                <Line Name="minus" Opacity="1.0"
-                                    Stroke="#626469"
+                                <Line Ctrl="IconCtrl" Name="minus"
+                                    Opacity="1.0" Stroke="#626469"
                                     StrokeDashArray="0.0"
-                                    StrokeWidth="2" X1="7" X2="13"
-                                    Y1="10" Y2="10"/>
-                                <Path Fill="#FFFFFF" Name="plus"
+                                    StrokeWidth="2"
+                                    SubModel="DefaultHeatMinus" X1="7"
+                                    X2="13" Y1="10" Y2="10"/>
+                                <Path Ctrl="IconCtrl" Fill="#FFFFFF"
+                                    Name="plus"
                                     PathData="M87,10 L93,10 M90,13 L90,7"
                                     Stroke="#626469"
-                                    StrokeDashArray="0.0" StrokeWidth="2"/>
+                                    StrokeDashArray="0.0"
+                                    StrokeWidth="2" SubModel="DefaultHeatPlus"/>
                                 <Component Clip="False"
                                     ContentHeight="20.0"
-                                    ContentWidth="60.0" Height="20.0"
-                                    Left="20" Name="onOutBox" Top="0"
+                                    ContentWidth="60.0"
+                                    Ctrl="OutBoxCtrl" Height="20.0"
+                                    Left="20" Name="onOutBox"
+                                    SubModel="DefaultHeatOutBox" Top="0"
                                     Visibility="Hidden" Width="60.0">
                                     <Rectangle Fill="#F7F7F6"
                                     Height="20.0" Left="0.0"
@@ -4843,13 +5040,15 @@ function load(evt) {
                                     </LinearGradient>
                                     </Polygon>
                                 </Component>
-                                <TextBox Fill="None" FontFamily="Arial"
+                                <TextBox Ctrl="AnalogValueCtrl"
+                                    Fill="None" FontFamily="Arial"
                                     FontSize="15.0" FontStyle="Normal"
                                     FontWeight="Normal" Height="20.0"
                                     HorizontalAlign="Center"
                                     Id="Default Heating Setpoint_Display"
                                     Left="0.0" Name="foreground"
                                     Stroke="#626469"
+                                    SubModel="DefaultHeatValue"
                                     TextDecoration="None" Top="0.0"
                                     VerticalAlign="Middle"
                                     Visibility="Visible"
@@ -4857,13 +5056,74 @@ function load(evt) {
                                     ExposedAttribute="Content" Name="Point Content"/>
                                     <Expose ExposedAttribute="Stroke" Name="Test Colour"/>
                                 </TextBox>
+                                <TargetArea DefaultHeatMinus:out=""
+                                    DefaultHeatMinus:over=""
+                                    DefaultHeatMinusBox:out=""
+                                    DefaultHeatMinusBox:over=""
+                                    DefaultHeatOutBox:out=""
+                                    DefaultHeatOutBox:over=""
+                                    DefaultHeatOverBox:out=""
+                                    DefaultHeatOverBox:over=""
+                                    DefaultHeatPlus:out=""
+                                    DefaultHeatPlus:over=""
+                                    DefaultHeatPlusBox:out=""
+                                    DefaultHeatPlusBox:over=""
+                                    DefaultHeatValue:click=""
+                                    DefaultHeatValueBox:click=""
+                                    DefaultHeatWaitBox:click=""
+                                    Height="20.0" Left="20.0"
+                                    Name="DefaultHeat" SE8:click=""
+                                    SE8:down="" SE8:out="" SE8:over="" Width="60.0"/>
+                                <TargetArea DefaultHeatMinus:down=""
+                                    DefaultHeatMinus:out=""
+                                    DefaultHeatMinus:over=""
+                                    DefaultHeatMinusBox:click=""
+                                    DefaultHeatMinusBox:down=""
+                                    DefaultHeatMinusBox:out=""
+                                    DefaultHeatMinusBox:over=""
+                                    DefaultHeatOutBox:out=""
+                                    DefaultHeatOutBox:over=""
+                                    DefaultHeatOverBox:out=""
+                                    DefaultHeatOverBox:over=""
+                                    DefaultHeatPlus:out=""
+                                    DefaultHeatPlus:over=""
+                                    DefaultHeatPlusBox:out=""
+                                    DefaultHeatPlusBox:over=""
+                                    DefaultHeatValue:click=""
+                                    DefaultHeatValueBox:click=""
+                                    DefaultHeatWaitBox:click=""
+                                    Height="20.0" Left="0.0"
+                                    Name="DefaultHeat" SE8:click=""
+                                    SE8:down="" SE8:out="" SE8:over="" Width="20.0"/>
+                                <TargetArea DefaultHeatMinus:out=""
+                                    DefaultHeatMinus:over=""
+                                    DefaultHeatMinusBox:out=""
+                                    DefaultHeatMinusBox:over=""
+                                    DefaultHeatOutBox:out=""
+                                    DefaultHeatOutBox:over=""
+                                    DefaultHeatOverBox:out=""
+                                    DefaultHeatOverBox:over=""
+                                    DefaultHeatPlus:down=""
+                                    DefaultHeatPlus:out=""
+                                    DefaultHeatPlus:over=""
+                                    DefaultHeatPlusBox:click=""
+                                    DefaultHeatPlusBox:down=""
+                                    DefaultHeatPlusBox:out=""
+                                    DefaultHeatPlusBox:over=""
+                                    DefaultHeatValue:click=""
+                                    DefaultHeatValueBox:click=""
+                                    DefaultHeatWaitBox:click=""
+                                    Height="20.0" Left="80.0"
+                                    Name="DefaultHeat" SE8:click=""
+                                    SE8:down="" SE8:out="" SE8:over="" Width="20.0"/>
                             </Group>
                         </Component>
-                        <TextBox Fill="#FFFFFF" FontFamily="Arial"
-                            FontSize="15.0" FontStyle="Normal"
-                            FontWeight="Normal" Height="24"
-                            HorizontalAlign="Center" Id="" Left="-2"
-                            Name="waitbox" Stroke="#626469"
+                        <TextBox Ctrl="WaitBoxCtrl" Fill="#FFFFFF"
+                            FontFamily="Arial" FontSize="15.0"
+                            FontStyle="Normal" FontWeight="Normal"
+                            Height="24" HorizontalAlign="Center" Id=""
+                            Left="-2" Name="waitbox" Stroke="#626469"
+                            SubModel="DefaultHeatWaitBox"
                             TextDecoration="None" Top="-2"
                             VerticalAlign="Middle" Visibility="Hidden" Width="104"><![CDATA[Please Wait]]></TextBox>
                     </Component>
@@ -7003,11 +7263,11 @@ function load(evt) {
                 StrokeWidth="1.0" Visibility="Visible" X1="215.0"
                 X2="215.0" Y1="5.0" Y2="45.0"/>
             <Group Name="TargetAreas">
-                <TargetArea Height="49.0" Name="Monitor" SE8="" Width="104.0"/>
+                <TargetArea Height="49.0" Name="Monitor" SE8:click="" Width="104.0"/>
                 <TargetArea Height="49.0" Left="106.0" Name="Control"
-                    SE8="" Top="0.0" Width="108.0"/>
+                    SE8:click="" Top="0.0" Width="108.0"/>
                 <TargetArea Height="49.0" Left="215.0" Name="Settings"
-                    SE8="" Top="0.0" Width="103.0"/>
+                    SE8:click="" Top="0.0" Width="103.0"/>
             </Group>
         </Component>
         <Component Clip="False" ContentHeight="150.0"
@@ -7143,7 +7403,7 @@ function load(evt) {
                 <Path Fill="#FFFFFF"
                     PathData="M35.5,52.600006103515625 c14.100000000000023,-6.899999999999977 27.100000000000023,-13.199999999999989 40.0,-19.69999999999999 5.300000000000011,-2.5999999999999943 10.5,-5.400000000000006 15.399999999999977,-8.599999999999994 6.2999999999999545,-4.0 7.2999999999999545,-9.099999999999994 3.8999999999999773,-15.800000000000011 -3.2000000000000455,-6.300000000000011 -8.200000000000045,-8.5 -15.199999999999989,-5.800000000000011 -5.300000000000011,2.0999999999999943 -10.300000000000011,5.0 -15.300000000000011,7.699999999999989 -16.600000000000023,8.900000000000006 -33.0,18.099999999999994 -49.69999999999999,26.700000000000017 -14.600000000000023,7.600000000000023 -12.600000000000023,25.30000000000001 -1.0,31.19999999999999 8.199999999999989,4.199999999999989 16.100000000000023,8.899999999999977 24.30000000000001,13.199999999999989 12.899999999999977,6.899999999999977 26.0,13.5 38.80000000000001,20.600000000000023 11.099999999999966,6.199999999999989 17.500000000000057,-0.10000000000002274 20.599999999999966,-9.300000000000011 1.2999999999999545,-3.8000000000000114 -0.7999999999999545,-7.0 -3.6000000000000227,-9.199999999999989 -3.0,-2.3999999999999773 -6.600000000000023,-4.399999999999977 -10.100000000000023,-6.199999999999989 -14.399999999999977,-7.300000000000011 -28.899999999999977,-14.5 -43.39999999999998,-21.80000000000001 C38.89999999999998,54.900006103515636 37.69999999999999,54.0000061035156 35.5,52.600006103515625 z" Stroke="None"/>
             </Component>
-            <TargetArea Height="110.0" Name="Lower" RCManager="" Width="110.0"/>
+            <TargetArea Height="110.0" Name="Lower" RCManager:click="" Width="110.0"/>
         </Component>
         <Component Clip="False" ContentHeight="110.0"
             ContentWidth="110.0" Height="50.0" Left="1625.0"
@@ -7154,12 +7414,12 @@ function load(evt) {
                     PathData="M64.10001220703123,52.9999938964844 c-5.600000000000023,2.8999999999999773 -10.199999999999989,5.300000000000011 -14.800000000000011,7.600000000000023 -12.899999999999977,6.5 -26.0,12.800000000000011 -38.80000000000001,19.5 -4.800000000000011,2.5 -9.699999999999989,5.800000000000011 -8.699999999999989,12.199999999999989 0.8000000000000114,5.199999999999989 2.8000000000000114,10.399999999999977 8.699999999999989,11.600000000000023 3.3000000000000114,0.6999999999999886 7.600000000000023,0.30000000000001137 10.600000000000023,-1.1999999999999886 21.80000000000001,-11.300000000000011 43.39999999999998,-23.0 65.10000000000002,-34.69999999999999 10.600000000000023,-5.699999999999989 11.799999999999955,-21.69999999999999 1.6000000000000227,-28.0 -11.399999999999977,-7.100000000000023 -23.30000000000001,-13.400000000000006 -35.19999999999999,-19.80000000000001 -10.5,-5.699999999999989 -21.19999999999999,-11.099999999999994 -31.899999999999977,-16.599999999999994 -7.100000000000023,-3.5999999999999943 -12.199999999999989,-2.4000000000000057 -16.100000000000023,3.6999999999999886 -4.600000000000023,7.0 -4.300000000000011,12.099999999999994 2.8999999999999773,16.69999999999999 8.899999999999977,5.599999999999994 18.600000000000023,10.200000000000017 28.100000000000023,14.999999999999972 C44.70001220703125,43.599993896484364 53.80001220703127,47.9999938964844 64.10001220703123,52.9999938964844 z" Stroke="None"/>
             </Component>
             <TargetArea Height="110.0" Left="0.0" Name="Higher"
-                RCManager="" Top="0.0" Width="110.0"/>
+                RCManager:click="" Top="0.0" Width="110.0"/>
         </Component>
     </Layer>
     <Script Name="GS" OnDocumentLoad="load" OnMouseClick="click"
-        OnMouseDown="" OnMouseMove="" OnMouseOut="" OnMouseOver=""
-        OnMouseUp="up" OnSignalChange="change"><![CDATA[var _ = global._;
+        OnMouseDown="down" OnMouseMove="" OnMouseOut="out"
+        OnMouseOver="over" OnMouseUp="up" OnSignalChange="change"><![CDATA[var _ = global._;
 
 /**==========================================================================================
  * Helper Functions
@@ -7267,9 +7527,68 @@ var main = {
 			attbList = trigger.attributes;
 		
 		for(var i = 0, max = attbList.length; i < max; i += 1) {
-			var attb = attbList.item(i).nodeName;
-			if(this.models.hasOwnProperty(attb)) {
-				this.models[attb].click(e);
+			var attb = String(attbList.item(i).nodeName).split(":")[0],
+				event = String(attbList.item(i).nodeName).split(":")[1];
+			if(event === "click") {
+				if(this.models.hasOwnProperty(attb)) {
+					if(!global.isUndefined(this.models[attb].click)) {
+						this.models[attb].click(e);
+					}
+				}
+			}
+		}
+	},
+	
+	// mouse click event handler
+	down: function(e) {
+		var trigger = e.getTarget(),
+			attbList = trigger.attributes;
+		
+		for(var i = 0, max = attbList.length; i < max; i += 1) {
+			var attb = String(attbList.item(i).nodeName).split(":")[0],
+				event = String(attbList.item(i).nodeName).split(":")[1];
+			if(event === "down") {
+				if(this.models.hasOwnProperty(attb)) {
+					if(!global.isUndefined(this.models[attb].down)) {
+						this.models[attb].down(e);
+					}
+				}
+			}
+		}
+	},
+	
+	// mouse click event handler
+	over: function(e) {
+		var trigger = e.getTarget(),
+			attbList = trigger.attributes;
+		
+		for(var i = 0, max = attbList.length; i < max; i += 1) {
+			var attb = String(attbList.item(i).nodeName).split(":")[0],
+				event = String(attbList.item(i).nodeName).split(":")[1];
+			if(event === "over") {
+				if(this.models.hasOwnProperty(attb)) {
+					if(!global.isUndefined(this.models[attb].over)) {
+						this.models[attb].over(e);
+					}
+				}
+			}
+		}
+	},
+	
+	// mouse click event handler
+	out: function(e) {
+		var trigger = e.getTarget(),
+			attbList = trigger.attributes;
+		
+		for(var i = 0, max = attbList.length; i < max; i += 1) {
+			var attb = String(attbList.item(i).nodeName).split(":")[0],
+				event = String(attbList.item(i).nodeName).split(":")[1];
+			if(event === "out") {
+				if(this.models.hasOwnProperty(attb)) {
+					if(!global.isUndefined(this.models[attb].out)) {
+						this.models[attb].out(e);
+					}
+				}
 			}
 		}
 	},
@@ -7297,5 +7616,17 @@ function click(evt) {
 
 function up(evt) {
 	main.up(evt);
+}
+
+function over(evt) {
+	main.over(evt);
+}
+
+function out(evt) {
+	main.out(evt);
+}
+
+function down(evt) {
+	main.down(evt);
 }]]></Script>
 </Tgml>
