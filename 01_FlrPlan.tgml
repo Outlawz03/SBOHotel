@@ -2,7 +2,7 @@
 
 <!--[DocumentInformation]
 Created: 2014-07-09 07:45
-Modified: 2015-02-12 10:39
+Modified: 2015-02-17 08:44
 -->
 <?tgml version="1.21"?><Tgml ComponentCounter="274" GridSize="5"
     Height="900.0" LayerCounter="4" UseGlobalScripts="True" Width="1710.0">
@@ -384,7 +384,7 @@ function load(evt) {
 		if(RCName.slice(0,2) === "RC") {
 			// check if the RC exists
 			var rcNum = +RCName.slice(-2);
-			this.highest = rcNum;
+			this.highest = Math.max(rcNum, this.highest);
 			this.higher.setAttribute("Visibility", this.activeContainer === (Math.ceil(this.highest / this.per) - 1) ? "Hidden" : "Visible");
 			if(!_.has(this.rcs, rcNum)) {
 				this.rcs[rcNum] = Object.create(global.RCObject);					
@@ -5669,7 +5669,7 @@ function load(evt) {
                     Visibility="Visible"><![CDATA[...]]><Rotate
                     Angle="-90.0" Center="0.5,0.5"/>
             </Text>
-            <TargetArea Height="200.0" NOTE1="" Name="NOTE1"
+            <TargetArea Height="200.0" NOTE1:click="" Name="NOTE1"
                 RCManager:click="" Width="65.0"/>
             <TargetArea Height="200.0" Left="65.0" Name="SE8"
                 SE8:click="" Top="0.0" Width="265.0"/>
