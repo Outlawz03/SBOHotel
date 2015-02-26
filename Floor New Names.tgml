@@ -2,7 +2,7 @@
 
 <!--[DocumentInformation]
 Created: 2014-07-09 07:45
-Modified: 2015-02-24 15:15
+Modified: 2015-02-25 20:52
 -->
 <?tgml version="1.21"?><Tgml ComponentCounter="323" GridSize="5"
     Height="900.0" LayerCounter="4" UseGlobalScripts="True" Width="1710.0">
@@ -6001,7 +6001,7 @@ function load(evt) {
                             Stroke="#000000" TextDecoration="None"
                             Top="6.892356514930725" VerticalAlign="Top"><![CDATA[°F]]></Text>
                         <TargetArea Height="23.65" Left="0.0"
-                            Name="Units" SE8:click="" Top="0.0"
+                            Name="Display Scale" SE8:click="" Top="0.0"
                             Units:click="" Width="80.16"/>
                         <Text FontFamily="Arial" FontSize="15.0"
                             FontStyle="Normal" FontWeight="Normal"
@@ -6114,7 +6114,7 @@ function load(evt) {
                             <Ellipse Fill="None" Height="13.0"
                                 Left="1.0" Name="Edge" Top="1.0" Width="13.0"/>
                             <TargetArea FanAutoMode:click=""
-                                Height="15.0" Left="0.0" Name="FanMode"
+                                Height="15.0" Left="0.0" Name="Fan Mode"
                                 SE8:click="" Top="0.0" Width="15.0"/>
                         </Component>
                         <Text FontFamily="Arial" FontSize="15.0"
@@ -6159,7 +6159,7 @@ function load(evt) {
                             <Ellipse Fill="None" Height="13.0"
                                 Left="1.0" Name="Edge" Top="1.0" Width="13.0"/>
                             <TargetArea FanLowMode:click=""
-                                Height="15.0" Left="0.0" Name="FanMode"
+                                Height="15.0" Left="0.0" Name="Fan Mode"
                                 SE8:click="" Top="0.0" Width="15.0"/>
                         </Component>
                         <Text FontFamily="Arial" FontSize="15.0"
@@ -6204,7 +6204,7 @@ function load(evt) {
                             <Ellipse Fill="None" Height="13.0"
                                 Left="1.0" Name="Edge" Top="1.0" Width="13.0"/>
                             <TargetArea FanMedMode:click=""
-                                Height="15.0" Left="0.0" Name="FanMode"
+                                Height="15.0" Left="0.0" Name="Fan Mode"
                                 SE8:click="" Top="0.0" Width="15.0"/>
                         </Component>
                         <Text FontFamily="Arial" FontSize="15.0"
@@ -6249,7 +6249,7 @@ function load(evt) {
                             <Ellipse Fill="None" Height="13.0"
                                 Left="1.0" Name="Edge" Top="1.0" Width="13.0"/>
                             <TargetArea FanHighMode:click=""
-                                Height="15.0" Left="0.0" Name="FanMode"
+                                Height="15.0" Left="0.0" Name="Fan Mode"
                                 SE8:click="" Top="0.0" Width="15.0"/>
                         </Component>
                         <Text FontFamily="Arial" FontSize="15.0"
@@ -6294,7 +6294,7 @@ function load(evt) {
                             <Ellipse Fill="None" Height="13.0"
                                 Left="1.0" Name="Edge" Top="1.0" Width="13.0"/>
                             <TargetArea FanOnMode:click="" Height="15.0"
-                                Left="0.0" Name="FanMode" SE8:click=""
+                                Left="0.0" Name="Fan Mode" SE8:click=""
                                 Top="0.0" Width="15.0"/>
                         </Component>
                         <Text FontFamily="Arial" FontSize="15.0"
@@ -6359,7 +6359,7 @@ function load(evt) {
                         <Ellipse Fill="None" Height="13.0" Left="1.0"
                             Name="Edge" Top="1.0" Width="13.0"/>
                         <TargetArea Height="15.0" HtgClgOff:click=""
-                            Left="0.0" Name="SystemMode" SE8:click=""
+                            Left="0.0" Name="System Mode" SE8:click=""
                             Top="0.0" Width="15.0"/>
                     </Component>
                     <Text FontFamily="Arial" FontSize="15.0"
@@ -6395,7 +6395,7 @@ function load(evt) {
                         <Ellipse Fill="None" Height="13.0" Left="1.0"
                             Name="Edge" Top="1.0" Width="13.0"/>
                         <TargetArea Height="15.0" HtgClgAuto:click=""
-                            Left="0.0" Name="SystemMode" SE8:click=""
+                            Left="0.0" Name="System Mode" SE8:click=""
                             Top="0.0" Width="15.0"/>
                     </Component>
                     <Text FontFamily="Arial" FontSize="15.0"
@@ -6435,7 +6435,8 @@ function load(evt) {
                                 Left="1.0" Name="Edge" Top="1.0" Width="13.0"/>
                             <TargetArea Height="15.0"
                                 HtgClgCool:click="" Left="0.0"
-                                Name="SystemMode" SE8:click="" Top="0.0" Width="15.0"/>
+                                Name="System Mode" SE8:click=""
+                                Top="0.0" Width="15.0"/>
                         </Component>
                         <Text FontFamily="Arial" FontSize="15.0"
                             FontStyle="Normal" FontWeight="Normal"
@@ -6476,7 +6477,8 @@ function load(evt) {
                                 Left="1.0" Name="Edge" Top="1.0" Width="13.0"/>
                             <TargetArea Height="15.0"
                                 HtgClgHeat:click="" Left="0.0"
-                                Name="SystemMode" SE8:click="" Top="0.0" Width="15.0"/>
+                                Name="System Mode" SE8:click=""
+                                Top="0.0" Width="15.0"/>
                         </Component>
                         <Text FontFamily="Arial" FontSize="15.0"
                             FontStyle="Normal" FontWeight="Normal"
@@ -6543,7 +6545,7 @@ function load(evt) {
                             Stroke="#000000" TextDecoration="None"
                             Top="19.995951414108276" VerticalAlign="Top"><![CDATA[Override Closed]]></Text>
                         <TargetArea Height="22.0" Left="0.0"
-                            Name="BI1Config" SE8:click="" Top="20.0"
+                            Name="BI1 Config" SE8:click="" Top="20.0"
                             Width="208.38" WindowOverride:click=""/>
                     </Component>
                     <Component Clip="False" ContentHeight="42.0"
@@ -6605,7 +6607,7 @@ function load(evt) {
                             Top="19.995936155319214" VerticalAlign="Top"><![CDATA[Override On]]></Text>
                         <TargetArea Height="22.0" Left="0.0"
                             LightingOverride:click=""
-                            Name="BO 8 Auxilary Binary Output"
+                            Name="BO8 Auxilary Binary Output"
                             SE8:click="" Top="20.0" Width="161.69"/>
                     </Component>
                     <Component Clip="False" ContentHeight="42.0"
@@ -6667,8 +6669,9 @@ function load(evt) {
                             Stroke="#000000" TextDecoration="None"
                             Top="19.995936155319214" VerticalAlign="Top"><![CDATA[Un-rented]]></Text>
                         <TargetArea Height="22.0" Left="0.0"
-                            Name="OccCommand" OccupancyCommand:click=""
-                            SE8:click="" Top="20.0" Width="181.7"/>
+                            Name="Occupancy Command"
+                            OccupancyCommand:click="" SE8:click=""
+                            Top="20.0" Width="181.7"/>
                     </Component>
                     <Component Clip="False" ContentHeight="42.0"
                         ContentWidth="148.37" Ctrl="SwitchCtrl"
@@ -6728,7 +6731,7 @@ function load(evt) {
                             Stroke="#000000" TextDecoration="None"
                             Top="19.995936155319214" VerticalAlign="Top"><![CDATA[Locked]]></Text>
                         <TargetArea Height="22.0" Left="0.0"
-                            Name="UserHMI" SE8:click="" Top="20.0"
+                            Name="User HMI" SE8:click="" Top="20.0"
                             UserHMI:click="" Width="148.37"/>
                     </Component>
                     <Component Clip="False" ContentHeight="40.0"
@@ -9246,7 +9249,7 @@ function load(evt) {
                         TextDecoration="None" Top="409.64845275878906" VerticalAlign="Top"><![CDATA[Language]]></Text>
                     <Component Clip="False" ContentHeight="20"
                         ContentWidth="80" Height="20.0" Id=""
-                        Left="34.75032043457031" Name="DisplayLanguage"
+                        Left="34.75032043457031" Name="Display Language"
                         Top="432.27186584472656" Visibility="Visible"
                         Width="80.0" direction="up">
                         <Group Ctrl="MenuCtrl" Name="menu"
@@ -9699,7 +9702,7 @@ function load(evt) {
                             ColourButton:down="" ColourButton:out=""
                             ColourMenu:click="" ColourMenu:out=""
                             ColourMenu:over="" Height="20.0" Left="0.0"
-                            Name="Colour" SE8:click="" SE8:down=""
+                            Name="HMI Colour" SE8:click="" SE8:down=""
                             SE8:out="" SE8:over="" Top="0.0" Width="100.0"/>
                     </Component>
                 </Group>
