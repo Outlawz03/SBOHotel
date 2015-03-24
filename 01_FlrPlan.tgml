@@ -2,7 +2,7 @@
 
 <!--[DocumentInformation]
 Created: 2014-07-09 07:45
-Modified: 2015-03-16 14:28
+Modified: 2015-03-23 15:47
 -->
 <?tgml version="1.21"?><Tgml ComponentCounter="372" GridSize="5"
     Height="900.0" LayerCounter="4" UseGlobalScripts="True" Width="1710.0">
@@ -662,8 +662,8 @@ function load(evt) {
 			attbList = target.attributes;
 		
 		for(var i = 0, max = attbList.length; i < max; i += 1) {
-			var attb = String(attbList.item(i).nodeName).split(":")[0],
-				event = String(attbList.item(i).nodeName).split(":")[1];
+			var attb = String(attbList.item(i).nodeName).split("_")[0],
+				event = String(attbList.item(i).nodeName).split("_")[1];
 			if(event === "click") {
 				if(this.models.hasOwnProperty(attb) && this.binds.hasOwnProperty(name)) {
 					this.models[attb].click(this.binds[name]);
@@ -6772,7 +6772,7 @@ function load(evt) {
                                 <Animate Animation="Stop"
                                     Attribute="Left" CalcMode="Linear"
                                     Duration=".25" Freeze="True"
-                                    From="20" Name="SwAni" Repeat="1" To="0"/>
+                                    From="0" Name="SwAni" Repeat="1" To="20"/>
                             </Component>
                         </Component>
                         <Text FontFamily="Arial" FontSize="15.0"
@@ -9300,6 +9300,11 @@ function load(evt) {
                         HorizontalAlign="Left" Left="37.66099548339844"
                         Opacity="1.0" Stroke="#000000"
                         TextDecoration="None" Top="409.64845275878906" VerticalAlign="Top"><![CDATA[Language]]></Text>
+                    <Text FontFamily="Arial" FontSize="15.0"
+                        FontStyle="Normal" FontWeight="Normal"
+                        HorizontalAlign="Center" Left="240.0"
+                        Opacity="1.0" Stroke="#000000"
+                        TextDecoration="None" Top="409.64845275878906" VerticalAlign="Top"><![CDATA[Screen Color]]></Text>
                     <Component Clip="False" ContentHeight="20"
                         ContentWidth="80" Height="20.0" Id=""
                         Left="34.75032043457031" Name="Display Language"
@@ -9758,11 +9763,6 @@ function load(evt) {
                             Name="HMI Colour" SE8_click="" SE8_down=""
                             SE8_out="" SE8_over="" Top="0.0" Width="100.0"/>
                     </Component>
-                    <Text FontFamily="Arial" FontSize="15.0"
-                        FontStyle="Normal" FontWeight="Normal"
-                        HorizontalAlign="Center" Left="240.0"
-                        Opacity="1.0" Stroke="#000000"
-                        TextDecoration="None" Top="409.64845275878906" VerticalAlign="Top"><![CDATA[Screen Color]]></Text>
                 </Group>
             </Group>
             <Line Opacity="1.0" Stroke="#000000" StrokeDashArray="0.0"
