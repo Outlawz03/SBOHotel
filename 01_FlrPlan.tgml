@@ -2,7 +2,7 @@
 
 <!--[DocumentInformation]
 Created: 2014-07-09 07:45
-Modified: 2015-03-23 15:47
+Modified: 2015-04-06 12:09
 -->
 <?tgml version="1.21"?><Tgml ComponentCounter="372" GridSize="5"
     Height="900.0" LayerCounter="4" UseGlobalScripts="True" Width="1710.0">
@@ -970,7 +970,7 @@ function load(evt) {
 			"Occupancy Command"	: 0,
 		};
 		
-		this.fills = ["#FF0000", "#339999", "#87D300", "#4FA600", "#42B4E6"];
+		this.fills = ["#FF0000", "#339999", "#87D300", "#E47F00", "#42B4E6"];
 		this.strokes = ["#FFFFFF", "#FFFFFF", "#404040", "#FFFFFF", "#FFFFFF"];
 		this.contents = ["No Communication", "Rented/Occupied", "Unrented/Unoccupied", "Unrented/Occupied", "Rented/Unoccupied"];
 
@@ -1030,7 +1030,7 @@ function load(evt) {
 			"Occupancy Command"	: 0,
 		};
 		
-		this.fills = ["#FF0000", "#339999", "#87D300", "#4FA600", "#42B4E6"];
+		this.fills = ["#FF0000", "#339999", "#87D300", "#E47F00", "#42B4E6"];
 		
 		this.bgd = Object.create(global.Rectangle);
 		this.bgd.init(node);		
@@ -9833,7 +9833,7 @@ function load(evt) {
             <Component Clip="False" ContentHeight="150.0"
                 ContentWidth="280.0" Height="150.0" Id="" Left="680.0"
                 Name="UO" Top="0.0" Width="280.0">
-                <Rectangle Fill="#4FA600" Height="150.0" Left="0.0"
+                <Rectangle Fill="#E47F00" Height="150.0" Left="0.0"
                     Name="Background" RadiusX="15" RadiusY="15"
                     Stroke="#9FA0A4" StrokeDashArray="0.0"
                     StrokeWidth="1.0" Top="0.0" Width="280.0">
